@@ -10,3 +10,6 @@ Horário e local
   * Sala 201
   * Departamento de Estatística
   * Sextas 14-17
+
+Proximos passos
+  * ensinar os turistas
