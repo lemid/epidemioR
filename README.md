@@ -6,4 +6,7 @@ Participantes
   * Jhulia Gelain
   * Thiago Aguiar Carraro
 
-
+Horário e local 
+  * Sala 201
+  * Departamento de Estatística
+  * Sextas 14-17
