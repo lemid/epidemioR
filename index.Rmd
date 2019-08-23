@@ -1,0 +1,95 @@
+---
+title: "epidemioR: Epidemiologia de Plantas Aplicada com R"
+author:
+  - name: Walmes Marques Zeviani
+    affiliation: Departamento de Estatística · UFPR
+    email: walmes@ufpr.br
+    www: leg.ufpr.br/~walmes
+  - name: Louise Larissa May De Mio
+    affiliation: Departamento de Fitotecnia e Fitossanidade · UFPR
+    email: maydemio@ufpr.br
+    www: http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/
+date: "Última atualização em `r format(Sys.Date(), format = '%d de %B de %Y')`"
+csl: config/ABNT_UFPR_2011-Mendeley.csl
+bibliography: [config/refs.bib]
+github-repo: lemid/epidemioR
+description: "epidemioR: Epidemiologia de Plantas Aplicada com R"
+# site: bookdown::bookdown_site
+# output: bookdown::gitbook
+# --- LaTeX ------------------------------------------------------------
+documentclass: book
+# graphics é necessário quando uma template.
+graphics: yes
+# papersize: a5
+# fontsize: 9pt
+# geometry: 'margin=1in'
+geometry: [left = 2.5cm, right = 2cm, top = 2cm, bottom = 1.5cm]
+biblio-style: apalike
+link-citations: yes
+colorlinks: true
+capas: config/capas.tex
+complement: >
+  \begin{flushleft}
+  Laboratório de Estatística e Geoinformação (LEG)\\
+  \url{http://www.leg.ufpr.br}\\
+  Laboratório de Epidemiologia para Manejo Integrado de Doenças de Plantas (LEMID)\\
+  \url{http://www.lemid.ufpr.br/}\\
+  Universidade Federal do Paraná (UFPR)\newline\newline
+  \end{flushleft}
+  \vspace*{\fill}
+
+  \begin{center}
+  Curitiba, Paraná, Brasil\\
+  \end{center}
+---
+
+<!-- Imagem de capa. -->
+```{r, echo = FALSE, results = "asis", eval = isOutput("html")}
+img <- '# {-}\n\n<div><img src="./config/frontcover.png" width="350" alt="epidemioR: Epidemiologia de Plantas Aplicada com R" style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.6);"/></div>'
+cat(img, "\n")
+```
+
+\
+
+**Atenção**: Este material está em contínuo desenvolvimento. Sugestões,
+contribuições e críticas são bem vindas. Apenas use os conjuntos de
+dados disponíveis nesse material com expressa permissão dos
+pesquisadores responsáveis.
+
+# Apresentação {-}
+
+```{r, include = FALSE, eval = isOutput("html")}
+# Para habilitar Font Awesome no documento.
+# https://github.com/rstudio/rmarkdown/issues/813
+fa <- rmarkdown::html_dependency_font_awesome()
+fa$attachment <- "fonts/fontawesome-webfont.ttf"
+htmltools::tagList(fa)
+```
+
+O objetivo do `epidemioR` é fazer a documentação do uso do software R no
+desenvolvimento, aplicação e avaliação métodos para análise de dados em
+epidemiologia para manejo de doenças em plantas com temas específicos de
+interesse dos professores, pesquisadores e alunos.
+
+De forma geral, são vistas abordagens de análise que vão da aplicação do
+R para análise de progresso temporal e espacial de doenças, estudo de
+dispersão de inóculo, modelagem e previsão de epidemias, análises
+multivariadas, análise de regressão múltipla e regressão não linear,
+dentre outros conforme demanda. Procura-se, sem que haja distanciamento
+dos objetivos da pesquisa, inovar no emprego de métodos estatísticos
+para que haja melhor aproveitamento dos dados, o que se consegue
+principalmente com: apropriadas visualizações gráficas, métodos de
+análise contemporâneos e apropriados às características da investigação
+e produção de código aberto e reproduzível.
+
+A ênfase do curso é sobre problemas, delineamentos e abordagens de
+análise comuns à área epidemiológica como aqueles com medidas repetidas
+no tempo e experimentos realizados em vários anos e locais, também
+àqueles que avaliem tempo até um desfecho (inoculação, esporulação),
+dados de proporção (germinação, etc), dados de curva de crescimento
+(modelos não lineares) e análise de dados de avaliação de doença
+(incidência e severidade).
+
+Este material é produzido devido à colaboração de professores e alunos
+do Programa de Pós Graduação em Produção Vegetal, com colaboração de
+professores e pesquisadores externos.

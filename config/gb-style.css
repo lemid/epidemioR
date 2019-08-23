@@ -1,0 +1,246 @@
+/* General style ---------------------------- */
+
+/* Also check the webfonts.html file. */
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans+Condensed");
+@import url("https://fonts.googleapis.com/css?family=Fira+Mono&display=swap");
+
+:root{
+    --one-color: #27AE60;
+}
+
+/* Parágrafos. ------------------------------ */
+
+p code {
+    white-space: inherit;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal p:not([class]) {
+    text-indent: 2em;
+}
+
+/* Margin top for textual element preceded by code block. */
+.book .book-body .page-wrapper .page-inner section.normal pre + p,
+.book .book-body .page-wrapper .page-inner section.normal pre + ul,
+.book .book-body .page-wrapper .page-inner section.normal pre + ol,
+.book .book-body .page-wrapper .page-inner section.normal pre + table,
+.book .book-body .page-wrapper .page-inner section.normal pre + img,
+.book .book-body .page-wrapper .page-inner section.normal div.sourceCode + p,
+.book .book-body .page-wrapper .page-inner section.normal div.sourceCode + ul,
+.book .book-body .page-wrapper .page-inner section.normal div.sourceCode + ol,
+.book .book-body .page-wrapper .page-inner section.normal div.sourceCode + table,
+.book .book-body .page-wrapper .page-inner section.normal div.sourceCode + img {
+    margin-top: 1em;
+}
+
+/* Margin top for code block preceded by textual element. */
+.book .book-body .page-wrapper .page-inner section.normal p     + pre,
+.book .book-body .page-wrapper .page-inner section.normal ul    + pre,
+.book .book-body .page-wrapper .page-inner section.normal ol    + pre,
+.book .book-body .page-wrapper .page-inner section.normal table + pre,
+.book .book-body .page-wrapper .page-inner section.normal img   + pre,
+.book .book-body .page-wrapper .page-inner section.normal p     + div.sourceCode,
+.book .book-body .page-wrapper .page-inner section.normal ul    + div.sourceCode,
+.book .book-body .page-wrapper .page-inner section.normal ol    + div.sourceCode,
+.book .book-body .page-wrapper .page-inner section.normal table + div.sourceCode,
+.book .book-body .page-wrapper .page-inner section.normal img   + div.sourceCode {
+    margin-top: 1em;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal .footnotes p {
+    text-indent: 0em;
+    margin: 0;
+}
+
+div.figure > p.caption {
+    margin-top: 10px;
+    text-align: left;
+}
+
+table > caption {
+    text-align: left;
+}
+
+/* References ------------------------------ */
+
+.book .book-body .page-wrapper .page-inner div.references p {
+    text-indent: -1em !important;
+    margin-left: 1em;
+    text-align: left;
+}
+
+/* Code block ------------------------------- */
+
+tt, code, pre {
+    /* http://mplus-fonts.osdn.jp/about-en.html */
+    /*
+       ATTENTION: this font is linked in "./webfonts.html" and called
+       in "_output.yaml".
+   */
+    /* font-family: "M+ MN Type-1 (basic latin) Regular", "Inconsolata", "Andale Mono", monospace !important; */
+    font-family: "Fira Mono", "Inconsolata", "Andale Mono", monospace !important;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal pre,
+.book .book-body .page-wrapper .page-inner section.normal code {
+    line-height: 1.2;
+    padding: .3em .5em;
+    white-space: inherit;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal code::after,
+.book .book-body .page-wrapper .page-inner section.normal code::before {
+    content: unset;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal code {
+    padding: 0em 0em;
+    font-size: 95%;
+    background-color: unset !important;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal pre {
+    margin: 0 0 0.5em;
+    border: 1px solid #cecece;
+    word-break: normal;
+    word-wrap: normal;
+    border-radius: 3px;
+}
+
+/* Light. */
+.book .book-body .page-wrapper .page-inner section.normal pre.sourceCode {
+    background: #d7d7d7;
+}
+
+/* Sepia. */
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal pre.sourceCode {
+    background: #ffecbb;
+}
+
+/* Dark. */
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal pre.sourceCode {
+    background: #2c2e39;
+}
+
+/* Hyperlinks. ------------------------------ */
+
+a {
+    color: #5d5d5d;
+}
+
+a:hover,
+.book .book-body .page-wrapper .page-inner section.normal a,
+.book .book-summary ul.summary li a:hover,
+.book .book-summary ul.summary li.active > a {
+    color: var(--one-color);
+}
+
+/* Title, authors and numbering ------------- */
+
+#header .title {
+    font-size: 2.5em;
+    line-height: 1.25;
+}
+
+#header .author em {
+    font-style: normal;
+    font-size: 150%;
+}
+
+#header p.author {
+    margin-top: 2em;
+}
+
+#header address.author_afil {
+    font-style: normal;
+    line-height: 1.5;
+    margin-top: -1em;
+}
+
+#header .date {
+    margin-top: 2em;
+}
+
+.header-section-number {
+    display: block;
+    font-size: 70% !important;
+}
+
+/* Fonts ------------------------------------ */
+
+/* Serif */
+.book.font-family-0 {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+/* Sans */
+.book.font-family-1 {
+    font-family: "Fira Sans Condensed", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.book .book-header,
+.book .book-summary {
+    font-family: "Fira Sans Condensed", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.book .book-summary ul.summary li a {
+    padding: 2px 15px;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal h4.author {
+    margin-bottom: 0px;
+    font-size: 1.5em;
+}
+
+/* Lists ------------------------------------ */
+
+ul:not([class]) li {
+    list-style: none;
+}
+
+ul:not([class]) li:before {
+    content: "\25B8";
+    margin-left: -1em;
+    position: absolute;
+}
+
+ul.summary li:before {
+    content: none;
+}
+
+/* Indent the same amount of paragraph first line. */
+.book .book-body .page-wrapper .page-inner section.normal ol,
+.book .book-body .page-wrapper .page-inner section.normal ul {
+    margin-left: 1em;
+}
+
+/* Blockquotes ------------------------------ */
+
+blockquote {
+    font-size: 100%;
+    width: 66%;
+    margin-left: auto;
+    border: none !important;
+    margin: auto !important;
+    display: block;
+    color: inherit;
+}
+
+blockquote p {
+    font-style: italic;
+    text-indent: 0em;
+}
+
+blockquote p:last-child {
+    text-indent: 0em;
+    text-align: right;
+    font-style: normal;
+    display: inherit;
+}
+
+/*------------------------------------------- */
+
+.mjx-chtml {
+    font-size: 100% !important;
+}
+
+/*---------------------------------------------------------------------- */

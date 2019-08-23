@@ -1,0 +1,63 @@
+# ---- GitBook ----
+bookdown::gitbook:
+  highlight: haddock
+  css: config/gb-style.css
+  includes:
+    in_header: [config/MathJax.html]
+    after_body: config/gb-footer.html
+  config:
+    toc:
+      before: |
+        <center style="margin: 1em;">
+          <img src="./config/frontcover.png" width="180px" style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.6);"/>
+          <br/>
+          <br/>
+          <a href="./index.html" style="font-weight: bold; font-size: larger;">
+            epidemioR: Epidemiologia de Plantas Aplicada com R
+          </a>
+          <br>
+          <br>
+          <a href="http://leg.ufpr.br/~walmes" target="_blank">
+            Walmes Marques Zeviani
+          </a>
+          <br>
+          <a href="http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/" target="_blank">
+            Louise Larissa May De Mio
+          </a>
+          <br>
+          <p style="font-size: 75%">Editores</p>
+          <br>
+          <!--
+          <span style="font-weight: bold; font-size: smaller;">
+            <a href="http://www.lemid.ufpr.br/" target="_blank">
+               Laboratório de Epidemiologia para Manejo Integrado de Doenças de Plantas
+            </a>
+            <br>
+            <a href="http://leg.ufpr.br" target="_blank">
+              Laboratório de Estatística e Geoinformação
+            </a>
+          </span>
+          <br>
+          <br>
+          -->
+          <span style="font-weight: bold; font-size: smaller;">
+            <a href="http://www.ufpr.br" target="_blank">
+              Universidade Federal do Paraná
+            </a>
+          </span>
+        </center>
+      after: |
+        <li>
+          <a href="https://github.com/leg-ufpr/cpi" target="_blank">
+            Produzido com bookdown
+          </a>
+        </li>
+    edit: https://github.com/lemid/epidemioR/edit/master/%s
+    sharing:
+      facebook: yes
+      twitter: yes
+      # google: yes
+      # weibo: yes
+      # instapper: yes
+      # vk: yes
+      # all: ['facebook', 'google', 'twitter', 'weibo', 'instapaper']

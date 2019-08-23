@@ -1,0 +1,21 @@
+# ---- Configurações do bookdown não específicas de nenhum output. ----
+book_filename: "epidemioR.Rmd"
+before_chapter_script: "config/setup.R"
+#after_chapter_script:
+new_sessin: yes
+language:
+  label:
+    fig: 'Figura '
+    tab: 'Tabela '
+    eq: 'Equação '
+    thm: 'Teorema '
+    lem: 'Lema '
+    def: 'Definição '
+    cor: 'Corolário '
+    prp: 'Proposição '
+    ex: 'Exemplo '
+    proof: 'Prova '
+    remark: 'Destaque '
+  ui:
+    edit: Editar
+    chapter_name: 'Capítulo '
