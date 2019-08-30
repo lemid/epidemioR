@@ -48,7 +48,7 @@ bookdown::gitbook:
         </center>
       after: |
         <li>
-          <a href="https://github.com/leg-ufpr/cpi" target="_blank">
+          <a href="https://github.com/lemid/epidemioR" target="_blank">
             Produzido com bookdown
           </a>
         </li>

@@ -14,7 +14,7 @@ csl: config/ABNT_UFPR_2011-Mendeley.csl
 bibliography: [config/refs.bib]
 github-repo: lemid/epidemioR
 description: "epidemioR: Epidemiologia de Plantas Aplicada com R"
-# site: bookdown::bookdown_site
+site: bookdown::bookdown_site
 # output: bookdown::gitbook
 # --- LaTeX ------------------------------------------------------------
 documentclass: book
@@ -42,6 +42,10 @@ complement: >
   Curitiba, Paraná, Brasil\\
   \end{center}
 ---
+
+```{r, include = FALSE}
+source("config/setup.R")
+```
 
 <!-- Imagem de capa. -->
 ```{r, echo = FALSE, results = "asis", eval = isOutput("html")}
