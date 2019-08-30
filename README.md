@@ -1,25 +1,85 @@
-# epidemioR · Estudos Aplicados de Epidemiologia usando R
+# epidemioR · Epidemiologia de Doenças de Plantas Aplicada com R
 
-Participantes
-  * Camilla Castellar
-  * Jhulia Gelain
-  * Thiago Aguiar Carraro
+O objetivo do `epidemioR` é fazer a documentação do uso do software R no
+desenvolvimento, aplicação e avaliação métodos para análise de dados em
+epidemiologia para manejo de doenças em plantas com temas específicos de
+interesse dos professores, pesquisadores e alunos.
 
-Horário e local
-  * Sala 201
-  * Departamento de Estatística
-  * Sextas 14-17
-
-Proximos passos
-  * ensinar os turistas
+Este material é produzido devido à colaboração de professores e alunos
+do Programa de Pós Graduação em Produção Vegetal, com colaboração de
+professores e pesquisadores externos.
 
 ## Orientações para os autores
 
+As orientações a seguir são para contribuir com a editoração do
+material. Elas contém orientações de organização e sintaxe para
+contrução de elementos textuais.
+
+### Sintaxe Rmarkdown
+
+A sintaxe markdown é amplamente documentada na web. O Rmarkdown permite
+a inclusão de fragmentos de código R. Também é bem documentado na
+web. Por essa razão, aqui serão apontados materiais de consulta
+recomendados.
+
+  2. <https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf>.
+  1. <https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf>.
+  3. <https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf>.
+  4. <https://en.support.wordpress.com/markdown-quick-reference/>.
+  5. <https://bookdown.org/yihui/rmarkdown/>.
+  6. <https://cran.r-project.org/web/packages/stationery/vignettes/Rmarkdown.pdf>.
+
 ### Estrutura de diretório e arquivos
 
-TODO
+Para organizar a elaboração do material de forma a garantir autonomia
+para os autores e menos problemas com conflitos de edição de arquivos,
+será adotada a seguinte estrutura de diretório.
 
-### Figuras
+```
+epidemioR/
+  |-- _output.yml                Arquivo de configurações.
+  |-- _bookdown.yml              Arquivo de internacionalização.
+  |-- index.Rmd                  Capa e configurações principais.
+  |-- config/                    Diretório com arquivos de conf.
+  |-- img/                       Para imagens de capa, etc.
+  |
+  |-- <nome-do-capitulo-1>.Rmd   Capítulo do livro.
+  |-- <nome-do-capitulo-1>/      Diretório com arquivos do capítulo.
+  |    |-- *.png, *.jpg, etc.    Arquivos de imagem.
+  |    |-- *.txt, *.csv, etc.    Arquivos com dados em texto pleno.
+  |    `-- refs.bib              Arquivo com referências bibliográficas.
+  |
+  |-- <nome-do-capitulo-2>.Rmd   Outro capítulo do livro.
+  `-- <nome-do-capitulo-2>/      Outro diretório com arquivos.
+       |-- *.png, *.jpg, etc.
+       |-- *.txt, *.csv, etc.    E segue assim.
+       `-- refs.bib
+```
+
+Cada capítulo será composto de um arquivo Rmarkdown (`*.Rmd`) e um
+diretório onde ficarão os arquivos para o capítulo. O mesmo nome deve
+ser usado para o arquivo e diretório. Por exemplo, o nome pode ser
+`regressao-linear-para-cpd-em-macieira` ou
+`analise-da-resistencia-a-fungicidas`. Quanto mais descritivo o nome,
+melhor. Porém, usar o bom senso para o nome não ficar tão grande.
+
+No diretório do capítulo devem ficar as imagens que serão usadas, por
+exemplo, para indicar o delineamento experimental ou o estado das lesões
+nos frutos. Arquivos `*.csv` ou `*.txt` contendo os dados crus devem
+estar no diretório também.
+
+O diretório deve conter um arquivo chamado `refs.bib` com as referências
+bibligráficas em sintaxe bibtex. São dados mais detalhes sobre isso na
+seção sobre referências bibligráficas.
+
+No começo de cada capítulo deve se indicar os autores com o seguinte
+fragmento entre o título e o primeiro parágrafo no arquivo Rmarkdown.
+
+    ```{r, echo = FALSE, results = "asis"}
+    chapter_authors(c("Walmes Marques Zeviani", "Larissa May de Mio"))
+    ```
+
+### Inclusão de figuras
 
 A inclusão de figuras é de duas formas: i) gráficos produzidos pelo
 código R e ii) imagens externas incluídas por arquivo `*.png*`,
@@ -50,29 +110,32 @@ Atenção para duas coisas:
      texto. A sugestão é que se use o nome do arquivo (sem a extensão)
      como nome de referência.
 
-### Tabelas
+### Inclusão de tabelas
 
-Assim como ocorre para as figuras, as tabelas colodas no texto poder sem
-produzidas a partir do código ou incluídas diretamente no texto.
+Assim como ocorre para as figuras, as tabelas colocas no texto poder sem
+produzidas i) a partir do código ou ii) incluídas diretamente no texto.
 
 Para incluir tabelas geradas a partir de *data frames* no R pode-se usar
-a função `knitr::kable()`. A figura abaixo indica como usá-la com os
-principais parâmetros para controle de exibição da tabela.
+a função `knitr::kable()`. Existem outros pacotes que também exportam
+tabelas para a sintaxe *markdown*, mas este é simples de usar e atende as
+necessidades. A figura abaixo indica como usá-la com os principais
+parâmetros para controle de exibição da tabela.
 
 ![](./img/dataframe.png)
 
 No caso da tabela ser inserida diretamente, tem-se que colocá-la
-usando-se sinxtaxe *markdown*. Felizmente, a tabela pode ser construída
+usando-se sintaxe *markdown*. Felizmente, a tabela pode ser construída
 em serviços web ou gerada a partir de arquivos CSV, por
 exemplo. Consulte os links abaixo.
 
   1. <https://tableconvert.com/>.
   2. <https://www.tablesgenerator.com/#>.
-  3. <https://jakebathman.github.io/Markdown-Table-Generator/>.
+  3. <https://www.latex-tables.com/>.
+  4. <https://jakebathman.github.io/Markdown-Table-Generator/>.
 
-Uma vez que a tabela for gerada em sintaxe markdown por um dos serviços
-acima (ou qualquer outro equivalente), ela pode ser inserida no texto
-conforme ilustra a imagem a seguir.
+Uma vez que a tabela for gerada em sintaxe *markdown* por um dos
+serviços acima (ou qualquer outro equivalente), ela pode ser inserida no
+texto conforme ilustra a imagem a seguir.
 
 ![](./img/tabelamarkdown.png)
 
@@ -80,11 +143,18 @@ As mesmas formas de referência cruzada vistas para figuras estão
 disponíveis para tabelas. A diferença é que o prefixo para tabela é
 `tab:` e não `fig:`.
 
-### Equações
+Tabelas que sejam mais complexas, por exemplo, com cédulas mescladas,
+quebra de texto dentro das cédulas, podem ser feitas em outros softwares
+e incluídas como imagem. O pacote
+[kableExtra](https://haozhu233.github.io/kableExtra/save_kable_and_as_image.html)
+tem recursos adicionais para construção de tabelas e conversão para
+imagens.
+
+### Inclusão de equações e anotações matemáticas
 
 Equações podem ser inseridas com sintaxe LaTeX. Os links abaixo apontam
-para serviços online que permitem a criação do código das
-equações. Depois de prontas é só adicioná-las no texto.
+para serviços online que permitem a criação das equações em
+LaTeX. Depois de prontas é só adicioná-las no texto.
 
   1. <https://www.codecogs.com/latex/eqneditor.php>.
   2. <https://hostmath.com/>.
@@ -103,13 +173,13 @@ isso. O processo é análogo ao visto para figuras e tabelas. A diferença
 
 ![](./img/equacaoreferencia.png)
 
-### Referências bibliográficas
+### Citação de referências bibliográficas
 
-As referências bibliográficas são arquivadas em Bibtex. Para gerar o
-código de uma referência em Bibtex a partir do DOI ou do ISBN pode-se
-usar um dos serviços web, de 1 a 5, abaixo. Caso não seja possível
-usá-los, pode-se gerar a referência com o serviço 6, preenchendo os
-campos conforme o tipo de referência.
+As referências bibliográficas são arquivadas em formato BibTeX. Para
+gerar o código de uma referência em BibTeX a partir do DOI do artigo ou
+do ISBN do livro pode-se usar um dos serviços web, de 1 a 5,
+abaixo. Caso não seja possível usá-los, pode-se gerar a referência com o
+serviço 6, preenchendo os campos conforme o tipo de referência.
 
   1. <https://www.doi2bib.org/>.
   2. <http://doi-to-bibtex-converter.herokuapp.com/>.
@@ -118,15 +188,25 @@ campos conforme o tipo de referência.
   5. <http://www.bibme.org/bibtex/journal-citation>.
   6. <https://truben.no/latex/bibtex/>.
 
-O fragmento de código gerado deve ser colocado em um arquivo `*.bib` que
-deve ter o caminho informado no campo `bibliography` do cabeçalho do
-arquivo `index.Rmd`.
+O Mendeley também exporta referências para BibTeX. Selecionando várias
+referências, pode-se, com o botão direito do mouse, clicar em
+`Export...` para criar um arquivo `*.bib` com a coleção. Ao escolher
+`Copy as > BibTeX Entry`, o conteúdo em formato BibTeX é copiado para a
+área de transferência, então é só colar dentro de um arquivo já
+existente.
+
+![](./img/equacaoreferencia.png)
+
+Os fragmentos de código de cada referência em BibTeX gerados devem ser
+colocados em um arquivo `refs.bib` que deve ter o caminho informado no
+campo `bibliography` do cabeçalho do arquivo `index.Rmd`.
 
 ```
-bibliography: [<caminho-arquivo-1.bib>, <caminho-arquivo-2.bib>]
+bibliography: [<nome-do-capitulo-1>/refs.bib, <nome-do-capitulo-2>/refs.bib]
 ```
 
 A figura a seguir indica a sintaxe usada para fazer as referências
-diretas e entre parênteses ao final de parágrafos.
+diretas e entre parênteses ao final de parágrafos. A sintaxe é preceder
+o nome da referência com o `@`.
 
 ![](./img/referencias.png)
