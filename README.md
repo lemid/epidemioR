@@ -22,8 +22,8 @@ a inclusão de fragmentos de código R. Também é bem documentado na
 web. Por essa razão, aqui serão apontados materiais de consulta
 recomendados.
 
-  2. <https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf>.
-  1. <https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf>.
+  1. <https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf>.
+  2. <https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf>.
   3. <https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf>.
   4. <https://en.support.wordpress.com/markdown-quick-reference/>.
   5. <https://bookdown.org/yihui/rmarkdown/>.
@@ -82,8 +82,8 @@ fragmento entre o título e o primeiro parágrafo no arquivo Rmarkdown.
 ### Inclusão de figuras
 
 A inclusão de figuras é de duas formas: i) gráficos produzidos pelo
-código R e ii) imagens externas incluídas por arquivo `*.png*`,
-`*.jpg*`, etc.
+código R e ii) imagens externas incluídas por arquivo `*.png`,
+`*.jpg`, etc.
 
 Para gráficos do R, basta criar um fragmento de código que crie o
 gráfico que ele será incluído no documento final. Recomenda-se a
@@ -195,7 +195,7 @@ referências, pode-se, com o botão direito do mouse, clicar em
 área de transferência, então é só colar dentro de um arquivo já
 existente.
 
-![](./img/equacaoreferencia.png)
+![](./img/mendeley.png)
 
 Os fragmentos de código de cada referência em BibTeX gerados devem ser
 colocados em um arquivo `refs.bib` que deve ter o caminho informado no
