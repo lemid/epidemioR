@@ -7,17 +7,34 @@ opts_chunk$set(cache = FALSE,
                fig.align = "center",
                eval.after= "fig.cap",
                #dpi = 96,
-               #dev = "png",               
+               #dev = "png",
                #dev.args = list(family = "Lato"),
                dev.args = list(family = "Palatino"))
 options(width = 68)
 
-# Verifica se o output é html, pdf , etc.
+# Verifica se o output é html, pdf, etc.
 isOutput <- function(format) {
-	fmt <- knitr::opts_knit$get("rmarkdown.pandoc.to")
-	if (missing(format)) {
-		fmt
-	} else {
+    fmt <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+    if (missing(format)) {
+        fmt
+    } else {
         format[1] == fmt
+    }
+}
+
+# Adiciona os autores no topo do capítulo.
+chapter_authors <- function(authors = c("Louise Larissa May De Mio",
+                                        "Walmes Marques Zeviani")) {
+    if (knitr::is_html_output()) {
+        a <- paste("<div class='chapterauthors'>",
+                   paste(authors, collapse = "<br>\n"),
+                   "</div>\n", sep = "\n")
+        cat(a)
+    }
+    if (knitr::is_latex_output()) {
+        a <- paste("\\begin{flushright}",
+                   paste(authors, collapse = "\\newline\n"),
+                   "\\end{flushright}\n", sep = "\n")
+        cat(a)
     }
 }

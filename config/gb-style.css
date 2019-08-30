@@ -243,4 +243,14 @@ blockquote p:last-child {
     font-size: 100% !important;
 }
 
+/* Chapter authors -------------------------- */
+
+div.chapterauthors {
+    margin: 1em auto 2em auto;
+}
+
+div.chapterauthors p {
+    text-align: right;
+}
+
 /*---------------------------------------------------------------------- */
