@@ -176,24 +176,51 @@ isso. O processo é análogo ao visto para figuras e tabelas. A diferença
 ### Citação de referências bibliográficas
 
 As referências bibliográficas são arquivadas em formato BibTeX. Para
-gerar o código de uma referência em BibTeX a partir do DOI do artigo ou
-do ISBN do livro pode-se usar um dos serviços web, de 1 a 5,
-abaixo. Caso não seja possível usá-los, pode-se gerar a referência com o
-serviço 6, preenchendo os campos conforme o tipo de referência.
+gerar o código de uma referência em BibTeX a partir do DOI do artigo, do
+ISBN do livro, do título da referência, da referência formatada, da
+entrada BibTeX parcial, etc, pode-se usar um dos serviços web, softwares
+ou pacotes abaixo.
 
-  1. <https://www.doi2bib.org/>.
-  2. <http://doi-to-bibtex-converter.herokuapp.com/>.
-  3. <https://manas.tungare.name/software/isbn-to-bibtex>.
-  4. <https://www.ottobib.com/>.
-  5. <http://www.bibme.org/bibtex/journal-citation>.
-  6. <https://truben.no/latex/bibtex/>.
+  1. DOI para BibTeX: <https://www.doi2bib.org/>.
+  2. DOI/ISBN/URL para Bibtex:
+     <http://doi-to-bibtex-converter.herokuapp.com/> e
+     <http://doi-to-bibtex.herokuapp.com/>.
+  4. ISBN para BibTeX:
+     <https://manas.tungare.name/software/isbn-to-bibtex>.
+  5. ISBN para BibTeX: <https://www.ottobib.com/>.
+  6. ISBN para BibTex: <https://www.xarg.org/tools/isbn-to-bibtex/>.
+  7. Título para BibTeX: <http://www.bibme.org/bibtex/journal-citation>.
+  8. Estrutura para BibTeX a partir da referência formatada:
+     <https://anystyle.io/>.
+  9. Serviço para preencher campos manualmente e criar BibTeX:
+     <https://truben.no/latex/bibtex/>.
+  10. DOI para BibTeX com Python (`urllib`):
+      <https://scipython.com/blog/doi-to-bibtex/>.
+  11. Completa/henriquece referências BibTeX:
+      <https://github.com/nschloe/betterbib>.
+  12. DOI para BibTeX com `curl` e Emacs:
+      <https://tex.stackexchange.com/questions/6848/automatically-dereference-doi-to-bib>.
+  13. Pacotes R:
+      1. [`RefManageR`](https://cran.r-project.org/package=RefManageR):
+         permite importar, manipular e fazer referências em documentos
+         Rmarkdown. Tem interface para
+         [CrossRef](https://www.crossref.org/) e
+         [Zotero](https://www.zotero.org/). Consegue importar referência
+         de PDF usando `poppler`.
+      2. [`doi2bib`](https://rdrr.io/github/wkmor1/doi2bib/): usa o
+         <https://www.doi2bib.org/> para importar o BibTeX.
+      3. [`bib2df`](https://cran.r-project.org/web/packages/bib2df/vignettes/bib2df.html):
+         Cria tabelas a partir de arquivo `*.bib`. É útil para gerar
+         tabelas resumo de referências e visualizações.
+  14. O software [JabRef](http://www.jabref.org/) possui recurso de
+      importação por DOI, ISBN e outros identificadores únicos.
 
-O Mendeley também exporta referências para BibTeX. Selecionando várias
-referências, pode-se, com o botão direito do mouse, clicar em
-`Export...` para criar um arquivo `*.bib` com a coleção. Ao escolher
-`Copy as > BibTeX Entry`, o conteúdo em formato BibTeX é copiado para a
-área de transferência, então é só colar dentro de um arquivo já
-existente.
+O [Mendeley](https://www.mendeley.com/) também exporta referências para
+BibTeX. Selecionando várias referências, pode-se, com o botão direito do
+mouse, clicar em `Export...` para criar um arquivo `*.bib` com a
+coleção. Ao escolher `Copy as > BibTeX Entry`, o conteúdo em formato
+BibTeX é copiado para a área de transferência, então é só colar dentro
+de um arquivo já existente.
 
 ![](./img/mendeley.png)
 
