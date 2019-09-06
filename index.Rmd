@@ -11,7 +11,7 @@ author:
     www: http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/
 date: "Última atualização em `r format(Sys.Date(), format = '%d de %B de %Y')`"
 csl: config/ABNT_UFPR_2011-Mendeley.csl
-bibliography: [config/refs.bib, jhulia/refs.bib]
+bibliography: [config/refs.bib, jhulia/refs.bib, camilla/refs.bib]
 github-repo: lemid/epidemioR
 description: "epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R"
 site: bookdown::bookdown_site
