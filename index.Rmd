@@ -47,6 +47,14 @@ complement: >
 source("config/setup.R")
 ```
 
+<!-- Imagem de canto de menu. -->
+<!-- -------------------------------------------------------------------
+```{r, echo = FALSE, eval = isOutput("html")}
+# Truque para que essa imagem seja movida para `./_/book/config/`.
+knitr::include_graphics('./config/frontcover.png')
+```
+-------------------------------------------------------------------- -->
+
 <!-- Imagem de capa. -->
 ```{r, echo = FALSE, results = "asis", eval = isOutput("html")}
 img <- '# {-}\n\n<div><img src="./config/bookcover.png" width="350" alt="epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R"/></div>'
