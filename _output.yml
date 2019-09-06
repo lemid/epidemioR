@@ -48,8 +48,13 @@ bookdown::gitbook:
         </center>
       after: |
         <li>
+          <a href="https://bookdown.org/" target="_blank">
+            Produzido com Bookdown
+          </a>
+        </li>
+        <li>
           <a href="https://github.com/lemid/epidemioR" target="_blank">
-            Produzido com bookdown
+            Disponível no GitHub
           </a>
         </li>
     edit: https://github.com/lemid/epidemioR/edit/master/%s
