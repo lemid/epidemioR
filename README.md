@@ -1,25 +1,45 @@
-# epidemioR ∑ Epidemiologia de DoenÁas de Plantas Aplicada com R
+# epidemioR ¬∑ Epidemiologia de Doen√ßas de Plantas Aplicada com R
 
-O objetivo do `epidemioR` È fazer a documentaÁ„o do uso do software R no
-desenvolvimento, aplicaÁ„o e avaliaÁ„o mÈtodos para an·lise de dados em
-epidemiologia para manejo de doenÁas em plantas com temas especÌficos de
+O objetivo do `epidemioR` √© fazer a documenta√ß√£o do uso do software R no
+desenvolvimento, aplica√ß√£o e avalia√ß√£o m√©todos para an√°lise de dados em
+epidemiologia para manejo de doen√ßas em plantas com temas espec√≠ficos de
 interesse dos professores, pesquisadores e alunos.
 
-Este material È produzido devido ‡ colaboraÁ„o de professores e alunos
-do Programa de PÛs GraduaÁ„o em ProduÁ„o Vegetal, com colaboraÁ„o de
+Este material √© produzido devido √† colabora√ß√£o de professores e alunos
+do Programa de P√≥s Gradua√ß√£o em Produ√ß√£o Vegetal, com colabora√ß√£o de
 professores e pesquisadores externos.
 
-## OrientaÁıes para os autores
+## Programa√ß√£o das atividades
 
-As orientaÁıes a seguir s„o para contribuir com a editoraÁ„o do
-material. Elas contÈm orientaÁıes de organizaÁ„o e sintaxe para
-contruÁ„o de elementos textuais.
+| Sem. | Data     | Atividade ( as 14 h)                                                                                                                               | Apresent.                      | Profs. / Pos-docs          |
+|------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|----------------------------|
+| 1    | 15/08/19 | Apresenta√ß√£o da disciplina e demandas dos alunos                                                                                                   |                                | Larissa e Walmes           |
+| 2    | 23/08/19 | Uso de ilustra√ß√µes em artigos / Dados experimentos monociclo                                                                                       | Walmes / Jhulia                | Larissa e Walmes           |
+| 3    | 30/08/19 | Atividade em laborat√≥rio de estat√≠stica                                                                                                            |                                | Walmes                     |
+| 4    | 06/09/19 | Atividade em laborat√≥rio de estat√≠stica                                                                                                            |                                | Walmes                     |
+| 5    | 13/09/19 | Dados de infec√ß√£o em frutos diferentes tamanhos (sobreviv√™ncia) ‚Äì 8:30 h                                                                           | Camilla                        | Larissa e Walmes           |
+| 6    | 20/09/19 | An√°lises de mortalidade de nematoides em dose resposta                                                                                             | Marlon                         | Larissa, Walmes e Henrique |
+| 7    | 27/09/19 | Atividade em laborat√≥rio de estat√≠stica                                                                                                            |                                | Walmes                     |
+| 8    | 04/10/19 | Dados comparativos de esp√©cies x fungicidas em frutos / Metodologias aplicadas para estimar EC50 em ensaios in vitro                               | Thiago / Paulo (UCDavis)       | Larissa e Walmes           |
+| 9    | 11/10/19 | Atividade em laborat√≥rio de estat√≠stica                                                                                                            |                                | Walmes                     |
+| 10   | 18/10/19 | Ensaios ex vivo de adaptabilidade de popula√ß√µes de biotr√≥ficos / Uso de diferentes parametriza√ß√µes em modelos n√£o lineares para doen√ßas de plantas | Alexandre / Cristiano (EPAGRI) | Larissa e Walmes           |
+| 11   | 25/10/19 | Atividade em laborat√≥rio de estat√≠stica                                                                                                            |                                | Walmes                     |
+| 12   | 01/11/19 | Resultados de an√°lises - Dados em R                                                                                                                | Jhulia e Camilla               | Larissa e Walmes           |
+| 13   | 08/11/19 | Resultados de an√°lises - Dados em R                                                                                                                | Marlon e Thiago e              | Larissa e Walmes           |
+| 14   | 22/11/19 | Resultados de an√°lises - Dados em R                                                                                                                | Alexandre                      | Larissa e Walmes           |
+| 15   | 29/11/19 | Entrega de cap√≠tulo de livro relativo √†s an√°lises                                                                                                  | TODOS                          | Larissa e Walmes           |
+
+## Orienta√ß√µes para os autores
+
+As orienta√ß√µes a seguir s√£o para contribuir com a editora√ß√£o do
+material. Elas cont√©m orienta√ß√µes de organiza√ß√£o e sintaxe para
+contru√ß√£o de elementos textuais.
 
 ### Sintaxe Rmarkdown
 
-A sintaxe markdown È amplamente documentada na web. O Rmarkdown permite
-a inclus„o de fragmentos de cÛdigo R. TambÈm È bem documentado na
-web. Por essa raz„o, aqui ser„o apontados materiais de consulta
+A sintaxe markdown √© amplamente documentada na web. O Rmarkdown permite
+a inclus√£o de fragmentos de c√≥digo R. Tamb√©m √© bem documentado na
+web. Por essa raz√£o, aqui ser√£o apontados materiais de consulta
 recomendados.
 
   1. <https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf>.
@@ -29,68 +49,68 @@ recomendados.
   5. <https://bookdown.org/yihui/rmarkdown/>.
   6. <https://cran.r-project.org/web/packages/stationery/vignettes/Rmarkdown.pdf>.
 
-### Estrutura de diretÛrio e arquivos
+### Estrutura de diret√≥rio e arquivos
 
-Para organizar a elaboraÁ„o do material de forma a garantir autonomia
-para os autores e menos problemas com conflitos de ediÁ„o de arquivos,
-ser· adotada a seguinte estrutura de diretÛrio.
+Para organizar a elabora√ß√£o do material de forma a garantir autonomia
+para os autores e menos problemas com conflitos de edi√ß√£o de arquivos,
+ser√° adotada a seguinte estrutura de diret√≥rio.
 
 ```
 epidemioR/
-  |-- _output.yml                Arquivo de configuraÁıes.
-  |-- _bookdown.yml              Arquivo de internacionalizaÁ„o.
-  |-- index.Rmd                  Capa e configuraÁıes principais.
-  |-- config/                    DiretÛrio com arquivos de conf.
+  |-- _output.yml                Arquivo de configura√ß√µes.
+  |-- _bookdown.yml              Arquivo de internacionaliza√ß√£o.
+  |-- index.Rmd                  Capa e configura√ß√µes principais.
+  |-- config/                    Diret√≥rio com arquivos de conf.
   |-- img/                       Para imagens de capa, etc.
   |
-  |-- <nome-do-capitulo-1>.Rmd   CapÌtulo do livro.
-  |-- <nome-do-capitulo-1>/      DiretÛrio com arquivos do capÌtulo.
+  |-- <nome-do-capitulo-1>.Rmd   Cap√≠tulo do livro.
+  |-- <nome-do-capitulo-1>/      Diret√≥rio com arquivos do cap√≠tulo.
   |    |-- *.png, *.jpg, etc.    Arquivos de imagem.
   |    |-- *.txt, *.csv, etc.    Arquivos com dados em texto pleno.
-  |    `-- refs.bib              Arquivo com referÍncias bibliogr·ficas.
+  |    `-- refs.bib              Arquivo com refer√™ncias bibliogr√°ficas.
   |
-  |-- <nome-do-capitulo-2>.Rmd   Outro capÌtulo do livro.
-  `-- <nome-do-capitulo-2>/      Outro diretÛrio com arquivos.
+  |-- <nome-do-capitulo-2>.Rmd   Outro cap√≠tulo do livro.
+  `-- <nome-do-capitulo-2>/      Outro diret√≥rio com arquivos.
        |-- *.png, *.jpg, etc.
        |-- *.txt, *.csv, etc.    E segue assim.
        `-- refs.bib
 ```
 
-Cada capÌtulo ser· composto de um arquivo Rmarkdown (`*.Rmd`) e um
-diretÛrio onde ficar„o os arquivos para o capÌtulo. O mesmo nome deve
-ser usado para o arquivo e diretÛrio. Por exemplo, o nome pode ser
+Cada cap√≠tulo ser√° composto de um arquivo Rmarkdown (`*.Rmd`) e um
+diret√≥rio onde ficar√£o os arquivos para o cap√≠tulo. O mesmo nome deve
+ser usado para o arquivo e diret√≥rio. Por exemplo, o nome pode ser
 `regressao-linear-para-cpd-em-macieira` ou
 `analise-da-resistencia-a-fungicidas`. Quanto mais descritivo o nome,
-melhor. PorÈm, usar o bom senso para o nome n„o ficar t„o grande.
+melhor. Por√©m, usar o bom senso para o nome n√£o ficar t√£o grande.
 
-No diretÛrio do capÌtulo devem ficar as imagens que ser„o usadas, por
-exemplo, para indicar o delineamento experimental ou o estado das lesıes
+No diret√≥rio do cap√≠tulo devem ficar as imagens que ser√£o usadas, por
+exemplo, para indicar o delineamento experimental ou o estado das les√µes
 nos frutos. Arquivos `*.csv` ou `*.txt` contendo os dados crus devem
-estar no diretÛrio tambÈm.
+estar no diret√≥rio tamb√©m.
 
-O diretÛrio deve conter um arquivo chamado `refs.bib` com as referÍncias
-bibligr·ficas em sintaxe bibtex. S„o dados mais detalhes sobre isso na
-seÁ„o sobre referÍncias bibligr·ficas.
+O diret√≥rio deve conter um arquivo chamado `refs.bib` com as refer√™ncias
+bibligr√°ficas em sintaxe bibtex. S√£o dados mais detalhes sobre isso na
+se√ß√£o sobre refer√™ncias bibligr√°ficas.
 
-No comeÁo de cada capÌtulo deve se indicar os autores com o seguinte
-fragmento entre o tÌtulo e o primeiro par·grafo no arquivo Rmarkdown.
+No come√ßo de cada cap√≠tulo deve se indicar os autores com o seguinte
+fragmento entre o t√≠tulo e o primeiro par√°grafo no arquivo Rmarkdown.
 
     ```{r, echo = FALSE, results = "asis"}
     chapter_authors(c("Walmes Marques Zeviani", "Larissa May de Mio"))
     ```
 
-### Inclus„o de figuras
+### Inclus√£o de figuras
 
-A inclus„o de figuras È de duas formas: i) gr·ficos produzidos pelo
-cÛdigo R e ii) imagens externas incluÌdas por arquivo `*.png`,
+A inclus√£o de figuras √© de duas formas: i) gr√°ficos produzidos pelo
+c√≥digo R e ii) imagens externas inclu√≠das por arquivo `*.png`,
 `*.jpg`, etc.
 
-Para gr·ficos do R, basta criar um fragmento de cÛdigo que crie o
-gr·fico que ele ser· incluÌdo no documento final. Recomenda-se a
-inclus„o de uma legenda para o gr·fico que È indica no par‚metro
-`fig.cap` do cabeÁalho de fragmento de cÛdigo.
+Para gr√°ficos do R, basta criar um fragmento de c√≥digo que crie o
+gr√°fico que ele ser√° inclu√≠do no documento final. Recomenda-se a
+inclus√£o de uma legenda para o gr√°fico que √© indica no par√¢metro
+`fig.cap` do cabe√ßalho de fragmento de c√≥digo.
 
-A figura a seguir indica como incluir um gr·fico gerado pelo R.
+A figura a seguir indica como incluir um gr√°fico gerado pelo R.
 
 ![](./img/grafico.png)
 
@@ -98,34 +118,34 @@ A figura a seguir indica como incluir uma imagem em arquivo externo.
 
 ![](./img/imagem.png)
 
-AtenÁ„o para duas coisas:
+Aten√ß√£o para duas coisas:
 
-  1. A demarcaÁ„o `(ref:<texto-unico-identicador>)` serve para passar a
-     legenda para o par‚metro `fig.cap` do cabeÁalho de fragmento de
-     cÛdigo. A legenda pode ser longa, conter representaÁ„o especial
-     como equaÁıes, ent„o dessa maneira acomoda-se essas
-     caracterÌsticas.
-  2. A demarcaÁ„o `\@ref(<texto-unico-de-referencia>)` serve para
-     identificar a figura de modo a permitir referÍncias cruzadas no
-     texto. A sugest„o È que se use o nome do arquivo (sem a extens„o)
-     como nome de referÍncia.
+  1. A demarca√ß√£o `(ref:<texto-unico-identicador>)` serve para passar a
+     legenda para o par√¢metro `fig.cap` do cabe√ßalho de fragmento de
+     c√≥digo. A legenda pode ser longa, conter representa√ß√£o especial
+     como equa√ß√µes, ent√£o dessa maneira acomoda-se essas
+     caracter√≠sticas.
+  2. A demarca√ß√£o `\@ref(<texto-unico-de-referencia>)` serve para
+     identificar a figura de modo a permitir refer√™ncias cruzadas no
+     texto. A sugest√£o √© que se use o nome do arquivo (sem a extens√£o)
+     como nome de refer√™ncia.
 
-### Inclus„o de tabelas
+### Inclus√£o de tabelas
 
 Assim como ocorre para as figuras, as tabelas colocas no texto poder sem
-produzidas i) a partir do cÛdigo ou ii) incluÌdas diretamente no texto.
+produzidas i) a partir do c√≥digo ou ii) inclu√≠das diretamente no texto.
 
 Para incluir tabelas geradas a partir de *data frames* no R pode-se usar
-a funÁ„o `knitr::kable()`. Existem outros pacotes que tambÈm exportam
-tabelas para a sintaxe *markdown*, mas este È simples de usar e atende as
-necessidades. A figura abaixo indica como us·-la com os principais
-par‚metros para controle de exibiÁ„o da tabela.
+a fun√ß√£o `knitr::kable()`. Existem outros pacotes que tamb√©m exportam
+tabelas para a sintaxe *markdown*, mas este √© simples de usar e atende as
+necessidades. A figura abaixo indica como us√°-la com os principais
+par√¢metros para controle de exibi√ß√£o da tabela.
 
 ![](./img/dataframe.png)
 
-No caso da tabela ser inserida diretamente, tem-se que coloc·-la
-usando-se sintaxe *markdown*. Felizmente, a tabela pode ser construÌda
-em serviÁos web ou gerada a partir de arquivos CSV, por
+No caso da tabela ser inserida diretamente, tem-se que coloc√°-la
+usando-se sintaxe *markdown*. Felizmente, a tabela pode ser constru√≠da
+em servi√ßos web ou gerada a partir de arquivos CSV, por
 exemplo. Consulte os links abaixo.
 
   1. <https://tableconvert.com/>.
@@ -134,51 +154,51 @@ exemplo. Consulte os links abaixo.
   4. <https://jakebathman.github.io/Markdown-Table-Generator/>.
 
 Uma vez que a tabela for gerada em sintaxe *markdown* por um dos
-serviÁos acima (ou qualquer outro equivalente), ela pode ser inserida no
+servi√ßos acima (ou qualquer outro equivalente), ela pode ser inserida no
 texto conforme ilustra a imagem a seguir.
 
 ![](./img/tabelamarkdown.png)
 
-As mesmas formas de referÍncia cruzada vistas para figuras est„o
-disponÌveis para tabelas. A diferenÁa È que o prefixo para tabela È
-`tab:` e n„o `fig:`.
+As mesmas formas de refer√™ncia cruzada vistas para figuras est√£o
+dispon√≠veis para tabelas. A diferen√ßa √© que o prefixo para tabela √©
+`tab:` e n√£o `fig:`.
 
-Tabelas que sejam mais complexas, por exemplo, com cÈdulas mescladas,
-quebra de texto dentro das cÈdulas, podem ser feitas em outros softwares
-e incluÌdas como imagem. O pacote
+Tabelas que sejam mais complexas, por exemplo, com c√©dulas mescladas,
+quebra de texto dentro das c√©dulas, podem ser feitas em outros softwares
+e inclu√≠das como imagem. O pacote
 [kableExtra](https://haozhu233.github.io/kableExtra/save_kable_and_as_image.html)
-tem recursos adicionais para construÁ„o de tabelas e convers„o para
+tem recursos adicionais para constru√ß√£o de tabelas e convers√£o para
 imagens.
 
-### Inclus„o de equaÁıes e anotaÁıes matem·ticas
+### Inclus√£o de equa√ß√µes e anota√ß√µes matem√°ticas
 
-EquaÁıes podem ser inseridas com sintaxe LaTeX. Os links abaixo apontam
-para serviÁos online que permitem a criaÁ„o das equaÁıes em
-LaTeX. Depois de prontas È sÛ adicion·-las no texto.
+Equa√ß√µes podem ser inseridas com sintaxe LaTeX. Os links abaixo apontam
+para servi√ßos online que permitem a cria√ß√£o das equa√ß√µes em
+LaTeX. Depois de prontas √© s√≥ adicion√°-las no texto.
 
   1. <https://www.codecogs.com/latex/eqneditor.php>.
   2. <https://hostmath.com/>.
   3. <https://www.latex4technics.com/>.
 
-A imagem a seguir indica como adicionar equaÁıes que ficam centralizadas
-na p·gina (em bloco, usar `$$`) e que ficam no par·grafo (em linha, usar
+A imagem a seguir indica como adicionar equa√ß√µes que ficam centralizadas
+na p√°gina (em bloco, usar `$$`) e que ficam no par√°grafo (em linha, usar
 `$`).
 
 ![](./img/equacao.png)
 
-No caso de uma equaÁ„o ter que ser referenciada no texto, deve-se usar
-os mecanÌsmos de referÍncia cruzada. A figura a seguir indica como fazer
-isso. O processo È an·logo ao visto para figuras e tabelas. A diferenÁa
-È que o prefixo para equaÁıes È `eq:`.
+No caso de uma equa√ß√£o ter que ser referenciada no texto, deve-se usar
+os mecan√≠smos de refer√™ncia cruzada. A figura a seguir indica como fazer
+isso. O processo √© an√°logo ao visto para figuras e tabelas. A diferen√ßa
+√© que o prefixo para equa√ß√µes √© `eq:`.
 
 ![](./img/equacaoreferencia.png)
 
-### CitaÁ„o de referÍncias bibliogr·ficas
+### Cita√ß√£o de refer√™ncias bibliogr√°ficas
 
-As referÍncias bibliogr·ficas s„o arquivadas em formato BibTeX. Para
-gerar o cÛdigo de uma referÍncia em BibTeX a partir do DOI do artigo, do
-ISBN do livro, do tÌtulo da referÍncia, da referÍncia formatada, da
-entrada BibTeX parcial, etc, pode-se usar um dos serviÁos web, softwares
+As refer√™ncias bibliogr√°ficas s√£o arquivadas em formato BibTeX. Para
+gerar o c√≥digo de uma refer√™ncia em BibTeX a partir do DOI do artigo, do
+ISBN do livro, do t√≠tulo da refer√™ncia, da refer√™ncia formatada, da
+entrada BibTeX parcial, etc, pode-se usar um dos servi√ßos web, softwares
 ou pacotes abaixo.
 
   1. DOI para BibTeX: <https://www.doi2bib.org/>.
@@ -189,51 +209,51 @@ ou pacotes abaixo.
      <https://manas.tungare.name/software/isbn-to-bibtex>.
   5. ISBN para BibTeX: <https://www.ottobib.com/>.
   6. ISBN para BibTex: <https://www.xarg.org/tools/isbn-to-bibtex/>.
-  7. TÌtulo para BibTeX: <http://www.bibme.org/bibtex/journal-citation>.
-  8. Estrutura para BibTeX a partir da referÍncia formatada:
+  7. T√≠tulo para BibTeX: <http://www.bibme.org/bibtex/journal-citation>.
+  8. Estrutura para BibTeX a partir da refer√™ncia formatada:
      <https://anystyle.io/>.
-  9. ServiÁo para preencher campos manualmente e criar BibTeX:
+  9. Servi√ßo para preencher campos manualmente e criar BibTeX:
      <https://truben.no/latex/bibtex/>.
   10. DOI para BibTeX com Python (`urllib`):
       <https://scipython.com/blog/doi-to-bibtex/>.
-  11. Completa/henriquece referÍncias BibTeX:
+  11. Completa/henriquece refer√™ncias BibTeX:
       <https://github.com/nschloe/betterbib>.
   12. DOI para BibTeX com `curl` e Emacs:
       <https://tex.stackexchange.com/questions/6848/automatically-dereference-doi-to-bib>.
   13. Pacotes R:
       1. [`RefManageR`](https://cran.r-project.org/package=RefManageR):
-         permite importar, manipular e fazer referÍncias em documentos
+         permite importar, manipular e fazer refer√™ncias em documentos
          Rmarkdown. Tem interface para
          [CrossRef](https://www.crossref.org/) e
-         [Zotero](https://www.zotero.org/). Consegue importar referÍncia
+         [Zotero](https://www.zotero.org/). Consegue importar refer√™ncia
          de PDF usando `poppler`.
       2. [`doi2bib`](https://rdrr.io/github/wkmor1/doi2bib/): usa o
          <https://www.doi2bib.org/> para importar o BibTeX.
       3. [`bib2df`](https://cran.r-project.org/web/packages/bib2df/vignettes/bib2df.html):
-         Cria tabelas a partir de arquivo `*.bib`. … ˙til para gerar
-         tabelas resumo de referÍncias e visualizaÁıes.
+         Cria tabelas a partir de arquivo `*.bib`. √â √∫til para gerar
+         tabelas resumo de refer√™ncias e visualiza√ß√µes.
   14. O software [JabRef](http://www.jabref.org/) possui recurso de
-      importaÁ„o por DOI, ISBN e outros identificadores ˙nicos.
+      importa√ß√£o por DOI, ISBN e outros identificadores √∫nicos.
 
-O [Mendeley](https://www.mendeley.com/) tambÈm exporta referÍncias para
-BibTeX. Selecionando v·rias referÍncias, pode-se, com o bot„o direito do
+O [Mendeley](https://www.mendeley.com/) tamb√©m exporta refer√™ncias para
+BibTeX. Selecionando v√°rias refer√™ncias, pode-se, com o bot√£o direito do
 mouse, clicar em `Export...` para criar um arquivo `*.bib` com a
-coleÁ„o. Ao escolher `Copy as > BibTeX Entry`, o conte˙do em formato
-BibTeX È copiado para a ·rea de transferÍncia, ent„o È sÛ colar dentro
-de um arquivo j· existente.
+cole√ß√£o. Ao escolher `Copy as > BibTeX Entry`, o conte√∫do em formato
+BibTeX √© copiado para a √°rea de transfer√™ncia, ent√£o √© s√≥ colar dentro
+de um arquivo j√° existente.
 
 ![](./img/mendeley.png)
 
-Os fragmentos de cÛdigo de cada referÍncia em BibTeX gerados devem ser
+Os fragmentos de c√≥digo de cada refer√™ncia em BibTeX gerados devem ser
 colocados em um arquivo `refs.bib` que deve ter o caminho informado no
-campo `bibliography` do cabeÁalho do arquivo `index.Rmd`.
+campo `bibliography` do cabe√ßalho do arquivo `index.Rmd`.
 
 ```
 bibliography: [<nome-do-capitulo-1>/refs.bib, <nome-do-capitulo-2>/refs.bib]
 ```
 
-A figura a seguir indica a sintaxe usada para fazer as referÍncias
-diretas e entre parÍnteses ao final de par·grafos. A sintaxe È preceder
-o nome da referÍncia com o `@`.
+A figura a seguir indica a sintaxe usada para fazer as refer√™ncias
+diretas e entre par√™nteses ao final de par√°grafos. A sintaxe √© preceder
+o nome da refer√™ncia com o `@`.
 
 ![](./img/referencias.png)
