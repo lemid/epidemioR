@@ -257,3 +257,72 @@ diretas e entre parênteses ao final de parágrafos. A sintaxe é preceder
 o nome da referência com o `@`.
 
 ![](./img/referencias.png)
+
+### Dicas adicionais para referências
+
+Algumas dicas adicionais sobre referências são:
+
+  1. **Itálico para nomes científicos**: Para que nomes científicos
+     estejam em itálico no título de artigos, por exemplo, tem-se que
+     indicar da seguinte forma:
+
+        title = {Desenvolvimento da soja ({\it Glycine Max})}
+  2. **Maiúsculo para nomes próprios e siglas**: Nomes próprios e siglas
+     precisam ser protegidos para não serem passados para caixa baixa na
+     hora de gerar as referências. Então usa-se chaves conforme indicado
+     abaixo:
+
+        title = {Caracterização de isolados do {Cerrado} do {Brasil}}
+        title = {Uso da abordagem {AMMI} para análise de experimentos}
+  3. **Substituir caracteres acentuados**: Pode ser que seja necessário
+     substituir caracteres acentuados por suas formas equivalentes. O
+     protótipo abaixo indica como fazer para acentos agudos,
+     circunflexos, tils e cedilha.
+
+        title = {An{\' alise} da resist{\^ e}ncia {\` a} penetra{\c c}{\~ a}o do solo}
+     No caso de ter que converter um arquivo grande, pode-se usar o
+     serviço web
+     <http://w2.syronex.com/jmr/latex-symbols-converter>. Basta colar o
+     texto e clicar em converter.
+
+### Molduras de imagens para pranchas
+
+![](./img/FotoJet.jpg)
+
+Para esse projeto será frequente a confecção de pranchas (foto grid ou
+foto colagens) para apresentar sintomas das doenças, etc. Com a
+finalidade de facilitar e também padronizar as pranchas, recomenda-se
+que sejam feitas com alguns dos serviços web abaixo.
+
+  1. <https://www.fotojet.com/features/photo-collage/photo-grid.html>.
+  2. <https://www.befunky.com/pt/criar/colagem/>.
+  3. <https://www.fotor.com/app.html>.
+
+Algumas orientações adicionais são:
+
+  * Usar aspectos 1:1, 3:4 ou 16:9 para as imagens, escolhendo destes
+    aquele que melhor acomodar as imagens.
+  * Usar bordas brancas sem cantos arredondados. Procurar manter sempre
+    a mesma espessura para a borda. A foto mostrada acima usou 15% para
+    *spacing* e foi feita no FotoJet.
+  * Baixar a imagem como arquivo PNG.
+
+### Codificação de caracteres (encoding)
+
+Um projeto em bookdown como este precisa que todos os arquivos tenham a
+codificação de caracteres UTF-8. Arquivo gerados no Windows geralmente
+estão sob a codificação ISO-8859-1, também chamada de Latin1. Para
+converter um arquivo de ISO-8859-1 para UTF-8 pode-se usar o Git Bash:
+
+  1. Abra o Git Bash no diretório em que está o arquivo a ser
+     convertido, indicado genericamente por `arquivo.abc`.
+  2. No terminal execute: `file -b arquivo.abc`. Essa instrução apenas
+     irá exibir a condificação de caracteres do arquivo. Se aparecer
+     `ISO-8859-1` ou algo do tipo para o arquivo, então é a codificação
+     dele.
+  3. No terminal execute `iconv -f iso-8859-1 -t utf-8 arquivo.abc >
+     arquivo2.abc` para criar uma cópia em codificação UTF-8.
+  4. Delete o arquivo com codificação ISO-8859-1 e renomeie o que está
+     com UTF-8 para `arquivo.abc`.
+
+Isso pode ser feito no RStudio com `File > Save with Encoding...`.
