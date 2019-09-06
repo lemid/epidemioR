@@ -6,3 +6,4 @@ _bookdown_files
 rsconnect
 *.log
 *.tex
+*.db
