@@ -18,16 +18,16 @@ site: bookdown::bookdown_site
 # output: bookdown::gitbook
 # --- LaTeX ------------------------------------------------------------
 documentclass: book
-# graphics é necessário quando uma template.
+# `graphics: yes` é necessário quando usa template para latex.
 graphics: yes
-# papersize: a5
+papersize: a4
 # fontsize: 9pt
 # geometry: 'margin=1in'
-geometry: [left = 2.5cm, right = 2cm, top = 2cm, bottom = 1.5cm]
-biblio-style: apalike
+geometry: [left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm]
+biblio-style: abbrvnat # É para `natbib`.
 link-citations: yes
 colorlinks: true
-capas: config/capas.tex
+capa-pdf: config/frontcover.pdf
 complement: >
   \begin{flushleft}
   Laboratório de Estatística e Geoinformação (LEG)\\
@@ -63,10 +63,12 @@ cat(img, "\n")
 
 \
 
+`r ifelse(isOutput("html"), "", "<!--")`
 **Atenção**: Este material está em contínuo desenvolvimento. Sugestões,
 contribuições e críticas são bem vindas. Apenas use os conjuntos de
 dados disponíveis nesse material com expressa permissão dos
 pesquisadores responsáveis.
+`r ifelse(isOutput("html"), "", "-->")`
 
 # Apresentação {-}
 

@@ -66,3 +66,20 @@ bookdown::gitbook:
       # instapper: yes
       # vk: yes
       # all: ['facebook', 'google', 'twitter', 'weibo', 'instapaper']
+
+# ---- LaTeX/PDF ----
+# IMPORTANT: Fazer `$ pdflatex epidemio.tex`.
+bookdown::pdf_book:
+  keep_tex: yes
+  highlight: haddock
+  citation_package: natbib
+  # citation_package: biblatex
+  # usar xelatex dá merda!
+  # latex_engine: xelatex
+  dev: "cairo_pdf"
+  includes:
+    in_header: config/latex-preamble.tex
+    # before_body: config/latex-before-body.tex
+    # after_body: config/latex-after-body.tex
+  template: config/latex-template.tex
+  # template: /usr/lib/R/site-library/rmarkdown/rmd/latex/default-1.17.0.2.tex
