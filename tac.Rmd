@@ -1,5 +1,9 @@
 # Antracnose do Caquizeiro
 
+```{r, echo = FALSE, results = "asis"}
+chapter_authors(c("Thiago de Aguiar Carraro", "Paulo dos Santos Faria Lichtemberg", "Walmes Marques Zeviani", "Louise Larissa May De Mio"))
+```
+
 O caqui (*Diospyros kaki*) é uma fruta de alto valor nutricional e se aclimata muito bem em regiões de clima temperado e subtropical. O Brasil, é o quinto maior produtor e sua produção está concentrada nos estados de São Paulo, Rio Grande do Sul, Paraná e Minas Gerais [@FAO]. Nos últimos anos, a produção de caqui vem sofrendo uma grande queda da produção, decorrente em parte, da antracnose.
 
 A antracnose, causada por *Colletotrichum* spp., é uma doença severa que pode infectar ramos, folhas e frutos, ocasionando sérios danos aos produtores, devido a queda prematura dos frutos. O principal agente causal é o fungo *Colletotrichum horii*, entretanto recentemente foram relatadas outras espécies patôgenicas ao caquizeiro [@MAYDEMIO2015; @BLOOD2015]. As espécies *C. fructicola*, *C. nymphaeae* e *C. melonis* foram relatadas também como causadores de antracnose em caquizeiro no Brasil [@Carraro2019] (Figura \@ref(fig:prancha-1)).
