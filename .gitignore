@@ -4,6 +4,15 @@ _book/*
 .RData
 _bookdown_files
 rsconnect
+
 *.log
-*.tex
 *.db
+*.aux
+*.idx
+*.toc
+*.out
+*.bbl
+
+epidemioR.Rmd
+epidemioR.pdf
+epidemioR.tex
