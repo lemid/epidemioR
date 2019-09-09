@@ -28,6 +28,7 @@ geometry: [inner = 4cm, outer = 3cm, top = 3cm, bottom = 3cm]
 #biblio-style: abbrvnat             # citation_package: natbib.
 biblio-style: config/TeseESALQ.bst # citation_package: natbib.
 #biblio-style: authoryear, backend=biber, bibencoding=utf8 # citation_package: biblatex.
+#biblio-style: abnt, backend=biber, bibencoding=utf8 # citation_package: biblatex.
 link-citations: yes
 colorlinks: true
 capa-pdf: config/frontcover.pdf
