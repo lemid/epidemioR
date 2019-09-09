@@ -1,8 +1,10 @@
-_book/*
+_book/
+_bookdown_files/
+
 .Rproj.user
 .Rhistory
 .RData
-_bookdown_files
+
 rsconnect
 
 *.bak
@@ -13,6 +15,9 @@ rsconnect
 *.toc
 *.out
 *.bbl
+*.bcf
+*.blg
+*.run.xml
 
 epidemioR.Rmd
 epidemioR.pdf
