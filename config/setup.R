@@ -4,6 +4,7 @@ opts_chunk$set(cache = FALSE,
                warning = FALSE,
                fig.width = 7,
                fig.height = 4.32,
+               out.width = "100%",
                fig.align = "center",
                eval.after= "fig.cap",
                #dpi = 96,
@@ -33,8 +34,10 @@ chapter_authors <- function(authors = c("Louise Larissa May De Mio",
     }
     if (knitr::is_latex_output()) {
         a <- paste("\\begin{flushright}",
-                   paste(authors, collapse = "\\newline\n"),
-                   "\\end{flushright}\n", sep = "\n")
+                   paste(authors, collapse = "\\\\\n"),
+                   "\\end{flushright}\n\\vspace{2em}", sep = "\n")
+        # ATTENTION: Pacote latex fancyhdr precisa ser chamado.
+        cat("\\pagestyle{fancy}")
         cat(a)
     }
 }

@@ -1,1 +1,1 @@
-# Referências Bibliográficas {-}
+`r if (knitr:::is_html_output()) '# Referências Bibliográficas {-}'`
