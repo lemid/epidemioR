@@ -205,15 +205,17 @@ ou pacotes abaixo.
   2. DOI/ISBN/URL para Bibtex:
      <http://doi-to-bibtex-converter.herokuapp.com/> e
      <http://doi-to-bibtex.herokuapp.com/>.
-  4. ISBN para BibTeX:
+  3. ISBN para BibTeX:
      <https://manas.tungare.name/software/isbn-to-bibtex>.
-  5. ISBN para BibTeX: <https://www.ottobib.com/>.
-  6. ISBN para BibTex: <https://www.xarg.org/tools/isbn-to-bibtex/>.
-  7. Título para BibTeX: <http://www.bibme.org/bibtex/journal-citation>.
-  8. Estrutura para BibTeX a partir da referência formatada:
+  4. ISBN para BibTeX: <https://www.ottobib.com/>.
+  5. ISBN para BibTex: <https://www.xarg.org/tools/isbn-to-bibtex/>.
+  6. Título para BibTeX: <http://www.bibme.org/bibtex/journal-citation>.
+  7. Estrutura para BibTeX a partir da referência formatada:
      <https://anystyle.io/>.
-  9. Serviço para preencher campos manualmente e criar BibTeX:
+  8. Serviço para preencher campos manualmente e criar BibTeX:
      <https://truben.no/latex/bibtex/>.
+  9. Zotero · serviço para preencher campos manualmente e criar BibTeX:
+     <https://zbib.org/>.
   10. DOI para BibTeX com Python (`urllib`):
       <https://scipython.com/blog/doi-to-bibtex/>.
   11. Completa/henriquece referências BibTeX:
@@ -234,6 +236,9 @@ ou pacotes abaixo.
          tabelas resumo de referências e visualizações.
   14. O software [JabRef](http://www.jabref.org/) possui recurso de
       importação por DOI, ISBN e outros identificadores únicos.
+  15. Consulte esse guia rápido sobre os tipos de documentos e campos
+      para criar as referências em BibTeX:
+      <http://paginapessoal.utfpr.edu.br/jamhour/publicacoes/arquivos/00_Compilado_JabRef_dez2015.pdf>.
 
 O [Mendeley](https://www.mendeley.com/) também exporta referências para
 BibTeX. Selecionando várias referências, pode-se, com o botão direito do
