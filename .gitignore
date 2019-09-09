@@ -5,6 +5,7 @@ _book/*
 _bookdown_files
 rsconnect
 
+*.bak
 *.log
 *.db
 *.aux

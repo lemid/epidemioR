@@ -97,6 +97,9 @@ $endfor$
 $endif$
 $if(natbib)$
 \usepackage{natbib}
+   \bibpunct{(}{)}{;}{a}{,}{,}       % opções que definem estilo
+   \setlength{\bibhang}{0em}         % indentação da referência
+   \setlength{\bibsep}{2em}          % espaçamento vertical entre as citações
 \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
 $endif$
 $if(biblatex)$

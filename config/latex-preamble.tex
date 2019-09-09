@@ -1,4 +1,4 @@
-%---- config/preamble.tex
+%---- config/preamble.tex ----------------------------------------------
 
 \usepackage[brazil]{babel}
 \usepackage{mathpazo}
@@ -15,15 +15,44 @@
 % http://linorg.usp.br/CTAN/fonts/fontawesome/doc/fontawesome.pdf
 \usepackage{fontawesome}
 
+%--------------------------------------------
+
+\usepackage{fancyhdr}
+
+% \pagestyle{fancy}
+% \pagestyle{fancy}
+% \addtolength{\headsep}{25pt}
+\setlength{\headheight}{18pt}
+% \setlength{\footheight}{24.0pt}
+\fancyhead{}
+% \fancyhead[LE,RO]{\thepage}
+% \fancyhead[LE]{\footnotesize{\thepage \hfill \scshape\nouppercase{\leftmark}}}
+\fancyhead[LE]{\footnotesize{\thepage \hfill \scshape\nouppercase{Capítulo \thechapter}}}
+% \fancyhead[RE]{\scriptsize\leftmark}
+% \fancyhead[RO]{\footnotesize{\scshape\nouppercase{\rightmark}} \hfill \thepage}
+\fancyhead[RO]{\footnotesize{\thesection \hfill \thepage}}
+% \fancyhead[LO]{\scriptsize\rightmark}
+\fancyfoot{}
+% \fancyfoot[RE, LO]{www.leg.ufpr.br/wpde2013}
+\fancyfoot[LO]{\footnotesize{\textbf{epidemioR}: epidemiologia de doenças de plantas aplicada com R}}
+\fancyfoot[LE]{{\footnotesize \it lemid.github.io/epidemioR}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage[Lenny]{fncychap}
+\ChNameVar{\Large}
+\ChNumVar{\Huge\itshape}
+\ChTitleVar{\huge}
+
+\pagestyle{empty}
+% TODO: definir '\pagestyle{fancy}' no Rmd do primeiro capítulo.
+% ATTENTION: '\pagestyle{fancy}' está sendo adicionado pela função
+% `author_chapters()` definida em `setup.R`.
+
+%--------------------------------------------
+
 \usepackage{makeidx}
 \makeindex
-
-%\usepackage{fancyhdr}
-%\pagestyle{fancy}
-%\fancyhf{}
-%\fancyhead[LE,RO]{\thepage}
-%\fancyhead[RE]{\scriptsize\leftmark}
-%\fancyhead[LO]{\scriptsize\rightmark}
 
 \renewcommand{\labelitemi}{\raisebox{0.25ex}{\footnotesize $\blacktriangleright$}}
 \renewcommand{\labelitemii}{\raisebox{0.25ex}{\footnotesize $\blacktriangleright$}}
@@ -52,4 +81,4 @@
 %\captionsetup[table]{skip=0pt, singlelinecheck=off}
 %\LTcapwidth=5.65in
 
-%---- config/preamble.tex
+%---- config/preamble.tex ----------------------------------------------
