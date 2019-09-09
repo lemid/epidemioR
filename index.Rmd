@@ -67,10 +67,12 @@ cat(img, "\n")
 \
 
 `r ifelse(isOutput("html"), "", "<!--")`
-**Atenção**: Este material está em contínuo desenvolvimento. Sugestões,
-contribuições e críticas são bem vindas. Apenas use os conjuntos de
-dados disponíveis nesse material com expressa permissão dos
-pesquisadores responsáveis.
+<p style="text-indent: 0em;">
+  <strong>Atenção</strong>: Este material está em contínuo
+  desenvolvimento. Sugestões, contribuições e críticas são bem
+  vindas. Apenas use os conjuntos de dados disponíveis nesse material
+  com expressa permissão dos pesquisadores responsáveis.
+</p>
 `r ifelse(isOutput("html"), "", "-->")`
 
 # Apresentação {-}
