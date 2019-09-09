@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Antracnose do Caquizeiro | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R</title>
+  <meta name="description" content="Capítulo 3 Antracnose do Caquizeiro | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Antracnose do Caquizeiro | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Capítulo 3 Antracnose do Caquizeiro | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta name="github-repo" content="lemid/epidemioR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Antracnose do Caquizeiro | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  
+  <meta name="twitter:description" content="Capítulo 3 Antracnose do Caquizeiro | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html">
+<link rel="next" href="motivacao-1.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<link href="libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="libs/font-awesome-5.1.0/fonts/fontawesome-webfont.ttf"/>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     "HTML-CSS": {
+         scale: 85,
+         availableFonts: ["TeX"],
+     },
+     "TeX": {
+         extensions: ["color.js"]
+     }
+ });
+</script>
+<style>
+ span.inline span.mjx-chtml {
+     font-size: 110% !important;
+ }
+</style>
+
+
+
+<link rel="stylesheet" href="config/gb-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<center style="margin: 1em;">
+  <img src="./config/frontcover.png" width="180px" style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.6);"/>
+  <br/>
+  <br/>
+  <a href="./index.html" style="font-weight: bold; font-size: larger;">
+    epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R
+  </a>
+  <br>
+  <br>
+  <a href="http://leg.ufpr.br/~walmes" target="_blank">
+    Walmes Marques Zeviani
+  </a>
+  <br>
+  <a href="http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/" target="_blank">
+    Louise Larissa May De Mio
+  </a>
+  <br>
+  <p style="font-size: 75%">Editores</p>
+  <br>
+  <!--
+  <span style="font-weight: bold; font-size: smaller;">
+    <a href="http://www.lemid.ufpr.br/" target="_blank">
+       Laboratório de Epidemiologia para Manejo Integrado de Doenças de Plantas
+    </a>
+    <br>
+    <a href="http://leg.ufpr.br" target="_blank">
+      Laboratório de Estatística e Geoinformação
+    </a>
+  </span>
+  <br>
+  <br>
+  -->
+  <span style="font-weight: bold; font-size: smaller;">
+    <a href="http://www.ufpr.br" target="_blank">
+      Universidade Federal do Paraná
+    </a>
+  </span>
+</center>
+
+<li class="divider"></li>
+<li><a href="index.html#section"></a></li>
+<li class="chapter" data-level="" data-path="apresentacao.html"><a href="apresentacao.html"><i class="fa fa-check"></i>Apresentação</a></li>
+<li class="chapter" data-level="1" data-path="analise-de-sobrevivencia.html"><a href="analise-de-sobrevivencia.html"><i class="fa fa-check"></i><b>1</b> Análise de sobrevivência</a><ul>
+<li class="chapter" data-level="1.1" data-path="analise-de-sobrevivencia.html"><a href="analise-de-sobrevivencia.html#introducao"><i class="fa fa-check"></i><b>1.1</b> Introdução</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><i class="fa fa-check"></i><b>2</b> Germinação de ascósporos e conídios e Monociclo em frutos</a><ul>
+<li class="chapter" data-level="2.1" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#motivacao"><i class="fa fa-check"></i><b>2.1</b> Motivação</a></li>
+<li class="chapter" data-level="2.2" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#germinacao-de-conidios-e-ascosporos"><i class="fa fa-check"></i><b>2.2</b> Germinação de conídios e ascósporos</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="antracnose-do-caquizeiro.html"><a href="antracnose-do-caquizeiro.html"><i class="fa fa-check"></i><b>3</b> Antracnose do Caquizeiro</a><ul>
+<li class="chapter" data-level="3.1" data-path="antracnose-do-caquizeiro.html"><a href="antracnose-do-caquizeiro.html#metodologias-para-monitoramento-da-sensibilidade-do-fungo-a-fungicidas-in-vitro-e-ensaio-para-teste-de-eficiencia-dos-fungicidas-ex-vivo"><i class="fa fa-check"></i><b>3.1</b> Metodologias para monitoramento da sensibilidade do fungo à fungicidas (<em>in vitro</em>) e Ensaio para teste de eficiência dos fungicidas (<em>ex vivo</em>)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="motivacao-1.html"><a href="motivacao-1.html"><i class="fa fa-check"></i><b>4</b> Motivação</a><ul>
+<li class="chapter" data-level="4.1" data-path="motivacao-1.html"><a href="motivacao-1.html#phakopsora-pachyrizi"><i class="fa fa-check"></i><b>4.1</b> Phakopsora pachyrizi</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias-bibliograficas.html"><a href="referencias-bibliograficas.html"><i class="fa fa-check"></i>Referências Bibliográficas</a></li>
+<li class="divider"></li>
+<li>
+  <a href="https://bookdown.org/" target="_blank">
+    Produzido com Bookdown
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lemid/epidemioR" target="_blank">
+    Disponível no GitHub
+  </a>
+</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="antracnose-do-caquizeiro" class="section level1">
+<h1><span class="header-section-number">Capítulo 3</span> Antracnose do Caquizeiro</h1>
+<div class="chapterauthors">
+<p>Thiago de Aguiar Carraro<br> Paulo dos Santos Faria Lichtemberg<br> Walmes Marques Zeviani<br> Louise Larissa May De Mio</p>
+</div>
+<p>O caqui (<em>Diospyros kaki</em>) é uma fruta de alto valor nutricional e se aclimata muito bem em regiões de clima temperado e subtropical. O Brasil, é o quinto maior produtor e sua produção está concentrada nos estados de São Paulo, Rio Grande do Sul, Paraná e Minas Gerais <span class="citation">(ORGANIZAÇÃO DAS NAÇÕES UNIDAS PARA A ALIMENTAÇÃO E A AGRICULTURA, <a href="#ref-fao2017">2017</a>)</span>. Nos últimos anos, a produção de caqui vem sofrendo uma grande queda da produção, decorrente em parte, da antracnose.</p>
+<p>A antracnose, causada por <em>Colletotrichum</em> spp., é uma doença severa que pode infectar ramos, folhas e frutos, ocasionando sérios danos aos produtores, devido a queda prematura dos frutos. O principal agente causal é o fungo <em>Colletotrichum horii</em>, entretanto recentemente foram relatadas outras espécies patôgenicas ao caquizeiro <span class="citation">(MAY DE MIO et al., <a href="#ref-maydemio2015">2015</a>; BLOOD et al., <a href="#ref-blood2015">2015</a>)</span>. As espécies <em>C. fructicola</em>, <em>C. nymphaeae</em> e <em>C. melonis</em> foram relatadas também como causadores de antracnose em caquizeiro no Brasil <span class="citation">(CARRARO et al., <a href="#ref-carraro2019">2019</a>)</span> (Figura <a href="antracnose-do-caquizeiro.html#fig:prancha-1">3.1</a>).</p>
+
+<div class="figure" style="text-align: center"><span id="fig:prancha-1"></span>
+<img src="tac/prancha_1.jpg" alt="Lesões necróticas, deprimidas, escuras e circulares em frutos imaturos (massa de conídios em detalhe) (A) e maduros (B) de caquizeiro. Lesões de antracnose (C) e esporulação em ramos jovens (D) e em folhas (E). Queda prematura dos frutos (F)" width="100%" />
+<p class="caption">
+Figura 3.1: Lesões necróticas, deprimidas, escuras e circulares em frutos imaturos (massa de conídios em detalhe) (A) e maduros (B) de caquizeiro. Lesões de antracnose (C) e esporulação em ramos jovens (D) e em folhas (E). Queda prematura dos frutos (F)
+</p>
+</div>
+<p>O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém para o caquizeiro tem-se poucos produtos registrados no Brasil, dentre estes produtos mais de 60% apresentam riscos de médio a alto para o desenvolvimento de resistências do fungo à fungicidas (DMI e QoI) e, consequentemente podem resultar em uma perda da eficiência em campo, caso os mesmos não sejam adequadamente manejados. Para adotar estratégias de controle eficientes ao longo das safras é necessário que seja realizado o monitoramento da sensibilidade do fungo aos fungicidas.</p>
+<p>Em estudos iniciais de monitoramento da sensibilidade de <em>Colletotrichum</em> spp. aos fungicidas registrados para o caquizeiro, foi observado uma sensibilidade alterada para os ingredientes ativos dos grupos QoI e DMI, os quais ainda nem estão registrados para antracnose, apenas para cercosporiose. Além disso, na coleção de isolados de <em>Colletotrichum</em> spp. do LEMID, obtido de caquizeiro, foi observada diferenças na eficiência dos fungicidas em relação às espécies relatadas, o que implicará no manejo dependendo da espécie preponderante em cada região (dados ainda não publicados). Estes resultados demonstram a importância dos programas de pulverizações considerando sensibilidade inerente e eficiência dos fungicidas. Somado a isso, o manejo de número de aplicações por safra alternando grupos químicos e incluindo fungicidas de amplo espectro são importantes para evitar sobreposição de populações menos sensíveis, o que dificultará no manejo da doença.</p>
+<div id="metodologias-para-monitoramento-da-sensibilidade-do-fungo-a-fungicidas-in-vitro-e-ensaio-para-teste-de-eficiencia-dos-fungicidas-ex-vivo" class="section level2">
+<h2><span class="header-section-number">3.1</span> Metodologias para monitoramento da sensibilidade do fungo à fungicidas (<em>in vitro</em>) e Ensaio para teste de eficiência dos fungicidas (<em>ex vivo</em>)</h2>
+<p>A alteração da sensibilidade do fungo a um fungicida pode ser monitorada <em>in vitro</em> antes que ocorra uma falha no controle da doença em campo <span class="citation">(YUAN et al., <a href="#ref-yuan2013">2013</a>)</span>. Diante disso, ensaios de CE<sub>50</sub> e de dose discriminatória são importantes para observação dessa mudança de sensibilidade. A CE<sub>50</sub> mostra curvas de dose-resposta que são possíveis estimar a concentração efetiva capaz de inibir 50% do diâmetro micelial ou da germinação dos esporos do fungo e , com os valores de CE<sub>50</sub> de diferentes isolados e de diferentes anos é possível comparar se esta ocorrendo uma mudança de sensibilidade, assim possibilitará adotar estatrégias para o controle da doença <span class="citation">(FÖRSTER et al., <a href="#ref-forster2004">2004</a>)</span>.</p>
+<p>O método da dose discriminatória é muito utilizado pela sua praticidade e rapidez em obtenção de uma resposta exploratória da sensibilidade de uma população de isolados, devido a redução de unidades experimentais <span class="citation">(LICHTEMBERG et al., <a href="#ref-lichtemberg2016">2016</a>)</span>. Este método inclui o uso de uma única dose que pode determinar se um isolado é resistente ou sensível <span class="citation">(RUSSELL, <a href="#ref-russell">2004</a>)</span>.</p>
+<p>Os experimentos de dose-resposta por avaliação de diâmetro micelial ou germinação dos esporos são geralmente realizados em diferentes placas de Petri contendo diferentes concentrações de fungicidas difusos no meio de cultura. Há variações das técnicas, como a diluição em gradiente espiral, na qual <em>M. fructicola</em> foi um dos patógenos utilizados para validar o método com diferentes fungicidas: diclorana, fludioxonil, fenehexamida e tebuconazol <span class="citation">(FÖRSTER et al., <a href="#ref-forster2004">2004</a>)</span>. Para esse método, diferentes concentrações de fungicidas são distribuídas em espiral numa mesma placa formando um gradiente de concentrações, no qual no centro há as maiores concentrações e nos bordos as menores. Esporos do patógeno são incubados em tiras de palito de madeira autoclavados ou em meio de cultura e, quando apresentarem crescimento micelial uniforme, essas tiras são transferidas para as placas com e sem fungicida, de forma que o fungo esteja em contato com todas as diferentes concentrações. Comparando com o crescimento do fungo a partir da tira no meio sem fungicida, com esta técnica é possível determinar a concentração efetiva capaz de inibir 50% do diâmetro micelial de uma forma mais rápida, econômica e precisa <span class="citation">(FÖRSTER et al., <a href="#ref-forster2004">2004</a>; AMIRI et al., <a href="#ref-amiri2014">2014</a>)</span>.</p>
+<p>Além desses métodos, ensaios <em>ex vivo</em> são também muito relevantes para determinar se esta ocorrendo um resistência prática, ou seja, quando ocorre uma falha do controle da doença em campo <span class="citation">(GHINI; KIMATI, <a href="#ref-ghinirekimatih2000">2000</a>)</span>. Estes testes podem ser realizados com plantas ou partes vegetais destacados, o qual serão tratados com a concentração recomendada para o produtor.</p>
+
+</div>
+</div>
+<h3>Referências Bibliográficas</h3>
+<div id="refs" class="references">
+<div id="ref-amiri2014">
+<p>AMIRI, A.; HEATH, S. M.; PERES, N. A. Resistance to fluopyram, fluxapyroxad, and penthiopyrad in <em>Botrytis cinerea</em> from strawberry. <strong>Plant Disease</strong>, v. 98, n. 4, p. 532–539, 2014. Scientific Societies. Disponível em: &lt;<a href="https://doi.org/10.1094/pdis-07-13-0753-re" class="uri">https://doi.org/10.1094/pdis-07-13-0753-re</a>&gt;..</p>
+</div>
+<div id="ref-blood2015">
+<p>BLOOD, R. R. Y.; ROZWALKA, L. C.; MAY DE MIO, L. L. Antracnose do caquizeiro causada por <em>Colletotrichum horii</em>: Incid^ encia em ramos, folhas, flores e frutos em campo. <strong>Revista Brasileira de Fruticultura</strong>, v. 37, n. 2, p. 335–345, 2015. FapUNIFESP (SciELO). Disponível em: &lt;<a href="https://doi.org/10.1590/0100-2945-108/14" class="uri">https://doi.org/10.1590/0100-2945-108/14</a>&gt;..</p>
+</div>
+<div id="ref-carraro2019">
+<p>CARRARO, T. A.; LICHTEMBERG, P. S. F.; MICHAILIDES, T. J.; et al. First report of <em>Colletotrichum fructicola</em>, <em>C. nymphaeae</em>, and <em>C. melonis</em> causing persimmon anthracnose in Brazil. <strong>Plant Disease</strong>, p. PDIS–12–18–2241, 2019. Scientific Societies. Disponível em: &lt;<a href="https://doi.org/10.1094/pdis-12-18-2241-pdn" class="uri">https://doi.org/10.1094/pdis-12-18-2241-pdn</a>&gt;..</p>
+</div>
+<div id="ref-forster2004">
+<p>FÖRSTER, H.; KANETIS, L.; ADASKAVEG, J. E. Spiral gradient dilution, a rapid method for determining growth responses and 50% effective concentration values in fungus-fungicide interactions. <strong>Phytopathology</strong>, v. 94, n. 2, p. 163–170, 2004. Scientific Societies. Disponível em: &lt;<a href="https://doi.org/10.1094/phyto.2004.94.2.163" class="uri">https://doi.org/10.1094/phyto.2004.94.2.163</a>&gt;..</p>
+</div>
+<div id="ref-ghinirekimatih2000">
+<p>GHINI, R.; KIMATI, H. Resistência de fungos a fungicidas. <strong>Embrapa Meio Ambiente</strong>, p. 78p, 2000.</p>
+</div>
+<div id="ref-lichtemberg2016">
+<p>LICHTEMBERG, P.; PRIMIANO, I.; MUEHLMANN FISCHER, J.; et al. Resistência de <em>Monilinia</em> spp. aos fungicidas dos grupos dos inibidores da desmetilação (idm), dos inibidores da quinona externa (iqe) e dos metilo benzimidazol carbamatos (mbc). In:. p.145–173, 2016. Precisa completar essa informação.</p>
+</div>
+<div id="ref-maydemio2015">
+<p>MAY DE MIO, L. L.; SILVA, F. A. DA; BLOOD, R. Y.; FIGUEIREDO, J. A. G. Twig blight and defoliation caused by <em>Colletotrichum horii</em> in persimmons in Brazil. <strong>Revista Brasileira de Fruticultura</strong>, v. 37, n. 1, p. 256–260, 2015. FapUNIFESP (SciELO). Disponível em: &lt;<a href="https://doi.org/10.1590/0100-2945-044/14" class="uri">https://doi.org/10.1590/0100-2945-044/14</a>&gt;..</p>
+</div>
+<div id="ref-fao2017">
+<p>ORGANIZAÇÃO DAS NAÇÕES UNIDAS PARA A ALIMENTAÇÃO E A AGRICULTURA. Qual o título?, 2017. Disponível em: &lt;<a href="http://www.fao.org/faostat/en/" class="uri">http://www.fao.org/faostat/en/</a>&gt;..</p>
+</div>
+<div id="ref-russell">
+<p>RUSSELL, P. E. <strong>Sensitivity baselines in fungicides resistance research and management</strong>. 3rd ed. Gog Magog House 263A Hinton Way Great Shelford Cambridge CB2 5AN, UK: FRAC Monograph, 2004.</p>
+</div>
+<div id="ref-yuan2013">
+<p>YUAN, N.-N.; CHEN, S.-N.; ZHAI, L.-X.; et al. Baseline sensitivity of <em>Monilia yunnanensis</em> to the DMI fungicides tebuconazole and triadimefon. <strong>European Journal of Plant Pathology</strong>, v. 136, n. 4, p. 651–655, 2013. Springer Science; Business Media LLC. Disponível em: &lt;<a href="https://doi.org/10.1007/s10658-013-0200-0" class="uri">https://doi.org/10.1007/s10658-013-0200-0</a>&gt;..</p>
+</div>
+</div>
+<div>
+  <hr>
+  <p class="footer" style="margin: 0 0 0 0;">
+    <strong>epidemioR</strong>: Epidemiologia de Doenças de Plantas Aplicada com R
+    <br>
+    <div style="font-size: 90%;">Universidade Federal do Paraná</div>
+  </p>
+</div>
+
+<center>
+  <img src="config/ufpr-transparent.png" width="25%" style="box-shadow: unset; margin: 2em auto 0 auto;">
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="motivacao-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lemid/epidemioR/edit/master/tac.Rmd",
+"text": "Editar"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["epidemioR.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

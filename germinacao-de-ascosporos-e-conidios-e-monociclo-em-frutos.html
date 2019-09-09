@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 2 Germinação de ascósporos e conídios e Monociclo em frutos | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R</title>
+  <meta name="description" content="Capítulo 2 Germinação de ascósporos e conídios e Monociclo em frutos | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 2 Germinação de ascósporos e conídios e Monociclo em frutos | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Capítulo 2 Germinação de ascósporos e conídios e Monociclo em frutos | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta name="github-repo" content="lemid/epidemioR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 2 Germinação de ascósporos e conídios e Monociclo em frutos | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  
+  <meta name="twitter:description" content="Capítulo 2 Germinação de ascósporos e conídios e Monociclo em frutos | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="analise-de-sobrevivencia.html">
+<link rel="next" href="antracnose-do-caquizeiro.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<link href="libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="libs/font-awesome-5.1.0/fonts/fontawesome-webfont.ttf"/>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     "HTML-CSS": {
+         scale: 85,
+         availableFonts: ["TeX"],
+     },
+     "TeX": {
+         extensions: ["color.js"]
+     }
+ });
+</script>
+<style>
+ span.inline span.mjx-chtml {
+     font-size: 110% !important;
+ }
+</style>
+
+
+
+<link rel="stylesheet" href="config/gb-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<center style="margin: 1em;">
+  <img src="./config/frontcover.png" width="180px" style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.6);"/>
+  <br/>
+  <br/>
+  <a href="./index.html" style="font-weight: bold; font-size: larger;">
+    epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R
+  </a>
+  <br>
+  <br>
+  <a href="http://leg.ufpr.br/~walmes" target="_blank">
+    Walmes Marques Zeviani
+  </a>
+  <br>
+  <a href="http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/" target="_blank">
+    Louise Larissa May De Mio
+  </a>
+  <br>
+  <p style="font-size: 75%">Editores</p>
+  <br>
+  <!--
+  <span style="font-weight: bold; font-size: smaller;">
+    <a href="http://www.lemid.ufpr.br/" target="_blank">
+       Laboratório de Epidemiologia para Manejo Integrado de Doenças de Plantas
+    </a>
+    <br>
+    <a href="http://leg.ufpr.br" target="_blank">
+      Laboratório de Estatística e Geoinformação
+    </a>
+  </span>
+  <br>
+  <br>
+  -->
+  <span style="font-weight: bold; font-size: smaller;">
+    <a href="http://www.ufpr.br" target="_blank">
+      Universidade Federal do Paraná
+    </a>
+  </span>
+</center>
+
+<li class="divider"></li>
+<li><a href="index.html#section"></a></li>
+<li class="chapter" data-level="" data-path="apresentacao.html"><a href="apresentacao.html"><i class="fa fa-check"></i>Apresentação</a></li>
+<li class="chapter" data-level="1" data-path="analise-de-sobrevivencia.html"><a href="analise-de-sobrevivencia.html"><i class="fa fa-check"></i><b>1</b> Análise de sobrevivência</a><ul>
+<li class="chapter" data-level="1.1" data-path="analise-de-sobrevivencia.html"><a href="analise-de-sobrevivencia.html#introducao"><i class="fa fa-check"></i><b>1.1</b> Introdução</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><i class="fa fa-check"></i><b>2</b> Germinação de ascósporos e conídios e Monociclo em frutos</a><ul>
+<li class="chapter" data-level="2.1" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#motivacao"><i class="fa fa-check"></i><b>2.1</b> Motivação</a></li>
+<li class="chapter" data-level="2.2" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#germinacao-de-conidios-e-ascosporos"><i class="fa fa-check"></i><b>2.2</b> Germinação de conídios e ascósporos</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="antracnose-do-caquizeiro.html"><a href="antracnose-do-caquizeiro.html"><i class="fa fa-check"></i><b>3</b> Antracnose do Caquizeiro</a><ul>
+<li class="chapter" data-level="3.1" data-path="antracnose-do-caquizeiro.html"><a href="antracnose-do-caquizeiro.html#metodologias-para-monitoramento-da-sensibilidade-do-fungo-a-fungicidas-in-vitro-e-ensaio-para-teste-de-eficiencia-dos-fungicidas-ex-vivo"><i class="fa fa-check"></i><b>3.1</b> Metodologias para monitoramento da sensibilidade do fungo à fungicidas (<em>in vitro</em>) e Ensaio para teste de eficiência dos fungicidas (<em>ex vivo</em>)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="motivacao-1.html"><a href="motivacao-1.html"><i class="fa fa-check"></i><b>4</b> Motivação</a><ul>
+<li class="chapter" data-level="4.1" data-path="motivacao-1.html"><a href="motivacao-1.html#phakopsora-pachyrizi"><i class="fa fa-check"></i><b>4.1</b> Phakopsora pachyrizi</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias-bibliograficas.html"><a href="referencias-bibliograficas.html"><i class="fa fa-check"></i>Referências Bibliográficas</a></li>
+<li class="divider"></li>
+<li>
+  <a href="https://bookdown.org/" target="_blank">
+    Produzido com Bookdown
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lemid/epidemioR" target="_blank">
+    Disponível no GitHub
+  </a>
+</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos" class="section level1">
+<h1><span class="header-section-number">Capítulo 2</span> Germinação de ascósporos e conídios e Monociclo em frutos</h1>
+<div id="motivacao" class="section level2">
+<h2><span class="header-section-number">2.1</span> Motivação</h2>
+<p>O Cancro Europeu das Pomáceas e Podridão de frutos causados por <em>Neonectria ditissima</em> ocorre em regiões produtoras de maçãs (<em>Malus domestica</em> Borkh.) do mundo todo, como Europa, América do Norte, Chile, Austrália, Nova Zelândia, Japão e África do Sul <span class="citation">(BERESFORD; KIM, <a href="#ref-Beresford2011">2011</a>)</span>. Detectada no Brasil em 2002, se destaca entre as doenças que vêm causando grandes perdas na cadeia produtiva da macieira. A doença afeta os ramos e o tronco principal da planta causando sintoma de cancro, enquanto em frutos causa podridão mole (Figura <a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#fig:prancha01">2.1</a>). A podridão de Neonectria em frutos de maçã ocorre na maioria das áreas produtoras do mundo, e no Brasil sua elevada incidência pode ser explicada pelas condições climáticas mais favoráveis e/ou pela maior quantidade de inóculo nos pomares, devido à falta de experiência no manejo <span class="citation">(ALVES; CZERMAINSKI, <a href="#ref-EmbrapaCancro2015">2015</a>)</span>.</p>
+
+<div class="figure" style="text-align: center"><span id="fig:prancha01"></span>
+<img src="jhulia/prancha01.jpg" alt="Sintomas de Cancro Europeu em macieira (esq.) e de podridão de Neonectria em fruto (dir.) em cultivar Gala." width="100%" />
+<p class="caption">
+Figura 2.1: Sintomas de Cancro Europeu em macieira (esq.) e de podridão de Neonectria em fruto (dir.) em cultivar Gala.
+</p>
+</div>
+<p>O fungo produz dois tipos de esporos, sendo os ascósporos produzidos sexuadamente em peritécios e os conídios produzidos assexuadamente em esporodóquios (Figura <a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#fig:prancha02">2.2</a>). Os dados disponíveis sobre as taxas de germinação de ascósporos em diferentes temperaturas vão até um período de oito horas <span class="citation">(LATORRE et al., <a href="#ref-Latorre2002">2002</a>)</span> e devem ser complementados. A comparação entre a germinação de ascósporos e conídios em diferentes temperaturas e períodos de incubação é relevante para a predição de riscos de acordo com o esporo predominante no pomar.</p>
+
+<div class="figure" style="text-align: center"><span id="fig:prancha02"></span>
+<img src="jhulia/prancha02.jpg" alt="Esporodóquio produzindo conídios (esq.) e peritécios produzindo ascósporos (dir.) de Neonectria ditissima." width="100%" />
+<p class="caption">
+Figura 2.2: Esporodóquio produzindo conídios (esq.) e peritécios produzindo ascósporos (dir.) de <em>Neonectria ditissima</em>.
+</p>
+</div>
+<p>Embora <em>N. ditissima</em> seja mais comumente descrito como patógeno da macieira, a pera (<em>Pyrus communis</em> L.) também é hospedeira <span class="citation">(FLACK; SWINBURNE, <a href="#ref-Flack1977">1977</a>)</span> e, ocasionalmente, os pomares de pera apresentam alta incidência da doença <span class="citation">(WEBER, <a href="#ref-Weber2014">2014</a>)</span>. Os pomares de pera são comumente plantados próximos aos pomares de maçã devido à semelhança entre os requisitos de horas de frio e tratamentos culturais, o que pode representar risco caso a doença chegue aos pomares de pereira e estes sejam suscetíveis. Não há nenhum relato científico recente sobre a podridão de frutos por Neonectria sobre pera, e o monociclo da doença nesse fruto nunca foi elucidado.</p>
+<p>Esse capítulo objetivou a elucidação e comparação de modelos polinomial e beta-monomolecular para avaliação de dados de germinação de conídios e ascósporos em diferentes temperaturas e períodos de molhamento, bem como descrever equações que descrevam o comportamento do monociclo da podridão de Neonectria em frutos de pera e maçã.</p>
+</div>
+<div id="germinacao-de-conidios-e-ascosporos" class="section level2">
+<h2><span class="header-section-number">2.2</span> Germinação de conídios e ascósporos</h2>
+<p>Temperaturas de 12 a 35 graus com períodos de incubação de 3 a 60 horas.</p>
+<p>A Tabela <a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#tab:germinacao-neonectria-ditissima">2.1</a> descreve como os dados da germinação de <em>Neonectria ditissima</em> foram tabulados.</p>
+
+<table>
+<caption><span id="tab:germinacao-neonectria-ditissima">Tabela 2.1: </span>Descrição do tipo de esporo (ascósporo ou conídio), temperatura (°C), período de incubação (h) e germinação (%).</caption>
+<thead>
+<tr class="header">
+<th align="center">Sepal.Length</th>
+<th align="center">Sepal.Width</th>
+<th align="center">Petal.Length</th>
+<th align="center">Petal.Width</th>
+<th align="center">Species</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">0.4</td>
+<td align="center">setosa</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<h3>Referências Bibliográficas</h3>
+<div id="refs" class="references">
+<div id="ref-EmbrapaCancro2015">
+<p>ALVES, S. A. M.; CZERMAINSKI, A. B. C. <strong>Controle do Cancro Europeu das pomáceas com base no novo ciclo <em>Neonectria ditissima</em> - macieira, nas condições do Brasil</strong>. Bento Gonçalves, RS: Embrapa Uva e Vinho, 2015.</p>
+</div>
+<div id="ref-Beresford2011">
+<p>BERESFORD, R. M.; KIM, K. S. Identification of regional climatic conditions favorable for development of European Canker of Apple. <strong>Phytopathology</strong>, v. 101, n. 1, p. 135–146, 2011. Scientific Societies. Disponível em: &lt;<a href="https://doi.org/10.1094/phyto-05-10-0137" class="uri">https://doi.org/10.1094/phyto-05-10-0137</a>&gt;..</p>
+</div>
+<div id="ref-Flack1977">
+<p>FLACK, N. J.; SWINBURNE, T. R. Host range of <em>Nectria galligena</em> bres. and the pathogenicity of some Northern Ireland isolates. <strong>Transactions of the British Mycological Society</strong>, v. 68, n. 2, p. 185–192, 1977. Elsevier BV. Disponível em: &lt;<a href="https://doi.org/10.1016/s0007-1536(77)80007-7" class="uri">https://doi.org/10.1016/s0007-1536(77)80007-7</a>&gt;..</p>
+</div>
+<div id="ref-Latorre2002">
+<p>LATORRE, B. A.; RIOJA, M. E.; LILLO, C.; MUÑOZ, M. The effect of temperature and wetness duration on infection and a warning system for European Canker (<em>Nectria galligena</em>) of apple in Chile. <strong>Crop Protection</strong>, v. 21, n. 4, p. 285–291, 2002. Elsevier BV. Disponível em: &lt;<a href="https://doi.org/10.1016/s0261-2194(01)00099-0" class="uri">https://doi.org/10.1016/s0261-2194(01)00099-0</a>&gt;..</p>
+</div>
+<div id="ref-Weber2014">
+<p>WEBER, R. W. S. Biology and control of the apple canker fungus <em>Neonectria ditissima</em> (syn. <em>N. galligena</em>) from a Northwestern European perspective. <strong>Erwerbs-Obstbau</strong>, v. 56, n. 3, p. 95–107, 2014. Springer Science; Business Media LLC. Disponível em: &lt;<a href="https://doi.org/10.1007/s10341-014-0210-x" class="uri">https://doi.org/10.1007/s10341-014-0210-x</a>&gt;..</p>
+</div>
+</div>
+<div>
+  <hr>
+  <p class="footer" style="margin: 0 0 0 0;">
+    <strong>epidemioR</strong>: Epidemiologia de Doenças de Plantas Aplicada com R
+    <br>
+    <div style="font-size: 90%;">Universidade Federal do Paraná</div>
+  </p>
+</div>
+
+<center>
+  <img src="config/ufpr-transparent.png" width="25%" style="box-shadow: unset; margin: 2em auto 0 auto;">
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="analise-de-sobrevivencia.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="antracnose-do-caquizeiro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lemid/epidemioR/edit/master/jhulia.rmd",
+"text": "Editar"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["epidemioR.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

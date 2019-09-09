@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R</title>
+  <meta name="description" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta name="github-repo" content="lemid/epidemioR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  
+  <meta name="twitter:description" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="apresentacao.html">
+<link rel="next" href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<link href="libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="libs/font-awesome-5.1.0/fonts/fontawesome-webfont.ttf"/>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     "HTML-CSS": {
+         scale: 85,
+         availableFonts: ["TeX"],
+     },
+     "TeX": {
+         extensions: ["color.js"]
+     }
+ });
+</script>
+<style>
+ span.inline span.mjx-chtml {
+     font-size: 110% !important;
+ }
+</style>
+
+
+
+<link rel="stylesheet" href="config/gb-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<center style="margin: 1em;">
+  <img src="./config/frontcover.png" width="180px" style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.6);"/>
+  <br/>
+  <br/>
+  <a href="./index.html" style="font-weight: bold; font-size: larger;">
+    epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R
+  </a>
+  <br>
+  <br>
+  <a href="http://leg.ufpr.br/~walmes" target="_blank">
+    Walmes Marques Zeviani
+  </a>
+  <br>
+  <a href="http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/" target="_blank">
+    Louise Larissa May De Mio
+  </a>
+  <br>
+  <p style="font-size: 75%">Editores</p>
+  <br>
+  <!--
+  <span style="font-weight: bold; font-size: smaller;">
+    <a href="http://www.lemid.ufpr.br/" target="_blank">
+       Laboratório de Epidemiologia para Manejo Integrado de Doenças de Plantas
+    </a>
+    <br>
+    <a href="http://leg.ufpr.br" target="_blank">
+      Laboratório de Estatística e Geoinformação
+    </a>
+  </span>
+  <br>
+  <br>
+  -->
+  <span style="font-weight: bold; font-size: smaller;">
+    <a href="http://www.ufpr.br" target="_blank">
+      Universidade Federal do Paraná
+    </a>
+  </span>
+</center>
+
+<li class="divider"></li>
+<li><a href="index.html#section"></a></li>
+<li class="chapter" data-level="" data-path="apresentacao.html"><a href="apresentacao.html"><i class="fa fa-check"></i>Apresentação</a></li>
+<li class="chapter" data-level="1" data-path="analise-de-sobrevivencia.html"><a href="analise-de-sobrevivencia.html"><i class="fa fa-check"></i><b>1</b> Análise de sobrevivência</a><ul>
+<li class="chapter" data-level="1.1" data-path="analise-de-sobrevivencia.html"><a href="analise-de-sobrevivencia.html#introducao"><i class="fa fa-check"></i><b>1.1</b> Introdução</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><i class="fa fa-check"></i><b>2</b> Germinação de ascósporos e conídios e Monociclo em frutos</a><ul>
+<li class="chapter" data-level="2.1" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#motivacao"><i class="fa fa-check"></i><b>2.1</b> Motivação</a></li>
+<li class="chapter" data-level="2.2" data-path="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html"><a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html#germinacao-de-conidios-e-ascosporos"><i class="fa fa-check"></i><b>2.2</b> Germinação de conídios e ascósporos</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="antracnose-do-caquizeiro.html"><a href="antracnose-do-caquizeiro.html"><i class="fa fa-check"></i><b>3</b> Antracnose do Caquizeiro</a><ul>
+<li class="chapter" data-level="3.1" data-path="antracnose-do-caquizeiro.html"><a href="antracnose-do-caquizeiro.html#metodologias-para-monitoramento-da-sensibilidade-do-fungo-a-fungicidas-in-vitro-e-ensaio-para-teste-de-eficiencia-dos-fungicidas-ex-vivo"><i class="fa fa-check"></i><b>3.1</b> Metodologias para monitoramento da sensibilidade do fungo à fungicidas (<em>in vitro</em>) e Ensaio para teste de eficiência dos fungicidas (<em>ex vivo</em>)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="motivacao-1.html"><a href="motivacao-1.html"><i class="fa fa-check"></i><b>4</b> Motivação</a><ul>
+<li class="chapter" data-level="4.1" data-path="motivacao-1.html"><a href="motivacao-1.html#phakopsora-pachyrizi"><i class="fa fa-check"></i><b>4.1</b> Phakopsora pachyrizi</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias-bibliograficas.html"><a href="referencias-bibliograficas.html"><i class="fa fa-check"></i>Referências Bibliográficas</a></li>
+<li class="divider"></li>
+<li>
+  <a href="https://bookdown.org/" target="_blank">
+    Produzido com Bookdown
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lemid/epidemioR" target="_blank">
+    Disponível no GitHub
+  </a>
+</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="analise-de-sobrevivencia" class="section level1">
+<h1><span class="header-section-number">Capítulo 1</span> Análise de sobrevivência</h1>
+<div class="chapterauthors">
+<p>Camilla Castellar</p>
+</div>
+<div id="introducao" class="section level2">
+<h2><span class="header-section-number">1.1</span> Introdução</h2>
+<p>Espécies do gênero <em>Colletotrichum</em> estão associadas a duas doenças da macieira, denominadas de mancha foliar de Glomerella (MFG) e podridão amarga (PA) <span class="citation">(GONZÁLEZ et al., <a href="#ref-Gonzlez2006">2006</a>; DAMM et al., <a href="#ref-Damm2012">2012</a>)</span>. A MFG causa sintomas em folhas e diminutas lesões em frutos de macieira Gala, que não evoluem em tamanho, enquanto a PA desenvolve podridões que podem cobrir toda a superfície dos frutos. A relação entre os sintomas não é esclarecida <span class="citation">(KATSURAYAMA et al., <a href="#ref-Kat2000">2000</a>)</span> e algumas das hipóteses para os dois tipos de sintomas associadas a um mesmo gênero são: o momento de infecção do patógeno, presença de ferimentos nos frutos e espécie associada. Assim, o objetivo do trabalho foi investigar os sintomas produzidos pelo patógeno considerando as hipóteses destacadas anteriormente.</p>
+<p>Dois experimentos semelhantes foram realizados com as cultivares Eva e Gala. Frutos de cinco estágios fenologicos foram coletados no campo de forma aleatória e mantidos em potes com umidade. Os frutos foram inoculados com as espécies <em>C. nymphaeae</em> e <em>C. fructicola</em> em maças com e sem ferimento. O delineamento experimental foi inteiramente ao acaso em esquema de fatorial triplo, com 5 estágios fenológicos x 3 tipos de inoculação (2 espécies e a testemunha) x 2 formas de infecção (com e sem ferimento) x 4 repetições. Cada repetição foi composta por 2 frutos mantidos em um mesmo pote e o experimento foi repetido em duas áreas de coleta. As avaliações foram realizadas diariamente a partir da inoculação e o tipo de sintoma foi associado a números. O número 0 corresponde ausência de sintomas, 1 sintomas de MFG, 2 para sintomas de PA e 3 para lesões com esporulação nas lesões de PA (Figura <a href="analise-de-sobrevivencia.html#fig:sintomas">1.1</a>).</p>
+
+<div class="figure" style="text-align: center"><span id="fig:sintomas"></span>
+<img src="camilla/sintomas.png" alt="Frutos de macieira sem sintomas (A), com mancha foliar de glomerella em frutos (B), podridão amarga (C), lesão da podridão amarga esporulando (D) e seus números correspondentes nas avaliações." width="100%" />
+<p class="caption">
+Figura 1.1: Frutos de macieira sem sintomas (A), com mancha foliar de glomerella em frutos (B), podridão amarga (C), lesão da podridão amarga esporulando (D) e seus números correspondentes nas avaliações.
+</p>
+</div>
+
+</div>
+</div>
+<h3>Referências Bibliográficas</h3>
+<div id="refs" class="references">
+<div id="ref-Damm2012">
+<p>DAMM, U.; CANNON, P. F.; WOUDENBERG, J. H. C.; CROUS, P. W. The <em>Colletotrichum acutatum</em> species complex. <strong>Studies in Mycology</strong>, v. 73, p. 37–113, 2012. Elsevier BV. Disponível em: &lt;<a href="https://doi.org/10.3114/sim0010" class="uri">https://doi.org/10.3114/sim0010</a>&gt;..</p>
+</div>
+<div id="ref-Gonzlez2006">
+<p>GONZÁLEZ, E.; SUTTON, T. B.; CORRELL, J. C. Clarification of the etiology of glomerella leaf spot and bitter rot of apple caused by <em>Colletotrichum</em> spp. based on morphology and genetic, molecular, and pathogenicity tests. <strong>Phytopathology</strong>, v. 96, n. 9, p. 982–992, 2006. Scientific Societies. Disponível em: &lt;<a href="https://doi.org/10.1094/phyto-96-0982" class="uri">https://doi.org/10.1094/phyto-96-0982</a>&gt;..</p>
+</div>
+<div id="ref-Kat2000">
+<p>KATSURAYAMA, Y.; BONETI, J. I. S.; BECKER, W. F. Mancha foliar da gala: Principal doença de verão da cultura da macieira. <strong>Agropecuária Catarinense</strong>, v. 13, p. 14–20, 2000.</p>
+</div>
+</div>
+<div>
+  <hr>
+  <p class="footer" style="margin: 0 0 0 0;">
+    <strong>epidemioR</strong>: Epidemiologia de Doenças de Plantas Aplicada com R
+    <br>
+    <div style="font-size: 90%;">Universidade Federal do Paraná</div>
+  </p>
+</div>
+
+<center>
+  <img src="config/ufpr-transparent.png" width="25%" style="box-shadow: unset; margin: 2em auto 0 auto;">
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="apresentacao.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="germinacao-de-ascosporos-e-conidios-e-monociclo-em-frutos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lemid/epidemioR/edit/master/camilla.Rmd",
+"text": "Editar"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["epidemioR.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
