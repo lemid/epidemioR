@@ -25,8 +25,9 @@ papersize: a4
 # geometry: 'margin=1in'
 # geometry: [left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm]
 geometry: [inner = 4cm, outer = 3cm, top = 3cm, bottom = 3cm]
-#biblio-style: abbrvnat # É para `natbib`.
-biblio-style: config/TeseESALQ.bst
+#biblio-style: abbrvnat             # citation_package: natbib.
+biblio-style: config/TeseESALQ.bst # citation_package: natbib.
+#biblio-style: authoryear, backend=biber, bibencoding=utf8 # citation_package: biblatex.
 link-citations: yes
 colorlinks: true
 capa-pdf: config/frontcover.pdf
