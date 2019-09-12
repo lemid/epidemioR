@@ -152,6 +152,7 @@ exemplo. Consulte os links abaixo.
   2. <https://www.tablesgenerator.com/#>.
   3. <https://www.latex-tables.com/>.
   4. <https://jakebathman.github.io/Markdown-Table-Generator/>.
+  5. <https://truben.no/table/>.
 
 Uma vez que a tabela for gerada em sintaxe *markdown* por um dos
 serviços acima (ou qualquer outro equivalente), ela pode ser inserida no
@@ -165,10 +166,21 @@ disponíveis para tabelas. A diferença é que o prefixo para tabela é
 
 Tabelas que sejam mais complexas, por exemplo, com cédulas mescladas,
 quebra de texto dentro das cédulas, podem ser feitas em outros softwares
-e incluídas como imagem. O pacote
-[kableExtra](https://haozhu233.github.io/kableExtra/save_kable_and_as_image.html)
-tem recursos adicionais para construção de tabelas e conversão para
-imagens.
+e incluídas como imagem. Algumas alternativas são:
+  * O pacote
+    [kableExtra](https://haozhu233.github.io/kableExtra/save_kable_and_as_image.html)
+    tem recursos adicionais para construção de tabelas e conversão para
+    imagens.
+  * O serviço [LaTeX Previewer](http://www.tlhiv.org/ltxpreview/)
+    permite gerar PNG a partir de código LaTeX. Portanto, é útil para
+    tabelas converter tabelas construídas em LaTeX para arquivos de
+    imagem. Esteja atento em adicionar eventuais pacotes necessários
+    para a renderização da tabela.
+  * Para quem tiver experiência com
+    [Tikz](http://linorg.usp.br/CTAN/graphics/pgf/base/doc/pgfmanual.pdf),
+    em específico com o
+    [PGFPlotsTable](http://linorg.usp.br/CTAN/graphics/pgf/contrib/pgfplots/doc/pgfplotstable.pdf),
+    pode construir tabelas de excelente tipografia com essa biblioteca.
 
 ### Inclusão de equações e anotações matemáticas
 
