@@ -363,7 +363,7 @@ recomenda-se 2 softwares livres.
     permite fazer tratamento, como brilho, contraste, até composições
     artisticas sofisticadas e profissionais. O Gimp também é
     multiplataforma. Abaixo, links para Cursos de Gimp.
-    * [Tutoriais de Gimp 2.10 em Português · EquilibreCursos]<https://www.youtube.com/playlist?list=PL_pppC5Pqxvd2NFLGOgIcLME7KBBhNsSG>.
+    * [Tutoriais de Gimp 2.10 em Português · EquilibreCursos]()https://www.youtube.com/playlist?list=PL_pppC5Pqxvd2NFLGOgIcLME7KBBhNsSG>.
     * [GIMP (video curso em português) · Josberto Vieira](https://www.youtube.com/playlist?list=PLqDbO3r2taQE3pC596kk0z0Qts57zGdLe).
 
 ### Construção de fluxogramas
