@@ -1,4 +1,4 @@
-# Germinação de ascósporos e conídios e Monociclo em frutos
+# Germinação de conídios e Monociclo em frutos
 
 ## Motivação
 
@@ -11,7 +11,7 @@ knitr::include_graphics("./jhulia/prancha01.jpg")
 ```
 
 
-O fungo produz dois tipos de esporos, sendo os ascósporos produzidos sexuadamente em peritécios e os conídios produzidos assexuadamente em esporodóquios (Figura \@ref(fig:prancha02)). Os dados disponíveis sobre as taxas de germinação de ascósporos em diferentes temperaturas vão até um período de oito horas [@Latorre2002] e devem ser complementados. A comparação entre a germinação de ascósporos e conídios em diferentes temperaturas e períodos de incubação é relevante para a predição de riscos de acordo com o esporo predominante no pomar. 
+O fungo produz dois tipos de esporos, sendo os ascósporos produzidos sexuadamente em peritécios e os conídios produzidos assexuadamente em esporodóquios (Figura \@ref(fig:prancha02)). Dados sobre as taxas de germinação de conídios em diferentes temperaturas e períodos de incubação são relevantes para a predição de riscos de acordo com as condições ambientais que ocorrem no pomar. 
 
 (ref:prancha02) Esporodóquio produzindo conídios (esq.) e peritécios produzindo ascósporos (dir.) de *Neonectria ditissima*.
 
@@ -20,9 +20,9 @@ knitr::include_graphics("./jhulia/prancha02.jpg")
 ```
 
 
-Embora *N. ditissima* seja mais comumente descrito como patógeno da macieira, a pera (*Pyrus communis* L.) também é hospedeira [@Flack1977] e, ocasionalmente, os pomares de pera apresentam alta incidência da doença [@Weber2014]. Os pomares de pera são comumente plantados próximos aos pomares de maçã devido à semelhança entre os requisitos de horas de frio e tratamentos culturais, o que pode representar risco caso a doença chegue aos pomares de pereira e estes sejam suscetíveis. Não há nenhum relato científico recente sobre a podridão de frutos por Neonectria sobre pera, e o monociclo da doença nesse fruto nunca foi elucidado. 
+Embora *N. ditissima* seja mais comumente descrito como patógeno de partes lenhosas, O patógeno também infecta frutos de maçã resultando em podridão em pré-colheita (no pomar) ou, mais comumente, em pós-colheita (armazenamento) [@Xu2010]. O uso de equações para representar o monociclo da doença em frutos sob diferentes temperaturas pode ser um recurso útil na previsão de como a doença se comportará em diferentes condições e ajudar os produtores no delineamento de estratégias de manejo.
 
-Esse capítulo objetivou a elucidação e comparação de modelos polinomial e beta-monomolecular para avaliação de dados de germinação de conídios e ascósporos em diferentes temperaturas e períodos de molhamento, bem como descrever equações que descrevam o comportamento do monociclo da podridão de Neonectria em frutos de pera e maçã.
+Esse capítulo objetivou a elucidação e comparação de modelos polinomial e beta-monomolecular para avaliação de dados de germinação de conídios e ascósporos em diferentes temperaturas e períodos de molhamento, bem como descrever equações que descrevam o comportamento do monociclo da podridão de Neonectria em frutos de maçã.
 
 
 ## Germinação de conídios e ascósporos
@@ -35,9 +35,30 @@ A Tabela \@ref(tab:germinacao-neonectria-ditissima) descreve como os dados da ge
 
 
 ```{r germinacao-neonectria-ditissima, echo=FALSE}
-knitr::kable(head(iris), caption = '(ref:germinacao-neonectria-ditissima)',
+tb <- read.csv2("jhulia/germinacao-neonectria-ditissima.csv")
+str(tb)
+knitr::kable(head(tb), caption = '(ref:germinacao-neonectria-ditissima)',
              digits = c(NA, 0, 0, 1, 1),
              align = c("ccccc"),
              row.names = FALSE)
 ```
 
+
+## Estudo do monociclo em frutos de maçã
+
+O experimento foi conduzido 
+
+As temperaturas usadas foram 5, 10, 12, 16, 20, 25 e 35 °C, com 5 repetições por tratamento.
+
+A Tabela \@ref(tab:maca-diam-lesao-n16) descreve como os dados da avaliação do diâmetro da lesão de *Neonectria ditissima* foram tabulados. 
+
+(ref:maca-diam-lesao-n16) Dados para avaliação do diâmetro da lesão de *Neonectria ditissima* em frutos maduros de maçã 'Gala' incubados em diferentes temperaturas (temp) ao longo de 18 dias de avaliação (d1 a d18), com 5 frutos por tratamento. 
+
+```{r maca-diam-lesao-n16, echo=FALSE}
+tb2 <- read.csv2("jhulia/maca-diam-lesao-n16.csv")
+str(tb2)
+knitr::kable(head(tb2), caption = '(ref:maca-diam-lesao-n16)',
+             digits = c(NA, 0, 0, 1, 1),
+             align = c("ccccc"),
+             row.names = FALSE)
+```
