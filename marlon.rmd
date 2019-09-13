@@ -1,0 +1,20 @@
+# Concentração efetiva (CE50) para eclosão, motilidade e mortalidade de nematoides
+
+## Motivação
+
+Os nematoides parasitas de plantas 
+
+A eficiência dos compostos químicos, biológicos ou alternativos para o controle de nematoides é avaliada por meio de curvas de dose resposta. Essa metodologia relaciona o efeito obtido pela aplicação de uma concentração de determidado composto
+
+## Linearização pelo Log da concentração para obtenção da EC50
+
+
+## Curva de Seefeldt
+
+
+
+## Pacote para curvas de dose resposta DRC para o R (DRC package)
+
+@RCoreTeam2019
+@Ritz2015
+@Ritz2016
