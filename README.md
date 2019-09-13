@@ -327,6 +327,41 @@ Algumas orientações adicionais são:
     *spacing* e foi feita no FotoJet.
   * Baixar a imagem como arquivo PNG.
 
+### Recursos para edição de imagens
+
+Para edição/tratamento de imagens, construção de fluxogramas, etc.,
+recomenda-se 2 softwares livres.
+
+  * [Inkscape](https://inkscape.org/pt-br/): Inkscape é um editor de
+    gráficos vetoriais de qualidade profissional para Linux, Windows e
+    macOS. É gratuito e de código aberto. Com ele é possível editar
+    arquivos SVG, PDF, etc, fazer banners para eventos científicos,
+    artes para eventos, etc.
+  * [Gimp](https://www.gimp.org/): O Gimp é um editor de imagens que
+    permite fazer tratamento, como brilho, contraste, até composições
+    artisticas sofisticadas e profissionais. O Gimp também é
+    multiplataforma.
+
+### Construção de fluxogramas
+
+O <https://www.draw.io/> é um serviço web para construção de fluxogramas
+e esquemas mentais bem ágil. Tem uma série de elementos prontos para
+uso, é fácil fazer a conexão entre elementos, adicionar textos, alinhar,
+redimensionar, rotacionar, etc. O serviço permite vincular uma conta de
+Dropbox ou Google Drive para sincronizar os desenhos feitos e permite
+baixá-los em formatos editáveis por outros softwares.
+
+### Repositórios de ícones
+
+  * O <https://br.flaticon.com/> oferece uma coleção de ícones que podem
+    ser usados nas ilustrações. Sem autenticar no serviço, pode-se
+    baixar 10 ícones por dia. Com autenticação no serviço, pode-se
+    baixar até 100 ícones. Ao fazer uma conta premium, pode-se explorar
+    recursos adicionais. São muitas imagens de licensa gratuíta que
+    exigem apenas dar créditos ao autor.
+  * TODO.
+  * TODO.
+
 ### Codificação de caracteres (encoding)
 
 Um projeto em bookdown como este precisa que todos os arquivos tenham a
