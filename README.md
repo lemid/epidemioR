@@ -9,6 +9,26 @@ Este material é produzido devido à colaboração de professores e alunos
 do Programa de Pós Graduação em Produção Vegetal, com colaboração de
 professores e pesquisadores externos.
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Sumário**
+
+  - [Programação das atividades](#programação-das-atividades)
+  - [Orientações para os autores](#orientações-para-os-autores)
+      - [Sintaxe Rmarkdown](#sintaxe-rmarkdown)
+      - [Estrutura de diretório e arquivos](#estrutura-de-diretório-e-arquivos)
+      - [Inclusão de figuras](#inclusão-de-figuras)
+      - [Inclusão de tabelas](#inclusão-de-tabelas)
+      - [Inclusão de equações e anotações matemáticas](#inclusão-de-equações-e-anotações-matemáticas)
+      - [Citação de referências bibliográficas](#citação-de-referências-bibliográficas)
+      - [Dicas adicionais para referências](#dicas-adicionais-para-referências)
+      - [Molduras de imagens para pranchas](#molduras-de-imagens-para-pranchas)
+      - [Recursos para edição de imagens](#recursos-para-edição-de-imagens)
+      - [Construção de fluxogramas](#construção-de-fluxogramas)
+      - [Repositórios de ícones e imagens](#repositórios-de-ícones-e-imagens)
+      - [Codificação de caracteres (encoding)](#codificação-de-caracteres-encoding)
+
+<!-- markdown-toc end -->
+
 ## Programação das atividades
 
 | Sem. | Data     | Atividade ( as 14 h)                                                                                                                               | Apresent.                      | Profs. / Pos-docs          |
@@ -336,31 +356,52 @@ recomenda-se 2 softwares livres.
     gráficos vetoriais de qualidade profissional para Linux, Windows e
     macOS. É gratuito e de código aberto. Com ele é possível editar
     arquivos SVG, PDF, etc, fazer banners para eventos científicos,
-    artes para eventos, etc.
+    artes para eventos, etc. Abaixo, links para Cursos de Inkscape.
+    * [Curso Essencial de Inkscape · DD TUTORIAIS](https://www.youtube.com/playlist?list=PLO_xIfla8f1zFuyteSazl0_Xbb0o_yd0R).
+    * [Curso de Inkscape - Conceitos básicos, logo marca e desenhos · Guarapa EAD](https://www.youtube.com/playlist?list=PL0C3E646EE8B1C024).
   * [Gimp](https://www.gimp.org/): O Gimp é um editor de imagens que
     permite fazer tratamento, como brilho, contraste, até composições
     artisticas sofisticadas e profissionais. O Gimp também é
-    multiplataforma.
+    multiplataforma. Abaixo, links para Cursos de Gimp.
+    * [Tutoriais de Gimp 2.10 em Português · EquilibreCursos]<https://www.youtube.com/playlist?list=PL_pppC5Pqxvd2NFLGOgIcLME7KBBhNsSG>.
+    * [GIMP (video curso em português) · Josberto Vieira](https://www.youtube.com/playlist?list=PLqDbO3r2taQE3pC596kk0z0Qts57zGdLe).
 
 ### Construção de fluxogramas
 
 O <https://www.draw.io/> é um serviço web para construção de fluxogramas
 e esquemas mentais bem ágil. Tem uma série de elementos prontos para
-uso, é fácil fazer a conexão entre elementos, adicionar textos, alinhar,
-redimensionar, rotacionar, etc. O serviço permite vincular uma conta de
-Dropbox ou Google Drive para sincronizar os desenhos feitos e permite
-baixá-los em formatos editáveis por outros softwares.
+uso, é bem fácil fazer a conexão entre elementos para indicar fluxo,
+adicionar textos, alinhar elementos, redimensionar, rotacionar, etc. O
+serviço permite vincular uma conta de Dropbox ou Google Drive para
+sincronizar os desenhos feitos e permite baixá-los em formatos editáveis
+por outros softwares. Assista ao vídeo tutorial:
+<https://www.youtube.com/watch?v=XOOVHVfc16U>. Existem outros serviços
+similares ao `draw.io`:
+  * <https://cloud.smartdraw.com/>.
+  * <https://www.gliffy.com/>.
+  * <https://www.visme.co/>.
+  * <https://creately.com/>.
+  * <https://www.lucidchart.com/>.
+  * <https://cacoo.com/>.
 
-### Repositórios de ícones
+### Repositórios de ícones e imagens
 
-  * O <https://br.flaticon.com/> oferece uma coleção de ícones que podem
-    ser usados nas ilustrações. Sem autenticar no serviço, pode-se
-    baixar 10 ícones por dia. Com autenticação no serviço, pode-se
-    baixar até 100 ícones. Ao fazer uma conta premium, pode-se explorar
-    recursos adicionais. São muitas imagens de licensa gratuíta que
-    exigem apenas dar créditos ao autor.
-  * TODO.
-  * TODO.
+O <https://br.flaticon.com/> oferece uma coleção de ícones que podem ser
+usados nas ilustrações. Sem autenticar no serviço, pode-se baixar 10
+ícones por dia. Com autenticação no serviço, pode-se baixar até 100
+ícones. Ao fazer criar uma conta premium, pode-se explorar ícones e
+recursos adicionais. São muitas imagens de licensa gratuíta que exigem
+apenas que seja dado créditos ao autor. Os ícones podem ser baixados em
+formato vetorial e, portanto, editados conforme necessidades da
+ilustração. Existem outros repositórios semelhantes a esse:
+  * <https://www.freepik.com/icons>.
+  * <https://freeicons.io/>.
+  * <http://www.iconarchive.com/>.
+  * <https://thenounproject.com/>.
+  * <https://icons8.com>.
+  * <https://www.1001freedownloads.com>.
+  * <https://all-free-download.com/free-icon/>.
+  * <https://br.vexels.com>.
 
 ### Codificação de caracteres (encoding)
 
