@@ -3,6 +3,8 @@
 /* Also check the webfonts.html file. */
 @import url("https://fonts.googleapis.com/css?family=Fira+Sans+Condensed");
 @import url("https://fonts.googleapis.com/css?family=Fira+Mono&display=swap");
+/* @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=Oswald:300&display=swap');
 
 :root{
     --one-color: #27AE60;
@@ -180,6 +182,15 @@ a:hover,
 .book .book-header,
 .book .book-summary {
     font-family: "Fira Sans Condensed", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.book .book-body .page-inner h1:not([class]),
+.book .book-body .page-inner h2:not([class]),
+.book .book-body .page-inner h3:not([class]),
+.book .book-body .page-inner h4:not([class]),
+.book .book-body .page-inner h5:not([class]),
+.book .book-body .page-inner h6:not([class]) {
+    font-family: "Oswald", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .book .book-summary ul.summary li a {
