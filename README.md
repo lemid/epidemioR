@@ -9,6 +9,7 @@ Este material é produzido devido à colaboração de professores e alunos
 do Programa de Pós Graduação em Produção Vegetal, com colaboração de
 professores e pesquisadores externos.
 
+
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Sumário**
 
@@ -21,7 +22,9 @@ professores e pesquisadores externos.
       - [Inclusão de equações e anotações matemáticas](#inclusão-de-equações-e-anotações-matemáticas)
       - [Citação de referências bibliográficas](#citação-de-referências-bibliográficas)
       - [Dicas adicionais para referências](#dicas-adicionais-para-referências)
-      - [Molduras de imagens para pranchas](#molduras-de-imagens-para-pranchas)
+      - [Serviços para molduras de imagens para pranchas](#serviços-para-molduras-de-imagens-para-pranchas)
+      - [Serviços para remover fundos de imagens](#serviços-para-remover-fundos-de-imagens)
+      - [Serviços para edição de imagens](#serviços-para-edição-de-imagens)
       - [Recursos para edição de imagens](#recursos-para-edição-de-imagens)
       - [Construção de fluxogramas](#construção-de-fluxogramas)
       - [Repositórios de ícones e imagens](#repositórios-de-ícones-e-imagens)
@@ -325,7 +328,7 @@ Algumas dicas adicionais sobre referências são:
      <http://w2.syronex.com/jmr/latex-symbols-converter>. Basta colar o
      texto e clicar em converter.
 
-### Molduras de imagens para pranchas
+### Serviços para molduras de imagens para pranchas
 
 ![](./img/FotoJet.jpg)
 
@@ -346,6 +349,32 @@ Algumas orientações adicionais são:
     a mesma espessura para a borda. A foto mostrada acima usou 15% para
     *spacing* e foi feita no FotoJet.
   * Baixar a imagem como arquivo PNG.
+
+### Serviços para remover fundos de imagens
+
+![](./img/remove-fundo.png)
+
+Para o projeto será necessária a edição de imagens, o que muitas vezes
+exigirá a edição de fundos para transparente ou branco. Existem serviços
+especializados, gratuitos e online na web para isso. A lista abaixo
+contém alguns.
+
+  * <https://www.remove.bg/>.
+  * <https://online.photoscissors.com/>.
+
+### Serviços para edição de imagens
+
+Para edição de imagens no sentido amplo que vai desde altarar bilho,
+contraste, até adicionar texto, setas, círculos e retângulos, também há
+serviços especializados, gratuitos e online na web. A lista abaixo
+contém alguns.
+
+  * <https://www.fotojet.com/>.
+  * <https://www.img2go.com/>.
+  * <https://www.online-image-editor.com/>.
+  * <https://screenshot.net/online-image-editor.html>.
+  * <https://www.favicon-generator.org/image-editor/>.
+  * <https://www.donesmart.com/free-online-tools/free-online-photo-editor/>.
 
 ### Recursos para edição de imagens
 
