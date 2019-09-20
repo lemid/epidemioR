@@ -397,6 +397,8 @@ recomenda-se 2 softwares livres.
 
 ### Construção de fluxogramas
 
+![](./img/draw-io.png | width=450)
+
 O <https://www.draw.io/> é um serviço web para construção de fluxogramas
 e esquemas mentais bem ágil. Tem uma série de elementos prontos para
 uso, é bem fácil fazer a conexão entre elementos para indicar fluxo,
@@ -415,6 +417,8 @@ similares ao `draw.io`:
 
 ### Repositórios de ícones e imagens
 
+![](./img/flaticon.png)
+
 O <https://br.flaticon.com/> oferece uma coleção de ícones que podem ser
 usados nas ilustrações. Sem autenticar no serviço, pode-se baixar 10
 ícones por dia. Com autenticação no serviço, pode-se baixar até 100
@@ -431,6 +435,16 @@ ilustração. Existem outros repositórios semelhantes a esse:
   * <https://www.1001freedownloads.com>.
   * <https://all-free-download.com/free-icon/>.
   * <https://br.vexels.com>.
+
+![](./img/biorender.png)
+
+O <https://biorender.com> é um portal excelente com muitas ilustrações
+voltadas para a Ciência, como aparelhos e instrumentos de laboratório,
+estruturas celulares, anatomia humana, espécies de seres vivos, entre
+outros. O serviço dispõe de um plano gratuíto que habilita o uso das
+imagens para usos educacionais, porém não dá permissão para uso das
+ilustrações em publicações científicas. Dessa forma, o uso das imagens
+fica restrito a slides, tutoriais, materiais de aula, etc.
 
 ### Codificação de caracteres (encoding)
 
