@@ -408,6 +408,7 @@ sincronizar os desenhos feitos e permite baixá-los em formatos editáveis
 por outros softwares. Assista ao vídeo tutorial:
 <https://www.youtube.com/watch?v=XOOVHVfc16U>. Existem outros serviços
 similares ao `draw.io`:
+
   * <https://cloud.smartdraw.com/>.
   * <https://www.gliffy.com/>.
   * <https://www.visme.co/>.
@@ -427,7 +428,9 @@ recursos adicionais. São muitas imagens de licensa gratuíta que exigem
 apenas que seja dado créditos ao autor. Os ícones podem ser baixados em
 formato vetorial e, portanto, editados conforme necessidades da
 ilustração. Existem outros repositórios semelhantes a esse:
+
   * <https://www.freepik.com/icons>.
+  * <https://www.vecteezy.com/>.
   * <https://freeicons.io/>.
   * <http://www.iconarchive.com/>.
   * <https://thenounproject.com/>.
