@@ -397,7 +397,7 @@ recomenda-se 2 softwares livres.
 
 ### Construção de fluxogramas
 
-![](./img/draw-io.png | width=450)
+![](./img/draw-io.png)
 
 O <https://www.draw.io/> é um serviço web para construção de fluxogramas
 e esquemas mentais bem ágil. Tem uma série de elementos prontos para
