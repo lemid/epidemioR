@@ -9,6 +9,7 @@ Este material é produzido devido à colaboração de professores e alunos
 do Programa de Pós Graduação em Produção Vegetal, com colaboração de
 professores e pesquisadores externos.
 
+
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Sumário**
 
@@ -21,7 +22,9 @@ professores e pesquisadores externos.
       - [Inclusão de equações e anotações matemáticas](#inclusão-de-equações-e-anotações-matemáticas)
       - [Citação de referências bibliográficas](#citação-de-referências-bibliográficas)
       - [Dicas adicionais para referências](#dicas-adicionais-para-referências)
-      - [Molduras de imagens para pranchas](#molduras-de-imagens-para-pranchas)
+      - [Serviços para molduras de imagens para pranchas](#serviços-para-molduras-de-imagens-para-pranchas)
+      - [Serviços para remover fundos de imagens](#serviços-para-remover-fundos-de-imagens)
+      - [Serviços para edição de imagens](#serviços-para-edição-de-imagens)
       - [Recursos para edição de imagens](#recursos-para-edição-de-imagens)
       - [Construção de fluxogramas](#construção-de-fluxogramas)
       - [Repositórios de ícones e imagens](#repositórios-de-ícones-e-imagens)
@@ -325,7 +328,7 @@ Algumas dicas adicionais sobre referências são:
      <http://w2.syronex.com/jmr/latex-symbols-converter>. Basta colar o
      texto e clicar em converter.
 
-### Molduras de imagens para pranchas
+### Serviços para molduras de imagens para pranchas
 
 ![](./img/FotoJet.jpg)
 
@@ -346,6 +349,32 @@ Algumas orientações adicionais são:
     a mesma espessura para a borda. A foto mostrada acima usou 15% para
     *spacing* e foi feita no FotoJet.
   * Baixar a imagem como arquivo PNG.
+
+### Serviços para remover fundos de imagens
+
+![](./img/remove-fundo.png)
+
+Para o projeto será necessária a edição de imagens, o que muitas vezes
+exigirá a edição de fundos para transparente ou branco. Existem serviços
+especializados, gratuitos e online na web para isso. A lista abaixo
+contém alguns.
+
+  * <https://www.remove.bg/>.
+  * <https://online.photoscissors.com/>.
+
+### Serviços para edição de imagens
+
+Para edição de imagens no sentido amplo que vai desde altarar bilho,
+contraste, até adicionar texto, setas, círculos e retângulos, também há
+serviços especializados, gratuitos e online na web. A lista abaixo
+contém alguns.
+
+  * <https://www.fotojet.com/>.
+  * <https://www.img2go.com/>.
+  * <https://www.online-image-editor.com/>.
+  * <https://screenshot.net/online-image-editor.html>.
+  * <https://www.favicon-generator.org/image-editor/>.
+  * <https://www.donesmart.com/free-online-tools/free-online-photo-editor/>.
 
 ### Recursos para edição de imagens
 
@@ -368,6 +397,8 @@ recomenda-se 2 softwares livres.
 
 ### Construção de fluxogramas
 
+![](./img/draw-io.png)
+
 O <https://www.draw.io/> é um serviço web para construção de fluxogramas
 e esquemas mentais bem ágil. Tem uma série de elementos prontos para
 uso, é bem fácil fazer a conexão entre elementos para indicar fluxo,
@@ -377,6 +408,7 @@ sincronizar os desenhos feitos e permite baixá-los em formatos editáveis
 por outros softwares. Assista ao vídeo tutorial:
 <https://www.youtube.com/watch?v=XOOVHVfc16U>. Existem outros serviços
 similares ao `draw.io`:
+
   * <https://cloud.smartdraw.com/>.
   * <https://www.gliffy.com/>.
   * <https://www.visme.co/>.
@@ -386,6 +418,8 @@ similares ao `draw.io`:
 
 ### Repositórios de ícones e imagens
 
+![](./img/flaticon.png)
+
 O <https://br.flaticon.com/> oferece uma coleção de ícones que podem ser
 usados nas ilustrações. Sem autenticar no serviço, pode-se baixar 10
 ícones por dia. Com autenticação no serviço, pode-se baixar até 100
@@ -394,7 +428,9 @@ recursos adicionais. São muitas imagens de licensa gratuíta que exigem
 apenas que seja dado créditos ao autor. Os ícones podem ser baixados em
 formato vetorial e, portanto, editados conforme necessidades da
 ilustração. Existem outros repositórios semelhantes a esse:
+
   * <https://www.freepik.com/icons>.
+  * <https://www.vecteezy.com/>.
   * <https://freeicons.io/>.
   * <http://www.iconarchive.com/>.
   * <https://thenounproject.com/>.
@@ -402,6 +438,16 @@ ilustração. Existem outros repositórios semelhantes a esse:
   * <https://www.1001freedownloads.com>.
   * <https://all-free-download.com/free-icon/>.
   * <https://br.vexels.com>.
+
+![](./img/biorender.png)
+
+O <https://biorender.com> é um portal excelente com muitas ilustrações
+voltadas para a Ciência, como aparelhos e instrumentos de laboratório,
+estruturas celulares, anatomia humana, espécies de seres vivos, entre
+outros. O serviço dispõe de um plano gratuíto que habilita o uso das
+imagens para usos educacionais, porém não dá permissão para uso das
+ilustrações em publicações científicas. Dessa forma, o uso das imagens
+fica restrito a slides, tutoriais, materiais de aula, etc.
 
 ### Codificação de caracteres (encoding)
 
