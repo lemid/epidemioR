@@ -1,6 +1,6 @@
 # Ensaios *in vivo* e *ex vivo* da adaptabilidade de populações de fungos biotróficos
 
-## *Phakopsora pachyrizi*
+## *Phakopsora pachyrhizi*
 
 A soja, *Glycine max* (L.) Merr, é uma das commodities mais importantes a nível mundial, pois é fonte de óleo e proteína para alimentação humana e animal [@conab]. A produtividade dessa cultura pode ser afetada por doenças, principalmente a ferrugem asiática causada pelo fungo *P. pachyrhizi*.
 
