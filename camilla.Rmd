@@ -1,20 +1,23 @@
-```{r, echo = FALSE, results = "asis"}
-chapter_authors(c("Camilla Castellar"))
-```
+
 
 # Análise de sobrevivência
 
 
 ## Introdução 
 
-Espécies do gênero *Colletotrichum* estão associadas a duas doenças da macieira, denominadas de mancha foliar de Glomerella (MFG) e podridão amarga (PA) [@Damm2012; @Gonzlez2006]. A MFG causa sintomas em folhas e diminutas lesões em frutos de macieira Gala, que não evoluem em tamanho, enquanto a PA desenvolve podridões que podem cobrir toda a superfície dos frutos. A relação entre os sintomas não é esclarecida [@Kat2000] e algumas das hipóteses para os dois tipos de sintomas associadas a um mesmo gênero são: o momento de infecção do patógeno, presença de ferimentos nos frutos e espécie associada.  Assim, o objetivo do trabalho foi investigar os sintomas produzidos pelo patógeno considerando as hipóteses destacadas anteriormente. 
+A análise de sobrevivência infere sobre a probabilidade de um evento ocorrer no tempo. Por exemplo, na medicina, área onde a análise tem origem, o interesse é avaliar o tempo e a chance de um indivíduo literalmente sobreviver após receber um tratatamento para cura. Na área de epidemiologia de doenças de plantas, a analise de sobrevivência tem sido utilizada para avaliar o período de incubação da antracnose em ramos de Camélia [@Copes2008],  o tempo para a queda de folhas induzida por *Septoria Albopunctata* [@Ojiambo2005], avaliação do tempo e risco para a ocorrencia de sintomas de Podridão Parda em diferentes cultivares de pessegueiro e em dias após a floração [@Nesi2005], entre outros casos.  
 
-Dois experimentos semelhantes foram realizados com as cultivares Eva e Gala. Frutos de cinco estágios fenologicos foram coletados no campo de forma aleatória e mantidos em potes com umidade. Os frutos foram inoculados com as espécies *C. nymphaeae* e *C. fructicola* em maças com e sem ferimento. O delineamento experimental foi inteiramente ao acaso em esquema de fatorial triplo, com 5 estágios fenológicos x 3 tipos de inoculação (2 espécies e a testemunha) x 2 formas de infecção (com e sem ferimento) x 4 repetições. Cada repetição foi composta por 2 frutos mantidos em um mesmo pote e o experimento foi repetido em duas áreas de coleta. As avaliações foram realizadas diariamente a partir da inoculação e o tipo de sintoma foi associado a números. O número 0 corresponde ausência de sintomas, 1 sintomas de MFG, 2 para sintomas de PA e 3 para lesões com esporulação nas lesões de PA (Figura \@ref(fig:sintomas)). 
+A estatistica convencional não é apropriada para avaliar dados em que o interesse é o tempo. Isso ocorre devido a censura dos dados à direita, ou seja, o experimento poder encerrar antes de todas as repetições apresentarem o evento, e a distruição dos dados frequentemente não é considerada normal. Para resolver este problema, a análise de sobrevivência foi desenvolvida com base em um modelo de verossimilhança e consegue extrair estimativas confiáveis mesmo em situações onde ocorre censura [@Colosimo2006].
 
-(ref:sintomas) Frutos de macieira sem sintomas (A), com mancha foliar de glomerella em frutos (B), podridão amarga (C), lesão da podridão amarga esporulando (D) e seus números correspondentes nas avaliações. 
+Uma das principais técnicas não paramétricas da análise é o método de Kaplan-Meier [@Kaplan1958], que estima a função de sobrevivência, isto é, a probabilidade de um indivíduo não apresentar o evento decorrido um tempo "t". Os gráficos gerados por esta análise são representados por degraus de tempo em que ocorre o evento. Por meio desta técnica, torna-se possível a aplicação do teste de significância de Log-Rank para comparar tratamentos. 
 
-```{r sintomas, echo=FALSE, fig.cap= '(ref:sintomas)'}
-knitr::include_graphics("./camilla/sintomas.png")
-```
+Em alguns casos, também é interessante estimar quantitativamente o risco que cada tratamento tem de expressar o evento. No entanto, uma distribuição estatística precisa ser escolhida para determinar estes valores.  Dentro deste contexto, o modelo de Cox de riscos proporcionais é o dos mais utilizados na análise de sobrevivencia, partindo de uma abordagem semi-paramétrica. Como o interesse é estimar o efeito das covariáveis e não os parâmetros do modelo, os valores obtidos são apropriados, mesmo que a distribuição suposta não seja adequada. 
+
+
+Na sequência, os passos para a análise de sobrevivencia no software R Studio foram relacionados em um estudo de caso, passando pela técnica de Kaplan-Meier, teste de log-Rank e modelo de Cox de riscos proporcionais. Suponha um experimento real cujo objetivo foi avaliar o desenvolvimento de sintomas de uma doença em maças em diferentes tamanhos de frutos. Este ensaio foi realizado em condições de laboratório com frutos mantidos em potes. Cinco diferentes tamanhos de maças (tam1, tam2, tam3, tam 4 e tam5) foram inoculados com uma gota de suspensão de esporos do patógeno X. Após a inoculação os frutos foram aleatoriamente distribuidos em uma sala de incubação com condições controladas e homogeneas, constituindo um delineamento inteiramente casualisado com 5 tratamentos e 8 repetições. 
+
+Após a inoculação, cada fruto foi avaliado diariamente quanto ao aparecimento de sintomas. Ao final do experimento foi atribuido o status "zero" (0) aos frutos que não apresentaram sintomas e o status "um" (1) para aqueles com sintomas, acompanhado do dia em que o mesmo ocorreu. O conjunto de dados foi estruturado conforme mostra a tabela 1. 
+
+
 
 
