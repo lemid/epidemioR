@@ -11,9 +11,9 @@ chapter_authors(c("Camilla Castellar"))
 
 ## Introdução 
 
-A análise de sobrevivência infere sobre a probabilidade de um evento ocorrer no tempo. Por exemplo, na medicina, área onde a análise tem origem, o interesse é avaliar o tempo e a chance de um indivíduo literalmente sobreviver após receber um tratatamento para cura. Na área de epidemiologia de doenças de plantas, a analise de sobrevivência tem sido utilizada para avaliar o período de incubação da antracnose em ramos de Camélia [@Copes2008],  o tempo para a queda de folhas induzida por *Septoria Albopunctata* [@Ojiambo2005], avaliação do tempo e risco para a ocorrencia de sintomas de Podridão Parda em diferentes cultivares de pessegueiro e em dias após a floração [@Nesi2005], entre outros casos.  
+A análise de sobrevivência infere sobre a probabilidade de um evento ocorrer no tempo. Por exemplo, na medicina, área onde a análise tem origem, o interesse é avaliar o tempo e a chance de um indivíduo literalmente sobreviver após receber um tratatamento para cura. Na área de epidemiologia de doenças de plantas, a analise de sobrevivência tem sido utilizada para avaliar o período de incubação da antracnose em ramos de Camélia [@Copes2008],  o tempo para a queda de folhas induzida por *Septoria Albopunctata* [@Ojiambo2005], avaliação do tempo e risco para a ocorrencia de sintomas de Podridão Parda em diferentes cultivares de pessegueiro e em dias após a floração (Nesi 2005), entre outros casos.  
 
-A estatistica convencional não é apropriada para avaliar dados em que o interesse é o tempo. Isso ocorre devido a censura dos dados à direita, ou seja, o experimento poder encerrar antes de todas as repetições apresentarem o evento, e a distruição dos dados frequentemente não é considerada normal. Para resolver este problema, a análise de sobrevivência foi desenvolvida com base em um modelo de verossimilhança e consegue extrair estimativas confiáveis mesmo em situações onde ocorre censura [@Colosimo2006].
+A estatistica convencional não é apropriada para avaliar dados em que o interesse é o tempo. Isso ocorre devido a censura dos dados à direita, ou seja, o experimento poder encerrar antes de todas as repetições apresentarem o evento, e a distruição dos dados frequentemente não é considerada normal. Para resolver este problema, a análise de sobrevivência foi desenvolvida com base em um modelo de verossimilhança e consegue extrair estimativas confiáveis mesmo em situações onde ocorre censura (Colosimo 2006).
 
 Uma das principais técnicas não paramétricas da análise é o método de Kaplan-Meier [@Kaplan1958], que estima a função de sobrevivência, isto é, a probabilidade de um indivíduo não apresentar o evento decorrido um tempo "t". Os gráficos gerados por esta análise são representados por degraus de tempo em que ocorre o evento. Por meio desta técnica, torna-se possível a aplicação do teste de significância de Log-Rank para comparar tratamentos. 
 
@@ -23,6 +23,18 @@ Em alguns casos, também é interessante estimar quantitativamente o risco que c
 Na sequência, os passos para a análise de sobrevivencia no software R Studio foram relacionados em um estudo de caso, passando pela técnica de Kaplan-Meier, teste de log-Rank e modelo de Cox de riscos proporcionais. Suponha um experimento real cujo objetivo foi avaliar o desenvolvimento de sintomas de uma doença em maças em diferentes tamanhos de frutos. Este ensaio foi realizado em condições de laboratório com frutos mantidos em potes. Cinco diferentes tamanhos de maças (tam1, tam2, tam3, tam 4 e tam5) foram inoculados com uma gota de suspensão de esporos do patógeno X. Após a inoculação os frutos foram aleatoriamente distribuidos em uma sala de incubação com condições controladas e homogeneas, constituindo um delineamento inteiramente casualisado com 5 tratamentos e 8 repetições. 
 
 Após a inoculação, cada fruto foi avaliado diariamente quanto ao aparecimento de sintomas. Ao final do experimento foi atribuido o status "zero" (0) aos frutos que não apresentaram sintomas e o status "um" (1) para aqueles com sintomas, acompanhado do dia em que o mesmo ocorreu. O conjunto de dados foi estruturado conforme mostra a tabela 1. 
+
+
+
+(ref:conjuntodedados) Conjunto de dados para análise de sobrevivência.
+
+```{r conjuntodedados, echo=FALSE}
+tb <- read.csv2 ("camilla/sobrev.csv")
+knitr::kable(head(tb), caption = '(ref:conjuntodedados)',
+             digits = c(1, NA, 1, 1),
+             align = c("cccc"),
+             row.names = FALSE)
+```
 
 
 
