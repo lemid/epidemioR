@@ -1,4 +1,10 @@
+# Análise de sobrevivência
 
+```{r, echo = FALSE, results = "asis"}
+chapter_authors(c("Camilla Castellar"))
+```
+
+## Introdução
 
 # Análise de sobrevivência
 

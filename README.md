@@ -9,6 +9,29 @@ Este material é produzido devido à colaboração de professores e alunos
 do Programa de Pós Graduação em Produção Vegetal, com colaboração de
 professores e pesquisadores externos.
 
+
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Sumário**
+
+  - [Programação das atividades](#programação-das-atividades)
+  - [Orientações para os autores](#orientações-para-os-autores)
+      - [Sintaxe Rmarkdown](#sintaxe-rmarkdown)
+      - [Estrutura de diretório e arquivos](#estrutura-de-diretório-e-arquivos)
+      - [Inclusão de figuras](#inclusão-de-figuras)
+      - [Inclusão de tabelas](#inclusão-de-tabelas)
+      - [Inclusão de equações e anotações matemáticas](#inclusão-de-equações-e-anotações-matemáticas)
+      - [Citação de referências bibliográficas](#citação-de-referências-bibliográficas)
+      - [Dicas adicionais para referências](#dicas-adicionais-para-referências)
+      - [Serviços para molduras de imagens para pranchas](#serviços-para-molduras-de-imagens-para-pranchas)
+      - [Serviços para remover fundos de imagens](#serviços-para-remover-fundos-de-imagens)
+      - [Serviços para edição de imagens](#serviços-para-edição-de-imagens)
+      - [Recursos para edição de imagens](#recursos-para-edição-de-imagens)
+      - [Construção de fluxogramas](#construção-de-fluxogramas)
+      - [Repositórios de ícones e imagens](#repositórios-de-ícones-e-imagens)
+      - [Codificação de caracteres (encoding)](#codificação-de-caracteres-encoding)
+
+<!-- markdown-toc end -->
+
 ## Programação das atividades
 
 | Sem. | Data     | Atividade ( as 14 h)                                                                                                                               | Apresent.                      | Profs. / Pos-docs          |
@@ -152,6 +175,7 @@ exemplo. Consulte os links abaixo.
   2. <https://www.tablesgenerator.com/#>.
   3. <https://www.latex-tables.com/>.
   4. <https://jakebathman.github.io/Markdown-Table-Generator/>.
+  5. <https://truben.no/table/>.
 
 Uma vez que a tabela for gerada em sintaxe *markdown* por um dos
 serviços acima (ou qualquer outro equivalente), ela pode ser inserida no
@@ -165,10 +189,21 @@ disponíveis para tabelas. A diferença é que o prefixo para tabela é
 
 Tabelas que sejam mais complexas, por exemplo, com cédulas mescladas,
 quebra de texto dentro das cédulas, podem ser feitas em outros softwares
-e incluídas como imagem. O pacote
-[kableExtra](https://haozhu233.github.io/kableExtra/save_kable_and_as_image.html)
-tem recursos adicionais para construção de tabelas e conversão para
-imagens.
+e incluídas como imagem. Algumas alternativas são:
+  * O pacote
+    [kableExtra](https://haozhu233.github.io/kableExtra/save_kable_and_as_image.html)
+    tem recursos adicionais para construção de tabelas e conversão para
+    imagens.
+  * O serviço [LaTeX Previewer](http://www.tlhiv.org/ltxpreview/)
+    permite gerar PNG a partir de código LaTeX. Portanto, é útil para
+    tabelas converter tabelas construídas em LaTeX para arquivos de
+    imagem. Esteja atento em adicionar eventuais pacotes necessários
+    para a renderização da tabela.
+  * Para quem tiver experiência com
+    [Tikz](http://linorg.usp.br/CTAN/graphics/pgf/base/doc/pgfmanual.pdf),
+    em específico com o
+    [PGFPlotsTable](http://linorg.usp.br/CTAN/graphics/pgf/contrib/pgfplots/doc/pgfplotstable.pdf),
+    pode construir tabelas de excelente tipografia com essa biblioteca.
 
 ### Inclusão de equações e anotações matemáticas
 
@@ -205,15 +240,17 @@ ou pacotes abaixo.
   2. DOI/ISBN/URL para Bibtex:
      <http://doi-to-bibtex-converter.herokuapp.com/> e
      <http://doi-to-bibtex.herokuapp.com/>.
-  4. ISBN para BibTeX:
+  3. ISBN para BibTeX:
      <https://manas.tungare.name/software/isbn-to-bibtex>.
-  5. ISBN para BibTeX: <https://www.ottobib.com/>.
-  6. ISBN para BibTex: <https://www.xarg.org/tools/isbn-to-bibtex/>.
-  7. Título para BibTeX: <http://www.bibme.org/bibtex/journal-citation>.
-  8. Estrutura para BibTeX a partir da referência formatada:
+  4. ISBN para BibTeX: <https://www.ottobib.com/>.
+  5. ISBN para BibTex: <https://www.xarg.org/tools/isbn-to-bibtex/>.
+  6. Título para BibTeX: <http://www.bibme.org/bibtex/journal-citation>.
+  7. Estrutura para BibTeX a partir da referência formatada:
      <https://anystyle.io/>.
-  9. Serviço para preencher campos manualmente e criar BibTeX:
+  8. Serviço para preencher campos manualmente e criar BibTeX:
      <https://truben.no/latex/bibtex/>.
+  9. Zotero · serviço para preencher campos manualmente e criar BibTeX:
+     <https://zbib.org/>.
   10. DOI para BibTeX com Python (`urllib`):
       <https://scipython.com/blog/doi-to-bibtex/>.
   11. Completa/henriquece referências BibTeX:
@@ -234,6 +271,9 @@ ou pacotes abaixo.
          tabelas resumo de referências e visualizações.
   14. O software [JabRef](http://www.jabref.org/) possui recurso de
       importação por DOI, ISBN e outros identificadores únicos.
+  15. Consulte esse guia rápido sobre os tipos de documentos e campos
+      para criar as referências em BibTeX:
+      <http://paginapessoal.utfpr.edu.br/jamhour/publicacoes/arquivos/00_Compilado_JabRef_dez2015.pdf>.
 
 O [Mendeley](https://www.mendeley.com/) também exporta referências para
 BibTeX. Selecionando várias referências, pode-se, com o botão direito do
@@ -265,27 +305,30 @@ Algumas dicas adicionais sobre referências são:
   1. **Itálico para nomes científicos**: Para que nomes científicos
      estejam em itálico no título de artigos, por exemplo, tem-se que
      indicar da seguinte forma:
-
-        title = {Desenvolvimento da soja ({\it Glycine Max})}
+     ```
+     title = {Desenvolvimento da soja ({\it Glycine Max})}
+     ```
   2. **Maiúsculo para nomes próprios e siglas**: Nomes próprios e siglas
      precisam ser protegidos para não serem passados para caixa baixa na
      hora de gerar as referências. Então usa-se chaves conforme indicado
      abaixo:
-
-        title = {Caracterização de isolados do {Cerrado} do {Brasil}}
-        title = {Uso da abordagem {AMMI} para análise de experimentos}
+     ```
+     title = {Caracterização de isolados do {Cerrado} do {Brasil}}
+     title = {Uso da abordagem {AMMI} para análise de experimentos}
+     ```
   3. **Substituir caracteres acentuados**: Pode ser que seja necessário
      substituir caracteres acentuados por suas formas equivalentes. O
      protótipo abaixo indica como fazer para acentos agudos,
      circunflexos, tils e cedilha.
-
-        title = {An{\' alise} da resist{\^ e}ncia {\` a} penetra{\c c}{\~ a}o do solo}
+     ```
+     title = {An{\' alise} da resist{\^ e}ncia {\` a} penetra{\c c}{\~ a}o do solo}
+     ```
      No caso de ter que converter um arquivo grande, pode-se usar o
      serviço web
      <http://w2.syronex.com/jmr/latex-symbols-converter>. Basta colar o
      texto e clicar em converter.
 
-### Molduras de imagens para pranchas
+### Serviços para molduras de imagens para pranchas
 
 ![](./img/FotoJet.jpg)
 
@@ -306,6 +349,105 @@ Algumas orientações adicionais são:
     a mesma espessura para a borda. A foto mostrada acima usou 15% para
     *spacing* e foi feita no FotoJet.
   * Baixar a imagem como arquivo PNG.
+
+### Serviços para remover fundos de imagens
+
+![](./img/remove-fundo.png)
+
+Para o projeto será necessária a edição de imagens, o que muitas vezes
+exigirá a edição de fundos para transparente ou branco. Existem serviços
+especializados, gratuitos e online na web para isso. A lista abaixo
+contém alguns.
+
+  * <https://www.remove.bg/>.
+  * <https://online.photoscissors.com/>.
+
+### Serviços para edição de imagens
+
+Para edição de imagens no sentido amplo que vai desde altarar bilho,
+contraste, até adicionar texto, setas, círculos e retângulos, também há
+serviços especializados, gratuitos e online na web. A lista abaixo
+contém alguns.
+
+  * <https://www.fotojet.com/>.
+  * <https://www.img2go.com/>.
+  * <https://www.online-image-editor.com/>.
+  * <https://screenshot.net/online-image-editor.html>.
+  * <https://www.favicon-generator.org/image-editor/>.
+  * <https://www.donesmart.com/free-online-tools/free-online-photo-editor/>.
+
+### Recursos para edição de imagens
+
+Para edição/tratamento de imagens, construção de fluxogramas, etc.,
+recomenda-se 2 softwares livres.
+
+  * [Inkscape](https://inkscape.org/pt-br/): Inkscape é um editor de
+    gráficos vetoriais de qualidade profissional para Linux, Windows e
+    macOS. É gratuito e de código aberto. Com ele é possível editar
+    arquivos SVG, PDF, etc, fazer banners para eventos científicos,
+    artes para eventos, etc. Abaixo, links para Cursos de Inkscape.
+    * [Curso Essencial de Inkscape · DD TUTORIAIS](https://www.youtube.com/playlist?list=PLO_xIfla8f1zFuyteSazl0_Xbb0o_yd0R).
+    * [Curso de Inkscape - Conceitos básicos, logo marca e desenhos · Guarapa EAD](https://www.youtube.com/playlist?list=PL0C3E646EE8B1C024).
+  * [Gimp](https://www.gimp.org/): O Gimp é um editor de imagens que
+    permite fazer tratamento, como brilho, contraste, até composições
+    artisticas sofisticadas e profissionais. O Gimp também é
+    multiplataforma. Abaixo, links para Cursos de Gimp.
+    * [Tutoriais de Gimp 2.10 em Português · EquilibreCursos](https://www.youtube.com/playlist?list=PL_pppC5Pqxvd2NFLGOgIcLME7KBBhNsSG).
+    * [GIMP (video curso em português) · Josberto Vieira](https://www.youtube.com/playlist?list=PLqDbO3r2taQE3pC596kk0z0Qts57zGdLe).
+
+### Construção de fluxogramas
+
+![](./img/draw-io.png)
+
+O <https://www.draw.io/> é um serviço web para construção de fluxogramas
+e esquemas mentais bem ágil. Tem uma série de elementos prontos para
+uso, é bem fácil fazer a conexão entre elementos para indicar fluxo,
+adicionar textos, alinhar elementos, redimensionar, rotacionar, etc. O
+serviço permite vincular uma conta de Dropbox ou Google Drive para
+sincronizar os desenhos feitos e permite baixá-los em formatos editáveis
+por outros softwares. Assista ao vídeo tutorial:
+<https://www.youtube.com/watch?v=XOOVHVfc16U>. Existem outros serviços
+similares ao `draw.io`:
+
+  * <https://cloud.smartdraw.com/>.
+  * <https://www.gliffy.com/>.
+  * <https://www.visme.co/>.
+  * <https://creately.com/>.
+  * <https://www.lucidchart.com/>.
+  * <https://cacoo.com/>.
+
+### Repositórios de ícones e imagens
+
+![](./img/flaticon.png)
+
+O <https://br.flaticon.com/> oferece uma coleção de ícones que podem ser
+usados nas ilustrações. Sem autenticar no serviço, pode-se baixar 10
+ícones por dia. Com autenticação no serviço, pode-se baixar até 100
+ícones. Ao fazer criar uma conta premium, pode-se explorar ícones e
+recursos adicionais. São muitas imagens de licensa gratuíta que exigem
+apenas que seja dado créditos ao autor. Os ícones podem ser baixados em
+formato vetorial e, portanto, editados conforme necessidades da
+ilustração. Existem outros repositórios semelhantes a esse:
+
+  * <https://www.freepik.com/icons>.
+  * <https://www.vecteezy.com/>.
+  * <https://freeicons.io/>.
+  * <http://www.iconarchive.com/>.
+  * <https://thenounproject.com/>.
+  * <https://icons8.com>.
+  * <https://www.1001freedownloads.com>.
+  * <https://all-free-download.com/free-icon/>.
+  * <https://br.vexels.com>.
+
+![](./img/biorender.png)
+
+O <https://biorender.com> é um portal excelente com muitas ilustrações
+voltadas para a Ciência, como aparelhos e instrumentos de laboratório,
+estruturas celulares, anatomia humana, espécies de seres vivos, entre
+outros. O serviço dispõe de um plano gratuíto que habilita o uso das
+imagens para usos educacionais, porém não dá permissão para uso das
+ilustrações em publicações científicas. Dessa forma, o uso das imagens
+fica restrito a slides, tutoriais, materiais de aula, etc.
 
 ### Codificação de caracteres (encoding)
 
