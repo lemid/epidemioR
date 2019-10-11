@@ -1,10 +1,10 @@
-# Germinação de conídios e Monociclo em frutos
+# Comparação de modelos para experimentos de germinação de conídios e monociclo em frutos
 
 ## Motivação
 
-  Experimentos como o de germinação de esporos sob diferentes temperaturas são essenciais para a compreensão do comportamento do patógeno 
+  Estudos de base com patógenos como experimentos de germinação de esporos sob diferentes temperaturas são essenciais para a compreensão do comportamento da doença no campo. Além disso, a modelagem do comportamento de patógenos por meio de equações para representar o monociclo das doenças sob diferentes temperaturas ajuda a predizer o comportamento da doença nessas condições. A utilização de modelos consolidados na literatura auxilia na comparação de diversos parâmetros relevantes, contudo pode apresentar algumas limitações. O objetivo desse capítulo será a comparação de modelos para ajuste de dados de germinação de conídios e monociclo de frutos.
 
-O Cancro Europeu das Pomáceas e Podridão de frutos causados por *Neonectria ditissima* ocorre em regiões produtoras de maçãs (*Malus domestica* Borkh.) do mundo todo, como Europa, América do Norte, Chile, Austrália, Nova Zelândia, Japão e África do Sul  [@Beresford2011]. Detectada no Brasil em 2002, se destaca entre as doenças que vêm causando grandes perdas na cadeia produtiva da macieira. A doença afeta os ramos e o tronco principal da planta causando sintoma de cancro, enquanto em frutos causa  podridão mole (Figura \@ref(fig:prancha01)). A podridão de Neonectria em frutos de maçã ocorre na maioria das áreas produtoras do mundo, e no Brasil sua elevada incidência pode ser explicada pelas condições climáticas mais favoráveis e/ou pela maior quantidade de inóculo nos pomares, devido à falta de experiência no manejo [@EmbrapaCancro2015].
+  Neste capítulo trabalharemos com dados de germinação de conídios e Monociclo de *Neonectria ditissima*, agente causal do Cancro Europeu das Pomáceas e Podidão de Frutos. As doenças ocorrem em regiões produtoras de maçãs (*Malus domestica* Borkh.) do mundo todo, como Europa, América do Norte, Chile, Austrália, Nova Zelândia, Japão e África do Sul  [@Beresford2011]. Detectada no Brasil em 2002, se destaca entre as doenças que vêm causando grandes perdas na cadeia produtiva da macieira. A doença afeta os ramos e o tronco principal da planta causando sintoma de cancro, enquanto em frutos causa  podridão mole (Figura \@ref(fig:prancha01)). A podridão de Neonectria em frutos de maçã ocorre na maioria das áreas produtoras do mundo, e no Brasil sua elevada incidência pode ser explicada pelas condições climáticas mais favoráveis e/ou pela maior quantidade de inóculo nos pomares, devido à falta de experiência no manejo [@EmbrapaCancro2015].
 
 (ref:prancha01) Sintomas de Cancro Europeu em macieira (esq.) e de podridão de Neonectria em fruto (dir.) em cultivar Gala.
 
@@ -22,10 +22,10 @@ knitr::include_graphics("./jhulia/prancha02.jpg")
 
 Dados sobre as taxas de germinação de esporos em diferentes temperaturas e períodos de incubação são relevantes para a predição de riscos de acordo com as condições ambientais que ocorrem no pomar. O modelo beta-monomolecular, apesar de comumente encontrado na literatura para representar o comportamento da germinação de esporos sob diferentes temperaturas e períodos de incubação ou molhamento [@Christiano2003;@Godoy1999;@MayDeMio2002] e estimar diversas variáveis com aplicação biológica, apresenta algumas limitações, que serão abordadas no tópico a seguir. Com isso, há a necessidade da adaptação de outros modelos que melhor se adequem ao objetivo da avaliação. Um exemplo é a utilização de modelos polinomiais que .... (completar)
 
-Embora *N. ditissima* seja mais comumente descrito como patógeno de partes lenhosas, O patógeno também infecta frutos de maçã resultando em podridão em pré-colheita (no pomar) ou, mais comumente, em pós-colheita (armazenamento) [@Xu2010]. O uso de equações para representar o monociclo da doença em frutos sob diferentes temperaturas pode ser um recurso útil na previsão de como a doença se comportará em diferentes condições e ajudar os produtores no delineamento de estratégias de manejo.
+Embora *N. ditissima* seja mais comumente descrito como patógeno de partes lenhosas, ele também infecta frutos de maçã resultando em podridão em pré-colheita (no pomar) ou, mais comumente, em pós-colheita (armazenamento) [@Xu2010]. O uso de equações para representar o monociclo da doença em frutos sob diferentes temperaturas pode ser um recurso útil na previsão de como a doença se comportará em diferentes condições e ajudar os produtores em decisões de manejo.
 
 
-Esse capítulo objetivou a elucidação e comparação de modelos polinomial e beta-monomolecular para avaliação de dados de germinação de esporos em diferentes temperaturas e períodos de molhamento, bem como descrever equações que descrevam o comportamento do monociclo da podridão de Neonectria em frutos de maçã.
+Esse capítulo objetivou a elucidação e comparação de modelos polinomial e beta-monomolecular para avaliação de dados de germinação de esporos em diferentes temperaturas e períodos de molhamento, bem como descrever equações que descrevam o comportamento do monociclo de doenças.
 
 
 ## Germinação de conídios
@@ -443,11 +443,11 @@ direct.label(gg, list("top.pieces",
                       vjust = 1))
 
 #***********************************************************************
-# Observação: O modelo `m0` é bem mais adequado para o ajuste do que o
-# `n1`. Isso porque em `m0` 1) está acomodado o efeito de blocos, 2)
-# possui termos de interação que são significativos, 3) polinômios
-# cúbicos são bem mais flexíveis e portanto o ajuste do modelo aos
-# dados. Portanto, o ajuste da beta generalizada com
+# Observação: O modelo polinomial é bem mais adequado para o ajuste do 
+# que o beta-monomolecular. Isso porque no primeiro 1) o efeito de blocos 
+# está acomodado, 2) possui termos de interação que são significativos, 
+# 3) polinômios cúbicos são bem mais flexíveis e portanto o ajuste do 
+# modelo aos dados. Portanto, o ajuste da beta generalizada com
 # monolecular deve ser considerado com cuidado para fazer a discussão 
 # pois ele é um modelo que apresenta falta de ajuste em relação ao 
 # modelo polinomial.
@@ -465,24 +465,352 @@ cor(fitted(n1), tb_con$ger)^2 # Modelo não linear aditivo.
 
 Frutos maduros de maçã 'Gala' foram desinfestados e, com auxílio de agulha esterilizada, foi feito um ferimento na região equatorial de cada fruto. Em cada ferimento foram depositados 40 microlitros de suspensão de *N. ditissima* ajustada a 10^5^ conídios . mL^-1^. Os frutos inoculados foram colocados em potes com umidade elevada e mantidos em câmaras de crescimento sob temperaturas de 5, 10, 12, 16, 20, 25 e 35 °C. Foram utilizados 5 frutos por tratamento. A avaliação foi diária até 18 dias após a inoculação, medindo o diâmetro da lesão com auxílio de paquímetro digital. 
 
-A Tabela \@ref(tab:maca-diam-lesao-n16) descreve como os dados da avaliação do diâmetro da lesão de *N. ditissima* foram tabulados. 
+```{r}
+# Carregar pacotes necessários
+rm(list = objects())
 
-(ref:maca-diam-lesao-n16) Dados para avaliação do diâmetro da lesão de *Neonectria ditissima* em frutos maduros de maçã 'Gala' incubados em diferentes temperaturas (temp) ao longo de 18 dias de avaliação (d1 a d18), com 5 frutos por tratamento. 
+library(survival)
+library(lsmeans)
+# ls("package:lsmeans")
 
-```{r maca-diam-lesao-n16, echo=FALSE}
-tb2 <- read.csv2("jhulia/maca-diam-lesao-n16.csv")
-str(tb2)
-knitr::kable(head(tb2), caption = '(ref:maca-diam-lesao-n16)',
+library(tidyverse)
+```
+
+
+A Tabela \@ref(tab:maca-diam-lesao-n16-exemplo) descreve como os dados da avaliação do diâmetro da lesão de *N. ditissima* foram tabulados. 
+
+(ref:maca-diam-lesao-n16-exemplo) Dados para avaliação do diâmetro da lesão de *Neonectria ditissima* em frutos maduros de maçã 'Gala' incubados em diferentes temperaturas (temp) ao longo de 18 dias de avaliação (d1 a d18), com 5 frutos por tratamento. 
+
+
+```{r maca-diam-lesao-n16-exemplo, echo=FALSE}
+
+daex <- read.csv2("jhulia/maca-diam-lesao-n16-exemplo.csv")
+str(daex)
+knitr::kable(head(daex), caption = '(ref:maca-diam-lesao-n16-exemplo)',
              digits = c(NA, 0, 0, 1, 1),
              align = c("ccccc"),
              row.names = FALSE)
+
 ```
-
-
 ```{r}
+#-----------------------------------------------------------------------
+# Leitura dos dados.
 
+da <- read_csv2("maca_diam_lesao_n16.csv", locale = locale(decimal_mark = ","))
+attr(da, "spec") <- NULL
+da
 
+# Tabela de frequência das combinações experimentais.
+da %>%
+  xtabs(formula = ~temp)
 
+# Empilhar os dados no eixo do tempo.
+db <- da %>%
+  gather(key = "dai", value = "diam", -(1:3)) %>%
+  mutate(dai = as.integer(dai)) %>%
+  arrange(temp, rep, dai)
+str(db)
+
+# Obtém o tempo de inoculação para as UE que tiveram o evento observado.
+dc <- db %>%
+  filter(diam > 0) %>%
+  group_by(temp, rep) %>%
+  summarise(diam = first(diam),
+            dai = first(dai)) %>%
+  ungroup()
+
+# A diferença corresponde as UE com censura a direita.
+c(nrow(da), nrow(dc))
+
+# Cria uma cópia de todas as celas com informação do status.
+dd <- da %>%
+  select(1:3) %>%
+  mutate(status = 1)
+
+# Realiza a junção. Onde tiver `NA` são os censurados.
+dd <- full_join(dc, dd, by = c("temp", "rep"))
+dd %>% print(n = Inf)
+
+# Muda o valor de status e substitui oa `NA` por valores.
+dd <- dd %>%
+  mutate(status = ifelse(is.na(dai), 0, 1)) %>%
+  replace_na(list(dai = 13, diam = 0))
+dd %>% print(n = Inf)
+
+#-----------------------------------------------------------------------
+# Análise exploratória.
+
+ggplot(data = dd,
+       mapping = aes(x = temp,
+                     y = dai)) +
+  geom_point(mapping = aes(color = factor(status))) +
+  stat_summary(geom = "line",
+               fun.y = mean) +
+  labs(color = "Incubação") +
+  xlab(expression("Temperatura" ~ (degree * C))) +
+  ylab("Per??odo após a inoculação (dias)")
+
+#-----------------------------------------------------------------------
+# Análise de sobrevivência.
+
+# Com letra maiúscula são as versões categóricas dos fatores
+# experimentais.
+dd <- dd %>%
+  mutate(Temp = factor(temp))
+
+# A modelagem é para a variável aleatória `tempo para a queda da
+# folha`. A queda d folha é o desfecho.
+s <- with(dd,
+          Surv(time = dai,
+               event = status,
+               type = "right"))
+s
+
+# Modelo com interação tripla.
+m2 <- survreg(formula = s ~ Temp,
+              data = dd,
+              dist = "weibull")
+anova(m2)
+
+# Estimativas dos efeitos.
+summary(m2)
+
+# Médias ajustadas com valor fixado de molhamento.
+lsm <- lsmeans(object = m2,
+               specs = ~Temp)
+lsm
+
+# Gráfico padrão.
+plot(lsm)
+
+# Pega a tabela com o IC para fazer o gráfico com a ggplot2.
+lsm <- (summary(lsm))
+lsm
+
+# Gráfico.
+ggplot(data = lsm,
+       mapping = aes(x = Temp, y = lsmean)) +
+  geom_point() +
+  geom_errorbar(mapping = aes(ymin = lower.CL,
+                              ymax = upper.CL),
+                width = 0.05)
+#-----------------------------------------------------------------------
+# Tempo médio.
+
+# Aplica ls means para combinações de molhamento e temperatura.
+tb_medias <- lsm
+
+# Calculando o tempo médio de inoculação com IC.
+tb_medias$media <- exp(tb_medias$lsmean) * gamma(1 + m2$scale)
+tb_medias$lwr <- exp(tb_medias$lower.CL) * gamma(1 + m2$scale)
+tb_medias$upr <- exp(tb_medias$upper.CL) * gamma(1 + m2$scale)
+
+# Gráfico.
+ggplot(data = tb_medias,
+       mapping = aes(x = Temp, y = media)) +
+  geom_point() +
+  geom_line(aes(group = 1), color = "gray50") +
+  geom_errorbar(mapping = aes(ymin = lwr,
+                              ymax = upr),
+                width = 0.05)
+
+# Gráfico.
+ggplot(data = filter(tb_medias, !Temp %in% c("5", "10", "12", "35")),
+       mapping = aes(x = Temp, y = media)) +
+  geom_point() +
+  geom_line(aes(group = 1), color = "gray50") +
+  geom_errorbar(mapping = aes(ymin = lwr,
+                              ymax = upr),
+                width = 0.05) +
+  xlab(expression("temperature" ~ (degree * C))) +
+  ylab("days after inoculation")
+
+tb_medias %>%
+  select(Temp, media, lwr, upr) %>%
+  arrange(Temp)
+
+#-----------------------------------------------------------------------
+#-----------------------------------------------------------------------
+# Ajuste de modelo para crescimento da lesão.
+
+dc <- da %>%
+
+  mutate(fruto = 1:n()) %>%
+  gather(key = "dai", value = "diam", -c(isol, temp, rep, fruto)) %>%
+  mutate(dai = as.integer(dai))
+str(dc)
+
+dc <- dc %>%
+  filter(diam > 0) %>%
+  mutate(diam = sqrt(diam))
+
+ggplot(data = dc,
+       mapping = aes(x = dai,
+                     y = (diam),
+                     color = factor(rep))) +
+  geom_point() +
+  stat_summary(geom = "line",
+               fun.y = mean) +
+  facet_wrap(facets = ~temp, nrow = 1) +
+  xlab("Período após a inoculação (dias)") +
+  ylab("Diâmetro da lesão no fruto(mm)")
+
+#-----------------------------------------------------------------------
+# Ajuste do modelo para o tamanho da lesão.
+
+# Lista para guardar os ajustes.
+fits <- list()
+
+# Expressão do modelo para usar na nls().
+model <- diam ~ 0 + (dai > dai_inc) *
+  A * (1 - exp(-log(2) * (dai - dai_inc)/V))
+
+# Função do modelo para usar dentro da curve().
+expr <- function(dai, A, V, dai_inc) {
+  0 + (dai > dai_inc) * A * (1 - exp(-log(2) * (dai - dai_inc)/V))
+}
+
+#-----------------------------------------------------------------------
+#Ajustaremos as equações apenas para as temperaturas nas quais houve 
+#aparecimento de lesão, ou seja, 16, 20 e 25°C.
+
+# Temperatura 16.
+
+t <- 16
+
+# Tempo de incubação.
+dai_inc <- tb_medias$media[tb_medias$Temp == "16"]
+dai_inc
+
+# Verifica os valores iniciais.
+plot(diam ~ dai, data = filter(dc, temp == t),
+     xlim = c(0, 18), ylim = c(0, max(dc$diam)))
+start <- list(A = 5, V = 5, dai_inc = dai_inc)
+with(start,
+     curve(expr(dai, A, V, dai_inc),
+           xname = "dai", add = TRUE, col = 2))
+
+# Temperatura 16.
+fits$temp16 <- nls(model,
+                   data = filter(dc, temp == t),
+                   start = start)
+summary(fits$temp16)
+
+# Verifica como ficou o ajuste.
+plot(diam ~ dai, data = filter(dc, temp == t),
+     xlim = c(0, 18), ylim = c(0, max(dc$diam)))
+# with(c(as.list(coef(fits$temp16)), dai_inc = dai_inc),
+with(as.list(coef(fits$temp16)),
+     curve(expr(dai, A, V, dai_inc),
+           xname = "dai", add = TRUE, col = 2))
+
+#-----------------------------------------------------------------------
+# Temperatura 20.
+
+t <- 20
+
+# Tempo de incubação.
+dai_inc <- tb_medias$media[tb_medias$Temp == "20"]
+dai_inc
+
+# Verifica os valores iniciais.
+plot(diam ~ dai, data = filter(dc, temp == t),
+     xlim = c(0, 18), ylim = c(0, max(dc$diam)))
+start <- list(A = 50, V = 10, dai_inc = dai_inc)
+with(start,
+     curve(expr(dai, A, V, dai_inc),
+           xname = "dai", add = TRUE, col = 2))
+
+# Temperatura 20.
+fits$temp20 <- nls(model,
+                   data = filter(dc, temp == t),
+                   start = start)
+summary(fits$temp20)
+
+# Verifica como ficou o ajuste.
+plot(diam ~ dai, data = filter(dc, temp == t),
+     xlim = c(0, 18), ylim = c(0, max(dc$diam)))
+# with(c(as.list(coef(fits$temp20)), dai_inc = dai_inc),
+with(as.list(coef(fits$temp20)),
+     curve(expr(dai, A, V, dai_inc),
+           xname = "dai", add = TRUE, col = 2))
+#-----------------------------------------------------------------------
+
+# Temperatura 25.
+
+t <- 25
+
+# Tempo de incubação.
+dai_inc <- tb_medias$media[tb_medias$Temp == "25"]
+dai_inc
+
+# Verifica os valores iniciais.
+plot(diam ~ dai, data = filter(dc, temp == t),
+     xlim = c(0, 18), ylim = c(0, max(dc$diam)))
+start <- list(A = 80, V = 15, dai_inc = dai_inc)
+with(start,
+     curve(expr(dai, A, V, dai_inc),
+           xname = "dai", add = TRUE, col = 2))
+
+# Temperatura 25.
+fits$temp25 <- nls(model,
+                   data = filter(dc, temp == t),
+                   start = start,
+                   trace = TRUE)
+summary(fits$temp25)
+
+# Verifica como ficou o ajuste.
+plot(diam ~ dai, data = filter(dc, temp == t),
+     xlim = c(0, 18), ylim = c(0, max(dc$diam)))
+# with(c(as.list(coef(fits$temp25)), dai_inc = dai_inc),
+with(as.list(coef(fits$temp25)),
+     curve(expr(dai, A, V, dai_inc),
+           xname = "dai", add = TRUE, col = 2))
+
+#-----------------------------------------------------------------------
+# Resultado dos 3 ajustes.
+
+# Tabela dos coeficientes ajustados dos modelos.
+# sapply(fits, coef)
+# lapply(fits, confint.default)
+
+# Estimativa com limite superior e inferior do intervalo de confiança.
+lapply(fits, FUN = function(mod) {
+  cbind(Estimate = coef(mod), confint.default(mod))
+})
+
+# As taxas iniciais de crescimento de lesão são dadas por:
+#    f'(dai = dai_inc) = A * log(2)/V.
+
+# Taxas relativas de crescimento inicial da lesão o instante 0.
+tx <- function(model) {
+  theta <- coef(model)
+  theta["A"] * log(2)/theta["V"]
+}
+
+sapply(fits, tx)
+
+#-----------------------------------------------------------------------
+# Valores preditos.
+
+grid <- data.frame(dai = seq(0, 18, length.out = 101))
+grid <- cbind(grid, sapply(fits, predict, newdata = grid))
+str(grid)
+
+grid <- grid %>%
+  gather(key = temp, value = diam, -dai) %>%
+  mutate(temp = as.integer(str_replace(temp, "temp", "")))
+
+ggplot(data = grid,
+       mapping = aes(x = dai,
+                     y = diam)) +
+  geom_line() +
+  facet_wrap(facets = ~temp) +
+  geom_point(data = dc,
+             mapping = aes(x = dai, y = diam))
+
+#-----------------------------------------------------------------------
 
 ```
+
 
