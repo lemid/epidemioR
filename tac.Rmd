@@ -1,6 +1,9 @@
-# Análise de sobrevivência em esquema fatorial relacionando diferentes espécies com eficiência de fungicidas em frutos destacados 
+# Análise de sobrevivência em esquema fatorial relacionando diferentes espécies com eficiência de fungicidas para controle de doença 
 
 Introducao das doencas!!
+
+O modelo paramétrico de Weibull...
+
 
 Na sequencia, os passo para a analise de sobrevivencia no software R studio...
 
