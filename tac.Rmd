@@ -1,36 +1,27 @@
-# Análise de sobrevivência em esquema fatorial relacionando diferentes espécies com eficiência de fungicidas para controle de doença 
-
-Introducao das doencas!!
-
-O modelo paramétrico de Weibull...
-
-
-Na sequencia, os passo para a analise de sobrevivencia no software R studio...
-
-
+# Análise de sobrevivência ultilizando modelo de regressão paramétrico
 
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Thiago de Aguiar Carraro", "Paulo dos Santos Faria Lichtemberg", "Camilla Castellar", "Walmes Marques Zeviani", "Louise Larissa May De Mio"))
 ```
 
- (Figura \@ref(fig:prancha-1)).
+<!--  (Figura \@ref(fig:prancha-1)). -->
 
-(ref:prancha-1) Lesões necróticas, deprimidas, escuras e circulares em frutos imaturo no campo (A), evolução do sintoma em fruto imaturo destacado (B), e a acentuada queda prematura dos frutos de caquizeiro (C). Lesões em frutos maduros no campo (D) e destacado (E)(com massa de conídios no centro da lesão). Lesões típicas de antracnose em ramos jovens (F).
+<!-- (ref:prancha-1) Lesões necróticas, deprimidas, escuras e circulares em frutos imaturo no campo (A), evolução do sintoma em fruto imaturo destacado (B), e a acentuada queda prematura dos frutos de caquizeiro (C). Lesões em frutos maduros no campo (D) e destacado (E)(com massa de conídios no centro da lesão). Lesões típicas de antracnose em ramos jovens (F). -->
 
-```{r prancha-1, echo = FALSE, fig.cap= '(ref:prancha-1)'}
-knitr::include_graphics("./tac/prancha_1.jpg")
-```
+<!-- ```{r prancha-1, echo = FALSE, fig.cap= '(ref:prancha-1)'} -->
+<!-- knitr::include_graphics("./tac/prancha_1.jpg") -->
+<!-- ``` -->
 
-O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém para o caquizeiro tem-se poucos produtos registrados no Brasil, dentre estes produtos mais de 60% apresentam riscos de médio a alto para o desenvolvimento de resistências do fungo à fungicidas (DMI e QoI) e, consequentemente podem resultar em uma perda da eficiência em campo, caso os mesmos não sejam adequadamente manejados. Para adotar estratégias de controle eficientes ao longo das safras é necessário que seja realizado o monitoramento da sensibilidade do fungo aos fungicidas.
-
-Em estudos iniciais de monitoramento da sensibilidade de *Colletotrichum* spp. aos fungicidas registrados para o caquizeiro, foi observado uma sensibilidade alterada para os ingredientes ativos dos grupos QoI e DMI, os quais ainda nem estão registrados para antracnose, apenas para cercosporiose. Com as novas espécies do fungo *Colletotrichum* causando a doença, torna-se importante o entendimento da interação patógenos/fungicidas, para observar se existe diferenças no controle, diante disso adotar estratégias de manejo considerando sensibilidade inerente e eficiência dos fungicidas. Somado a isso, o manejo do número de aplicações por safra alternando grupos químicos e incluindo fungicidas de amplo espectro são importantes para evitar sobreposição de populações menos sensíveis, o que dificultará no manejo da doença.
+O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém alguns fungicidas apresentam riscos de médio a alto (DMI e QoI) para selecionar resistências do fungo à fungicidas  e, consequentemente podem resultar em uma perda da eficiência em campo, caso os mesmos não sejam adequadamente manejados. Para adotar estratégias de controle eficientes ao longo das safras é necessário que seja realizado o monitoramento da sensibilidade do fungo aos fungicidas.
 
 ## Metodologia...(*ex vivo*)
 
 Ensaios *ex vivo* são também muito relevantes para determinar se está ocorrendo uma resistência prática, ou seja, quando ocorre uma falha do controle da doença em campo [@ghinirekimatih2000]. Estes testes podem ser realizados com plantas ou partes vegetais destacados, o qual serão tratados com a concentração recomendada para o produtor.
 
 
-Para as análises das eficiências de controle dos fungicidas considerando o tempo para ocorrência dos primeiros sintomas e sinais em frutos destacados inoculados com diferentes espécies de *Colletotrichum* serão avaliadas por intermédio da análise de sobrevivência...
+Para as análises das eficiências de controle dos fungicidas considerando o tempo para ocorrência dos primeiros sintomas e sinais em frutos destacados inoculados com diferentes espécies de *Colletotrichum* serão avaliadas por intermédio da análise de sobrevivência...ESCREVER DELINEAMENTO!!!!!!!!!!!!!!!!!!!
 
+#Modelo de Regressão Weibull
 
-Discutir ANÁLISE DE SOBREVIVÊNCIA PARA ESSE TIPO DE EXPERIMENTO!!!
+Para experimentos fatoriais cujo o objetivo é analisar a correlação desses fatores ao longo de um tempo, bem como estimar o período de incubação de uma doença, assume-se o modelo de regressão paramétrico para análise desses dados. O modelo de regressão Weibull é uma das formas utilizadas, o qual utiliza uma linha base de funções de Hazard para ajuste de coeficientes covariáveis. 
+Em relação aos estudos de sobrevivência, o modelo paramétrico pode estimar a distribuição do tempo de vida de um patógeno, bem como determinar parâmetros importantes para análise de interações de fatores. Tipos de modelos para ajustes (exponecial, Weibull, log-logistico).....FINALIZAR ESSA PARTE!!!!!!!!!!!!!!!!!!!!!!!
