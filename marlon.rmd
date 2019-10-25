@@ -1,12 +1,8 @@
 # Concentração Efetiva (CE₅₀) em estudos com nematoides estimada por regressão não-linear
 
-```{r, echo = FALSE, results = "asis"}
-chapter_authors(c("Walmes Marques Zeviani", "Larissa May de Mio"))
-```
-
 ## Motivação
 
-Os nematoides são animais pertencentes ao filo Nematoda, que engloba cerca de 4000 espécies. Esses animais são essencilamente aquáticos, podendo ser encontrados em todos os ecossistemas da terra. Um grupo desses animais são de extrema importância para os seres humanos, pois causam diversos prejuizos. 
+Os nematoides são animais pertencentes ao filo Nematoda, que engloba cerca de 4000 espécies. Esses animais são essencilamente aquáticos, podendo ser encontrados em todos os ecossistemas da terra. Um grupo desses animais são de extrema importância para os seres humanos, pois causam diversos prejuizos, parasitando plantas e animais. 
 
 Na agricultura, os nematoides são extremamente importantes pois parasitam as raizes de plantas de interesse agrícola. Esse grupo de nematoides possuem em orgão destinado exclusivamente para se alimentar do protoplasto das células das plantas, o estilete. Esse orgão atua como uma agulha de uma seringa, que ao penetrar a célula vegetal, é capaz de sugar seu conteudo. Esse habito faz com que os nematoides sejam exclusivamente dependentes das plantas, toranando-os parasitas obrigatórios.
 
@@ -22,6 +18,8 @@ knitr::include_graphics("./marlon/j2andeggs.jpg")
 
 O controle dos nematoides busca evitar as perdas economicas devido o parasitismo dos nematoides. Basicamente, após a entrada dos nematoides na área de produção agricola, atualmente não há estratégias capazes de erradicar os nematoides de maneira eficiente. Deste modo, possuimos somente estratégias que permitem conviver com os nematoides de modo a reduzir as perdas. O controle pela aplicação de algum agente de controle químico, biológico ou alternativo são amplamente realizados e estudados. 
 
+## Experimentos de Dose-Resposta
+
 A aplicação de substâncias para o controle de nematoides demanda de estudos do efeito da aplicação de diferentes concentrações sobre a resposta obtida. Assim, determinando o efeito de dose-resposta, é possivel estimar a concentração eficiente para obter o controle desejado. Esses estudos são realizados utilizando gradientes de concentrações de produtos, nos quais as fases de vida do nematoide são expostos ao tratamento por determinado periodo de tempo. Esses experimentos são comumente chamados de testes de eclosão, testes de motilidade e mortalidade, teste de penetração de juvenis e testes de Reprodução (Fator de reprodução).
 
 Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada.
@@ -30,11 +28,16 @@ Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um d
 knitr::include_graphics("./marlon/curvaexemplo.jpg")
 ```
 
+A curva de resposta corresponde a uma curva sigmoidal típica. Frequentemente os experimentos de expression(CE_50) apresentam somente parte da curva total, onde pode ocorrer ajuste em modelos lineares. A curva de dose resposta geralmente utilizada em estudos de CE50 para nematoides é baseada na curva de dose resposta baseada em um estudo de Seefeldt et al. (1995).
 
-## Análise de dose resposta usando o R.
 
-A curva de dose resposta geralmente utilizada em estudos de CE50 para nematoides é baseada na curva de dose resposta baseada em um estudo de Seefeldt et al. (1995). 
-(Seefeldt et al. 1995).
+$$
+y = f(x) = C + \frac{D - C}{1 + exp\left [ b \left ( log ( x \right ) - log\left ( CE_{50} \right ) \right )]}
+$$
+
+Onde: C é o limite inferior da curva, D é limite superior, b é o "Slup" e CE_50 é a concentração capaz de inibir em 50% a atividade dos nematoides.
+
+## Análise de Dose-Resposta no R
 
 
 ### Importação dos dados
