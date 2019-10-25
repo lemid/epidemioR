@@ -4,31 +4,29 @@
 chapter_authors(c("Camilla Castellar"))
 ```
 
-## Introdução
-
 # Análise de sobrevivência
 
 
 ## Introdução 
 
-A análise de sobrevivência infere sobre a probabilidade de um evento ocorrer no tempo. Por exemplo, na medicina, área onde a análise tem origem, o interesse é avaliar o tempo e a chance de um indivíduo literalmente sobreviver após receber um tratatamento para cura. Na área de epidemiologia de doenças de plantas, a analise de sobrevivência tem sido utilizada para avaliar o período de incubação da antracnose em ramos de Camélia [@Copes2008],  o tempo para a queda de folhas induzida por *Septoria Albopunctata* [@Ojiambo2005], avaliação do tempo e risco para a ocorrencia de sintomas de Podridão Parda em diferentes cultivares de pessegueiro e em dias após a floração (Nesi 2005), entre outros casos.  
+A análise de sobrevivência infere sobre a probabilidade de um evento ocorrer no tempo. Por exemplo, na medicina, área onde a análise tem origem, o interesse é avaliar o tempo e a chance de um indivíduo literalmente sobreviver após receber um tratatamento para cura. Na epidemiologia de doenças de plantas, a análise de sobrevivência tem sido utilizada para avaliar o período de incubação, tempo e risco para a ocorrência de algum evento (sintomas, queda de folhas, etc), em diferentes tratamentos, como mostra nos trabalhos de [@Copes2008], [@Ojiambo2005],(Nesi 2005). 
 
-A estatistica convencional não é apropriada para avaliar dados em que o interesse é o tempo. Isso ocorre devido a censura dos dados à direita, ou seja, o experimento poder encerrar antes de todas as repetições apresentarem o evento, e a distruição dos dados frequentemente não é considerada normal. Para resolver este problema, a análise de sobrevivência foi desenvolvida com base em um modelo de verossimilhança e consegue extrair estimativas confiáveis mesmo em situações onde ocorre censura (Colosimo 2006).
+A estatistica convencional não é apropriada para avaliar dados em que o interesse é o tempo. Isso ocorre devido a censura dos dados à direita, ou seja, o experimento pode encerrar antes de todas as repetições apresentarem o evento, e a distribuição dos dados frequentemente não é considerada normal. Para resolver este problema, métodos de análise de sobrevivência que utilizam abordagens  não paramétricas, semi-paramétricas e paramétricas foram desenvolvidos. A escolha por cada tipo de análise varia de acordo com a natureza do experimento. 
 
-Uma das principais técnicas não paramétricas da análise é o método de Kaplan-Meier [@Kaplan1958], que estima a função de sobrevivência, isto é, a probabilidade de um indivíduo não apresentar o evento decorrido um tempo "t". Os gráficos gerados por esta análise são representados por degraus de tempo em que ocorre o evento. Por meio desta técnica, torna-se possível a aplicação do teste de significância de Log-Rank para comparar tratamentos. 
+Para experimentos com apenas um fator, cujo interesse é  verificar a presença de diferenças significativas entre tratamentos e estimar riscos da ocorrência de evento, a técnica não paramétrica de Kaplan-Meier é a mais utilizada. O método de Kaplan-Meier [@Kaplan1958] estima a função de sobrevivência, isto é, a probabilidade de um indivíduo não apresentar o evento decorrido um tempo "t". Os gráficos gerados por esta análise são representados por degraus de tempo em que ocorre o evento (Figura 1). Por meio desta técnica, torna-se possível a aplicação do teste de significância de Log-Rank para comparar tratamentos. Para estimar o risco que cada tratamento tem de expressar o evento, o modelo de Cox de riscos proporcionais é um dos mais utilizados na análise de sobrevivencia, partindo de uma abordagem semi-paramétrica. Como o interesse é estimar o efeito das covariáveis e não os parâmetros do modelo, os valores obtidos são apropriados, mesmo que a distribuição suposta não seja adequada. 
 
-Em alguns casos, também é interessante estimar quantitativamente o risco que cada tratamento tem de expressar o evento. No entanto, uma distribuição estatística precisa ser escolhida para determinar estes valores.  Dentro deste contexto, o modelo de Cox de riscos proporcionais é o dos mais utilizados na análise de sobrevivencia, partindo de uma abordagem semi-paramétrica. Como o interesse é estimar o efeito das covariáveis e não os parâmetros do modelo, os valores obtidos são apropriados, mesmo que a distribuição suposta não seja adequada. 
+Em experimentos com mais de um fator (esquemas fatoriais) em que o interesse é estimar um parâmetro do modelo, a análise de sobreviência utilizando a distribuição de Weilbull é uma opção. Entre as vantagens que esta técnica apresenta estão (...)
 
-
-Na sequência, os passos para a análise de sobrevivencia no software R Studio foram relacionados em dois estudos de caso considerando doenças causadas pelo fitopatógeno *Colletotrichum*. Espécies deste gênero fúngico podem infectar diferentes hospedeiros como frutíferas (ref), leguminosas (ref), florestais (ref), ornamentais (ref), olerícolas (ref). Nas frutíferas, como maça e caqui, este fungo ataca folhas, flores, frutos, causando severos danos da produção. Assim, 
-
-passando pelo estimador de Kaplan-Meier, teste de Log-Rank e modelo de riscos proporcionais de Box-COx. Um deles é um experimento epidemiologico cujo objetivo é verificar a probabilidade de ocorrencia de sintomas. O segundo estudo de caso é um experimento de controle de doenças de plantas, cujo objetivo é comparar a ocorrencia de sintomas considerando diferentes espécies e fungicidas, em esquema fatorial. 
+Diante deste contexto, o capítulo tem como objetivo executar a análise de sobrevivencia no software R, com base em dois estudos de caso, sendo o primeiro com a técnica não paramétrica e semi-paramétrica, e o segundo, com a tecnica paramétrica assumindo a distribuição de Weilbull.  Os estudos de caso consideraram doenças causadas pelo fitopatógeno *Colletotrichum*. Espécies deste gênero fúngico podem infectar diferentes hospedeiros como frutíferas (ref), leguminosas (ref), florestais (ref), ornamentais (ref), olerícolas (ref). Nas frutíferas, como maça e caqui, este fungo ataca folhas, flores, frutos, causando severos danos da produção.
 
 
-Suponha um experimento real cujo objetivo foi avaliar o desenvolvimento de sintomas de uma doença em maças em diferentes tamanhos de frutos. Este ensaio foi realizado em condições de laboratório com frutos mantidos em potes. Cinco diferentes tamanhos de maças (tam1, tam2, tam3, tam 4 e tam5) foram inoculados com uma gota de suspensão de esporos do patógeno X. Após a inoculação os frutos foram aleatoriamente distribuidos em uma sala de incubação com condições controladas e homogeneas, constituindo um delineamento inteiramente casualisado com 5 tratamentos e 8 repetições. 
 
-Após a inoculação, cada fruto foi avaliado diariamente quanto ao aparecimento de sintomas. Ao final do experimento foi atribuido o status "zero" (0) aos frutos que não apresentaram sintomas e o status "um" (1) para aqueles com sintomas, acompanhado do dia em que o mesmo ocorreu. O conjunto de dados foi estruturado conforme mostra a tabela 1. 
+### Analise de sobrevivencia utilizando a técnica não paramétrica e semi-paramétrica 
 
+Suponha um experimento real cujo objetivo foi avaliar a suscetibilidade  de frutos em diferentes estágios de crescimento a uma podridão em maças. O ensaio foi realizado em condições de laboratório, em que cada fruto foi mantido em potes separados. Cinco diferentes tamanhos de maças (tam1, tam2, tam3, tam 4 e tam5) foram inoculados com uma gota de suspensão de esporos de *Colletotrichum*. Após a inoculação, os frutos foram aleatoriamente distribuidos em uma sala de incubação com condições controladas e homogeneas, constituindo um delineamento inteiramente casualisado com 5 tratamentos e 8 repetições (Figura 2). 
+
+
+Após a inoculação, cada fruto foi avaliado diariamente quanto ao aparecimento de sintomas. Ao final do experimento o status "zero" (0) foi atribuido aos frutos que não apresentaram sintomas, e o status "um" (1) para aqueles com sintomas, acompanhado do dia em que o mesmo ocorreu. O conjunto de dados foi estruturado conforme mostra a tabela 1. 
 
 
 (ref:conjuntodedados) Conjunto de dados para análise de sobrevivência.
