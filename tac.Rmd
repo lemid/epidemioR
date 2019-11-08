@@ -1,28 +1,37 @@
-# Análise de sobrevivência ultilizando modelo de regressão paramétrico
+# Estudo de caso 2 - técnica paramétrica para experimento fatorial 
 
-## MOTIVAÇÃO
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Thiago de Aguiar Carraro", "Paulo dos Santos Faria Lichtemberg", "Camilla Castellar", "Walmes Marques Zeviani", "Louise Larissa May De Mio"))
 ```
 
-<!--  (Figura \@ref(fig:prancha-1)). -->
 
-<!-- (ref:prancha-1) Lesões necróticas, deprimidas, escuras e circulares em frutos imaturo no campo (A), evolução do sintoma em fruto imaturo destacado (B), e a acentuada queda prematura dos frutos de caquizeiro (C). Lesões em frutos maduros no campo (D) e destacado (E)(com massa de conídios no centro da lesão). Lesões típicas de antracnose em ramos jovens (F). -->
 
-<!-- ```{r prancha-1, echo = FALSE, fig.cap= '(ref:prancha-1)'} -->
-<!-- knitr::include_graphics("./tac/prancha_1.jpg") -->
-<!-- ``` -->
 
-O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém alguns fungicidas de sítios específicos apresentam riscos de médio a alto, como os IDMs (inibidores da desmetilação) e IQes (inibidores da quinona externa), respectivamente, para selecionar resistências no patógeno e, consequentemente podem resultar em uma perda da eficiência em campo, caso os mesmos não sejam adequadamente manejados. Para adotar estratégias de controle eficientes ao longo das safras é necessário que seja realizado o monitoramento da sensibilidade do fungo aos fungicidas [@lichtemberg2016].
+O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém alguns fungicidas de sítios específicos apresentam riscos de médio a alto, como os IDMs (inibidores da desmetilação) e IQes (inibidores da quinona externa), respectivamente, para selecionar isolados do patógeno com menor sensibilidade. Esta seleção pode levar a uma perda da eficiência de controle destes de produtos comerciais com esses ingredientes ativos em campo. Para adotar estratégias de controle eficientes, garantindo o manejo adequado ao longo das safras, é necessário que seja realizado o monitoramento da sensibilidade do fungo aos fungicidas [@lichtemberg2016].
 
-Os ensaios *in vitro* de DD (dose discriminatória), CE~50~ (concentração efetiva que inibe 50% do crescimento ou germinação do patógeno), CMI (concentração mínima inibitória), e com valores de diferentes isolados e de diferentes anos, podem ser usados para comparar se está ocorrendo uma mudança na sensibilidade do patógeno ao fungicida, como observado em isolados de *Monilinia fructicola* [@russell; @maydemio2011]
+Para estabelecimento de um programa de monitoramento da resistência ao longo do tempo é importante determinar a sensibilidade inicial de um população de patógenos, que é chamada de linha-base (do inglês baseline). A baseline é definida em patógenos que não foram expostos a um fungicida que venha ser registrado ou indicado para controle de uma doença. Além disso, é muito interessante comparar o comportamento de diferentes isolados em diferentes anos para verificar mudanças graduais na sensibilidade do patógeno ao fungicida, como já observado em isolados de *Monilinia fructicola*, agente causal da podridão parda do pessegueiro [@russell; @maydemio2011].
 
-Ensaios *ex vivo* são também relevantes para determinar uma possível resistência prática de um fungicida no controle de um patógeno, ou seja, quando ocorre uma falha do controle da doença em campo [@ghinirekimatih2000]. Estes testes podem ser realizados com plantas ou partes vegetais destacados, que serão submetidos a um tratamento com a concentração recomendada para o produtor.
-Uma vez detectada a mudança de sensibilidade em populações de patógenos, novas recomendações e estratégias para o uso de fungicidas devem ser adotadas.
+Para realização deste monitoramento, ensaios in vitro podem ser realizados, como: i) DD (dose discriminatória), ii) CE~50~ (concentração efetiva que inibe 50% do crescimento ou germinação do patógeno) e iii) CMI (concentração mínima inibitória). 
 
-Diante disso, considera-se um experimento em laboratório com frutos destacados como exemplo desse teste, cujo o objetivo foi avaliar diferentes tratamentos (fungicidas) para o controle de duas espécies de *Colletotrichum*, que causam uma séria doença na cultura do caquizeiro. O experimento foi conduzido em esquema fatorial duplo, com condições ambientais favoráveis ao patógeno 25^{o}C \pm 2 , seis tratamentos foram testados, sendo cinco fungicidas (A, B, C, E, D) e uma testemunha (T) com água, duas espécies patogênicas (X e Y) foram analisadas, cada espécie/tratamento contou com 25 repetições, e o experimento foi realizado duas vezes. Os frutos foram tratados com os produtos previamente, e após 24 horas foram inoculados com as espécies fúngicas. Em relação as avaliações, durante um total de 10 dias, diariamente foi analisado se existia a presença ou não de lesão (sintomas) nos frutos, caso observado a repetição/tratamento/espécie era anotado a incidência como valor (1), caso contrário era marcado como (0). Sendo assim, quando metade ou mais das repetições/tratamentos (13 frutos) apresentavam o sintoma da doença, este foi determinado o período de incubação (PI). Para a análise estatística, os dados do aparecimento dos primeiros sintomas da doença ao longo do tempo do experimento, relacionando com a eficiência dos fungicidas X patógenos , bem como o PI para cada fator, serão estimados por modelos de regressão paramétricos de estudos de sobrevivência (Weibull), utilizando o auxílio do software Rstudio [@R].
+Baseado nos ensaios *in vitro*, isolados serão classificados fenotipicamente (baixo, médio ou alto valores de EC~50~) em relação a sensibilidade aos fungicidas, e alguns isolados representativos são selecionados para realização de ensaios ensaios *ex vivo*. Estes testes podem ser realizados com plantas (ensaios in vivo) ou partes vegetais destacadas (ensaios ex vivo), que serão submetidos a um tratamento com a concentração recomendada para o produtor [@Schnabel2015] . 
 
-## Modelo de Regressão Weibull (INSERIR ESTA PARTE NA INTRODUÇÃO GERAL - CAMILLA)
+Estes experimentos são recomendados para verificar uma possível resistência prática de um fungicida no controle de um patógeno/doença. Resistencia prática portanto, está relacionada a uma possível falha do controle da doença em campo [@ghinirekimatih2000]  É esperado que isolados com alto (ou até médio) valor de EC~50~ são capazes de desenvolver doença em frutos tratados com fungicidas, assim como nos frutos controle (testemunha).
+
+Além destas técnicas mais usuais nos trabalhos de monitoramento, a observação do período de incubação (PI) em um ensaio de eficiência de fungicidas pode ser uma medida epidemiológica importante para se analisar o efeito de controle do produto ao longo de um tempo, podendo considerar este tempo o intervalo de uma aplicação à outra, ou seja, o PI vai fornecer informações do tempo efetivo de controle de um fungicida a um patógeno, e isso é importante considerando isolados de regiões ou safras diferentes. 
+Desta forma, espera-se que fungicidas eficientes sustente um PI do patógeno longo ou ainda que não se consiga estimar no tempo do experimento. Por outro lado, fungicidas ineficientes apresentariam um PI rápido. 
+
+Portanto, estes ensaios de monitoramento são fundamentais para detecção dos níveis de sensibilidade de patógenos antes que a falha de controle ocorra no campo. E uma vez detectada a mudança de sensibilidade em populações de patógenos, novas recomendações e estratégias para o uso de fungicidas devem ser adotadas.
+
+Neste estudo de caso 2, o objetivo proposto para análise de sobrevivência foi avaliar diferentes tratamentos (fungicidas) para o controle de duas espécies de *Colletotrichum*, agente causal da antracnose caquizeiro. O experimento foi conduzido em esquema fatorial duplo, com condições ambientais favoráveis ao patógeno 25^{o}C 2 , seis tratamentos foram testados, sendo cinco fungicidas (A, B, C, D, E) e uma testemunha (test) com água, duas espécies patogênicas (X e Y) foram analisadas, cada espécie/tratamento contou com 25 repetições, e o experimento foi realizado duas vezes. Os frutos foram tratados com os produtos previamente, e após 24 horas foram inoculados com as espécies fúngicas. Em relação as avaliações, durante um total de 10 dias, diariamente foram analisadas se existia a presença ou não de lesão (sintomas) nos frutos, caso observado a repetição/tratamento/espécie era anotado a status um (1), caso contrário era marcado como status zero (0). Sendo assim, o período de incubação (PI) foi estimado quando metade ou mais das repetições/tratamentos (13 frutos) apresentaram o sintoma da doença (Figura \@ref(fig:prancha-1)). 
+
+(ref:prancha-1) Esquema ilustrativo do ensaio de eficiência de fungicidas (ESCREVER MELHOR A LEGENDA). 
+
+```{r prancha-1, echo = FALSE, fig.cap= '(ref:prancha-1)'} 
+knitr::include_graphics("./tac/prancha_1.jpg") 
+``` 
+
+Por se tratar de um experimento fatorial, a análise estatística para estimar o PI dos frutos destacados de caqui tratados com fungicidas em relação com as duas espécies patogências testadas, serão estimados por modelos de regressão paramétricos de estudos de sobrevivência (Weibull), utilizando o auxílio do software Rstudio [@R].
+
 
 ```{r, message=FALSE}
 # Pacotes.
@@ -288,7 +297,7 @@ ggplot(data = da_final,
 
 # -------------------------------------------------------------------------
 
-# Fazendo o estudo da interação com desdobramento com testes para o
+# Fazendo o estudo da interação com desdobramento testes para o
 # parâmetro de locação.
 
 # Estudar produtos em cada espécie.
