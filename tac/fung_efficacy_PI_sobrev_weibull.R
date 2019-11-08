@@ -135,7 +135,6 @@ y <- rweibull(n = 1000, shape = 4, scale = 2)
 plot(ecdf(y))
 
 # Ajusta o modelo com a `survreg()`.
-library(SurvRegCensCov)
 m <- survreg(formula = Surv(time = y) ~ 1, dist = "weibull")
 summary(m)
 
@@ -182,12 +181,12 @@ m1 <- survreg(formula = s ~ spp,
               data = da_final,
               dist = "weibull")
 
-# Inclui o efeito de espécie e fungamentos (aditivo).
+# Inclui o efeito de espécie e fungicidas (aditivo).
 m2 <- survreg(formula = s ~ spp + fung,
               data = da_final,
               dist = "weibull")
 
-# Inclui o efeito de espécie e fungamentos com interação.
+# Inclui o efeito de espécie e fungicidas com interação.
 m3 <- survreg(formula = s ~ spp * fung,
               data = da_final,
               dist = "weibull")
@@ -319,5 +318,5 @@ ggplot(data = tb_contr,
             vjust = -1,
             angle = 90,
             nudge_x = 0.075) +
-  labs(x = "fungamento",
+  labs(x = "fungicidas",
        y = "Estimativa do parâmetro de locação")
