@@ -3,6 +3,8 @@
 ## Motivação
 
   Estudos de condições favoráveis para o desenvolvimento de patógenos como experimentos de germinação de esporos sob diferentes temperaturas e períodos de incubação são essenciais para a compreensão do comportamento da doença no campo. Outra forma interessante é estudar a doença em condições controladas é inocular o patógeno em um momento conhecido e estudar condições diferentes para o monociclo das doenças, em n variações de condições climáticas; a partir dos dados observados, realizar a modelagem do desenvolvimento das doenças por meio de equações matemáticas é útil para prever diferentes situações e entender as epidemias. A utilização de modelos consolidados na literatura auxilia na comparação de diversas variáveis relevantes por meio dos parâmetros estimados, contudo pode apresentar algumas limitações. O objetivo desse capítulo será a comparação de modelos para ajuste de dados de germinação de conídios e estudo de monociclo de doença de frutos. Exemplificaremos com dados de germinação de conídios fúngicos e Monociclo de Podridão de Neonectria em frutos, cujo agente causal é o patógeno *Neonectria ditissima*. 
+
+
   
   Várias doenças ocorrem em regiões produtoras de maçãs (*Malus domestica* Borkh.) do mundo todo, como Europa, América do Norte, Chile, Austrália, Nova Zelândia, Japão e África do Sul [@Beresford2011]. Detectados no Brasil em 2002, o Cancro Europeu das Pomáceas e Podridão de Neonectria em frutos se destacam entre as doenças que vêm causando grandes danos na cadeia produtiva da macieira. A doença afeta os ramos e o tronco principal da planta causando sintoma de cancro, podendo também atacar frutos, causando sintomas de podridão marrom-escura, frequentemente com esporulação esbranquiçada presente nas lesões (Figura \@ref(fig:prancha01)). A podridão de Neonectria em frutos de maçã ocorre na maioria das áreas produtoras do mundo, e no Brasil sua elevada incidência pode ser explicada pelas condições climáticas mais favoráveis e/ou pela maior quantidade de inóculo nos pomares, devido à falta de experiência no manejo [@EmbrapaCancro2015]. 
 
@@ -21,7 +23,7 @@ O fungo produz dois tipos de esporos, sendo os ascósporos produzidos sexuadamen
 knitr::include_graphics("./jhulia/prancha02.jpg")
 ```
 
-  Dados sobre as taxas de germinação de conídios em diferentes temperaturas e períodos de incubação e de latência são relevantes para a predição de riscos de acordo com as condições ambientais que ocorrem no pomar. O modelo beta-monomolecular tem sido amplamente utilizado na literatura para representar o comportamento da germinação de conídios sob diferentes temperaturas e períodos de incubação ou molhamento [@Angeli2017; @Christiano2003; @Escanferla2009; @Godoy1999; @Lima2017; @MayDeMio2002; @Soares2008] e estimar diversas variáveis com aplicação biológica. Este modelo, em alguns casos, apresenta algumas limitações, que serão abordadas no tópico a seguir. Um outro modelo amplamente utilizado é o beta generalizado modificado (ver trabalho de Bazanezzi com vírus, eu acho!), que inclui estimar não só temperatura mínima, máxima e ótima como também um parâmetro relacionado com a amplitude da curva. Este é muito útil para comparar epidemias e verificar a dependência de um determinado patógeno a uma condição climática. VE ARTIGOS QUE USARAM!!! Apesar de muito utilizados, em alguns casos não se consegue ajustes e há a necessidade da adaptação de outros modelos que melhor se adequem aos dados. Uma alternativa é a utilização de modelos polinomiais que permitem melhor ajuste devido a sua flexibilidade, mas que ainda assim se consiga estimar os parâmetros relacionados às variáveis biológicas de interesse epidemiológico.
+  Dados sobre as taxas de germinação de conídios em diferentes temperaturas e períodos de incubação e de latência são relevantes para a predição de riscos de acordo com as condições ambientais que ocorrem no pomar. O modelo beta-monomolecular tem sido amplamente utilizado na literatura para representar o comportamento da germinação de conídios sob diferentes temperaturas e períodos de incubação ou molhamento [@Angeli2017; @Christiano2003; @Escanferla2009; @Godoy1999; @Lima2017; @MayDeMio2002; @Soares2008] e estimar diversas variáveis com aplicação biológica. Este modelo, em alguns casos, apresenta algumas limitações, que serão abordadas no tópico a seguir. Um outro modelo amplamente utilizado é o beta generalizado modificado, que inclui estimar não só temperatura mínima, máxima e ótima como também um parâmetro relacionado com a amplitude da curva [@Bassanezi1998]. Este é muito útil para comparar epidemias e verificar a dependência de um determinado patógeno a uma condição climática [@DallaPria2003; @QuesadaMoraga2006; @Leite2002; @GarciaFernandez2008] Apesar de muito utilizados, em alguns casos não se consegue ajustes e há a necessidade da adaptação de outros modelos que melhor se adequem aos dados. Uma alternativa é a utilização de modelos polinomiais que permitem melhor ajuste devido a sua flexibilidade, mas que ainda assim se consiga estimar os parâmetros relacionados às variáveis biológicas de interesse epidemiológico.
   
   Embora *N. ditissima* seja mais comumente descrito como patógeno de partes lenhosas, ele também infecta frutos de maçã resultando em podridão em pré-colheita (no pomar) ou, mais comumente, em pós-colheita (armazenamento) [@Xu2010]. O uso de equações para representar o monociclo da doença em frutos sob diferentes temperaturas pode ser um recurso útil na previsão de como a doença se comportará em diferentes condições e ajudar os produtores em decisões de manejo. Estudos de monociclo envolvendo patógenos foliares serão foco de um outro capítulo deste livro (depois ligar com o item correto).
   
@@ -30,7 +32,13 @@ knitr::include_graphics("./jhulia/prancha02.jpg")
 
 ## Germinação de conídios
 
-  O experimento de germinação de conídios de *N. ditissima* com suspensão de 10^5^ conídios . mL^-1^. A suspensão foi então espalhada em placas de petri contendo AA e estas foram incubadas sob diferentes temperaturas e períodos de incubação com umidade constante em câmaras BOD. As temperaturas foram de 12, 14, 16, 18, 20, 22, 26, 28, 35 °C, em períodos de incubação de 3, 6, 12, 24, 36, 48, 60 horas.
+  O experimento de germinação de conídios de *N. ditissima* foi conduzido por meio de metodologia descrita na Figura \@ref(fig:figuragerminacao). 
+
+(ref:figuragerminacao) Metodologia de ensaio de germinação de conídios de *Neonectria ditissima* em diferentes temperaturas e períodos de incubação.
+
+```{r figuragerminacao, echo = FALSE, fig.cap = '(ref:figuragerminacao)'} 
+knitr::include_graphics("./jhulia/figuragerminacao.jpg")
+```
 
 
 A Tabela \@ref(tab:germinacao-neonectria-ditissima) descreve como os dados da germinação de *Neonectria ditissima* foram tabulados. 
@@ -393,7 +401,14 @@ cor(fitted(n1), tb_con$ger)^2 # Modelo não linear aditivo.
 
 ## Estudo do monociclo em frutos de maçã
 
-Frutos maduros de maçã 'Gala' foram desinfestados e, com auxílio de agulha esterilizada, foi feito um ferimento na região equatorial de cada fruto. Em cada ferimento foram depositados 40 microlitros de suspensão de *N. ditissima* ajustada a 10^5^ conídios . mL^-1^. Os frutos inoculados foram colocados em potes com umidade elevada e mantidos em câmaras de crescimento sob temperaturas de 5, 10, 12, 16, 20, 25 e 35 °C. Foram utilizados 5 frutos por tratamento. A avaliação foi diária até 18 dias após a inoculação, medindo o diâmetro da lesão com auxílio de paquímetro digital. 
+Frutos maduros de maçã 'Gala' foram desinfestados e inoculados de acordo com metodologia descrita na Figura \@ref(fig:figurainoculacao). 
+
+(ref:figurainoculacao) Metodologia de ensaio de inoculação de suspensão de conídios de *Neonectria ditissima* em frutos destacados de maçã 'Gala' incubados em diferentes temperaturas.
+
+```{r figurainoculacao, echo = FALSE, fig.cap = '(ref:figurainoculacao)'} 
+knitr::include_graphics("./jhulia/figurainoculacao.jpg")
+```
+
 
 ```{r}
 # Carregar pacotes necessários
