@@ -23,7 +23,46 @@ O fungo produz dois tipos de esporos, sendo os ascósporos produzidos sexuadamen
 knitr::include_graphics("./jhulia/prancha02.jpg")
 ```
 
-  Dados sobre as taxas de germinação de conídios em diferentes temperaturas e períodos de incubação e de latência são relevantes para a predição de riscos de acordo com as condições ambientais que ocorrem no pomar. O modelo beta-monomolecular tem sido amplamente utilizado na literatura para representar o comportamento da germinação de conídios sob diferentes temperaturas e períodos de incubação ou molhamento [@Angeli2017; @Christiano2003; @Escanferla2009; @Godoy1999; @Lima2017; @MayDeMio2002; @Soares2008] e estimar diversas variáveis com aplicação biológica. Este modelo, em alguns casos, apresenta algumas limitações, que serão abordadas no tópico a seguir. Um outro modelo amplamente utilizado é o beta generalizado modificado, que inclui estimar não só temperatura mínima, máxima e ótima como também um parâmetro relacionado com a amplitude da curva [@Bassanezi1998]. Este é muito útil para comparar epidemias e verificar a dependência de um determinado patógeno a uma condição climática [@DallaPria2003; @QuesadaMoraga2006; @Leite2002; @GarciaFernandez2008] Apesar de muito utilizados, em alguns casos não se consegue ajustes e há a necessidade da adaptação de outros modelos que melhor se adequem aos dados. Uma alternativa é a utilização de modelos polinomiais que permitem melhor ajuste devido a sua flexibilidade, mas que ainda assim se consiga estimar os parâmetros relacionados às variáveis biológicas de interesse epidemiológico.
+  Dados sobre as taxas de germinação de conídios em diferentes temperaturas e períodos de incubação e de latência são relevantes para a predição de riscos de acordo com as condições ambientais que ocorrem no pomar. O modelo beta-monomolecular tem sido amplamente utilizado na literatura para representar o comportamento da germinação de conídios sob diferentes temperaturas e períodos de incubação ou molhamento [@Angeli2017; @Christiano2003; @Escanferla2009; @Godoy1999; @Lima2017; @MayDeMio2002; @Soares2008] e estimar diversas variáveis com aplicação biológica. Este modelo, em alguns casos, apresenta algumas limitações, que serão abordadas no tópico a seguir. 
+  
+  Um outro modelo amplamente utilizado é o beta generalizado modificado, que inclui estimar não só temperatura mínima, máxima e ótima como também um parâmetro relacionado com a amplitude da curva [@Bassanezi1998]. O modelo pode ser estimado a partir de parametrização da beta-generalizada, como descrito a seguir:
+  
+Equação 1:
+$$
+Y(T) = \beta _1(T-T_{min})^{\beta 2} (T_{max}-T)^{\beta3}
+$$
+  
+  A equação acima foi modificada trocando dois parâmetros por outros dois parâmetros que posuem significado biológico $T_{opt}$ e o nível na temperatura ótima $Y(T_{opt} = Y_{opt}$. Portanto, a temperatura ótima para a função beta-generalizada é dada por: 
+  
+Equação 2
+$$
+T{opt} = (\beta _2T_{max} + \beta _3T_{min})/(\beta _2+\beta _3)
+$$  
+  
+  A equação acima pode ser rearranjada para trocar $\beta_2$ por $T_{opt}$:
+
+Equação 3
+$$
+\beta _2 = \beta _3(T_{opt}-T_{min})/(T_{max}-T{opt})
+$$
+  
+  O valor máximo $Y_{opt}$ na equação 2 ocorre em $T_{opt}$ e pode ser calculada por:
+ 
+Equação 4 
+$$
+  Y_{opt} = \beta_1\beta_2^{\beta_2}\beta_3^{\beta_3}[(T_{max}-T_{min})/(\beta_2+\beta_3)]^{\beta_2+\beta_3}
+$$
+  
+  Rearranjando a equação acima para determinar $\beta_1$ em função de $\beta_2$, $\beta_3$ e $Y_{opt}$, e usando a equação 4 para substituit $\beta_2$ temos:
+ 
+Equação 5  
+$$
+  Y(T) = Y_{opt}[(T-T_{min})/(T_{opt}-T{min})]^{\beta3(T_{opt}-T_{min})/(T_{max}-T_{opt})}[(T_{max}-T)/(T_{max}-T_{opt})]^{\beta_3}
+$$
+  
+  Fixando $T_{min}$ e $T_{max}$ para valores conhecidos, a equação acima contém os três parâmetros $Y_{opt}$, $T_{opt}$ e $\beta_3$. O parâmetro $\beta_3$ representa a abertura do sino, ou seja, o intervalo de temperatura a partir do ponto $T_{opt}$, no qual a curva permanece próxima a $Y_{opt}$. Para valores de $\beta_3$ baixos (por exemplo 0,1) um amplo intervalo de temperatura foi estimado; para valores altos (próximos a 3,0) a curva tem uma descida acentuada quando a temperatura difere um pouco da $T_{opt}$.
+
+  Este modelo é muito útil para comparar epidemias e verificar a dependência de um determinado patógeno a uma condição climática [@DallaPria2003; @QuesadaMoraga2006; @Leite2002; @GarciaFernandez2008] Apesar de muito utilizados, em alguns casos não se consegue ajustes e há a necessidade da adaptação de outros modelos que melhor se adequem aos dados. Uma alternativa é a utilização de modelos polinomiais que permitem melhor ajuste devido a sua flexibilidade, mas que ainda assim se consiga estimar os parâmetros relacionados às variáveis biológicas de interesse epidemiológico.
   
   Embora *N. ditissima* seja mais comumente descrito como patógeno de partes lenhosas, ele também infecta frutos de maçã resultando em podridão em pré-colheita (no pomar) ou, mais comumente, em pós-colheita (armazenamento) [@Xu2010]. O uso de equações para representar o monociclo da doença em frutos sob diferentes temperaturas pode ser um recurso útil na previsão de como a doença se comportará em diferentes condições e ajudar os produtores em decisões de manejo. Estudos de monociclo envolvendo patógenos foliares serão foco de um outro capítulo deste livro (depois ligar com o item correto).
   
@@ -399,6 +438,32 @@ cor(fitted(n1), tb_con$ger)^2 # Modelo não linear aditivo.
 ```
 
 
+  Para estimar a abertura do sino em para esse tipo de análise com polinômio, pode-se usar a aproximação por série de Taylor, que  vai determinar a curvatura a partir do ponto que representa a temperatura ótima (x). Para tanto, utiliza-se a derivada segunda da função f(x), da maneira descrita a seguir:
+  
+  $$
+  \frac{\partial f(x)}{\partial x} = \beta_0 + \beta_1x + \beta_2x^2 + \beta_3x^3
+  $$
+
+  
+  $$
+  f' = 0+\beta _1x+2\beta _2x +3\beta _3x^2
+  $$
+  
+  
+  $$
+  \frac{\partial f'(x)}{\partial x} = \beta _1 + 2\beta _2x + 3\beta _3x^2
+  $$
+  
+  
+  $$
+  f''(x) = 2\beta _2 + 6\beta _3x
+  $$
+  
+  Onde $x$ é o ponto de temperatura ótima para a porcentagem de germinação.
+  
+  A partir das análises realizadas nesse capítulo pode-se concluir que muitos modelos consolidados na literatura são bastante úteis do ponto de vista epidemiológico; porém com modelos polinomiais conseguimos um melhor ajuste atrelado à possibilidade de também obter variáveis biológicas importantes.
+  
+  
 ## Estudo do monociclo em frutos de maçã
 
 Frutos maduros de maçã 'Gala' foram desinfestados e inoculados de acordo com metodologia descrita na Figura \@ref(fig:figurainoculacao). 
@@ -688,3 +753,4 @@ ggplot(data = grid,
              mapping = aes(x = dai, y = diam))
 #-----------------------------------------------------------------------
 ```
+
