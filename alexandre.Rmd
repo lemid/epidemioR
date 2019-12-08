@@ -1,15 +1,65 @@
-# Estudos de sensibilidade de patógenos
+# Estudos de sensibilidade de populações de patógenos
 
 ## Introdução
 
+Estudos de CE50 (concentração efetiva) são muito utilizados, pois permite obter uma curva dose-resposta, que relaciona diferentes concentrações do produto utilizado no controle da doença, sendo então possível estimar uma concentração a ser utilizada, ou mesmo monitorar a mudança da sensibilidade do patógeno. Se a CE50 de um fungicida, ao longo do tempo, apresentar alterações para valores superiores aos inicialmente estabelecidos, para obter controle de um determinado patógeno, poderá indicar redução na sensibilidade do patógeno ao controle com aquele fungicida (@Reis, 2007). 
+
+Geralmente se utiliza ao menos 5 concentrações, variando para mais gradientes do mesmo produto, para possibilitar a visualização de níveis de controle e assim uma melhor estimativa do valor de CE50. O valor de controle sempre é calculado em relação a testemunha, ou seja, um tratamento sem o uso do fungicida. Os parâmetros geralmente utilizados nas avaliações de CE50, visam expressar o grau de toxicidade de uma substância, que representa a concentração de um composto químico onde 50% de seu efeito máximo é observado (@Oga, 2008). 
+
+O uso de modelos não lineares aos dados de CE50 é constantemente aplicada em estudos de eficiência de moléculas. Devido a grande quantidade de modelos não lineares, a tarefa de escolher o modelo mais adequado para utilizar não é fácil e demanda de conhecimento e interpretação do resultado correto. Porém, para que haja uma boa interpretação dos dados e escolha do modelo, é necessário quantificar algum parâmetro que forneça subsidio que permita diferenciar se o modelo tem um ajuste “adequado” ou “inadequado”. A medida mais comumente utilizada na literatura cientifica é o coeficiente de determinação R2. Para analises lineares, essa medida é intuitiva, pois fornecem rápida interpretação de quanto a variação dos dados se explica pelo modelo (@Spiess2010). 
+
+O valor de R2 varia de 0 a 1, sendo que quanto mais próximo de 1, maior será o ajuste dos dados ao modelo. Há algum tempo foi descrita como inadequada a medida do R2 para regressões não lineares (@SA, FM 1987; @Kvlseth1985). Porém no meio cientifico, pesquisadores e revisores continuam a utilizar e/ou exigir que essa medida seja disponibilizada em artigos que utilizam modelos não lineares. Essa abordagem possivelmente ocorre, pois pesquisadores geralmente aplicam métodos estatísticos sem possuírem um detalhado conhecimento estatístico (@Spiess2010). 
+
+A maioria dos softwares estatísticos disponíveis (R, Sisvar, Systat, Statistica, Prism, Origin, Matlab, SPSS, SAS, Prism) calculam os valores de R2 para ajustes não lineares, o que possivelmente contribua involuntariamente para o seu frequente uso. Isso também pode ocorrer com os usuários do software TableCurve2 D (Systat, EUA), que possibilita ajustar centenas de modelos não lineares a um determinado conjunto de dados e depois classificá-los por meio de R2 (@Spiess2010).
+
+Diversos esforços foram realizados para desenvolver medidas do tipo R2 para os modelos de regressão não linear, porem é descrito que essa abordagem é inadequada e se comparada com os valores de AICc, BIC, variância residual e qui-quadrado, pois a medida de R2 raramente é afetada mais do que na terceira ou quarta casa decimal (@ColinCameron1997). Simulações de Monte Carlo mostraram que o AIC, o AICc ou o BIC têm um desempenho muito melhor nesse sentido. 
+
+Os valores de R2 ainda estão  sendo utilizados em publicações no intuito de demonstrar o desempenho ou validar modelos, e isso pode ser o resultado de autores ou revisores não estarem cientes dessa falácia. Por isso autores e revisores devem compreender que solicitar valores de R2 para validar modelos não lineares não é o ideal, e isto deve ser substituído ou complementado pelos valores AIC / AICc / BIC que são valores mais aplicáveis para validar modelos (@Spiess2010).   
+
+O critério de informação dos valores de Akaike (AIC; Akaike, 1973) é um método popular para comparar a adequação de vários modelos, criando uma solução direta para o problema de avaliar vários modelos candidatos é selecionar o modelo que fornece a descrição mais precisa dos dados. No entanto, o processo de avaliação do modelo é complicado pelo fato de um modelo com muitos parâmetros livres ser mais flexível do que um modelo com apenas alguns parâmetros. Claramente, não é desejável considerar sempre o melhor modelo mais complexo, e geralmente é aceito que o melhor modelo é aquele que fornece uma descrição adequada dos dados.
+enquanto utiliza um número mínimo de parâmetros (Myung, Forster e Browne, 2000; Myung e Pitt, 1997). Qualquer critério para a seleção de modelos precisa tratar dessa troca entre precisão descritiva e parcimônia.
+Um dos métodos mais populares de comparação de vários modelos, levando em consideração tanto a precisão descritiva quanto a analogia, é o critério de informação de Akaike (AIC; ver, por exemplo, Akaike, 1973, 1974, 1978, 1979, 1983, 1987; Bozdogan, 1987; Burnham & Anderson, 2002; Parzen, Tanabe e Kitagawa, 1998; Sakamoto, Ishiguro e Kitagawa, 1986; Takane & Bozdogan, 1987).1 A AIC é um método muito geral aplicado em uma ampla gama de situações relevantes para a psicologia cognitiva. A AIC também é aplicada na análise fatorial (por exemplo, Akaike, 1987), regressão (por exemplo, Burnham & Anderson, 2002). 
+
+Comparação entre AIC e BIC
+Apesar do amplo uso da AIC, alguns acreditam que ela é muito liberal e tende a selecionar modelos excessivamente complexos (por exemplo, Kass & Raftery, 1995). Foi apontado que a AIC negligencia a variabilidade amostral dos parâmetros estimados. Quando os valores de probabilidade para esses parâmetros não estão altamente concentrados em torno de seu valor máximo, isso pode levar a avaliações excessivamente otimistas (para uma ilustração, consulte Aitchison & Dunsmore, 1975, pp. 227–234). Além disso, o AIC não é consistente. Ou seja, conforme o número de observações n aumenta muito, a probabilidade de a AIC recuperar um verdadeiro modelo de baixa dimensão não se aproxima da unidade (por exemplo, Bozdogan, 1987, p. 357). Um critério popular de seleção de modelo alternativo é o critério de informação bayesiano ou BIC (por exemplo, Burnham & Anderson, 2002; Hastie, Tibshirani e Friedman, 2001; Kass & Raftery, 1995; Schwarz, 1978; Wasserman, 2000). O BIC (Schwarz, 1978) para o modelo i é definido como:
+
+BICi = -2logLi + Vi logn, (5)
+
+onde n é o número de observações que entram no cálculo da probabilidade. O BIC é uma aproximação assintótica para uma análise de seleção de modelo bayesiano (BMS), na qual se integra no espaço de parâmetros. 
+
+Ao contrário do AIC, o BIC é consistente como nao e leva em consideração a incerteza dos parâmetros. Uma comparação entre BIC (Equação 5) e AIC (Equação 1) mostra que o termo de penalidade do BIC é maior que o termo de penalidade do AIC. Embora as equações de AIC e BIC pareçam muito semelhantes, elas se originam de estruturas bastante diferentes. O BIC pressupõe que o modelo de geração real esteja no conjunto de modelos candidatos, e mede o grau de crença de que um determinado modelo é o verdadeiro modelo de geração de dados. A AIC não supõe que nenhum dos modelos candidatos seja necessariamente verdadeiro, mas calcula para cada modelo a discrepância de Kullback-Leibler, que é uma medida da distância entre a densidade de probabilidade gerada pelo modelo e a realidade. Uma comparação formal em termos de desempenho entre a AIC e a BIC é muito difícil, principalmente porque a AIC e a BIC abordam questões diferentes. A maioria das simulações que mostram que o BIC tem um desempenho melhor que o AIC pressupõe que o modelo verdadeiro esteja no conjunto candidato e que seja de dimensão relativamente baixa. Por outro lado, a maioria das simulações que favorecem o AIC em detrimento do BIC é realmente dimensional e, portanto, o modelo real não está no conjunto candidato.
+
+Conclusão
+Os pesos de Akaike são fáceis de calcular a partir dos valores brutos da AIC e fornecem uma interpretação direta, pois as probabilidades de cada modelo ser o melhor modelo no sentido da AIC. O uso de pesos Akaike oferece ao leitor uma maior compreensão dos méritos relativos dos modelos concorrentes. Além disso, os pesos de Akaike quantificam as conclusões com base nas análises da AIC, especificando a quantidade de confiança estatística para o modelo com o menor valor da AIC.4 Dadas essas vantagens consideráveis, acreditamos que, em muitas circunstâncias, é muito útil supor complementar os resultados padrão da análise de comparação do modelo AIC com a apresentação dos pesos Akaike.
+
+Desta forma, neste capitulo será abordado o uso de modelos não lineares para avaliar ensaios de CE50 para populações de ferrugem asiática da soja e nematoides, e diferentes compostos serão utilizados visando o controle destes patógenos. Será abordado o uso do software R para calcular as CE50 e plotar os respectivos gráficos. Vamos detalhar a utilização do pacote DRC e NLME para ambos exemplos biológicos. Abordaremos o melhor ajuste de modelo analisando os valores de AIC, BIC e Loglike para os dados de cada CE50, comparando-os com a linearização das concentrações com o LOG10 e discutindo modelos linear e não-lineares e suas respectivas interpretações. 
 
 
 ## Ensaios de sensibilidade com *Phakopsora pachyrhizi*
 
+A soja, *Glycine max* (L.) Merr, é uma das commodities mais importantes no Brasil e a nível mundial, pois é fonte de óleo e proteína para alimentação humana e animal (@conab). A produtividade dessa cultura pode ser afetada por doenças, principalmente a ferrugem asiática da soja – FAS, causada pelo fungo *Phakopsora pachyrhizi* Syd. & P. Syd por Hans e Paul Sydow. O agente causal da FAS pertence ao reino Fungi, classe de Basidiomycetos, ordem Uredinales, família Phakopsoraceae, gênero Phakopsora, espécie pachyrhizi (@GOELLNER2010). Trata-se de um patógeno biotrófico, o qual não se reproduz em meio axênico (@HARTMAN, 2011). 
+
+No Brasil a doença foi constatada em 2001, na safra 2001/2002 no estado do Paraná, na região oeste, fronteira do Paraguai (Foz do Iguaçu à Guaíra), e avançou rapidamente, se espalhando para outros estados (@YORINORI, 2005). Atualmente, a FAS está presente em todas regiões produtoras da soja no mundo, porém vem sendo um grave problema principalmente na América do Sul, devido a ocorrência de todas a vértices do triângulo da doença, com grande expressão do ambiente (@MURITHI, 2015). É a doença mais grave para a cultura, pois o custo (perda em grãos e gasto com controle) é estimado em dois bilhões de dólares por safra (@CAF, 2018). 
+
+Trata-se de um patógeno muito agressivo, pois a FAS é uma doença policíclica, assim inúmeros ciclos de infecção podem ocorrer em um único ciclo do hospedeiro (@GODOY, 2016), garantindo assim a disseminação dos urediniósporos dentro da mesma área de cultivo e áreas adjacentes (@BROWN, 2002). Além disso, possui forma ágil dispersão dos esporos pelo vento, curto período latente e longo período infeccioso, sendo que as condições ambientais favoráveis para o desenvolvimento da soja também são favoráveis para o patógeno, e a sua constante evolução permite a perda de sensibilidade a fungicidas e a quebra de genes de resistência de plantas de soja melhoradas geneticamente (@GODOY, 2016).
+
+As principais estratégias de manejo da doença para reduzir o risco de danos à cultura são: a utilização de cultivares de ciclo precoce, realização de semeadura no início da época recomendada, uso de cultivares com resistência genética, eliminação de plantas tigueras, respeitar o vazio sanitário de no mínimo 60 dias, sendo recomendado 90 dias pelo consórcio Anti-Ferrugem, e ainda realizar desde o início do desenvolvimento da cultura constante monitoramento da lavoura, e assim que surgir os primeiros sintomas e/ou ainda de forma preventiva utilizar fungicidas, este sendo o mais utilizado para o controle desta doença (@GODOY, 2016)
+
+Os principais fungicidas utilizados no manejo da FAS, são os inibidores de desmetilação (IDM’s), inibidores de quinona externa (IQe’s), inibidores da succinato desidrogenase (ISDH’s) e o tradicional mancozebe. Falhas no controle da FAS tem sido observada nos últimos anos em diferentes regiões do Brasil, devido a mutações do fungo, que conferem resistência aos fungicidas [@godoy2019]. 
+
+Foi relatado mutações em isolados de *P. pachyrhizi* nos genes CYP51 [@schmitz2013], CYT-b [@klosowski2015] e SDH-c [@simoes2017]. Genótipos com resistência nos genes CYP51 e CYT-b são mais comumente encontrados [@klosowski2016] porém recentemente foi descrito a ocorrência de múltipla resistência para estes três genes no mesmo isolado [@muller]. A constante evolução do patógeno e a pressão de seleção imposta pelo uso constante de fungicidas, permitiu que o fungo apresente alta frequência da sua população resistente para as moléculas disponíveis. Portanto, estudos que monitorem a sensibilidade do fungo aos fungicidas são cada vez mais importantes.
+Para a P. pachyrhizi os estudos de CE50 - concentração efetiva para controlar 50% do patógeno são realizados estudos em folha destacada (ex vivo) em placas de Petri, pois permite avaliar a sensibilidade do fungo em condições controladas de laboratório, sem demandar de grande estrutura. 
+
+A metodologia descrita por (@Scherb, 2006) é difundida mundialmente pela FRAC (Comitê de Ação a Resistencia a Fungicidas). Essa metodologia consiste de ensaio ex vivo, com folhas destacadas, tratadas com os diferentes concentrações de fungicida e acondicionadas em placa de Petri com meio Agar-agua e incubadas em em BOD a 22°C com fotoperiodo de 12h por cerca de 15 a 20 dias até o surgimento e estabilização dos sintomas do patógeno nas folhas, que então serão avaliados e/ou quantificados com o uso de escala diagramática que possibilita avaliar a severidade da doença. Para tal avaliação, se utiliza a escala diagramática de (@GODOY2006) (FIGURA 1) que contempla seis níveis de intensidade de dano em folhas, variando de 0,6 a 78,5% de área foliar afetada pela ferrugem. 
 
 ```{r, image1, echo = FALSE, fig1 = '(ref:fig1)'}
 knitr::include_graphics("./Alexandre/fig1.jpg")
 ```
+
+Neste trabalho será abordado análises estatísticas com o uso do software R, para avaliar a eficiência de controle de fungicidas, para populações do fungo *P. pachyrhizi* oriundas de diferentes regiões produtoras do Brasil. Será analisado diferentes ajustes de modelos matemáticos para dados de CE50, com o intuito de propor novas abordagens para este tipo de dados, devido grande variação encontrada na literatura nas análises estatísticas para dados de CE50, o que dificulta na interpretação, e pode gerar valores para CE50 com grande variação para um mesmo conjunto de dados, o que pode sub ou superestimar a sensibilidade avaliada.  Espera-se também facilitar o uso do R no meio cientifico com a descrição detalhada dos pacotes utilizados para as analises estatísticas. 
+
+Na situação hipotética deste capitulo, em que se deseja estudar o efeito de moléculas no controle da FAS, utilizou-se 8 concentrações de fungicida para obter os valores de CE50 para 6 isolados populacionais de P. pachyrhizi oriundas de diferentes regiões. Neste caso será abordado análise estatística com o software estatístico R, comparando e plotando os valores de CE50 para as populações e verificando em qual modelo matemático se obtém os melhores ajustes dos dados.
+
 
 ### Estimando a EC50 com o pacote NLME
 
@@ -44,21 +94,26 @@ ggplot(tb,
   geom_point()
 ```
 
-Nesse exemplo, iremos testar o ajuste dos dados aos modelos não lineares de curvas sigmoidais Gompertz e Weibull. 
+Nesse exemplo, iremos testar o ajuste dos dados aos modelos não lineares de curvas sigmoidais de Gompertz e Weibull. 
 O modelo de gompertz é expresso pela equação:
-
+f(x) = A * (exp(-exp(-C * (X - B))))
 A equação que descreve o modelo de Weibull é expressa como:
+f(x) = A * exp(-exp(-C * (log(X) - B)))
+O script é direcionado para o modelo de Gompertz, mas poderá ser substituido pelo modelo de Weibull quando necessário. 
 
 ```{r}
-# modelo para a curva de secagem.
-gompertz <- inib ~ A * exp(-exp(-C * (conc - B)))
+### Equação de Gompertz
+gompertz <- inib ~ A * exp(-exp( -C * (conc - B)))
+
+### Equação de Weibull
+weibull <- inib ~ A * (exp(-exp( -C * (log(conc) - B))))
 ```
 
 O ajuste os dados nesse modelo utilizando o pacote nlme demanda de estimativas iniciais para os parametros, que aqui chamamos de "chutes iniciais". Esses "chutes" correspondem a assintota máxima da curva (A), o ponto de inflexão da curva (B) e a taxa (C). Para facilitar os chutes iniciais, utilizaremos a função SSgompertz e nls do pacote nlme. Essas funções combinadas permitem estimar os valores dos parametros com um nível de tolerância, permitindo a inserção na função gnls.
 
 ```{r}
 ### Estima curvas para os dados
-fit <- nls(inib ~ SSgompertz(conc, A, C, B), data=tb)
+fit <- nls(inib ~ SSgompertz(conc, A, B, C), data=tb)
 
 ### Extrai os coeficientes das curvas
 coef(fit)
@@ -67,16 +122,16 @@ coef(fit)
 levels(tb$trat)
 ```
 
-Os valores dos parametros estimados pela função nls serão utilizados na função gnls. Os valores de cada parametro serão repetidos o número de níveis - 1. Em nosso exemplo, os valores aproximados dos paramêtros foram de 94 para A, 0.9 para C e 3 para B. O número de níveis -1 é igul a 5.
+Os valores dos parametros estimados pela função nls serão utilizados na função gnls. Os valores de cada parametro serão repetidos o número de níveis - 1. Em nosso exemplo, os valores aproximados dos paramêtros foram de 94 para A, 0.9 para C e 3 para B. O número de níveis -1 é igual a 5.
 
 ```{r}
 ### Primeiro ajuste
 m1 <- gnls(model = gompertz,
            data = tb,
            params = A + C + B ~ trat,
-           start = c(94, rep(0, times = 5),
+           start = c(79, rep(0, times = 5),
                      0.9, rep(0, times = 5),
-                     3, rep(0, times = 5)))
+                     2, rep(0, times = 5)))
 
 ### Extrair os coeficientes para confirmação
 coef(m1)
@@ -89,9 +144,9 @@ A utilização dos "chutes" permitiu o primeiro ajuste dos dados no modelo. Entr
 m2 <- gnls(model = gompertz,
            data = tb,
            params = A + C + B ~ 0 + trat,
-           start = c(rep(94, times = 6),
-                     rep(0.9, times = 6),
-                     rep(3, times = 6)))
+           start = c(rep(95, times = 6),
+                     rep(0.3, times = 6),
+                     rep(2.7, times = 6)))
 
 ### Extrair os coeficientes para confirmação
 coef(m2)
@@ -112,24 +167,24 @@ Em posse dos dados para os parametros, podemos adicionar os valores corresponden
 m3 <- gnls(model = gompertz,
            data = tb,
            params = A + C + B ~ 0 + trat,
-           start = c(c(89.63710365,   # A curva 1
-                       91.89463993,   # A curva 2
-                       100.0719032,   # A curva 3
-                       95.84832279,   # A curva 4
-                       96.70003200,   # A curva 5
-                       94.85787488),  # A curva 6
-                     c(0.331140869,   # C curva 1
-                       0.151275417,   # C curva 2
-                       0.097928351,   # C curva 3
-                       0.066329123,   # C curva 4
-                       0.053513318,   # C curva 5
-                       0.336356745),  # C curva 6
-                     c(4.031951529,   # B curva 1
-                       12.08791249,   # B curva 2
-                       10.92397598,   # B curva 3
-                       17.08819591,   # B curva 4
-                       19.19180247,   # B curva 5
-                       3.986938092))) # B curva 6
+           start = c(c(95.61736708,
+                       71.08692254,
+                       91.24407557,
+                       98.93633749,
+                       69.34402308,
+                       82.42489619),
+                     c(0.279264323,
+                       0.044141583,
+                       0.0765223,
+                       0.044048882,
+                       0.106096686,
+                       0.040753042),
+                     c(2.736348255,
+                       13.71446866,
+                       9.390132928,
+                       18.67955398,
+                       7.092374429,
+                       23.32987732)))
 
 ### Extrair os coeficientes para confirmação
 coef(m3)
@@ -204,8 +259,6 @@ grad <- sapply(levels(tb$trat),
                                         trat)
                  return(u)
                })
-
-head(grad)
 
 ### Criação da matriz bloco diagonal e atribui os tratamentos
 X <- as.matrix(Matrix::bdiag(grad))
@@ -302,6 +355,11 @@ Os valores do parametros, R^2 e a estimativa do EC50 serão organizados no data 
 ```{r}
 tb_params
 ```
+
+#### Modelo de Weibull
+
+
+
 
 
 ## Ensaios de sensibilidade de patógenos hemibiotróficos e necrotróficos - Exemplo com *Monilinia fructicola*
