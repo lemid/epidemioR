@@ -477,26 +477,22 @@ Outra facilidade do drc em relação ao nlme, é o calculo de EC50. O drc não d
 
 ```{r}
 ### Estimativa de Ec50
-EC50 <- ED(drc2.G.3, 50, interval="delta")
+EC50 <- ED(drc2.G.3, 50, interval = "delta")
 
 EC50 <- EC50 %>%
   as.data.frame() %>%
   rownames_to_column("trat")
 
-EC50[] <- lapply(EC50, gsub, pattern='e:', replacement='') 
-EC50[] <- lapply(EC50, gsub, pattern=':50', replacement='') 
-EC50
+EC50 <- EC50 %>%  mutate(trat = as.numeric(trat))
+
+EC50$trat <- levels(tb$trat)
 
 names(EC50) <- c("trat", "EC50", "Error", "lwr", "upr")
 
 tb_params <- tb_params %>% inner_join(EC50)
 
-tb_params <- as.data.frame(sapply(tb_params, as.numeric))
-
 tb_params <- tb_params %>% 
   mutate_if(is.numeric, round, digits = 2)
-
-tb_params$trat <- levels(tb$trat)
 
 tb_params
 
@@ -563,12 +559,6 @@ grafico
 ```
 
 
-### Comparando as estimativas de EC50 com o nlme, o drc e o log das concentrações
-
-
-
-
-
 ## Ensaios de sensibilidade de *Meloidogyne* spp.
 
 Os nematoides são animais pertencentes ao filo Nematoda, que engloba cerca de 4000 espécies. São essencilamente aquáticos, podendo ser encontrados em todos os ecossistemas da terra. Um grupo desses animais são de extrema importância para os seres humanos, pois causam diversos prejuizos, parasitando plantas e animais. 
@@ -580,9 +570,6 @@ Os nematoides do gênero *Meloidogyne* são endoparasitas e possuem a caracteris
 
 Os métodos de controle mais utilizados para o controle de nematoides no Brasil é o manejo integrado de pragas e o controle químico [@hassan_etal_2013]. O manejo integrado nem sempre é usado devido à complexidade da aplicação, e na opinião de alguns agricultores, os métodos alternativos podem não ser eficiente, tornando o controle químico com agrotóxicos a principal opção dos agricultores [@sharifzadeh_etal_2018]. Entretanto, a aplicação de agrotóxicos causa graves desequilíbrios ambientais [@carvalho_2017; @long_krupke_2016] e problemas de saúde nos seres humanos [@caldas_2016; @hendges_etal_2019]. Assim, métodos de controle menos agressivos a saúde e ao meio ambiente vem sendo estudados.
 
-
-### Experimen
-
 Os estudos de sensibilidade dos nematoides aos compostos e extratos é realizado por curvas de dose resposta. Assim, determinando o efeito de dose-resposta, é possivel estimar a concentração eficiente para obter o controle desejado. Esses estudos são realizados utilizando gradientes de concentrações de produtos, nos quais as fases de vida do nematoide são expostos ao tratamento por determinado periodo de tempo. Esses experimentos são comumente chamados de testes de eclosão, testes de motilidade e mortalidade, teste de penetração de juvenis e testes de Reprodução (Fator de reprodução).
 
 Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada.
@@ -592,7 +579,6 @@ knitr::include_graphics("./alexandre/curvaexemplo.jpg")
 ```
 
 A curva de resposta corresponde a uma curva sigmoidal típica. Frequentemente os experimentos de expression(CE_50) apresentam somente parte da curva total, onde pode ocorrer ajuste em modelos lineares. A curva de dose resposta geralmente utilizada em estudos de CE50 para nematoides é baseada na curva de dose resposta baseada em um estudo de Seefeldt et al. (1995).
-
 
 $$
 y = f(x) = C + \frac{D - C}{1 + exp\left [ b \left ( log ( x \right ) - log\left ( CE_{50} \right ) \right )]}
@@ -607,130 +593,9 @@ Os dados obtidos pelas avaliações de um experimento preisam ser tabuladas em u
 
 A importação dos dados da planilha será realizada usando os comandos abaixo:
 
-```{r}
-# Importação dos dados.
-setwd('C:/Users/agrom/Projects/repo/epidemioR/marlon')
-
-# importar os dados para o R
-tb <- read.csv2("mortalidade.csv")
-# exibir os dados
-head(tb)
-
-knitr::kable(head(tb), caption = '(ref:script mortalidade)',
-             digits = c(NA, 0, 0, 1, 1),
-             align = c("ccccc"),
-             row.names = FALSE)
-```
-
-
 A verificação do comportamento dos dados é importante para verificar a ocorrência de pontos fora da curva. Em nosso exemplo vamos plotar os dados em gráficos do estilo boxplot. Esse tipo de gráfico permitirá observar os dados, as médias e o desvio padrão correspondente a cada tratamento.
 Os dados originais de mortalidade não serão utilizados para a estimativa de CE50. Entretanto, a verificação dos dados originais de mortalidade permitirão identificar pontos discordantes. 
 
-```{r}
-opts_chunk$set(eval = FALSE)
-```
 
-```{r gráfico-exploratório-mortalidade, echo=FALSE}
-# gráfico exploratório dos dados de mortalidade
-knitr::kable((with(tb, boxplot(mort ~ conc, xlab="Concentração do tratamento (%)", ylab="Mortalidade de J2s (%)", 
-                     ylim=c(0,100), las=1, cex.axis=0.8, horizontal = F))), caption = '(ref:gráfico-exploratório-mortalidade)',
-             digits = c(NA, 0, 0, 1, 1),
-             align = c("ccccc"),
-             row.names = FALSE)
-```
 
 Os dados corrigidos pela equação de SCHNEIDER-ORELLI, 1947 foram expressos na planilha na coluna corr. Após a correção pela equação, a mortalidade natural da testemunha é eliminada dos dados, deste modo, os valores da testemunha após a correção são valores próximos de 0 (zero).
-
-```{r}
-# gráfico exploratório dos dadosdados de mortalidade corrigidos
-knitr::kable((with(tb, boxplot(corr ~ conc, xlab="Concentração do tratamento (%)", ylab="Mortalidade de J2s (%)", 
-                     ylim=c(0,100), las=1, cex.axis=0.8, horizontal = F))), caption = '(ref:gráfico-exploratório-corrigido)',
-             digits = c(NA, 0, 0, 1, 1),
-             align = c("ccccc"),
-             row.names = FALSE)
-```
-
-O teste de Bartlett é recomendável .
-Existe homogeneidade entre as variâncias?
-Se P>0.05 as variâncias são homogêneas
-Se P<0.05 as variâncias não são homogêneas
-
-```{r}
-bartlett.test(residuals(aov(corr ~ bloco+conc, data=tb)) 
-              ~ interaction(ordered(conc)), data=tb)
-```
-
-```{r}
-par(mfrow=c(1,1), mar=c(4,4,2,2))
-library(car)
-qqPlot(rstudent(aov(corr ~ bloco+ordered(conc), data=tb)), 
-       pch=19, ylab="Resíduos")
-```
-
-Os blocos tem efeito aditivo?
-Se Tukey.p>0.05 o bloco tem efeito aditivo
-Se Tukey.p<0.05 o bloco não tem efeito aditivo
-
-
-O pacote DRC (Dose-Responde Curve)
-
-Regressão não linear de com 4 parâmetros
-
-
-
-Ajustando um modelo log-logístico de cinco parâmetros (f=1)
-```{r}
-mortalidade.m5 <- drm(corr ~ conc, data = mortalidade, fct = LL.5(fixed = c(NA, NA, NA, NA, 1)))
-coef(mortalidade.m5)
-# Intervalos de confiança para todos os parâmetros
-confint(mortalidade.m5)
-```
-
-
-```{r}
-# Calculando os valores de EC/ED
-ec50 <- ED(mortalidade.m5, c(50))
-
-# Obter o intervalo de confiança de 95%
-ED(mortalidade.m5, c(50), interval = "delta")
-```
-
-Comparando o método delta e transformado reversamente
-intervalos de confiança para valores ED
-Ajustar log-logist de 5 parâmetros
-
-```{r}
-# Estimativa de corrição por dose
-backfit(mortalidade.m5)
-summary(mortalidade.m5)
-
-# Gráfico dos resíduos
-plot(fitted(mortalidade.m5), residuals(mortalidade.m5)) 
-abline(h=0,col="red")
-
-# Diagnóstico de modelo para modelos de dose-resposta não linear
-hatvalues(mortalidade.m5)
-cooks.distance(mortalidade.m5)
-logLik(mortalidade.m5)
-modelFit(mortalidade.m5)
-```
-
-Plotagem da curva de dose resposta
-
-```{r}
-#Plotagem da curva de dose resposta
-plot(corr ~ conc, data = mortalidade, xlab = "Concentration (%)", ylab = "Inhibition of hatching (%)", 
-     xlim=c(0, 0.8), ylim=c(-20, 120), las=1, log="", lwd=0, cex=1.5, cex.axis=2.8, cex.lab=2.8,
-     pch=19)
-
-# Plotando a curva de regressão ajustada
-plot(mortalidade.m5, xlab = "Concentration (%)", ylab = "Inhibition of hatching (%)",
-     xlim=c(0, 0.8), ylim=c(-20, 120), log="", lwd=2, cex=0, add=TRUE)
-abline(v=0.345,h=50,col="blue")
-# Adicionando intervalo de confiança
-plot(mortalidade.m5, broken = FALSE, type="confidence", add=TRUE)
-
-dev.off()
-dev.off()
-
-```
