@@ -537,15 +537,6 @@ grafico <- ggplot(tb, aes(x = conc, y = inib)) +
 
 grafico <- grafico + geom_point(pch = 1)
 
-grafico <- grafico + geom_text(data = tb_params, 
-                               mapping = aes(x = 100,
-                                             y = 0,
-                                             label = sprintf(fmt, R2, EC50)),
-                               parse = FALSE,
-                               size = 3,
-                               hjust = 1,
-                               vjust = 0)
-
 grafico <- grafico + geom_hline(yintercept = 50,
                                 lty = 3,
                                 size = 0.5,
@@ -557,6 +548,45 @@ grafico <- grafico + geom_hline(yintercept = 50,
 
 grafico
 ```
+
+### Comparação entre métodos de estimar o EC50
+
+Um método muito utilizado para estimar os valores de EC50 é o uso da linearização pelo log da concentração. Essa prática frequentemente utiliza o software excel, entretanto, podemos realizar a estimativa pelo R.
+
+```{r}
+### Selecionar o diretório
+setwd("E:/Orientações e colaborações/Alexandre Claus/EpidemioR")
+
+### Importação de tb em .csv
+tb <- read.csv2("log.csv", dec=",", header = T)
+
+
+
+library(ggplot2)
+ggplot(tb,
+       aes(x = conc, y = inib)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+# Aplicação do modelo
+lin1 <- lm(inib ~ conc*trat, tb)
+summary(lin1)
+
+# Resíduos e valores ajustados para inspecionar.
+tb$resL1 <- residuals(lin1)
+tb$fitL1 <- fitted(lin1)
+
+### Predição dos valores de EC50
+modelo <- lm(data = tb, inib ~ conc* trat)
+
+library(ggplot2)
+ggplot(tb, aes(x = conc, y = inib)) +
+  facet_wrap(facets = ~trat) +
+  geom_point() +
+  geom_line(data = tb,
+            mapping = aes(x = conc, y = fitL1))
+```
+
 
 
 ## Ensaios de sensibilidade de *Meloidogyne* spp.
@@ -574,7 +604,7 @@ Os estudos de sensibilidade dos nematoides aos compostos e extratos é realizado
 
 Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada.
 
-```{r, curvaexemplo, echo = FALSE}
+```{r}
 ### Importação dos dados em .csv salvos no github
 tb <- read.csv2("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/erro.csv", sep=";", dec=",", header = T)
 
@@ -587,6 +617,8 @@ tb$fit <- fitted(erro.G.3)
 library(ggplot2)
 grafico <- ggplot(tb, aes(x = conc, y = inib)) +
   facet_wrap(facets = ~trat) +
+  geom_line(data = tb,
+            mapping = aes(x = conc, y = fit)) +
   geom_point() + 
   scale_y_continuous(breaks = seq(0, 100, by = 10)) +
   scale_x_continuous(breaks = seq(0, 20, by = 5)) +
@@ -607,9 +639,130 @@ Onde: C é o limite inferior da curva, D é limite superior, b é o "Slup" e CE_
 
 Os dados obtidos pelas avaliações de um experimento preisam ser tabuladas em uma planilha. A planilha precisará ser organizada em colunas, no qual a primeira coluna corresponde ao tratamento. Na segunda coluna, devem ser dispostos as rapetições ou blocos. As colunas posteriores correspondem a variável resposta, das quais podem ser tantas quanto for necessário. A planilha poderá ser salvo em .txt, .csv ou .xlsc. Em nosso exemplo usaremos um arquivo em formato .csv. O arquivo poderá ser criado utilizando o comando de salvar como em csv (separado por ponto e vírgula). 
 
+Os valores de inibição foram obtidos pela equação de SCHNEIDER-ORELLI, 1947 foram expressos na planilha na coluna "inib". Após a correção pela equação, a mortalidade natural da testemunha é eliminada dos dados, deste modo, os valores da testemunha após a correção são valores próximos de 0 (zero).
+
 A importação dos dados da planilha será realizada usando os comandos abaixo:
 
-A verificação do comportamento dos dados é importante para verificar a ocorrência de pontos fora da curva. Em nosso exemplo vamos plotar os dados em gráficos do estilo boxplot. Esse tipo de gráfico permitirá observar os dados, as médias e o desvio padrão correspondente a cada tratamento.
-Os dados originais de mortalidade não serão utilizados para a estimativa de CE50. Entretanto, a verificação dos dados originais de mortalidade permitirão identificar pontos discordantes. 
+```{r}
+### Importação dos dados em .csv salvos no github
+tb <- read.csv2("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/meloidogyne.csv", 
+                sep=";", dec=",", header = T)
 
-Os dados corrigidos pela equação de SCHNEIDER-ORELLI, 1947 foram expressos na planilha na coluna corr. Após a correção pela equação, a mortalidade natural da testemunha é eliminada dos dados, deste modo, os valores da testemunha após a correção são valores próximos de 0 (zero).
+### Visualizar os dados
+tb
+str(tb)
+summary(tb)
+```
+
+A verificação do comportamento dos dados é importante para verificar a ocorrência de pontos fora da curva. Em nosso exemplo vamos plotar os dados em gráficos do estilo boxplot. Esse tipo de gráfico permitirá observar os dados, as médias e o desvio padrão correspondente a cada tratamento.
+Os dados originais de mortalidade não serão utilizados para a estimativa de CE50. Entretanto, a verificação dos dados originais de mortalidade permitirão identificar pontos discordantes.
+
+```{r}
+### Visualizar gráficos
+library(ggplot2)
+ggplot(tb,
+       aes(x = conc, y = inib)) +
+  facet_wrap(facets = ~teste*prod) +
+  geom_point()
+```
+
+```{r}
+# Ajustando um modelo log-logístico de três parâmetros
+drc1.LL3 <- drm(inib ~ conc, teste:prod, data = tb, fct = LL.3())
+```
+
+```{r}
+# Selecionando o melhor modelo global
+mselect(drc1.ll3, list(L.3(), LN.3(), G.3(), G.3()))
+```
+
+```{r}
+# Calculando o ajuste do modelo
+mselect(drm(inib ~ conc, teste:prod, data = tb, fct = LL.3()))
+
+# Montagem de um modelo com nomes atribuídos aos parâmetros
+drc2.LL.3 <- drm(inib ~ conc, teste:prod, data = tb, 
+                 fct = G.3(names = c("C", "A", "B")))
+```
+
+```{r}
+# Adicionando a coluna dos residuos
+tb$res <- residuals(drc2.LL.3)
+
+# Adicionando a coluna da curva estimada
+tb$fit <- fitted(drc2.LL.3)
+
+# Confirmação da inclusão dos residuos e fit
+head(tb)
+
+# Resíduos contra o tempo.
+ggplot(tb,
+       aes(x = conc, y = res)) +
+  facet_wrap(facets = ~fung*isol) +
+  geom_point()
+
+# Resíduos contra os valores ajustados.
+ggplot(tb,
+       aes(x = fit, y = res)) +
+  facet_wrap(facets = ~teste*prod) +
+  geom_point()
+
+# Normalidade dos resíduos.
+ggplot(tb,
+       aes(sample = res)) +
+  facet_wrap(facets = ~teste*prod) +
+  geom_qq()
+```
+
+```{r}
+# Cria a tabela com os parametros para cada curva
+params <- matrix(coef(drc2.LL.3),
+                 ncol = 3,
+                 dimnames = list(levels(tb$teste:tb$prod),
+                                 c("C", "A", "B")))
+
+# Adiciona a coluna tratamentos na tabela de parametros
+params <- params %>%
+  as.data.frame() %>%
+  rownames_to_column("trat")
+
+tb_params <- params
+```
+
+```{r}
+pred <- predict(drc2.LL.3, interval = "confidence")
+```
+
+```{r}
+# Calcula o R2 das curvas
+tb_r2 <- tb %>%
+  group_by(teste:prod) %>%
+  summarise(R2 = cor(inib, fit)^2)
+
+names(tb_r2) <- c("trat", "R2")
+
+tb_params <- tb_params %>% inner_join(tb_r2)
+
+tb_params
+
+head(tb_params)
+
+```
+
+```{r}
+# valor de Ec50, Erro e intervalo de confiança
+EC50 <- ED(drc2.LL.3, 50, interval="delta")
+
+EC50 <- EC50 %>%
+  as.data.frame() %>%
+  rownames_to_column("trat")
+
+EC50[] <- lapply(EC50, gsub, pattern='e:', replacement='') 
+EC50[] <- lapply(EC50, gsub, pattern=':50', replacement='') 
+EC50
+
+tb_params <- tb_params %>% inner_join(EC50)
+
+tb_params
+```
+
