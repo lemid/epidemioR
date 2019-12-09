@@ -574,8 +574,24 @@ Os estudos de sensibilidade dos nematoides aos compostos e extratos é realizado
 
 Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada.
 
-```{r curvaexemplo, echo = FALSE, fig.cap = '(ref:curvaexemplo)'} 
-knitr::include_graphics("./alexandre/curvaexemplo.jpg")
+```{r, curvaexemplo, echo = FALSE}
+### Importação dos dados em .csv salvos no github
+tb <- read.csv2("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/erro.csv", sep=";", dec=",", header = T)
+
+library(drc)
+erro.G.3 <- drm(inib ~ conc, trat, data = tb, 
+                 fct = G.3(names = c("C", "A", "B")))
+tb$fit <- fitted(erro.G.3)
+
+### Plotar as curvas
+library(ggplot2)
+grafico <- ggplot(tb, aes(x = conc, y = inib)) +
+  facet_wrap(facets = ~trat) +
+  geom_point() + 
+  scale_y_continuous(breaks = seq(0, 100, by = 10)) +
+  scale_x_continuous(breaks = seq(0, 20, by = 5)) +
+  labs(x = "Concentração",
+       y = "Inibição (%)")
 ```
 
 A curva de resposta corresponde a uma curva sigmoidal típica. Frequentemente os experimentos de expression(CE_50) apresentam somente parte da curva total, onde pode ocorrer ajuste em modelos lineares. A curva de dose resposta geralmente utilizada em estudos de CE50 para nematoides é baseada na curva de dose resposta baseada em um estudo de Seefeldt et al. (1995).
@@ -595,7 +611,5 @@ A importação dos dados da planilha será realizada usando os comandos abaixo:
 
 A verificação do comportamento dos dados é importante para verificar a ocorrência de pontos fora da curva. Em nosso exemplo vamos plotar os dados em gráficos do estilo boxplot. Esse tipo de gráfico permitirá observar os dados, as médias e o desvio padrão correspondente a cada tratamento.
 Os dados originais de mortalidade não serão utilizados para a estimativa de CE50. Entretanto, a verificação dos dados originais de mortalidade permitirão identificar pontos discordantes. 
-
-
 
 Os dados corrigidos pela equação de SCHNEIDER-ORELLI, 1947 foram expressos na planilha na coluna corr. Após a correção pela equação, a mortalidade natural da testemunha é eliminada dos dados, deste modo, os valores da testemunha após a correção são valores próximos de 0 (zero).
