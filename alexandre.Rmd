@@ -16,21 +16,6 @@ Diversos esforços foram realizados para desenvolver medidas do tipo R2 para os 
 
 Os valores de R2 ainda estão  sendo utilizados em publicações no intuito de demonstrar o desempenho ou validar modelos, e isso pode ser o resultado de autores ou revisores não estarem cientes dessa falácia. Por isso autores e revisores devem compreender que solicitar valores de R2 para validar modelos não lineares não é o ideal, e isto deve ser substituído ou complementado pelos valores AIC / AICc / BIC que são valores mais aplicáveis para validar modelos (@Spiess2010).   
 
-O critério de informação dos valores de Akaike (AIC; Akaike, 1973) é um método popular para comparar a adequação de vários modelos, criando uma solução direta para o problema de avaliar vários modelos candidatos é selecionar o modelo que fornece a descrição mais precisa dos dados. No entanto, o processo de avaliação do modelo é complicado pelo fato de um modelo com muitos parâmetros livres ser mais flexível do que um modelo com apenas alguns parâmetros. Claramente, não é desejável considerar sempre o melhor modelo mais complexo, e geralmente é aceito que o melhor modelo é aquele que fornece uma descrição adequada dos dados.
-enquanto utiliza um número mínimo de parâmetros (Myung, Forster e Browne, 2000; Myung e Pitt, 1997). Qualquer critério para a seleção de modelos precisa tratar dessa troca entre precisão descritiva e parcimônia.
-Um dos métodos mais populares de comparação de vários modelos, levando em consideração tanto a precisão descritiva quanto a analogia, é o critério de informação de Akaike (AIC; ver, por exemplo, Akaike, 1973, 1974, 1978, 1979, 1983, 1987; Bozdogan, 1987; Burnham & Anderson, 2002; Parzen, Tanabe e Kitagawa, 1998; Sakamoto, Ishiguro e Kitagawa, 1986; Takane & Bozdogan, 1987).1 A AIC é um método muito geral aplicado em uma ampla gama de situações relevantes para a psicologia cognitiva. A AIC também é aplicada na análise fatorial (por exemplo, Akaike, 1987), regressão (por exemplo, Burnham & Anderson, 2002). 
-
-Comparação entre AIC e BIC
-Apesar do amplo uso da AIC, alguns acreditam que ela é muito liberal e tende a selecionar modelos excessivamente complexos (por exemplo, Kass & Raftery, 1995). Foi apontado que a AIC negligencia a variabilidade amostral dos parâmetros estimados. Quando os valores de probabilidade para esses parâmetros não estão altamente concentrados em torno de seu valor máximo, isso pode levar a avaliações excessivamente otimistas (para uma ilustração, consulte Aitchison & Dunsmore, 1975, pp. 227–234). Além disso, o AIC não é consistente. Ou seja, conforme o número de observações n aumenta muito, a probabilidade de a AIC recuperar um verdadeiro modelo de baixa dimensão não se aproxima da unidade (por exemplo, Bozdogan, 1987, p. 357). Um critério popular de seleção de modelo alternativo é o critério de informação bayesiano ou BIC (por exemplo, Burnham & Anderson, 2002; Hastie, Tibshirani e Friedman, 2001; Kass & Raftery, 1995; Schwarz, 1978; Wasserman, 2000). O BIC (Schwarz, 1978) para o modelo i é definido como:
-
-BICi = -2logLi + Vi logn, (5)
-
-onde n é o número de observações que entram no cálculo da probabilidade. O BIC é uma aproximação assintótica para uma análise de seleção de modelo bayesiano (BMS), na qual se integra no espaço de parâmetros. 
-
-Ao contrário do AIC, o BIC é consistente como nao e leva em consideração a incerteza dos parâmetros. Uma comparação entre BIC (Equação 5) e AIC (Equação 1) mostra que o termo de penalidade do BIC é maior que o termo de penalidade do AIC. Embora as equações de AIC e BIC pareçam muito semelhantes, elas se originam de estruturas bastante diferentes. O BIC pressupõe que o modelo de geração real esteja no conjunto de modelos candidatos, e mede o grau de crença de que um determinado modelo é o verdadeiro modelo de geração de dados. A AIC não supõe que nenhum dos modelos candidatos seja necessariamente verdadeiro, mas calcula para cada modelo a discrepância de Kullback-Leibler, que é uma medida da distância entre a densidade de probabilidade gerada pelo modelo e a realidade. Uma comparação formal em termos de desempenho entre a AIC e a BIC é muito difícil, principalmente porque a AIC e a BIC abordam questões diferentes. A maioria das simulações que mostram que o BIC tem um desempenho melhor que o AIC pressupõe que o modelo verdadeiro esteja no conjunto candidato e que seja de dimensão relativamente baixa. Por outro lado, a maioria das simulações que favorecem o AIC em detrimento do BIC é realmente dimensional e, portanto, o modelo real não está no conjunto candidato.
-
-Os pesos de Akaike são fáceis de calcular a partir dos valores brutos da AIC e fornecem uma interpretação direta, pois as probabilidades de cada modelo ser o melhor modelo no sentido da AIC. O uso de pesos Akaike oferece ao leitor uma maior compreensão dos méritos relativos dos modelos concorrentes. Além disso, os pesos de Akaike quantificam as conclusões com base nas análises da AIC, especificando a quantidade de confiança estatística para o modelo com o menor valor da AIC.4 Dadas essas vantagens consideráveis, acreditamos que, em muitas circunstâncias, é muito útil supor complementar os resultados padrão da análise de comparação do modelo AIC com a apresentação dos pesos Akaike.
-
 Desta forma, neste capitulo será abordado o uso de modelos não lineares para avaliar ensaios de CE50 para populações de ferrugem asiática da soja e nematoides, e diferentes compostos serão utilizados visando o controle destes patógenos. Será abordado o uso do software R para calcular as CE50 e plotar os respectivos gráficos. Vamos detalhar a utilização do pacote DRC e NLME para ambos exemplos biológicos. Abordaremos o melhor ajuste de modelo analisando os valores de AIC, BIC e Loglike para os dados de cada CE50, comparando-os com a linearização das concentrações com o LOG10 e discutindo modelos linear e não-lineares e suas respectivas interpretações. 
 
 
@@ -54,6 +39,7 @@ A metodologia descrita por (@Scherb, 2006) é difundida mundialmente pela FRAC (
 ```{r, image1, echo = FALSE, fig1 = '(ref:fig1)'}
 knitr::include_graphics("./Alexandre/fig1.jpg")
 ```
+(ref:fig1) Escala diagramática da ferrugem da soja [@godoy2005].
 
 Neste trabalho será abordado análises estatísticas com o uso do software R, para avaliar a eficiência de controle de fungicidas, para populações do fungo *P. pachyrhizi* oriundas de diferentes regiões produtoras do Brasil. Será analisado diferentes ajustes de modelos matemáticos para dados de CE50, com o intuito de propor novas abordagens para este tipo de dados, devido grande variação encontrada na literatura nas análises estatísticas para dados de CE50, o que dificulta na interpretação, e pode gerar valores para CE50 com grande variação para um mesmo conjunto de dados, o que pode sub ou superestimar a sensibilidade avaliada.  Espera-se também facilitar o uso do R no meio cientifico com a descrição detalhada dos pacotes utilizados para as analises estatísticas. 
 
@@ -62,9 +48,9 @@ Na situação hipotética deste capitulo, em que se deseja estudar o efeito de m
 ```{r, image2, echo = FALSE, fig2 = '(ref:fig2)'}
 knitr::include_graphics("./Alexandre/fig2.jpg")
 ```
+(ref:fig2) Sintomas e sinais de ferrugem asiática da soja após 15 dias de inoculação com suspensão de esporos de *P. pachyrhizi*. Folhas foram tratadas com 8 concentrações do fungicida A, após 24 h foram inoculadas com suspensão de esporos 1X104 e incubadas em BOD a temperatura de 22°C com fotoperíodo de 12 h. (Imagem de um ensaio de CE50 onde cada folha recebeu diferente concentração de fungicida).
 
-
-### Estimando a EC50 com o pacote NLME
+### Estimando a EC50 com o pacote Nlme
 
 O exemplo a seguir utiliza um script desenvolvido para estimar a EC50 de 6 diferentes populações de *P. pachyrhizi*. Cada um dos isolados foi testado com 8 concentrações (0; 0,05; 0,5; 1; 5; 15; 50; 100 mg L^-1) de um fungicida. O experimento foi realizado em esquema fatorial 6X8 em delineamento inteiramente casualizado com 4 repetições.
 O script demanda da instalação dos pacotes nlme, tidyverse e ggplot2. Os procedimentos a seguir apontam os comando necessários para o procedimento. A instalação dos pacotes será necessário ser realiza somente uma vez.
@@ -134,9 +120,9 @@ Os valores dos parametros estimados pela função nls serão utilizados na funç
 m1 <- gnls(model = gompertz,
            data = tb,
            params = A + C + B ~ trat,
-           start = c(79, rep(0, times = 5),
+           start = c(94.2, rep(0, times = 5),
                      0.9, rep(0, times = 5),
-                     2, rep(0, times = 5)))
+                     2.4, rep(0, times = 5)))
 
 ### Extrair os coeficientes para confirmação
 coef(m1)
@@ -149,61 +135,20 @@ A utilização dos "chutes" permitiu o primeiro ajuste dos dados no modelo. Entr
 m2 <- gnls(model = gompertz,
            data = tb,
            params = A + C + B ~ 0 + trat,
-           start = c(rep(95, times = 6),
+           start = c(rep(89.6, times = 6),
                      rep(0.3, times = 6),
-                     rep(2.7, times = 6)))
+                     rep(4, times = 6)))
 
 ### Extrair os coeficientes para confirmação
 coef(m2)
 ```
 
-O segundo ajuste apontou valores condizentes para os parâmetros. Para confirmar que atingimos um ajuste adequado, subtituiremos os valores de chutes iniciais pelos valores dos parametros para cada curva. Para facilitar a extração dos valores dos parametros, é possivel utilizar os comando abaixo para criar uma planilha .csv.
-
-```{r}
-### Extrair os coeficientes do ajuste
-coef <- coef(m2) %>%
-  as.data.frame() %>%
-  rownames_to_column("trat")
-```
-
-Em posse dos dados para os parametros, podemos adicionar os valores correspondentes aos parametros.
-```{r}
-### Ajuste de confirmação
-m3 <- gnls(model = gompertz,
-           data = tb,
-           params = A + C + B ~ 0 + trat,
-           start = c(c(95.61736708,
-                       71.08692254,
-                       91.24407557,
-                       98.93633749,
-                       69.34402308,
-                       82.42489619),
-                     c(0.279264323,
-                       0.044141583,
-                       0.0765223,
-                       0.044048882,
-                       0.106096686,
-                       0.040753042),
-                     c(2.736348255,
-                       13.71446866,
-                       9.390132928,
-                       18.67955398,
-                       7.092374429,
-                       23.32987732)))
-
-### Extrair os coeficientes para confirmação
-coef(m3)
-
-# Tabela com as estimativas dos parâmetros para cada curva
-summary(m3)$tTable
-```
-
-Com o ajuste de confirmação, podemos observar que as novas estimativas para os parametros são muito proximas daquelas que obtivemos com o segunde ajuste. Com os dados ajustados ao modelo, podemos extrair os valores da curva do modelo e os resíduos dos dados em relação a curva do modelo. Os valores da curva do modelo e os resíduos serão acomodados no dataframe com os dados iniciais.
+O segundo ajuste permite observar que as novas estimativas para os parametros são muito proximas daquelas que obtivemos com o segunde ajuste. Com os dados ajustados ao modelo, podemos extrair os valores da curva do modelo e os resíduos dos dados em relação a curva do modelo. Os valores da curva do modelo e os resíduos serão acomodados no dataframe com os dados iniciais.
 
 ```{r}
 ### Resíduos e curva do modelo
-tb$res <- residuals(m3)
-tb$fit <- fitted(m3)
+tb$res <- residuals(m2)
+tb$fit <- fitted(m2)
 
 ### Dataframe com os dados iniciais 
 head(tb)
@@ -235,7 +180,7 @@ grid <- with(tb,
              expand.grid(conc = conc_seq,
                          trat = levels(trat)))
 
-grid$fit <- predict(m3, newdata = grid)
+grid$fit <- predict(m2, newdata = grid)
 head(grid)
 
 ### Para retornar a matriz gradiente para o vetor `conc`
@@ -246,7 +191,7 @@ partials <- deriv(gompertz[-2],
                   })
 
 ### Matriz com os parâmetros estimados po curva
-params <- matrix(coef(m3),
+params <- matrix(coef(m2),
                  ncol = 3,
                  dimnames = list(levels(tb$trat),
                                  c("A", "C", "B")))
@@ -270,11 +215,11 @@ X <- as.matrix(Matrix::bdiag(grad))
 colnames(X) <- c(sapply(grad, colnames))
 
 ### Troca colunas de lugar para corresponder com `vcov()`.
-X <- X[, colnames(vcov(m3))]
+X <- X[, colnames(vcov(m2))]
 
 ### Calcula o erro padrão do valor predito e o intervalo de confiança
-qtl <- qt(0.975, df = nrow(tb) - length(coef(m3)))
-grid$se <- sqrt(diag(X %*% vcov(m3) %*% t(X)))
+qtl <- qt(0.975, df = nrow(tb) - length(coef(m2)))
+grid$se <- sqrt(diag(X %*% vcov(m2) %*% t(X)))
 grid <- grid %>%
   mutate(lwr = fit - qtl * se,
          upr = fit + qtl * se)
@@ -362,7 +307,7 @@ nlme_g3 <- tb_params
 ```
 
 
-### Estimando a EC50 com o pacote DRC
+### Estimando a EC50 com o pacote Drc
 
 Os dados de sensibilidade de *P. pachyrhizi* podem ser analisados pelo pacote DRC [@Ritzetal_2015]. Para tanto, são necessários alguns pacotes que precisam ser carregados antes de iniciar o script. O carregamento dos pacotes é realizado pelos comandos abaixo.
 
@@ -606,7 +551,13 @@ Os estudos de sensibilidade dos nematoides aos compostos e extratos é realizado
 
 Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada.
 
-```{r}
+```{r, image11, echo = FALSE, fig11 = '(ref:fig11)'}
+knitr::include_graphics("./Alexandre/fig11.jpg")
+```
+(ref:fig11) Exemplo de um ensaio de EC50 com nematóides. Gradientes de eclosão resultantes de 5 concentrações de nematicida em um experimento com quatro repetições.
+
+
+```{r grafico1, echo = FALSE, grafico1 = '(ref:grafico1)'}
 ### Importação dos dados em .csv salvos no github
 tb <- read.csv2("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/erro.csv", sep=";", dec=",", header = T)
 
@@ -627,6 +578,7 @@ grafico <- ggplot(tb, aes(x = conc, y = inib)) +
   labs(x = "Concentração",
        y = "Inibição (%)")
 ```
+(ref:grafico1) Exemplo de curvas de EC50. 
 
 A curva de resposta corresponde a uma curva sigmoidal típica. Frequentemente os experimentos de expression(CE_50) apresentam somente parte da curva total, onde pode ocorrer ajuste em modelos lineares. A curva de dose resposta geralmente utilizada em estudos de CE50 para nematoides é baseada na curva de dose resposta baseada em um estudo de Seefeldt et al. (1995).
 
@@ -675,7 +627,7 @@ drc1.LL3 <- drm(inib ~ conc, teste:prod, data = tb, fct = LL.3())
 
 ```{r}
 # Selecionando o melhor modelo global
-mselect(drc1.ll3, list(L.3(), LN.3(), G.3(), G.3()))
+mselect(drc1.ll3, list(L.3(), LN.3(), W2.3(), G.3()))
 ```
 
 ```{r}
@@ -684,7 +636,7 @@ mselect(drm(inib ~ conc, teste:prod, data = tb, fct = LL.3()))
 
 # Montagem de um modelo com nomes atribuídos aos parâmetros
 drc2.LL.3 <- drm(inib ~ conc, teste:prod, data = tb, 
-                 fct = G.3(names = c("C", "A", "B")))
+                 fct = LL.3(names = c("C", "A", "B")))
 ```
 
 ```{r}
@@ -766,5 +718,46 @@ EC50
 tb_params <- tb_params %>% inner_join(EC50)
 
 tb_params
+```
+
+```{r}
+fmt <- "R2: %0.2f \n EC50: %0.2f"
+
+# Gráfico com bandas de confiança.
+grafico <- ggplot(tb, aes(x = conc, y = inib)) +
+  facet_wrap(facets = ~trat, nrow = 2) +
+  geom_line(data = grid,
+            mapping = aes(x = conc, y = fit)) +
+  geom_ribbon(data = grid,
+              inherit.aes = FALSE,
+              mapping = aes(x = conc, ymin = lwr, ymax = upr),
+              fill = "darkorange",
+              alpha = 0.4) 
+
+grafico <- grafico + geom_point(pch = 1)
+
+grafico
+
+grafico <- grafico + geom_text(data = tb_params, 
+                               mapping = aes(x = 20,
+                                             y = 0,
+                                             label = sprintf(fmt, R2, EC50)),
+                               parse = FALSE,
+                               size = 3,
+                               hjust = 1,
+                               vjust = 0)
+
+grafico
+
+grafico <- grafico + geom_hline(yintercept = 50,
+                                lty = 3,
+                                size = 0.5,
+                                col = "darkorange") +
+  scale_y_continuous(breaks = seq(0, 100, by = 20)) +
+  scale_x_continuous(breaks = seq(0, 25, by = 5)) +
+  labs(x = "Concentração",
+       y = "Inibição (%)")
+
+grafico
 ```
 
