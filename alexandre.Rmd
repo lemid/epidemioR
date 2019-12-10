@@ -554,20 +554,18 @@ grafico
 Um método muito utilizado para estimar os valores de EC50 é o uso da linearização pelo log da concentração. Essa prática frequentemente utiliza o software excel, entretanto, podemos realizar a estimativa pelo R.
 
 ```{r}
-### Selecionar o diretório
-setwd("E:/Orientações e colaborações/Alexandre Claus/EpidemioR")
-
-### Importação de tb em .csv
-tb <- read.csv2("log.csv", dec=",", header = T)
-
-
+### Importação dos dados em .csv salvos no github
+tb <- read.csv2("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/log.csv", sep=";", dec=",", header = T)
 
 library(ggplot2)
 ggplot(tb,
        aes(x = conc, y = inib)) +
   facet_wrap(facets = ~trat) +
   geom_point()
+```
 
+
+```{r}
 # Aplicação do modelo
 lin1 <- lm(inib ~ conc*trat, tb)
 summary(lin1)
@@ -579,6 +577,9 @@ tb$fitL1 <- fitted(lin1)
 ### Predição dos valores de EC50
 modelo <- lm(data = tb, inib ~ conc* trat)
 
+```
+
+```{r}
 library(ggplot2)
 ggplot(tb, aes(x = conc, y = inib)) +
   facet_wrap(facets = ~trat) +
@@ -586,8 +587,9 @@ ggplot(tb, aes(x = conc, y = inib)) +
   geom_line(data = tb,
             mapping = aes(x = conc, y = fitL1))
 ```
-
-
+```{r}
+coef(lin1)
+```
 
 ## Ensaios de sensibilidade de *Meloidogyne* spp.
 
@@ -698,7 +700,7 @@ head(tb)
 # Resíduos contra o tempo.
 ggplot(tb,
        aes(x = conc, y = res)) +
-  facet_wrap(facets = ~fung*isol) +
+  facet_wrap(facets = ~teste*prod) +
   geom_point()
 
 # Resíduos contra os valores ajustados.
