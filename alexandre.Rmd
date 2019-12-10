@@ -2,9 +2,9 @@
 
 ## Introdução
 
-Estudos de CE50 (concentração efetiva) são muito utilizados, pois permite obter uma curva dose-resposta, que relaciona diferentes concentrações do produto utilizado no controle da doença, sendo então possível estimar uma concentração a ser utilizada, ou mesmo monitorar a mudança da sensibilidade do patógeno. Se a CE50 de um fungicida, ao longo do tempo, apresentar alterações para valores superiores aos inicialmente estabelecidos, para obter controle de um determinado patógeno, poderá indicar redução na sensibilidade do patógeno ao controle com aquele fungicida (@Reis, 2007). 
+Estudos de CE50 (concentração efetiva) são muito utilizados, pois permite obter uma curva dose-resposta, que relaciona diferentes concentrações do produto utilizado no controle da doença, sendo então possível estimar uma concentração a ser utilizada, ou mesmo monitorar a mudança da sensibilidade do patógeno. Se a CE50 de um fungicida, ao longo do tempo, apresentar alterações para valores superiores aos inicialmente estabelecidos, para obter controle de um determinado patógeno, poderá indicar redução na sensibilidade do patógeno ao controle com aquele fungicida [@Reis2007]. 
 
-Geralmente se utiliza ao menos 5 concentrações, variando para mais gradientes do mesmo produto, para possibilitar a visualização de níveis de controle e assim uma melhor estimativa do valor de CE50. O valor de controle sempre é calculado em relação a testemunha, ou seja, um tratamento sem o uso do fungicida. Os parâmetros geralmente utilizados nas avaliações de CE50, visam expressar o grau de toxicidade de uma substância, que representa a concentração de um composto químico onde 50% de seu efeito máximo é observado (@Oga, 2008). 
+Geralmente se utiliza ao menos 5 concentrações, variando para mais gradientes do mesmo produto, para possibilitar a visualização de níveis de controle e assim uma melhor estimativa do valor de CE50. O valor de controle sempre é calculado em relação a testemunha, ou seja, um tratamento sem o uso do fungicida. Os parâmetros geralmente utilizados nas avaliações de CE50, visam expressar o grau de toxicidade de uma substância, que representa a concentração de um composto químico onde 50% de seu efeito máximo é observado [@Oga, 2008]. 
 
 O uso de modelos não lineares aos dados de CE50 é constantemente aplicada em estudos de eficiência de moléculas. Devido a grande quantidade de modelos não lineares, a tarefa de escolher o modelo mais adequado para utilizar não é fácil e demanda de conhecimento e interpretação do resultado correto. Porém, para que haja uma boa interpretação dos dados e escolha do modelo, é necessário quantificar algum parâmetro que forneça subsidio que permita diferenciar se o modelo tem um ajuste “adequado” ou “inadequado”. A medida mais comumente utilizada na literatura cientifica é o coeficiente de determinação R2. Para analises lineares, essa medida é intuitiva, pois fornecem rápida interpretação de quanto a variação dos dados se explica pelo modelo (@Spiess2010). 
 
@@ -85,16 +85,21 @@ ggplot(tb,
 
 Nesse exemplo, iremos testar o ajuste dos dados aos modelos não lineares de curvas sigmoidais de Gompertz e Weibull. Ambos os modelos possuem 3 parametros de ajuste: A, B e C. O parametro A corresponde a assintota máxima limite da função quando x vai para o infinito. O parametro C é relacionado com a taxa no ponto de inflexão. B é um parâmetro de forma relacionado com a posição do ponto de inflexão. 
 O modelo de gompertz é expresso pela equação:
+
+$$
 f(x) = A * (exp(-exp(-C * (X - B))))
+$$
 
 A equação que descreve o modelo de Weibull é expressa como:
-f(x) = A * exp(-exp(-C * (log(X) - B)))
 
+$$
+f(x) = A * exp(-exp(-C * (log(X) - B)))
+$$
 Ambos os modelos serão abordados como exemplo de uso do pacote nlme para estimar a EC50. Entretanto, o script apresentará somente o passo-a-passo para o modelo de Gompertz, poderá ser substituido de acordo com as sugestões apontadas durante o script.
 
 ```{r}
 ### Equação de Gompertz
-gompertz <- inib ~ A * exp(-exp( -C * (conc - B)))
+gompertz <- inib ~ A * exp(-B*C^conc)
 
 ### Equação de Weibull
 weibull <- inib ~ A * (exp(-exp( -C * (log(conc) - B))))
@@ -120,9 +125,9 @@ Os valores dos parametros estimados pela função nls serão utilizados na funç
 m1 <- gnls(model = gompertz,
            data = tb,
            params = A + C + B ~ trat,
-           start = c(94.2, rep(0, times = 5),
+           start = c(94, rep(0, times = 5),
                      0.9, rep(0, times = 5),
-                     2.4, rep(0, times = 5)))
+                     2, rep(0, times = 5)))
 
 ### Extrair os coeficientes para confirmação
 coef(m1)
@@ -234,7 +239,7 @@ params <- params %>%
 head(params)
 
 tb_params <- params%>%as.data.frame()%>%
-  mutate(EC50 =  B - ((log(-log(50/A)))/C))
+  mutate(EC50 = log(-(log(50/A))/B)/log(C))
 
 head(tb_params)
 ```
@@ -309,7 +314,7 @@ nlme_g3 <- tb_params
 
 ### Estimando a EC50 com o pacote Drc
 
-Os dados de sensibilidade de *P. pachyrhizi* podem ser analisados pelo pacote DRC [@Ritzetal_2015]. Para tanto, são necessários alguns pacotes que precisam ser carregados antes de iniciar o script. O carregamento dos pacotes é realizado pelos comandos abaixo.
+Os dados de sensibilidade de *P. pachyrhizi* podem ser analisados pelo pacote DRC [@Ritz2015]. Para tanto, são necessários alguns pacotes que precisam ser carregados antes de iniciar o script. O carregamento dos pacotes é realizado pelos comandos abaixo.
 
 ```{r}
 library(drc)
@@ -415,7 +420,6 @@ names(tb_r2) <- c("trat", "R2")
 tb_params <- tb_params %>% inner_join(tb_r2)
 
 head(tb_params)
-
 ```
 
 Outra facilidade do drc em relação ao nlme, é o calculo de EC50. O drc não demanda da derivada da equação do modelo para extrair o valor de EC50. A função ED extrai os valores da EC50 estimada para curva. Os valores do intervalo de confiança das estimativas também são calculados e expressos em uma tabela.
@@ -434,6 +438,8 @@ EC50$trat <- levels(tb$trat)
 
 names(EC50) <- c("trat", "EC50", "Error", "lwr", "upr")
 
+EC50
+
 tb_params <- tb_params %>% inner_join(EC50)
 
 tb_params <- tb_params %>% 
@@ -441,57 +447,6 @@ tb_params <- tb_params %>%
 
 tb_params
 
-### Grid para a predição com bandas.
-conc_seq <- seq(0, 100, by = 0.5)
-grid <- with(tb,
-             expand.grid(conc = conc_seq,
-                         trat = levels(trat)))
-
-grid <- grid %>%
-  as.data.frame() %>%
-  rownames_to_column("ponto")
-
-fit <- predict(drc2.G.3, newdata = grid, interval = "confidence")
-
-fit <- fit %>%
-  as.data.frame() %>%
-  rownames_to_column("ponto")
-
-head(fit)
-
-grid <- grid %>% inner_join(fit)
-
-names(grid) <- c("ponto", "conc", "trat", "fit", "lwr", "upr")
-
-head(grid)
-```
-
-```{r}
-fmt <- "R2: %0.2f \n EC50: %0.2f"
-
-### Gráfico com bandas de confiança.
-grafico <- ggplot(tb, aes(x = conc, y = inib)) +
-  facet_wrap(facets = ~trat, nrow = 4) +
-  geom_line(data = grid,
-            mapping = aes(x = conc, y = fit)) +
-  geom_ribbon(data = grid,
-              inherit.aes = FALSE,
-              mapping = aes(x = conc, ymin = lwr, ymax = upr),
-              fill = "darkorange",
-              alpha = 0.4) 
-
-grafico <- grafico + geom_point(pch = 1)
-
-grafico <- grafico + geom_hline(yintercept = 50,
-                                lty = 3,
-                                size = 0.5,
-                                col = "darkorange") +
-  scale_y_continuous(breaks = seq(0, 100, by = 20)) +
-  scale_x_continuous(breaks = seq(0, 100, by = 20)) +
-  labs(x = "Concentração",
-       y = "Inibição (%)")
-
-grafico
 ```
 
 ### Comparação entre métodos de estimar o EC50
@@ -539,9 +494,9 @@ coef(lin1)
 ## Ensaios de sensibilidade de *Meloidogyne* spp.
 
 Os nematoides são animais pertencentes ao filo Nematoda, que engloba cerca de 4000 espécies. São essencilamente aquáticos, podendo ser encontrados em todos os ecossistemas da terra. Um grupo desses animais são de extrema importância para os seres humanos, pois causam diversos prejuizos, parasitando plantas e animais. 
-Na agricultura, os nematoides são extremamente importantes pois parasitam as raizes de plantas de interesse agrícola. Esse grupo de nematoides possuem em orgão destinado exclusivamente para se alimentar do protoplasto das células das plantas, o estilete. Esse orgão atua como uma agulha de uma seringa, que ao penetrar a célula vegetal, é capaz de sugar seu conteudo. Esse habito faz com que os nematoides sejam exclusivamente dependentes das plantas, toranando-os parasitas obrigatórios. Considerando a dependência nutricional dos nematoides fitoparasitas, podemos considera-los uma preucupação constante para a agricultura. Esses animais geram prejuízos anuais estimados em US$ 157 bilhões [@abad_etal_2008; @hassan_etal_2013; @singh_etal_2013] a US$ 358 bilhões [@abd_2014].
+Na agricultura, os nematoides são extremamente importantes pois parasitam as raizes de plantas de interesse agrícola. Esse grupo de nematoides possuem em orgão destinado exclusivamente para se alimentar do protoplasto das células das plantas, o estilete. Esse orgão atua como uma agulha de uma seringa, que ao penetrar a célula vegetal, é capaz de sugar seu conteudo. Esse habito faz com que os nematoides sejam exclusivamente dependentes das plantas, toranando-os parasitas obrigatórios. Considerando a dependência nutricional dos nematoides fitoparasitas, podemos considera-los uma preucupação constante para a agricultura. Esses animais geram prejuízos anuais estimados em US$ 157 bilhões [@hassan_etal_2013; @singh_etal_2013] a US$ 358 bilhões [@abd_2014].
 
-As espécies de nematoides que mais ocorrem no Brasil são *Heterodera glycines* Ichinohe, 1951, *Meloidogyne incognita* (Kofoid & White) Chitwood, 1949, *Meloidogyne javanica* (Treub, 1885) Chitwood, 1949, *Pratylenchus brachyurus* (Godfrey, 1929) Filipjev & S. Stekhoven, 1941 e *Rotylenchulus reniformis* Linford & Oliveira, 1940 [@dias_etal_2010; @franzener_etal_2005; @lobo_etal_2017; @mattos_etal_2016; @mazzetti_etal_2019; @miamoto_etal_2017; @miamoto_etal_2018]. 
+As espécies de nematoides que mais ocorrem no Brasil são *Heterodera glycines* Ichinohe, 1951, *Meloidogyne incognita* (Kofoid & White) Chitwood, 1949, *Meloidogyne javanica* (Treub, 1885) Chitwood, 1949, *Pratylenchus brachyurus* (Godfrey, 1929) Filipjev & S. Stekhoven, 1941 e *Rotylenchulus reniformis* Linford & Oliveira, 1940 [@dias_etal_2010; @franzener2005; @lobo_etal_2017; @mattos_etal_2016; @mazzetti2019; @miamoto2017; @miamoto_etal_2018]. 
 
 Os nematoides do gênero *Meloidogyne* são endoparasitas e possuem a caracteristica marcante de causar galhas na raizes das plantas parasitadas. Essas galhas são causadas pela penetração do estilete dos juvenis nas células das raízes das plantas. Ao inserir o estilete, o nematoide inicia a alimentação e segrega substâncias que inibem a resposta da planta e induzem a formação do sítio de alimentação. Esse sítio de alimentação irá direcionar fotossimilados e nutrientes das células vizinhas para a célula que está sendo sugada pelo juvenil. Ao se alimentar, o juvenil se desenvolve e realiza as ecdises necessárias para seu desenvolvimento. Ao atingir o estágio adulto, a fêmea possuirá o corpo periforme (fom o formato de pêra) e produzirá uma massa de ovos que se acumula em uma matriz gelatinosa que em alguns casos poderá romper a parede da galha e ser exposta para fora das raízes da planta parasitada. Os ovos, cerca de 2000, irão iniciar um novo ciclo de parasitismo.
 
@@ -551,13 +506,13 @@ Os estudos de sensibilidade dos nematoides aos compostos e extratos é realizado
 
 Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada.
 
-```{r, image11, echo = FALSE, fig11 = '(ref:fig11)'}
+```{r, image11, fig11 = '(ref:fig11)'}
 knitr::include_graphics("./Alexandre/fig11.jpg")
 ```
 (ref:fig11) Exemplo de um ensaio de EC50 com nematóides. Gradientes de eclosão resultantes de 5 concentrações de nematicida em um experimento com quatro repetições.
 
 
-```{r grafico1, echo = FALSE, grafico1 = '(ref:grafico1)'}
+```{r}
 ### Importação dos dados em .csv salvos no github
 tb <- read.csv2("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/erro.csv", sep=";", dec=",", header = T)
 
@@ -578,7 +533,7 @@ grafico <- ggplot(tb, aes(x = conc, y = inib)) +
   labs(x = "Concentração",
        y = "Inibição (%)")
 ```
-(ref:grafico1) Exemplo de curvas de EC50. 
+
 
 A curva de resposta corresponde a uma curva sigmoidal típica. Frequentemente os experimentos de expression(CE_50) apresentam somente parte da curva total, onde pode ocorrer ajuste em modelos lineares. A curva de dose resposta geralmente utilizada em estudos de CE50 para nematoides é baseada na curva de dose resposta baseada em um estudo de Seefeldt et al. (1995).
 
@@ -603,7 +558,6 @@ tb <- read.csv2("https://raw.githubusercontent.com/lemid/epidemioR/master/alexan
                 sep=";", dec=",", header = T)
 
 ### Visualizar os dados
-tb
 str(tb)
 summary(tb)
 ```
@@ -616,13 +570,13 @@ Os dados originais de mortalidade não serão utilizados para a estimativa de CE
 library(ggplot2)
 ggplot(tb,
        aes(x = conc, y = inib)) +
-  facet_wrap(facets = ~teste*prod) +
+  facet_wrap(facets = ~trat) +
   geom_point()
 ```
 
 ```{r}
 # Ajustando um modelo log-logístico de três parâmetros
-drc1.LL3 <- drm(inib ~ conc, teste:prod, data = tb, fct = LL.3())
+drc1.LL3 <- drm(inib ~ conc, trat, data = tb, fct = LL.3())
 ```
 
 ```{r}
@@ -632,10 +586,10 @@ mselect(drc1.ll3, list(L.3(), LN.3(), W2.3(), G.3()))
 
 ```{r}
 # Calculando o ajuste do modelo
-mselect(drm(inib ~ conc, teste:prod, data = tb, fct = LL.3()))
+mselect(drm(inib ~ conc, trat, data = tb, fct = LL.3()))
 
 # Montagem de um modelo com nomes atribuídos aos parâmetros
-drc2.LL.3 <- drm(inib ~ conc, teste:prod, data = tb, 
+drc2.LL.3 <- drm(inib ~ conc, trat, data = tb, 
                  fct = LL.3(names = c("C", "A", "B")))
 ```
 
@@ -652,19 +606,19 @@ head(tb)
 # Resíduos contra o tempo.
 ggplot(tb,
        aes(x = conc, y = res)) +
-  facet_wrap(facets = ~teste*prod) +
+  facet_wrap(facets = ~trat) +
   geom_point()
 
 # Resíduos contra os valores ajustados.
 ggplot(tb,
        aes(x = fit, y = res)) +
-  facet_wrap(facets = ~teste*prod) +
+  facet_wrap(facets = ~trat) +
   geom_point()
 
 # Normalidade dos resíduos.
 ggplot(tb,
        aes(sample = res)) +
-  facet_wrap(facets = ~teste*prod) +
+  facet_wrap(facets = ~trat) +
   geom_qq()
 ```
 
@@ -672,7 +626,7 @@ ggplot(tb,
 # Cria a tabela com os parametros para cada curva
 params <- matrix(coef(drc2.LL.3),
                  ncol = 3,
-                 dimnames = list(levels(tb$teste:tb$prod),
+                 dimnames = list(levels(tb$trat),
                                  c("C", "A", "B")))
 
 # Adiciona a coluna tratamentos na tabela de parametros
@@ -690,7 +644,7 @@ pred <- predict(drc2.LL.3, interval = "confidence")
 ```{r}
 # Calcula o R2 das curvas
 tb_r2 <- tb %>%
-  group_by(teste:prod) %>%
+  group_by(trat) %>%
   summarise(R2 = cor(inib, fit)^2)
 
 names(tb_r2) <- c("trat", "R2")
@@ -705,22 +659,54 @@ head(tb_params)
 
 ```{r}
 # valor de Ec50, Erro e intervalo de confiança
-EC50 <- ED(drc2.LL.3, 50, interval="delta")
+EC50 <- ED(drc2.LL.3, 50, interval = "delta")
 
 EC50 <- EC50 %>%
   as.data.frame() %>%
   rownames_to_column("trat")
 
-EC50[] <- lapply(EC50, gsub, pattern='e:', replacement='') 
-EC50[] <- lapply(EC50, gsub, pattern=':50', replacement='') 
+EC50 <- EC50 %>%  mutate(trat = as.numeric(trat))
+
+EC50$trat <- levels(tb$trat)
+
+names(EC50) <- c("trat", "EC50", "Error", "lwr", "upr")
+
 EC50
 
+
 tb_params <- tb_params %>% inner_join(EC50)
+tb_params <- tb_params %>% 
+  mutate_if(is.numeric, round, digits = 2)
 
 tb_params
-```
 
-```{r}
+# Grid para a predição com bandas.
+conc_seq <- seq(0, 25, by = 0.5)
+grid <- with(tb,
+             expand.grid(conc = conc_seq,
+                         trat = levels(trat)))
+
+head(grid)
+grid <- grid %>%
+  as.data.frame() %>%
+  rownames_to_column("ponto")
+
+fit <- fitted(drc2.LL.3, newdata = grid, interval = "confidence")
+
+fit <- fit %>%
+  as.data.frame() %>%
+  rownames_to_column("ponto")
+
+head(fit)
+
+grid <- grid %>% inner_join(fit)
+
+names(grid) <- c("ponto", "conc", "trat", "fit", "lwr", "upr")
+
+head(grid)
+
+### Gráfico
+
 fmt <- "R2: %0.2f \n EC50: %0.2f"
 
 # Gráfico com bandas de confiança.
@@ -736,8 +722,6 @@ grafico <- ggplot(tb, aes(x = conc, y = inib)) +
 
 grafico <- grafico + geom_point(pch = 1)
 
-grafico
-
 grafico <- grafico + geom_text(data = tb_params, 
                                mapping = aes(x = 20,
                                              y = 0,
@@ -746,8 +730,6 @@ grafico <- grafico + geom_text(data = tb_params,
                                size = 3,
                                hjust = 1,
                                vjust = 0)
-
-grafico
 
 grafico <- grafico + geom_hline(yintercept = 50,
                                 lty = 3,
@@ -759,5 +741,7 @@ grafico <- grafico + geom_hline(yintercept = 50,
        y = "Inibição (%)")
 
 grafico
+
 ```
+
 
