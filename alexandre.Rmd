@@ -576,9 +576,11 @@ A aplicação de substâncias para o controle de nematoides demanda de estudos d
 
 Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada. Um exemplo de CE~50~ para nematoides é o efeito de nematicidas sobre a eclosão de juvenis. Deste modo, com o aumento da concentração de nematicida, possivelmente a taxa de eclosão reduzirá (Figura \@ref(fig:fig12)).
 
-```{r, fig13, echo = FALSE, fig.cap = '(ref:fig12)'}
+```{r, fig12, echo = FALSE, fig.cap = '(ref:fig12)'}
 knitr::include_graphics("./Alexandre/fig12.jpg")
 ```
+(ref:fig12) Modelo esquemático de um experimento de eclosão de nematoides. Ess experimento possui delineamento interiamente casualizado com 6 tratamentos e 4 repetições.
+
 
 ### Estimando a CE50 com o pacote 'NLME'
 
@@ -608,14 +610,14 @@ ggplot(tb,
   geom_point()
 
 ### Equação de Log-Logistico
-loglogistico <- sev ~ A / (1+exp(C*(log(conc)-B)))
+loglogistico <- mort ~ A / (1+exp(C*(log(conc)-B)))
 ```
 
 O ajuste os dados nesse modelo utilizando o pacote nlme demanda de estimativas iniciais para os parametros, que aqui chamamos de "chutes iniciais". Esses "chutes" aos parâmetros "A", "B" e "C". Para facilitar os chutes iniciais, utilizaremos a função nls() do pacote 'stats' que está associado ao 'nlme'. Essas funções combinadas permitem estimar os valores dos parametros com um nível de tolerância, permitindo a inserção na função gnls().
 
 ```{r}
 ### Estima curvas para os dados
-fit <- nls(sev ~ A / (1+exp(C*(log(conc)-B))), data=tb,
+fit <- nls(mort ~ A / (1+exp(C*(log(conc)-B))), data=tb,
            start = list(A = 95, B = 2, C = -1))
 
 ### Extrai os coeficientes das curvas
@@ -745,14 +747,14 @@ No caso dos nematoides, temos conciência que a resposta ocorre entre 0 e 100%, 
 
 ```{r}
 tb_params <- tb_params%>%as.data.frame()%>% 
-  mutate(sev50 = (100/2))
+  mutate(mort50 = (100/2))
 
 head(tb_params)
 
 ### Cálcular o CE50 
 tb_r2 <- tb %>%
   group_by(trat) %>%
-  summarise(R2 = cor(sev, fit)^2)
+  summarise(R2 = cor(mort, fit)^2)
 
 ### Insere o valor do CE50 na tabela de paramêtros
 tb_params <- tb_params %>% inner_join(tb_r2)
@@ -768,7 +770,7 @@ A expressão gráfica dos resultados é uma ferramenta impressindivel para muito
 fmt <- "CE50: %0.2f \n CE50: %0.2f"
 
 ### Plotar os dados em 6 gráficos
-grafico <- ggplot(tb, aes(x = conc, y = sev)) +
+grafico <- ggplot(tb, aes(x = conc, y = mort)) +
   facet_wrap(facets = ~trat, nrow = 2) 
 
 ### Insere a curva do modelo
@@ -828,7 +830,7 @@ library(lmtest)
 library(tidyverse)
 
 ### Importação dos dados em .csv salvos no github
-tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/p_pachyrhizi.csv", sep=";", dec=",", header = T)
+tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/meloidogyne.csv", sep=";", dec=",", header = T)
 
 ### Explorar os dados dentro de "tb"
 head(tb)
@@ -837,19 +839,19 @@ summary(tb)
 
 ### Plotar as curvas
 ggplot(tb,
-       aes(x = conc, y = sev)) +
+       aes(x = conc, y = mort)) +
   facet_wrap(facets = ~trat) +
   geom_point()
 
-### Ajustando ao modelo de Gompertz de três parâmetros
-drc1.LL.3 <- drm(sev ~ conc, trat, data = tb, 
+### Ajustando ao modelo log-logistico de três parâmetros
+drc1.LL.3 <- drm(mort ~ conc, trat, data = tb, 
                  fct = LL.3(names = c("C", "A", "B")))
 
 ### Selecionando o melhor modelo global
 mselect(drc1.LL.3, list(G.3(), LN.3(), LL.3(), W2.3()))
 
 ### Montagem de um modelo com nomes atribuídos aos parâmetros
-drc2.LL.3 <- drm(sev ~ conc, trat, data = tb, 
+drc2.LL.3 <- drm(mort ~ conc, trat, data = tb, 
                  fct = LL.3(names = c("C", "A", "B")))
 
 ### Adicionando a coluna da curva estimada
@@ -895,7 +897,7 @@ tb_params <- params
 ### Calcula o R2 das curvas
 tb_r2 <- tb %>%
   group_by(trat) %>%
-  summarise(R2 = cor(sev, fit)^2)
+  summarise(R2 = cor(mort, fit)^2)
 
 ### Nomeia as colunas
 names(tb_r2) <- c("trat", "R2")
@@ -905,7 +907,7 @@ tb_params <- tb_params %>% inner_join(tb_r2)
 
 ### Obtenção do valor correspondente a 50% da resposta.
 tb_params <- tb_params%>%as.data.frame()%>% 
-  mutate(sev50 = (100/2))
+  mutate(mort50 = (100/2))
 
 head(tb_params)
 
@@ -963,7 +965,7 @@ fmt <- "R2: %0.2f \n CE50: %0.2f"
 
 # Gr?fico com bandas de confian?a.
 grafico <- ggplot(tb,
-                  aes(x = conc, y = sev)) + 
+                  aes(x = conc, y = mort)) + 
   facet_wrap(facets = ~trat, nrow = 4) + 
   geom_line(data = grid,
             mapping = aes(x = conc, y = fit)) +
@@ -990,7 +992,7 @@ grafico <- grafico +
   labs(x = "Concentração (ppm)",
        y = "Mortalidade (%)")
 
-grafico <- grafico + geom_hline(aes(yintercept = sev50), tb_params, 
+grafico <- grafico + geom_hline(aes(yintercept = mort50), tb_params, 
                                 lty = 3, size = 0.5, col = "black")
 
 grafico <- grafico + geom_vline(aes(xintercept = CE50), tb_params, 
@@ -1000,8 +1002,8 @@ grafico
 ```
 
 Para salvar os valores dos parâmetros, estimativas de CE~50~ em arquivo .csv, recomendamos uilizar a função abaixo:
-
-```{r}
+  
+  ```{r}
 write.csv2(tb_params, file = "drc_LL3.csv")
 ```
 
@@ -1009,4 +1011,39 @@ write.csv2(tb_params, file = "drc_LL3.csv")
 
 Os dois pacotes foram desenvolvidos para modelos estatisticos não lineares. Apresentamos dois exemplos de dados analisados pelos dois métodos.
 
+```{r}
+### Importação dos dados em .csv salvos no github
+tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/drc_nlme_log.csv", sep=";", dec=",", header = T)
+
+### Explorar os dados dentro de "tb"
+head(tb)
+str(tb)
+summary(tb)
+
+### Plotar as curvas
+ggplot(tb,
+       aes(x = drc, y = nlme)) +
+  geom_point()
+
+comp <- lm(drc ~ nlme, data=tb)
+summary(comp)
+
+funcL <- function (x, beta){
+  return (beta[1]+beta[2]*(x))
+}
+
+plot(drc ~ nlme, xlim=c(0, 15), ylim=c(0, 15),
+     xlab=expression(CE[50]~estimados~pelo~'drc'), 
+     ylab=expression(CE[50]~estimados~pelo~'nlme'), data=tb)
+curve(funcL (x, beta=coef(comp)), from=0, to=16, type = "l",
+      col = "blue", add = T, lty = 5, lwd=0.5)
+```
+
+Ao compararmos as estimativas de CE~50~ entre os dois pacotes pelo teste exato de Fisher, observamos que os resultados obtidos são iguais.
+
+```{r}
+fisher.test(tb$drc, tb$nlme)
+```
+
+Ao considerarmos que a utilização correta de ambas as ferramentas garantem o acerto, cada pesquisadorpoderá optar pela ferramenta que mais se adapta as suas necessidades. Destacamos que o pacote 'drc' possui diversas facilidades devido a suas funções próprias do pacote, que facilitam a execução e reduzem o script. Entretanto, o 'nlme' permitiria realizar análises com modelos não lineares que não estão programados do 'drc'. Este capítulo tem a função de facilitar o acesso a essas funcionalidades, facilitando o dia a dia da pesquisa com fitopatologia e nematologia.
 
