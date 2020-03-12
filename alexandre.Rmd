@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Estudos de sensibilidade de populações de patógenos
 
 ## Introdução
@@ -555,22 +560,27 @@ write.csv2(tb_params, file = "drc_LL3.csv")
 
 ## Ensaios de sensibilidade de nematoides
 
-Os nematoides são animais pertencentes ao filo Nematoda, que engloba cerca de 4000 espécies. Esses animais são essencilamente aquáticos, podendo ser encontrados em todos os ecossistemas da terra. Um grupo desses animais são de extrema importância para os seres humanos, pois causam diversos prejuizos. 
+Os nematoides são animais essencialmente aquáticos, possuem hábitos alimentares que envolvem o parasitismo de animais e plantas, a predação de fungos, bactérias e outros nematoides, e a saprofágia [@PERRYMOENS2013]. Entretanto, os nematoides parasitas de animais e plantas são os que despertam maior preocupação nos seres humanos, pois causam diversas perdas econômicas. 
 
-Na agricultura, os nematoides são extremamente importantes pois parasitam as raizes de plantas de interesse agrícola. Esse grupo de nematoides possuem em orgão destinado exclusivamente para se alimentar do protoplasto das células das plantas, o estilete. Esse orgão atua como uma agulha de uma seringa, que ao penetrar a célula vegetal, é capaz de sugar seu conteudo. Esse habito faz com que os nematoides sejam exclusivamente dependentes das plantas, toranando-os parasitas obrigatórios.
+Na agricultura, os nematoides são extremamente importantes pois parasitam as raizes de plantas de interesse agrícola. Esse grupo de nematoides possuem em orgão destinado exclusivamente para se alimentar do protoplasto das células das plantas, o estilete (Figura \@ref(fig:fig10)). Esse orgão atua como uma agulha de uma seringa, que ao penetrar a célula vegetal, é capaz de sugar seu conteudo. Esse habito faz com que os nematoides sejam exclusivamente dependentes das plantas, tornando-os parasitas obrigatórios.
 
-Dentre os gêneros de nematoides de importancia agricola, podemos destacar os gêneros *Meloidogyne* e *Pratylenchus*. Esses gêneros de nematoides possuem espécies capazes de parasitar as principais espécies vegetais de interesse agricola. Além disso, as espécies desses gêneros estão distrbuidas pelas diversas regiões produtoras das espécies vegetais de interesse economico.
+```{r, fig10, echo = FALSE, fig.cap = '(ref:fig10)'}
+knitr::include_graphics("./Alexandre/fig10.jpg")
+```
+(ref:fig11) A esquerda uma fêmea adulta de *Meloidogyne javanica* e a direita um adulto de *helicotylenchus dihystera*. Ambos são nematoides fitoparatitas e apresentam estilete para se alimentar sugando o conteudo celular.
 
-Os nematoides do gênero *Meloidogyne* são endoparasitas e possuem a caracteristica marcante de causar galhas na raizes das plantas parasitadas. Essas galhas são causadas pela penetração do estilete dos juvenis nas células das raízes das plantas. Ao inserir o estilete, o nematoide inicia a alimentação e segrega substâncias que inibem a resposta da planta e induzem a formação do sítio de alimentação. Esse sítio de alimentação irá direcionar fotossimilados e nutrientes das células vizinhas para a célula que está sendo sugada pelo juvenil. Ao se alimentar, o juvenil se desenvolve e realiza as ecdises necessárias para seu desenvolvimento. Ao atingir o estágio adulto, a fêmea possuirá o corpo periforme (fom o formato de pêra) e produzirá uma massa de ovos que se acumula em uma matriz gelatinosa que em alguns casos poderá romper a parede da galha e ser exposta para fora das raízes da planta parasitada (Figura \@ref(fig:fig11))
+Os nematoides fitoparasitas possuem potencial de gerar prejuízos para a agricultura que variam de 157 bilhões de dólares [@ABAD2008; @HASSAN2013; @SINGH2015] a 358 bilhões de dólares anuais [@ABD-ELGAWAD2014]. Para a cultura da soja, uma das principais commodities exportadas pelo Brasil, são relatadas ao menos 50 espécies de nematoides fitoparasitas [@DIAS2010]. Dentre essas espécies, destacam-se *Meloidogyne javanica* (Treub, 1885) Chitwood, 1949, *Meloidogyne incognita* (Kofoid & White) Chitwood, 1949, *Pratylenchus brachyurus* (Godfrey, 1929) Filipjev & S. Stekhoven, 1941, *Heterodera glycines* Ichinohe, 1951  e *Rotylenchulus reniformis* Linford & Oliveira, 1940  como as mais importantes para a cultura da soja no Brasil, sendo a espécie *M. javanica* a mais frequente  [@FRANZENER2005; @DIAS2010; @MATTOS2016; @LOBO2017; @MAZZETTI2019].
+
+O Gênero *Meloidogyne*, popularmente conhecido como nematoide das galhas,  é extremamente importante para diversas culturas. Atualmente esse gênero contem 97 espécies [@HUNT2009] e esse número elevado de espécies é equivalente ao grande número de hospedeiros parasitados pelos nematoides desse gênero, estimadas em 5500 espécies vegetais [@TRUDGILL2001; @BLOK2008].
+
+Os nematoides do gênero *Meloidogyne* são endoparasitas e possuem a caracteristica marcante de causar galhas na raizes das plantas parasitadas. Essas galhas são causadas pela penetração do estilete dos juvenis nas células das raízes das plantas. Ao inserir o estilete, o nematoide inicia a alimentação e segrega substâncias que inibem a resposta da planta e induzem a formação do sítio de alimentação. Esse sítio de alimentação irá direcionar fotossimilados e nutrientes das células vizinhas para a célula que está sendo sugada pelo juvenil. Ao se alimentar, o juvenil se desenvolve e realiza as ecdises necessárias para seu desenvolvimento. Ao atingir o estágio adulto, a fêmea possuirá o corpo periforme (fom o formato de pêra) e produzirá uma massa de ovos que se acumula em uma matriz gelatinosa que em alguns casos poderá romper a parede da galha e ser exposta para fora das raízes da planta parasitada (Figura \@ref(fig:fig11)) [@MOENS2009; @PERRYMOENS2013].
 
 ```{r, fig11, echo = FALSE, fig.cap = '(ref:fig11)'}
 knitr::include_graphics("./Alexandre/fig11.jpg")
 ```
 (ref:fig11) Fases da vida e sintomas provocados por *Meloidogyne javanica*. A primeira imagem contem ovos e juvenis de segundo estádio de *M. javanica*. A segunda imagem exibe uma fêmea adulta de *M. javanica*, imóvel, obesa e com formato periforme. A terceira imagem exibe raízes de tomateiros parasitas por *M. javanica* com sintomas da formação de galhas.
 
-O gênero *Pratylenchus* abriga espécies ectoparasitas, pois são nematoides filiformes durante todas as fases de sua vida, podendo permear entre o solo e as raízes das plantas. Em todos os estágios após a eclosão do juvenil para fora o ovo, os nematoides desse gênero serão capazes de pentrar as raízes das plantas e se alimentar do conteudo das células das raizes das plantas. Esse gênero de nematoides não induz a formação do sítio de alimentação. Ao sugar o conteudo da célula, os nematoides podem movimentar-se no interior da raíz em busca de novos células. Deste modo, ao se alimentar e causar a morte das células, os nematoides desse gênero causam a necrose das raízes, rasultando em lesões que levam as raízes a morte.
-
-O controle dos nematoides busca evitar as perdas economicas devido o parasitismo dos nematoides. Basicamente, após a entrada dos nematoides na área de produção agricola, atualmente não há estratégias capazes de erradicar os nematoides de maneira eficiente. Deste modo, possuimos somente estratégias que permitem conviver com os nematoides de modo a reduzir as perdas. O controle pela aplicação de algum agente de controle químico, biológico ou alternativo são amplamente realizados e estudados. 
+Na tentativa de reduzir perdas causadas por nematoides, algumas medidas de controle são utilizadas. A seleção de mudas sadias impede a inserção de nematoides em uma área de cultivo [@BRIDGE1996; @COLLANGE2011]. Entretanto, pode ocorrer a inserção acidental de nematoides é acidental, podendo ocorrer não somente pelo material propagativo, mas também por meio da água de irrigação [@HUGO2010], implementos agrícolas e/ou pelos calçados dos trabalhadores rurais [@COLLANGE2011]. Após o estabelecimento dos nematoides na lavoura, são utilizadas medidas para manter a população de nematoides em níveis populacionais baixos, na tentativa de minimizar as perdas. Em resumo, possuimos somente estratégias que permitem conviver com os nematoides de modo a reduzir as perdas. O controle pela aplicação de algum agente de controle químico, biológico ou alternativo são amplamente realizados e estudados. Entretanto o controle químico é o mais utilizado no campo [@NYCZEPIR2009].
 
 A aplicação de substâncias para o controle de nematoides demanda de estudos do efeito da aplicação de diferentes concentrações sobre a resposta obtida. Assim, determinando o efeito de dose-resposta, é possivel estimar a concentração eficiente para obter o controle desejado. Esses estudos são realizados utilizando gradientes de concentrações de produtos, nos quais as fases de vida do nematoide são expostos ao tratamento por determinado periodo de tempo. Esses experimentos são comumente chamados de testes de eclosão, testes de motilidade e mortalidade, teste de penetração de juvenis e testes de Reprodução (Fator de reprodução).
 
@@ -581,6 +591,7 @@ knitr::include_graphics("./Alexandre/fig12.jpg")
 ```
 (ref:fig12) Modelo esquemático de um experimento de eclosão de nematoides. Ess experimento possui delineamento interiamente casualizado com 6 tratamentos e 4 repetições.
 
+O exemplo que apresentaremos neste capítulo, utiliza um script desenvolvido para estimar a CE~50~ de 4 nematicidas contra juvenis de *M. javanica*. Cada um dos nematicidas foi testado com 7 concentrações (0; 1,0; 2,5; 5; 10; 15 e 20 ppm). O experimento foi realizado em esquema fatorial 4X7 em delineamento inteiramente casualizado com 3 repetições. Esse exemplo será abordado utilizando scipts desenvolvidos para o pacote 'nlme' [@PINHEIRO2020] e 'drc' [@RITZ2016].
 
 ### Estimando a CE50 com o pacote 'NLME'
 
@@ -966,7 +977,7 @@ fmt <- "R2: %0.2f \n CE50: %0.2f"
 # Gr?fico com bandas de confian?a.
 grafico <- ggplot(tb,
                   aes(x = conc, y = mort)) + 
-  facet_wrap(facets = ~trat, nrow = 4) + 
+  facet_wrap(facets = ~trat, nrow = 2) + 
   geom_line(data = grid,
             mapping = aes(x = conc, y = fit)) +
   geom_ribbon(data = grid,
@@ -1019,11 +1030,6 @@ tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexa
 head(tb)
 str(tb)
 summary(tb)
-
-### Plotar as curvas
-ggplot(tb,
-       aes(x = drc, y = nlme)) +
-  geom_point()
 
 comp <- lm(drc ~ nlme, data=tb)
 summary(comp)
