@@ -567,13 +567,13 @@ Na agricultura, os nematoides são extremamente importantes pois parasitam as ra
 ```{r, fig10, echo = FALSE, fig.cap = '(ref:fig10)'}
 knitr::include_graphics("./Alexandre/fig10.jpg")
 ```
-(ref:fig11) A esquerda uma fêmea adulta de *Meloidogyne javanica* e a direita um adulto de *helicotylenchus dihystera*. Ambos são nematoides fitoparatitas e apresentam estilete para se alimentar sugando o conteudo celular.
+(ref:fig10) A esquerda uma fêmea adulta de *Meloidogyne javanica* e a direita um adulto de *helicotylenchus dihystera*. Ambos são nematoides fitoparatitas e apresentam estilete para se alimentar sugando o conteudo celular.
 
 Os nematoides fitoparasitas possuem potencial de gerar prejuízos para a agricultura que variam de 157 bilhões de dólares [@ABAD2008; @HASSAN2013; @SINGH2015] a 358 bilhões de dólares anuais [@ABD-ELGAWAD2014]. Para a cultura da soja, uma das principais commodities exportadas pelo Brasil, são relatadas ao menos 50 espécies de nematoides fitoparasitas [@DIAS2010]. Dentre essas espécies, destacam-se *Meloidogyne javanica* (Treub, 1885) Chitwood, 1949, *Meloidogyne incognita* (Kofoid & White) Chitwood, 1949, *Pratylenchus brachyurus* (Godfrey, 1929) Filipjev & S. Stekhoven, 1941, *Heterodera glycines* Ichinohe, 1951  e *Rotylenchulus reniformis* Linford & Oliveira, 1940  como as mais importantes para a cultura da soja no Brasil, sendo a espécie *M. javanica* a mais frequente  [@FRANZENER2005; @DIAS2010; @MATTOS2016; @LOBO2017; @MAZZETTI2019].
 
 O Gênero *Meloidogyne*, popularmente conhecido como nematoide das galhas,  é extremamente importante para diversas culturas. Atualmente esse gênero contem 97 espécies [@HUNT2009] e esse número elevado de espécies é equivalente ao grande número de hospedeiros parasitados pelos nematoides desse gênero, estimadas em 5500 espécies vegetais [@TRUDGILL2001; @BLOK2008].
 
-Os nematoides do gênero *Meloidogyne* são endoparasitas e possuem a caracteristica marcante de causar galhas na raizes das plantas parasitadas. Essas galhas são causadas pela penetração do estilete dos juvenis nas células das raízes das plantas. Ao inserir o estilete, o nematoide inicia a alimentação e segrega substâncias que inibem a resposta da planta e induzem a formação do sítio de alimentação. Esse sítio de alimentação irá direcionar fotossimilados e nutrientes das células vizinhas para a célula que está sendo sugada pelo juvenil. Ao se alimentar, o juvenil se desenvolve e realiza as ecdises necessárias para seu desenvolvimento. Ao atingir o estágio adulto, a fêmea possuirá o corpo periforme (fom o formato de pêra) e produzirá uma massa de ovos que se acumula em uma matriz gelatinosa que em alguns casos poderá romper a parede da galha e ser exposta para fora das raízes da planta parasitada (Figura \@ref(fig:fig11)) [@MOENS2009; @PERRYMOENS2013].
+Os nematoides do gênero *Meloidogyne* são endoparasitas e possuem a caracteristica marcante de causar galhas na raizes das plantas parasitadas. Essas galhas são causadas pela penetração do estilete dos juvenis nas células das raízes das plantas. Ao inserir o estilete, o nematoide inicia a alimentação e segrega substâncias que inibem a resposta da planta e induzem a formação do sítio de alimentação. Esse sítio de alimentação irá direcionar fotossimilados e nutrientes das células vizinhas para a célula que está sendo sugada pelo juvenil. Ao se alimentar, o juvenil se desenvolve e realiza as ecdises necessárias para seu desenvolvimento. Ao atingir o estágio adulto, a fêmea possuirá o corpo periforme (fom o formato de pêra) e produzirá uma massa de ovos que se acumula em uma matriz gelatinosa que em alguns casos poderá romper a parede da galha e ser exposta para fora das raízes da planta parasitada (Figura \@ref(fig:fig11)) [@PERRYMOENS2013].
 
 ```{r, fig11, echo = FALSE, fig.cap = '(ref:fig11)'}
 knitr::include_graphics("./Alexandre/fig11.jpg")
@@ -808,15 +808,17 @@ grafico <- grafico + geom_text(data = tb_params,
                                hjust = 1,
                                vjust = 0)
 
-### Insere os eixos e os títulos
-grafico <- grafico + geom_hline(yintercept = 50,
-                                lty = 3,
-                                size = 0.5,
-                                col = "darkorange") +
+grafico <- grafico + 
   scale_y_continuous(breaks = seq(0, 100, by = 20)) +
   scale_x_continuous(breaks = seq(0, 20, by = 2)) +
-  labs(x = "Concentração (ppm)",
-       y = "Mortalidade (%)")
+  labs(x = "Concentração",
+       y = "mortalidade (%)")
+
+grafico <- grafico + geom_hline(aes(yintercept = mort50), tb_params, 
+                                lty = 3, size = 0.5, col = "black")
+
+grafico <- grafico + geom_vline(aes(xintercept = CE50), tb_params, 
+                                lty = 3, size = 0.5, col = "black")
 
 ### Plota o gráfico
 grafico
@@ -923,7 +925,8 @@ tb_params <- tb_params%>%as.data.frame()%>%
 head(tb_params)
 
 ### Estimativa de CE50
-CE50 <- ED(drc2.LL.3, 50, interval = "delta")
+CE50 <- ED(drc2.LL.3, 50, interval = "delta", 
+           reference = "control", type = "absolute")
 
 CE50 <- CE50 %>%
   as.data.frame() %>%
