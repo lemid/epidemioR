@@ -26,16 +26,16 @@ Desta forma, neste capitulo será abordado o uso de modelos não lineares para a
 
 A soja, *Glycine max* (L.) Merr, é uma das commodities mais importantes no Brasil e a nível mundial, pois é fonte de óleo e proteína para alimentação humana e animal [@CONAB2019]. A produtividade dessa cultura pode ser afetada por doenças, principalmente a ferrugem asiática da soja – FAS, causada pelo fungo *Phakopsora pachyrhizi* Syd. & P. Syd por Hans e Paul Sydow. O agente causal da FAS pertence ao reino Fungi, classe de Basidiomycetos, ordem Uredinales, família Phakopsoraceae, gênero *Phakopsora*, espécie *Phakopsora pachyrhizi* [@GOELLNER2010]. Trata-se de um patógeno biotrófico, o qual não se reproduz em meio axênico [@HARTMAN2011]. 
 
-No Brasil a doença foi constatada em 2001, na safra 2001/2002 no estado do Paraná, na região oeste, fronteira do Paraguai (Foz do Iguaçu à Guaíra), e avançou rapidamente, se espalhando para outros estados [@YORINORI2005]. Atualmente, a FAS está presente em todas regiões produtoras da soja no mundo, porém vem sendo um grave problema principalmente na América do Sul, devido a ocorrência de todas a vértices do triângulo da doença, com grande expressão do ambiente [@MURITHI2015]. É a doença mais grave para a cultura, pois o custo (perda em grãos e gasto com controle) é estimado em dois bilhões de dólares por safra [@CAF2018]. 
+No Brasil a doença foi constatada em 2001, na safra 2001/2002 no estado do Paraná, na região oeste, fronteira do Paraguai (Foz do Iguaçu à Guaíra), e avançou rapidamente, se espalhando para outros estados [@YORINORI2005]. Atualmente, a FAS está presente em todas regiões produtoras da soja no mundo, porém vem sendo um grave problema principalmente na América do Sul, devido a ocorrência de todas a vértices do triângulo da doença, com grande expressão do ambiente [@MURITHI2015]. É a doença mais grave para a cultura, pois o custo (redução de produtividade e gastos com controle) é estimado em dois bilhões de dólares por safra [@CAF2018]. 
 
-Trata-se de um patógeno muito agressivo, pois a FAS é uma doença policíclica, assim inúmeros ciclos de infecção podem ocorrer em um único ciclo do hospedeiro [@GODOY2016], garantindo assim a disseminação dos urediniósporos dentro da mesma área de cultivo e áreas adjacentes [@BROWN2002]. Além disso, possui forma ágil dispersão dos esporos pelo vento, curto período latente e longo período infeccioso, sendo que as condições ambientais favoráveis para o desenvolvimento da soja também são favoráveis para o patógeno, e a sua constante evolução permite a perda de sensibilidade a fungicidas e a quebra de genes de resistência de plantas de soja melhoradas geneticamente [@GODOY2016].
+Trata-se de um patógeno muito agressivo, pois a FAS é uma doença policíclica, assim inúmeros ciclos de infecção podem ocorrer em um único ciclo do hospedeiro [@GODOY2016], garantindo assim a disseminação dos urediniósporos dentro da mesma área de cultivo e áreas adjacentes [@BROWN2002]. Além disso, possui ágil dispersão dos esporos pelo vento, curto período latente e longo período infeccioso, sendo que as condições ambientais favoráveis para o desenvolvimento da soja também são favoráveis para o patógeno, e a sua constante evolução permite redução de sensibilidade a fungicidas e a quebra de genes de resistência de plantas de soja melhoradas geneticamente [@GODOY2016].
 
 As principais estratégias de manejo da doença para reduzir o risco de danos à cultura são: a utilização de cultivares de ciclo precoce, realização de semeadura no início da época recomendada, uso de cultivares com resistência genética, eliminação de plantas tigueras, respeitar o vazio sanitário de no mínimo 60 dias, sendo recomendado 90 dias pelo consórcio Anti-Ferrugem, e ainda realizar desde o início do desenvolvimento da cultura constante monitoramento da lavoura, e assim que surgir os primeiros sintomas e/ou ainda de forma preventiva utilizar fungicidas, este sendo o mais utilizado para o controle desta doença [@GODOY2016].
 
 Os principais fungicidas utilizados no manejo da FAS, são os inbidores de desmetilação (IDM’s), inibidores de quinona externa (IQe’s), inibidores da succinato desidrogenase (ISDH’s) e o tradicional mancozebe. Falhas no controle da FAS tem sido observada nos últimos anos em diferentes regiões do Brasil, devido a mutações do fungo, que conferem resistência aos fungicidas [@GODOY2019]. 
 
 Mutações em isolados de *P. pachyrhizi* foram relatadas nos genes CYP51 [@SCHMITZ2013], CYT-b [@KLOSOWSKI2015] e SDH-c [@SIMOES2017]. Genótipos com resistência nos genes CYP51 e CYT-b são mais comumente encontrados [@KLOZOWSKI2016] porém recentemente foi descrito a ocorrência de múltipla resistência para estes três genes no mesmo isolado [@MULLER2018]. A constante evolução do patógeno e a pressão de seleção imposta pelo uso constante de fungicidas, permitiu que o fungo apresente alta frequência da sua população resistente para as moléculas disponíveis. Portanto, estudos que monitorem a sensibilidade do fungo aos fungicidas são cada vez mais importantes.
-Para a *P. pachyrhizi* os estudos de CE~50~ - concentração efetiva para controlar 50% do patógeno são realizados estudos em folha destacada (*ex vivo*) em placas de Petri, pois permite avaliar a sensibilidade do fungo em condições controladas de laboratório, sem demandar de grande estrutura. 
+Para a *P. pachyrhizi* os estudos de CE~50~ - concentração efetiva para controlar 50% do patógeno são realizados em folha destacada (*ex vivo*) em placas de Petri, pois permite avaliar a sensibilidade do fungo em condições controladas de laboratório, sem demandar de grande estrutura. 
 
 A metodologia descrita por [@SCHERB2006] é difundida mundialmente pela FRAC (Comitê de Ação a Resistencia a Fungicidas). Essa metodologia consiste de ensaio ex vivo, com folhas destacadas, tratadas com os diferentes concentrações de fungicida e acondicionadas em placa de Petri com meio Agar-agua e incubadas em em BOD a 22°C com fotoperiodo de 12h por cerca de 15 a 20 dias até o surgimento e estabilização dos sintomas do patógeno nas folhas, que então serão avaliados e/ou quantificados com o uso de escala diagramática que possibilita avaliar a severidade da doença. Para tal avaliação, se utiliza a escala diagramática de  (Figura \@ref(fig:fig1)) que contempla seis níveis de intensidade de dano em folhas, variando de 0,6 a 78,5% de área foliar afetada pela ferrugem [@GODOY2006]. 
 
@@ -100,12 +100,13 @@ f(x)=\frac{A}{1+e^{(C*(log(conc)-B)))}}
 $$
 
 O modelo log-logistico utilizado no script precisa ser descrito. Utilizamos a função a baixo para anexar a equação da curva ao script.
+
 ```{r}
 ### Equação de Log-Logistico
 loglogistico <- sev ~ A / (1+exp(C*(log(conc)-B)))
 ```
 
-O ajuste os dados nesse modelo utilizando o pacote nlme demanda de estimativas iniciais para os parametros, que aqui chamamos de "chutes iniciais". Esses "chutes" aos parâmetros "A", "B" e "C". Para facilitar os chutes iniciais, utilizaremos a função nls() do pacote 'stats' que está associado ao 'nlme'. Essas funções combinadas permitem estimar os valores dos parametros com um nível de tolerância, permitindo a inserção na função gnls().
+O ajuste dos dados nesse modelo utilizando o pacote nlme demanda de estimativas iniciais para os parâmetros, que aqui chamamos de "chutes iniciais". Esses "chutes" são realizados para os parâmetros "A", "B" e "C". Para facilitar os chutes iniciais, utilizaremos a função nls() do pacote 'stats' que está associado ao 'nlme'. Essas funções combinadas permitem estimar os valores dos parametros com um nível de tolerância, permitindo a inserção na função gnls().
 
 ```{r}
 ### Estima curvas para os dados
@@ -183,7 +184,7 @@ ggplot(tb,
 
 ```
 
-Após a determinação dos pontos de fixação da curva pelo e determinação dos resíduos, é recomendável predizer o maior número de pontos na curva modelada. Essa predição é recomendável para aumentar o ajuste da curva. Utilizaremos em nosso exemplo, uma curva predita para cada 0,5 unidade do eixo "X". Para cada valor de "X" serão calculados todos os parâmetros da curva.
+Após a determinação dos pontos de fixação da curva pela função fitted (), e dos resíduos, é recomendável predizer o maior número de pontos na curva modelada. Essa predição é recomendável para aumentar o ajuste da curva. Utilizaremos em nosso exemplo, uma curva predita para cada 0,5 unidade do eixo "X". Para cada valor de "X" serão calculados todos os parâmetros da curva.
 
 ```{r}
 ### Grid para a predição com bandas
@@ -363,7 +364,7 @@ ggplot(tb,
   geom_point()
 ```
 
-O pacote drc não exige o carregamento de uma equação, pois o pacote já conta com as equações em suas funções. Para ajustar os dados à equação log-logistico com três parâmetros (como utilizado no exemplo com o pacote 'nlme'), utilizare-mos somente o comando LL.3.
+O pacote drc não exige o carregamento de uma equação, pois o pacote já conta com as equações em suas funções. Para ajustar os dados à equação log-logistico com três parâmetros (como utilizado no exemplo com o pacote 'nlme'), utilizare-mos somente o comando LL.3().
 
 ```{r}
 ### Ajustando ao modelo de Gompertz de três parâmetros
@@ -580,16 +581,16 @@ knitr::include_graphics("./Alexandre/fig11.jpg")
 ```
 (ref:fig11) Fases da vida e sintomas provocados por *Meloidogyne javanica*. A primeira imagem contem ovos e juvenis de segundo estádio de *M. javanica*. A segunda imagem exibe uma fêmea adulta de *M. javanica*, imóvel, obesa e com formato periforme. A terceira imagem exibe raízes de tomateiros parasitas por *M. javanica* com sintomas da formação de galhas.
 
-Na tentativa de reduzir perdas causadas por nematoides, algumas medidas de controle são utilizadas. A seleção de mudas sadias impede a inserção de nematoides em uma área de cultivo [@BRIDGE1996; @COLLANGE2011]. Entretanto, pode ocorrer a inserção acidental de nematoides é acidental, podendo ocorrer não somente pelo material propagativo, mas também por meio da água de irrigação [@HUGO2010], implementos agrícolas e/ou pelos calçados dos trabalhadores rurais [@COLLANGE2011]. Após o estabelecimento dos nematoides na lavoura, são utilizadas medidas para manter a população de nematoides em níveis populacionais baixos, na tentativa de minimizar as perdas. Em resumo, possuimos somente estratégias que permitem conviver com os nematoides de modo a reduzir as perdas. O controle pela aplicação de algum agente de controle químico, biológico ou alternativo são amplamente realizados e estudados. Entretanto o controle químico é o mais utilizado no campo [@NYCZEPIR2009].
+Na tentativa de reduzir perdas causadas por nematoides, algumas medidas de controle são utilizadas. A seleção de mudas sadias impede a inserção de nematoides em uma área de cultivo [@BRIDGE1996; @COLLANGE2011]. Entretanto, pode ocorrer a inserção acidental de nematóides, podendo ocorrer não somente pelo material propagativo, mas também por meio da água de irrigação [@HUGO2010], implementos agrícolas e/ou pelos calçados dos trabalhadores rurais [@COLLANGE2011]. Após o estabelecimento dos nematoides na lavoura, são utilizadas medidas para manter a população de nematoides em níveis populacionais baixos, na tentativa de minimizar as perdas. Em resumo, possuimos somente estratégias que permitem conviver com os nematoides de modo a reduzir as perdas. O controle pela aplicação de algum agente de controle químico, biológico ou alternativo são amplamente realizados e estudados. Entretanto o controle químico é o mais utilizado no campo [@NYCZEPIR2009].
 
 A aplicação de substâncias para o controle de nematoides demanda de estudos do efeito da aplicação de diferentes concentrações sobre a resposta obtida. Assim, determinando o efeito de dose-resposta, é possivel estimar a concentração eficiente para obter o controle desejado. Esses estudos são realizados utilizando gradientes de concentrações de produtos, nos quais as fases de vida do nematoide são expostos ao tratamento por determinado periodo de tempo. Esses experimentos são comumente chamados de testes de eclosão, testes de motilidade e mortalidade, teste de penetração de juvenis e testes de Reprodução (Fator de reprodução).
 
-Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada. Um exemplo de CE~50~ para nematoides é o efeito de nematicidas sobre a eclosão de juvenis. Deste modo, com o aumento da concentração de nematicida, possivelmente a taxa de eclosão reduzirá (Figura \@ref(fig:fig12)).
+Os testes de dose-resposta são realizados diferentes tratamentos, que são concentração as produto que se quer conhecer a CE50. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Essa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestimada ou superestimada. Um exemplo de CE~50~ para nematoides é o efeito de nematicidas sobre a eclosão de juvenis. Deste modo, com o aumento da concentração de nematicida, possivelmente a taxa de eclosão reduzirá (Figura \@ref(fig:fig12)).
 
 ```{r, fig12, echo = FALSE, fig.cap = '(ref:fig12)'}
 knitr::include_graphics("./Alexandre/fig12.jpg")
 ```
-(ref:fig12) Modelo esquemático de um experimento de eclosão de nematoides. Ess experimento possui delineamento interiamente casualizado com 6 tratamentos e 4 repetições.
+(ref:fig12) Modelo esquemático de um experimento de eclosão de nematoides. Esse experimento possui delineamento interiamente casualizado com 6 tratamentos e 4 repetições.
 
 O exemplo que apresentaremos neste capítulo, utiliza um script desenvolvido para estimar a CE~50~ de 4 nematicidas contra juvenis de *M. javanica*. Cada um dos nematicidas foi testado com 7 concentrações (0; 1,0; 2,5; 5; 10; 15 e 20 ppm). O experimento foi realizado em esquema fatorial 4X7 em delineamento inteiramente casualizado com 3 repetições. Esse exemplo será abordado utilizando scipts desenvolvidos para o pacote 'nlme' [@PINHEIRO2020] e 'drc' [@RITZ2016].
 
@@ -749,16 +750,14 @@ params <- params %>%
 head(params)
 
 tb_params <- params%>%as.data.frame()%>% 
-  mutate(CE50 = exp((log(((A/(100/2))-1))/(C))+B))
+  mutate(CE50 = exp((log(((A/((100-C)/2))-1))/(C))+B))
 ```
 
-Este exemplo de CE~50~ com *Meloidogyne* é semelhante ao exemplo com *Phakopsora pachyrhizi*, mas a maior diferença surge nesse ponto do script. Algumas microrganismos ou isolados, não são afetadados pela testemunha, e são afetados ao máximo pela concentração mais alta utilizada em um teste de CE~50~. Em situações assim, a curva inicia-se no zero, apresenta um crescimento ou queda acentuada, para então estabilizar na máxima concentração. Entretanto, alguns microrganismos não apresentam um platô de estabilidade da curva, exigindo tratamentos com concentrações extremamente altas. Situações assim necessitam de ajustes no script.
-
-No caso dos nematoides, temos conciência que a resposta ocorre entre 0 e 100%, ou seja, há possibilidade de que todos os nematoides estejam mortos ou vivos, ou que todos os juvenis eclodam ou não. Assim, podemos conciderar a curva com a amplitude máxima de 100%. No caso das ferrugens, a amplitude da curva não pode ser analisada da mesma forma. Vamos usar como exemplo a ferrugem do pessegueiro. As folhas de pessegueiro suportam que a ferrugem causada por *Tranzschelia discolor* atinja uma severidade máxima de 30% antes de sofrer abscissão [@DOLINSKI2017]. Essa situação,demonstra que a assintota máxima da curva será limitada ou próxima da severidade máxima de 30%, respectivamente. Deste modo, a CE~50~ será estimada atingir um nível máximo de severidade da doença de 15%. Vários patossistemas apresentam esse comportamento limitante, como o mildio da videira (*Plasmopara viticola*) que apresenta severidade máxima de 72% [@CAMARGO2019], a ferrugem alaranjada da cana-de-açucar (*Puccinia kuehnii*) que apresenta severidade máxima de 45% [@KLOSOWSKI2013] e a ferrugem da ameixeira (*Tranzschelia discolor*) com severidade máxima de 35% [@VIDAL2019].
+Este exemplo de CE~50~ com *Meloidogyne* é semelhante ao exemplo com *Phakopsora pachyrhizi*, mas a maior diferença entre eles, surge nesse ponto do script. Alguns microrganismos ou isolados, não são totalmente inibidos, ou não apresentam a máxima redução na sua atividade biológica (crescimento micelial, germinação e tamanho de lesões) quando expostos as maiores concentrações de determinada molécula utilizada em um ensaio de CE~50~.Essa resposta de cada microrganismo, afeta a amplitude da curva de CE~50~. Em nosso exemplo, temos ciência que é possivel obter 100% de mortalidade de nematoides. Deste modo, consideramos que a assintota máxima da curva de mortalidade corresponde a 100% de mortalidade, do qual, a CE~50~ corresponde a 50% de mortabilidade dos nematoides.
 
 ```{r}
 tb_params <- tb_params%>%as.data.frame()%>% 
-  mutate(mort50 = (100/2))
+  mutate(mort50 = ((100-C)/2))
 
 head(tb_params)
 
@@ -920,7 +919,7 @@ tb_params <- tb_params %>% inner_join(tb_r2)
 
 ### Obtenção do valor correspondente a 50% da resposta.
 tb_params <- tb_params%>%as.data.frame()%>% 
-  mutate(mort50 = (100/2))
+  mutate(mort50 = ((100-C)/2))
 
 head(tb_params)
 
@@ -1054,5 +1053,6 @@ Ao compararmos as estimativas de CE~50~ entre os dois pacotes pelo teste exato d
 fisher.test(tb$drc, tb$nlme)
 ```
 
-Ao considerarmos que a utilização correta de ambas as ferramentas garantem o acerto, cada pesquisadorpoderá optar pela ferramenta que mais se adapta as suas necessidades. Destacamos que o pacote 'drc' possui diversas facilidades devido a suas funções próprias do pacote, que facilitam a execução e reduzem o script. Entretanto, o 'nlme' permitiria realizar análises com modelos não lineares que não estão programados do 'drc'. Este capítulo tem a função de facilitar o acesso a essas funcionalidades, facilitando o dia a dia da pesquisa com fitopatologia e nematologia.
+Ao considerarmos que a utilização correta de ambas as ferramentas garantem o acerto, cada pesquisador poderá optar pela ferramenta que mais se adapta as suas necessidades. Destacamos que o pacote 'drc' possui diversas facilidades devido a suas funções nativas presente no pacote, que facilitam a execução e reduzem o script. Entretanto, o 'nlme' permitiria realizar análises com modelos não lineares que não estão programados do 'drc'. Este capítulo tem a função de facilitar o acesso a essas funcionalidades, facilitando a análise e interpretação de dados em pesquisas de sensibilidade de fungos e nematoides a moléculas em ensaios de CE~50~.
+
 
