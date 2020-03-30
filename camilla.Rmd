@@ -39,7 +39,6 @@ Septoria. Fonte: [@Ojiambo2005].
 
 ```{r curvaskaplan, echo=FALSE, fig.cap= '(ref:curvakaplan)'}
 knitr::include_graphics("camilla/curvaskaplan.jpg")
-
 ```
 
 Na técnica paramétrica, uma distribuição de probabilidades precisa ser
@@ -66,7 +65,6 @@ de Aguiar Carraro
 
 ```{r frutos, echo=FALSE, fig.cap= '(ref:frutos)'}
 knitr::include_graphics("camilla/frutos.jpg")
-
 ```
 
 ### Estudo de caso 1 - Técnica não paramétrica e paramétrica em experimento com um fator
@@ -99,7 +97,6 @@ para o aparecimento dos sintomas.
 
 ```{r esquema, echo=FALSE, fig.cap= '(ref:esquema)'}
 knitr::include_graphics("camilla/esquema.jpg")
-
 ```
 
 Após a inoculação, cada fruto foi avaliado diariamente durante 39
@@ -115,7 +112,8 @@ os dados. Para isso, consultar a próxima seção.
 
 ```{r conjuntodedados, echo=FALSE}
 tb <- read.csv2 ("camilla/sobrev.csv")
-knitr::kable(head(tb), caption = '(ref:conjuntodedados)',
+knitr::kable(head(tb),
+             caption = '(ref:conjuntodedados)',
              digits = c(1, 1, 1, 1),
              align = c("cccc"),
              row.names = FALSE)
@@ -126,59 +124,60 @@ demonstrados. Neste passo, a função de sobrevivencia e o teste de log
 rank foram executados. O período de incubação de frutos de diferentes
 tamanhos foi obtido e comparado por meio das curvas de Kaplan Meier.
 
-```{r, message=FALSE}
-# Carrega pacotes
-
+```{r, message = FALSE}
+# Carrega pacotes.
 library(tidyverse)
 library(survival)
 library(emmeans)
 library(survival)
+```
 
-# Leitura dos dados
+```{r}
+# Leitura dos dados.
 dados  <-  read.csv2("camilla/sobrev.csv")
 
-# Análises exploratórias
+# Análises exploratórias.
+dados0 <- dados %>%
+    group_by(tamanho) %>%
+    arrange(day) %>%
+    mutate(ord = seq_along(day)/n())
 
 # Gráfico com a linha do day de cada fruto que mostra quando o evento
 # aconteceu e que tipo de desfecho.
-
-dados0 <- dados %>%
-  group_by(tamanho) %>%
-  arrange(day) %>%
-  mutate(ord = seq_along(day)/n())
-
 ggplot(data = dados0,
        mapping = aes(x = day, y = ord, shape = factor(status))) +
-  facet_grid(~tamanho) +
-  geom_point() +
-  geom_segment(mapping = aes(x = 0, y = ord, xend = day, yend = ord)) +
-  scale_shape_manual(breaks = c(0, 1),
+    facet_grid(facets = ~tamanho) +
+    geom_point() +
+    geom_segment(mapping = aes(x = 0, y = ord, xend = day, yend = ord)) +
+    scale_shape_manual(breaks = c(0, 1),
                      values = c(1, 19),
                      labels = c("Censura", "Sintoma")) +
-  labs(shape = "Desfecho",
-       x = "Dias após inoculação",
-       y = "Ordem do fruto") +
-  scale_x_continuous(breaks = seq(0, max(dados$day), by = 10))
+    labs(shape = "Desfecho",
+         x = "Dias após inoculação",
+         y = "Ordem do fruto") +
+    scale_x_continuous(breaks = seq(0, max(dados$day), by = 10))
+```
 
-# Técnica não paramétrica
+```{r}
+# Método não paramétrico.
+# Estimar funções de sobrevivência.
+# Parâmetro mean = Período de incubação.
 
-# estimar funções de sobrevivencia
-# Parâmetro mean = Período de incubação
+(s <- survfit(Surv(day, status) ~ tamanho, data = dados))
 
-(s <- survfit(Surv(day, status)~ tamanho, data=dados))
+# O tam1, 2 e 3 não apresentaram período de incubação pois, menos de 50%
+# das repetições apresentaram sintomas. No caso de poucos frutos
+# apresentarem sintomas, recomenda-se aumentar o número de repetições do
+# experimento.
 
-#O tam1, 2 e 3 não apresentaram período de incubação pois, menos de 50% das repetições apresentaram sintomas. No caso de poucos frutos apresentarem sintomas, recomenda-se aumentar o número de repetições do experimento.
-
-#Curva de Kaplan Meier
+# Curva de Kaplan Meier.
 library(survminer)
 
 fit <- survfit(Surv(day, status) ~ tamanho, data = dados)
-ggsurvplot(fit, data = dados, censor.shape="|", censor.size = 4)
+ggsurvplot(fit, data = dados, censor.shape = "|", censor.size = 4)
 
-#calcula o teste de log-rank
-
-survdiff(Surv(day, status)~ tamanho, data=subset(dados))
-
+# Aplica o teste de log-rank.
+survdiff(Surv(day, status) ~ tamanho, data = dados)
 ```
 
 Os passos para a técnica paramétrica foram relacionados a seguir. Neste
@@ -186,79 +185,66 @@ caso, o período de incubação foi obtido e comparado entre os tratamentos
 por meio da estimativa do parâmetro de locação.
 
 ```{r, message=FALSE}
-#Técnica não paramétrica
-
-#carrega pacotes
-library(tidyverse)
-library(survival)
-library(emmeans)
+# Técnica não paramétrica.
 
 # Ordena pelo dia do evento dentro de cada unidade experimental.
 dados <- dados %>%
-  group_by(tamanho) %>%
-  arrange(day) %>%
-  mutate(ord = seq_along(day)/n())
+    group_by(tamanho) %>%
+    arrange(day) %>%
+    mutate(ord = seq_along(day)/n())
 
-s <- with(dados,
-            Surv(time = day,
-                 event = status))
+s <- with(dados, Surv(time = day, event = status))
 
-  # Modelo nulo que não tem efeito de nenhum fator.
-  m0 <- survreg(formula = s ~ 1,
-                data = dados,
-                dist = "weibull")
+# Modelo nulo que não tem efeito de nenhum fator.
+m0 <- survreg(formula = s ~ 1, data = dados, dist = "weibull")
 
-  # Inclui o efeito de espécie.
-  m1 <- survreg(formula = s ~ tamanho,
-                data = dados,
-                dist = "weibull")
+# Inclui o efeito de espécie.
+m1 <- survreg(formula = s ~ tamanho, data = dados, dist = "weibull")
 
- # Teste da razão de verossimilhanças entre modelos encaixados.
-  anova(m0, m1)
+# Teste da razão de verossimilhanças entre modelos encaixados.
+anova(m0, m1)
 
-  mx <- m1
+mx <- m1
 
-   # Médias ajustadas (é na interpretação do parâmetro da Weibull).
-  emm <- emmeans(mx,
-                 specs = ~tamanho)
-  emm
+# Médias ajustadas (é na interpretação do parâmetro da Weibull).
+emm <- emmeans(mx, specs = ~tamanho)
+emm
 
-  tb_emm <- as.data.frame(emm)
+tb_emm <- as.data.frame(emm)
 
-  # Estimativas conforme parametrização da {p, d, q, r}weibull.
-  a <- 1/mx$scale          # shape.
-  b <- exp(tb_emm$emmean)  # scale.
+# Estimativas conforme parametrização da {p, d, q, r}weibull.
+a <- 1/mx$scale          # shape.
+b <- exp(tb_emm$emmean)  # scale.
 
-  # Obtenção do day médio (é uma função complexa dos dois parâmetros).
-  tb_emm$mean_day<- b * gamma(1 + 1/a)
-  tb_emm
+# Obtenção do day médio (é uma função complexa dos dois parâmetros).
+tb_emm$mean_day<- b * gamma(1 + 1/a)
+tb_emm
 
-  tb_curves <- tb_emm %>%
+tb_curves <- tb_emm %>%
     group_by(tamanho) %>%
     do({
-      day <- seq(0, 20, length.out = 51)
-      dens <- dweibull(day, shape = a, scale = exp(.$emmean))
-      accu <- pweibull(day, shape = a, scale = exp(.$emmean))
-      data.frame(day, dens, accu)
+        day <- seq(0, 20, length.out = 51)
+        dens <- dweibull(day, shape = a, scale = exp(.$emmean))
+        accu <- pweibull(day, shape = a, scale = exp(.$emmean))
+        data.frame(day, dens, accu)
     }) %>%
     ungroup()
 
-  # As curvas de densidade ajustadas.
-  ggplot(data = tb_curves,
-         mapping = aes(x = day, y = dens)) +
+# As curvas de densidade ajustadas.
+ggplot(data = tb_curves,
+       mapping = aes(x = day, y = dens)) +
     facet_grid(facets =  ~ tamanho) +
     geom_line()
 
-  # As curvas de "1 - sobreviência".
-  ggplot(data = tb_curves,
-         mapping = aes(x = day, y = accu)) +
+# As curvas de "1 - sobreviência".
+ggplot(data = tb_curves,
+       mapping = aes(x = day, y = accu)) +
     facet_grid(facets = ~ tamanho) +
     geom_line()
 
-
-  # Valores observados com sobreposição das curvas ajustadas.
-  ggplot(data = dados,
-         mapping = aes(x = day, y = ord, shape = factor(status))) +
+# Valores observados com sobreposição das curvas ajustadas.
+ggplot(data = dados,
+       mapping = aes(x = day, y = ord, shape = factor(status))) +
     facet_grid(facets = ~ tamanho) +
     geom_point() +
     scale_shape_manual(breaks = c(0, 1),
@@ -274,43 +260,39 @@ s <- with(dados,
               inherit.aes = FALSE,
               mapping = aes(x = day, y = accu))
 
-   #Comparando os tratamentos
+# Comparando os tratamentos
+emm_tamanho_in <- emmeans(mx, specs = ~tamanho)
+emm_tamanho_in
 
-  emm_tamanho_in <- emmeans(mx, specs = ~tamanho)
-  emm_tamanho_in
+# contrast(emm_trat_in, method = "pairwise")
+library(multcomp)
+tamanho_in_comp <- multcomp::cld(emm_tamanho_in)
+tamanho_in_comp
 
+# Tabela com o resultado das comparações múltiplas.
+tb_contr <- as.data.frame(tamanho_in_comp)
+tb_contr
 
-
-   # contrast(emm_trat_in, method = "pairwise")
-  library(multcomp)
-  tamanho_in_comp <- multcomp::cld(emm_tamanho_in)
-  tamanho_in_comp
-
-  # Tabela com o resultado das comparações múltiplas.
-  tb_contr <- as.data.frame(tamanho_in_comp)
-  tb_contr
-
-  # Transformar os números para letras e ordenar as letras conforme as
-  # estimativas.
-  f <- function(x) {
+# Transformar os números para letras e ordenar as letras conforme as
+# estimativas.
+f <- function(x) {
     l <- x %>%
-      str_trim() %>%
-      str_split("") %>%
-      flatten_chr() %>%
-      as.integer()
+        str_trim() %>%
+        str_split("") %>%
+        flatten_chr() %>%
+        as.integer()
     str_c(letters[l], collapse = "")
-  }
-  f(" 123 ")
+}
+f(" 123 ")
 
-  # Acerta a representação da significância dos contrastes com letras.
-  tb_contr <- tb_contr %>%
+# Acerta a representação da significância dos contrastes com letras.
+tb_contr <- tb_contr %>%
     mutate(let = map_chr(.group, f)) %>%
     group_by() %>%
     mutate(let = let, means = emmean)
 
-  ggplot(data = tb_contr,
-         mapping = aes(x = tamanho, y = emmean)) +
-
+ggplot(data = tb_contr,
+       mapping = aes(x = tamanho, y = emmean)) +
     geom_point() +
     geom_errorbar(mapping = aes(ymin = lower.CL,
                                 ymax = upper.CL),
