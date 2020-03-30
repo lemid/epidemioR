@@ -1,49 +1,115 @@
-#Análise de sobrevivência 
+# Análise de sobrevivência
 
+## Introdução
 
-## Introdução 
+Experimentos cujo tempo para a ocorrência de um evento é o objeto de
+interesse são comuns na epidemiologia de doenças de plantas. Por
+exemplo, o tempo para a ocorrência de sintomas e sinais, ou seja, o
+período de incubação e latência, respectivamente, são componentes do
+monociclo com grande importancia para a descrição das epidemias. Uma das
+principais características de dados epidemiológicos relacionados ao
+tempo é a censura a direita, ou seja, o experimento pode encerrar antes
+de todas as repetições apresentarem o evento. No entanto, a estatística
+clássica não é apropriada para análisar dados censurados, pois não
+consegue acomodar este fator na análise, o que reflete em estimativas
+que não são fidedignas. Dentro deste contexto, a análise de
+sobrevivência foi desenvolvida com técnicas não paramétricas,
+semi-paramétricas e paramétricas. Alguns artigos da fitopatologia tem
+sido publicados utilizando esta análise para estimar o período de
+incubação [@Copes2008],comparar de cultivares utilizando o tempo para
+ocorrência de sintomas, tempo para a queda de folhas sintomáticas
+[@Ojiambo2005], entre outros.
 
-Experimentos cujo tempo para a ocorrência de um evento é o objeto de interesse são comuns na epidemiologia de doenças de plantas. Por exemplo, o tempo para a ocorrência de sintomas e sinais, ou seja, o período de incubação e latência, respectivamente, são componentes do monociclo com grande importancia para a descrição das epidemias. Uma das principais características de dados epidemiológicos relacionados ao tempo é a censura a direita, ou seja, o experimento pode encerrar antes de todas as repetições apresentarem o evento. No entanto, a estatística clássica não é apropriada para análisar dados censurados, pois não consegue acomodar este fator na análise, o que reflete em estimativas que não são fidedignas. Dentro deste contexto, a análise de sobrevivência foi desenvolvida com técnicas não paramétricas, semi-paramétricas e paramétricas. Alguns artigos da fitopatologia tem sido publicados utilizando esta análise para estimar o período de incubação [@Copes2008],comparar de cultivares utilizando o tempo para ocorrência de sintomas, tempo para a queda de folhas sintomáticas [@Ojiambo2005], entre outros. 
+Dentre as técnicas não paramétricas, o estimador Kaplan-Meier
+[@Kaplan1958] é o mais utilizado. O método estima a função de
+sobrevivência, ou seja, a probabilidade de um indivíduo não apresentar o
+evento decorrido um tempo "t". Os gráficos gerados por esta análise são
+representados por degraus de tempo em que ocorre o evento (Figura
+\@ref(fig:curvakaplan)). Por meio desta técnica, torna-se possível a
+aplicação de testes de significância, como o Log-Rank, para comparar
+tratamentos. O log-Rank testa a hipótese nula de que as curvas formadas
+são semelhantes [@Colosimo2006]. Este tipo de técnica é limitada em
+testar o o efeito de apenas uma covariável, representadas pelos fatores
+de tratamentos. Em outras palavras, o método não permite analisar
+possíveis inteirações em experimentos fatoriais.
 
-
-Dentre as técnicas não paramétricas, o estimador Kaplan-Meier [@Kaplan1958] é o mais utilizado. O método estima a função de sobrevivência, ou seja, a probabilidade de um indivíduo não apresentar o evento decorrido um tempo "t". Os gráficos gerados por esta análise são representados por degraus de tempo em que ocorre o evento (Figura \@ref(fig:curvakaplan)). Por meio desta técnica, torna-se possível a aplicação de testes de significância, como o Log-Rank, para comparar tratamentos. O log-Rank testa a hipótese nula de que as curvas formadas são semelhantes [@Colosimo2006]. Este tipo de técnica é limitada em testar o o efeito de apenas uma covariável, representadas pelos fatores de tratamentos. Em outras palavras,  o método não permite analisar possíveis inteirações em experimentos fatoriais. 
-
-(ref:curvakaplan) Exemplo de curva de Kaplan-Meier estimando funções de sobrevivência para a queda de folhas de mirtilo com mancha foliar de Septoria. Fonte: [@Ojiambo2005].
+(ref:curvakaplan) Exemplo de curva de Kaplan-Meier estimando funções de
+sobrevivência para a queda de folhas de mirtilo com mancha foliar de
+Septoria. Fonte: [@Ojiambo2005].
 
 ```{r curvaskaplan, echo=FALSE, fig.cap= '(ref:curvakaplan)'}
 knitr::include_graphics("camilla/curvaskaplan.jpg")
 
 ```
 
-Na técnica paramétrica, uma distribuição de probabilidades  precisa ser selecionada. A distribuição de Weilbull, Log-normal e exponencial são as mais utilizadas na análise de sobreviência. Esta abordagem pode ser aplicada tanto em estudos com apenas um fator (covariável), como também permite, em experimentos em esquema fatorial, determinar parâmetros importantes para analisar inteirações entre fatores [@Zhang2016]. 
+Na técnica paramétrica, uma distribuição de probabilidades precisa ser
+selecionada. A distribuição de Weilbull, Log-normal e exponencial são as
+mais utilizadas na análise de sobreviência. Esta abordagem pode ser
+aplicada tanto em estudos com apenas um fator (covariável), como também
+permite, em experimentos em esquema fatorial, determinar parâmetros
+importantes para analisar inteirações entre fatores [@Zhang2016].
 
+Assim, o capítulo tem como objetivo executar os passos para a análise de
+sobrevivência no software R em dois estudos de caso que envolvem
+experimentos com frutos destacados (*ex vivo*) com podridões de frutos
+ocasionadas por espécies do gênero *Colletotrichum*. No primeiro caso, a
+técnica não paramétrica e paramétrica foram discutidas com base em um
+experimento epidemiológico com maças com apenas um fator. No segundo
+caso, a técnica paramétrica utilizando a distribuição de Weibull foi
+aplicada para analisar um experimento fatorial com base no período de
+incubação da doença em caquis inoculados com diferentes espécies do
+patógeno e tratados com diferentes fungicidas.
 
-Assim, o capítulo tem como objetivo executar os passos para a análise de sobrevivência no software R em dois estudos de caso que envolvem experimentos com frutos destacados (*ex vivo*) com podridões de frutos ocasionadas por espécies do gênero *Colletotrichum*. No primeiro caso, a técnica não paramétrica e paramétrica foram discutidas com base em um experimento epidemiológico com maças com apenas um fator. No segundo caso, a técnica paramétrica utilizando a distribuição de Weibull foi aplicada para analisar um experimento fatorial com base no período de incubação da doença em caquis inoculados com diferentes espécies do patógeno e tratados com diferentes fungicidas. 
-
-(ref:frutos) Lesões necróticas e esporulação do patógeno *Colletotrichum* spp. em frutos de maça (A) e caqui (B). Fotos: Thiago de Aguiar Carraro 
+(ref:frutos) Lesões necróticas e esporulação do patógeno
+*Colletotrichum* spp. em frutos de maça (A) e caqui (B). Fotos: Thiago
+de Aguiar Carraro
 
 ```{r frutos, echo=FALSE, fig.cap= '(ref:frutos)'}
 knitr::include_graphics("camilla/frutos.jpg")
 
 ```
 
-### Estudo de caso 1 - Técnica não paramétrica e paramétrica em experimento com um fator  
+### Estudo de caso 1 - Técnica não paramétrica e paramétrica em experimento com um fator
 
-Frutos em diferentes estágios de crescimento podem apresentar diferenças na suscetibilidade a doenças [@Jiang2014; @Keske2011]. Conhecer o período de maior suscetibilidade pode auxiliar na tomada de decisão para aplicações de produtos para o controle da doença. Experimentos para avaliar a suscetibilidade podem ser realizados no campo, monitorando a incidencia de doenças em diferentes fases, ou até mesmo pela inoculação em frutos ensacados e a observação do desenvolvimento de sintomas. Para melhor segurança nos resultados, reduzindo o número de variáveis que possam interferir no experimento, estudos em ambientes controlados podem ser realizados. Este estudo de caso foi realizado em frutos destacados e mantidos em laboratório. A suscetibilidade foi avaliada com base em diferenças no período de incubação dos sintomas estimados pela análise de sobrevivência. 
+Frutos em diferentes estágios de crescimento podem apresentar diferenças
+na suscetibilidade a doenças [@Jiang2014; @Keske2011]. Conhecer o
+período de maior suscetibilidade pode auxiliar na tomada de decisão para
+aplicações de produtos para o controle da doença. Experimentos para
+avaliar a suscetibilidade podem ser realizados no campo, monitorando a
+incidencia de doenças em diferentes fases, ou até mesmo pela inoculação
+em frutos ensacados e a observação do desenvolvimento de sintomas. Para
+melhor segurança nos resultados, reduzindo o número de variáveis que
+possam interferir no experimento, estudos em ambientes controlados podem
+ser realizados. Este estudo de caso foi realizado em frutos destacados e
+mantidos em laboratório. A suscetibilidade foi avaliada com base em
+diferenças no período de incubação dos sintomas estimados pela análise
+de sobrevivência.
 
-Suponha um experimento onde cinco diferentes tamanhos de maças (tam1, tam2, tam3, tam4 e tam5) foram coletados do campo. Os frutos foram desinfestados e um ferimento foi provocado na região equatorial das maças. Uma gota de suspensão de conídios do patógeno foi depositada sobre o ferimento. Após a inoculação, os frutos foram aleatoriamente distribuidos em uma sala de incubação com condições controladas e homogeneas, constituindo um delineamento inteiramente casualisado com 5 tratamentos e 8 repetições (Figura \@ref(fig:esquema)). E também o risco para o aparecimento dos sintomas. 
+Suponha um experimento onde cinco diferentes tamanhos de maças (tam1,
+tam2, tam3, tam4 e tam5) foram coletados do campo. Os frutos foram
+desinfestados e um ferimento foi provocado na região equatorial das
+maças. Uma gota de suspensão de conídios do patógeno foi depositada
+sobre o ferimento. Após a inoculação, os frutos foram aleatoriamente
+distribuidos em uma sala de incubação com condições controladas e
+homogeneas, constituindo um delineamento inteiramente casualisado com 5
+tratamentos e 8 repetições (Figura \@ref(fig:esquema)). E também o risco
+para o aparecimento dos sintomas.
 
-
-(ref:esquema) Ilustração do experimento.  
+(ref:esquema) Ilustração do experimento.
 
 ```{r esquema, echo=FALSE, fig.cap= '(ref:esquema)'}
 knitr::include_graphics("camilla/esquema.jpg")
 
 ```
 
-
-Após a inoculação, cada fruto foi avaliado diariamente durante 39 dias. O dia do aparecimento de sintomas foi anotado e atribuido o status "1" aos frutos sintomáticos. Nos frutos em que não apresentaram sintomas, o status "0"" foi atribuido no dia 39, constituindo a censura. Desta forma, a tabela com o conjunto de dados deste estudo só conteve o desfecho de cada fruto (\@ref(tab:conjuntodedados). No caso de tabelas que contenham o historico diário dos frutos é necessário filtrar os dados. Para isso, consultar a próxima seção.  
-
+Após a inoculação, cada fruto foi avaliado diariamente durante 39
+dias. O dia do aparecimento de sintomas foi anotado e atribuido o status
+"1" aos frutos sintomáticos. Nos frutos em que não apresentaram
+sintomas, o status "0"" foi atribuido no dia 39, constituindo a
+censura. Desta forma, a tabela com o conjunto de dados deste estudo só
+conteve o desfecho de cada fruto (\@ref(tab:conjuntodedados). No caso de
+tabelas que contenham o historico diário dos frutos é necessário filtrar
+os dados. Para isso, consultar a próxima seção.
 
 (ref:conjuntodedados) Conjunto de dados para análise de sobrevivência.
 
@@ -55,21 +121,23 @@ knitr::kable(head(tb), caption = '(ref:conjuntodedados)',
              row.names = FALSE)
 ```
 
-Na sequência, os passos para a técnica não paramétrica foram demonstrados. Neste passo, a função de sobrevivencia e o teste de log rank foram executados. O período de incubação de frutos de diferentes tamanhos foi obtido e comparado por meio das curvas de Kaplan Meier.
+Na sequência, os passos para a técnica não paramétrica foram
+demonstrados. Neste passo, a função de sobrevivencia e o teste de log
+rank foram executados. O período de incubação de frutos de diferentes
+tamanhos foi obtido e comparado por meio das curvas de Kaplan Meier.
 
 ```{r, message=FALSE}
-#Carrega pacotes
+# Carrega pacotes
 
 library(tidyverse)
 library(survival)
 library(emmeans)
 library(survival)
 
-#Leitura dos dados
-
+# Leitura dos dados
 dados  <-  read.csv2("camilla/sobrev.csv")
 
-#Análises exploratórias 
+# Análises exploratórias
 
 # Gráfico com a linha do day de cada fruto que mostra quando o evento
 # aconteceu e que tipo de desfecho.
@@ -78,7 +146,6 @@ dados0 <- dados %>%
   group_by(tamanho) %>%
   arrange(day) %>%
   mutate(ord = seq_along(day)/n())
-
 
 ggplot(data = dados0,
        mapping = aes(x = day, y = ord, shape = factor(status))) +
@@ -95,12 +162,12 @@ ggplot(data = dados0,
 
 # Técnica não paramétrica
 
-# estimar funções de sobrevivencia 
-#Parâmetro mean = Período de incubação
+# estimar funções de sobrevivencia
+# Parâmetro mean = Período de incubação
 
-(s   <- survfit(Surv(day, status)~ tamanho, data=dados))
+(s <- survfit(Surv(day, status)~ tamanho, data=dados))
 
-#O tam1, 2 e 3 não apresentaram período de incubação pois, menos de 50% das repetições apresentaram sintomas. No caso de poucos frutos apresentarem sintomas, recomenda-se aumentar o número de repetições do experimento. 
+#O tam1, 2 e 3 não apresentaram período de incubação pois, menos de 50% das repetições apresentaram sintomas. No caso de poucos frutos apresentarem sintomas, recomenda-se aumentar o número de repetições do experimento.
 
 #Curva de Kaplan Meier
 library(survminer)
@@ -114,10 +181,12 @@ survdiff(Surv(day, status)~ tamanho, data=subset(dados))
 
 ```
 
-Os passos para a técnica paramétrica foram relacionados a seguir. Neste caso, o período de incubação foi obtido e comparado entre os tratamentos por meio da estimativa do parâmetro de locação. 
+Os passos para a técnica paramétrica foram relacionados a seguir. Neste
+caso, o período de incubação foi obtido e comparado entre os tratamentos
+por meio da estimativa do parâmetro de locação.
 
 ```{r, message=FALSE}
-#Técnica não paramétrica 
+#Técnica não paramétrica
 
 #carrega pacotes
 library(tidyverse)
@@ -133,37 +202,37 @@ dados <- dados %>%
 s <- with(dados,
             Surv(time = day,
                  event = status))
-  
+
   # Modelo nulo que não tem efeito de nenhum fator.
   m0 <- survreg(formula = s ~ 1,
                 data = dados,
                 dist = "weibull")
-  
+
   # Inclui o efeito de espécie.
   m1 <- survreg(formula = s ~ tamanho,
                 data = dados,
                 dist = "weibull")
-  
+
  # Teste da razão de verossimilhanças entre modelos encaixados.
   anova(m0, m1)
-  
-  mx <- m1 
-  
+
+  mx <- m1
+
    # Médias ajustadas (é na interpretação do parâmetro da Weibull).
   emm <- emmeans(mx,
                  specs = ~tamanho)
-  emm  
-  
+  emm
+
   tb_emm <- as.data.frame(emm)
-  
+
   # Estimativas conforme parametrização da {p, d, q, r}weibull.
   a <- 1/mx$scale          # shape.
   b <- exp(tb_emm$emmean)  # scale.
-  
+
   # Obtenção do day médio (é uma função complexa dos dois parâmetros).
   tb_emm$mean_day<- b * gamma(1 + 1/a)
   tb_emm
-  
+
   tb_curves <- tb_emm %>%
     group_by(tamanho) %>%
     do({
@@ -173,20 +242,20 @@ s <- with(dados,
       data.frame(day, dens, accu)
     }) %>%
     ungroup()
-  
+
   # As curvas de densidade ajustadas.
   ggplot(data = tb_curves,
          mapping = aes(x = day, y = dens)) +
     facet_grid(facets =  ~ tamanho) +
-    geom_line()  
-  
+    geom_line()
+
   # As curvas de "1 - sobreviência".
   ggplot(data = tb_curves,
          mapping = aes(x = day, y = accu)) +
     facet_grid(facets = ~ tamanho) +
-    geom_line() 
+    geom_line()
 
-  
+
   # Valores observados com sobreposição das curvas ajustadas.
   ggplot(data = dados,
          mapping = aes(x = day, y = ord, shape = factor(status))) +
@@ -204,23 +273,23 @@ s <- with(dados,
     geom_line(data = tb_curves,
               inherit.aes = FALSE,
               mapping = aes(x = day, y = accu))
-  
+
    #Comparando os tratamentos
-  
+
   emm_tamanho_in <- emmeans(mx, specs = ~tamanho)
   emm_tamanho_in
- 
-  
-  
+
+
+
    # contrast(emm_trat_in, method = "pairwise")
   library(multcomp)
   tamanho_in_comp <- multcomp::cld(emm_tamanho_in)
-  tamanho_in_comp  
-  
+  tamanho_in_comp
+
   # Tabela com o resultado das comparações múltiplas.
   tb_contr <- as.data.frame(tamanho_in_comp)
   tb_contr
-  
+
   # Transformar os números para letras e ordenar as letras conforme as
   # estimativas.
   f <- function(x) {
@@ -231,17 +300,17 @@ s <- with(dados,
       as.integer()
     str_c(letters[l], collapse = "")
   }
-  f(" 123 ")  
-  
+  f(" 123 ")
+
   # Acerta a representação da significância dos contrastes com letras.
   tb_contr <- tb_contr %>%
     mutate(let = map_chr(.group, f)) %>%
     group_by() %>%
     mutate(let = let, means = emmean)
-  
+
   ggplot(data = tb_contr,
          mapping = aes(x = tamanho, y = emmean)) +
-    
+
     geom_point() +
     geom_errorbar(mapping = aes(ymin = lower.CL,
                                 ymax = upper.CL),
@@ -254,8 +323,5 @@ s <- with(dados,
               angle = 90,
               nudge_x = 0.075) +
     labs(x = "Tratamento",
-         y = "Estimativa do parâmetro de locação")  
-  
-
+         y = "Estimativa do parâmetro de locação")
 ```
-
