@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R</title>
+  <meta name="description" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  <meta name="github-repo" content="lemid/epidemioR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  
+  <meta name="twitter:description" content="Capítulo 1 Análise de sobrevivência | epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="apresentação.html"/>
+<link rel="next" href="referências-bibliográficas.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link id="font-awesome-1-attachment" rel="attachment" href="libs/font-awesome-5.1.0/fonts/fontawesome-webfont.ttf"/>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     "HTML-CSS": {
+         scale: 85,
+         availableFonts: ["TeX"],
+     },
+     "TeX": {
+         extensions: ["color.js"]
+     }
+ });
+</script>
+<style>
+ span.inline span.mjx-chtml {
+     font-size: 110% !important;
+ }
+</style>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; } /* Keyword */
+code > span.ch { color: #008080; } /* Char */
+code > span.st { color: #008080; } /* String */
+code > span.co { color: #008000; } /* Comment */
+code > span.ot { color: #ff4000; } /* Other */
+code > span.al { color: #ff0000; } /* Alert */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #008000; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #008080; } /* SpecialChar */
+code > span.vs { color: #008080; } /* VerbatimString */
+code > span.ss { color: #008080; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #0000ff; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #ff4000; } /* Preprocessor */
+code > span.do { color: #008000; } /* Documentation */
+code > span.an { color: #008000; } /* Annotation */
+code > span.cv { color: #008000; } /* CommentVar */
+code > span.at { } /* Attribute */
+code > span.in { color: #008000; } /* Information */
+</style>
+
+<link rel="stylesheet" href="config/gb-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<center style="margin: 1em;">
+  <img src="./config/frontcover.png" width="180px" style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.6);"/>
+  <br/>
+  <br/>
+  <a href="./index.html" style="font-weight: bold; font-size: larger;">
+    epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R
+  </a>
+  <br>
+  <br>
+  <a href="http://leg.ufpr.br/~walmes" target="_blank">
+    Walmes Marques Zeviani
+  </a>
+  <br>
+  <a href="http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/" target="_blank">
+    Louise Larissa May De Mio
+  </a>
+  <br>
+  <p style="font-size: 75%">Editores</p>
+  <br>
+  <!--
+  <span style="font-weight: bold; font-size: smaller;">
+    <a href="http://www.lemid.ufpr.br/" target="_blank">
+       Laboratório de Epidemiologia para Manejo Integrado de Doenças de Plantas
+    </a>
+    <br>
+    <a href="http://leg.ufpr.br" target="_blank">
+      Laboratório de Estatística e Geoinformação
+    </a>
+  </span>
+  <br>
+  <br>
+  -->
+  <span style="font-weight: bold; font-size: smaller;">
+    <a href="http://www.ufpr.br" target="_blank">
+      Universidade Federal do Paraná
+    </a>
+  </span>
+</center>
+
+<li class="divider"></li>
+<li><a href="index.html#section"></a></li>
+<li class="chapter" data-level="" data-path="apresentação.html"><a href="apresentação.html"><i class="fa fa-check"></i>Apresentação</a></li>
+<li class="chapter" data-level="1" data-path="análise-de-sobrevivência.html"><a href="análise-de-sobrevivência.html"><i class="fa fa-check"></i><b>1</b> Análise de sobrevivência</a><ul>
+<li class="chapter" data-level="1.1" data-path="análise-de-sobrevivência.html"><a href="análise-de-sobrevivência.html#introdução"><i class="fa fa-check"></i><b>1.1</b> Introdução</a></li>
+<li class="chapter" data-level="1.2" data-path="análise-de-sobrevivência.html"><a href="análise-de-sobrevivência.html#estudo-de-caso-1---técnica-não-paramétrica-e-paramétrica-em-experimento-com-um-fator"><i class="fa fa-check"></i><b>1.2</b> Estudo de caso 1 - Técnica não paramétrica e paramétrica em experimento com um fator</a></li>
+<li class="chapter" data-level="1.3" data-path="análise-de-sobrevivência.html"><a href="análise-de-sobrevivência.html#conclusão"><i class="fa fa-check"></i><b>1.3</b> Conclusão</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referências-bibliográficas.html"><a href="referências-bibliográficas.html"><i class="fa fa-check"></i>Referências Bibliográficas</a></li>
+<li class="divider"></li>
+<li>
+  <a href="https://bookdown.org/" target="_blank">
+    Produzido com Bookdown
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lemid/epidemioR" target="_blank">
+    Disponível no GitHub
+  </a>
+</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análise-de-sobrevivência" class="section level1">
+<h1><span class="header-section-number">Capítulo 1</span> Análise de sobrevivência</h1>
+<div class="chapterauthors">
+<p>Camilla Castellar<br> Walmes Marques Zeviani<br> Louise Larissa May De Mio</p>
+</div>
+<div id="introdução" class="section level2">
+<h2><span class="header-section-number">1.1</span> Introdução</h2>
+<p>Experimentos em que o tempo até a ocorrência de um evento é a variável de interesse são comuns na epidemiologia de doenças de plantas. Por exemplo, o tempo para a ocorrência de sintomas e sinais, ou seja, o período de incubação e latência, respectivamente, são componentes do monociclo com grande importância para a descrição das epidemias.</p>
+<p>Uma das principais características de dados epidemiológicos relacionados ao tempo é a censura à direita, ou seja, o experimento pode encerrar antes de todas as unidades experimentais apresentarem o evento. No entanto, a análise estatística baseada na análise de variância não é apropriada para análisar dados censurados, pois não consegue acomodar esta característica, o que reflete em estimativas de efeitos e médias inadequados. Dentro deste contexto, a análise de sobrevivência foi desenvolvida com técnicas não paramétricas, semi-paramétricas e paramétricas que consideram os tipos de censura. Alguns artigos da fitopatologia tem sido publicados utilizando esta análise para estimar o período de incubação <span class="citation">(COPES; THOMSON, <a href="#ref-Copes2008">2008</a>)</span>, comparar de cultivares utilizando o tempo para ocorrência de sintomas, tempo para a queda de folhas sintomáticas <span class="citation">(OJIAMBO; SCHERM, <a href="#ref-Ojiambo2005">2005</a>)</span>, entre outros.</p>
+<p>O registro do tempo para ocorrência de um evento pode ser de 4 formas, sendo que 3 delas consideram censura (Figura <a href="análise-de-sobrevivência.html#fig:censuras">1.1</a>). O primeiro caso não há censura pois o instante de ocorrência do evento é registrado com exatidão, e.g. o instante em que um email spam é recebido. O segundo caso, a censura à direita, assume-se que o desfecho aconteceu em um instante posterior (à direita) àquele em que se fez a avaliação, e.g. o fruto não tinha sintomas até o dia 20 no qual encerrou-se o experimento mas certamente irá apresentar o sintoma. O terceiro caso é a censura à esquerda quando ao fazer a primeira observação o desfecho já aconteceu (à esquerda), e.g. o fruto já apresentava sintomas da doença antes da inoculação da mesma. O último é a censura intervalar em que o evento ocorre entre duas avaliações consecutivas.</p>
+
+<div class="figure" style="text-align: center"><span id="fig:censuras"></span>
+<img src="camilla/censuras.png" alt="Tipo de censuras em estudos que consideram o tempo para a ocorrência de um desfecho. Fonte: os autores." width="100%" />
+<p class="caption">
+Figura 1.1: Tipo de censuras em estudos que consideram o tempo para a ocorrência de um desfecho. Fonte: os autores.
+</p>
+</div>
+<p>Dentre as técnicas não paramétricas, o estimador Kaplan-Meier <span class="citation">(KAPLAN; MEIER, <a href="#ref-Kaplan1958">1958</a>)</span> é o mais utilizado. O método estima a função de sobrevivência, ou seja, a probabilidade de um indivíduo não apresentar o evento decorrido um tempo <span class="math inline">\(t\)</span>. Os gráficos gerados por esta análise são representados por degraus de tempo em que ocorre o evento (Figura <a href="análise-de-sobrevivência.html#fig:curvaskaplan">1.2</a>). Por meio desta técnica, torna-se possível a aplicação de testes de significância, como o Log-Rank, para comparar tratamentos. O log-Rank testa a hipótese nula de que as curvas de sobrevivência são iguais <span class="citation">(COLOSIMO, <a href="#ref-Colosimo2006">2006</a>)</span>. Este tipo de técnica é limitada em testar o efeito de apenas uma fonte de variação. Em outras palavras, o método não permite analisar possíveis interações em experimentos fatoriais ou mesmo acomodar termos estruturais do delineamento, como o efeito de blocos.</p>
+
+<div class="figure" style="text-align: center"><span id="fig:curvaskaplan"></span>
+<img src="camilla/curvaskaplan.jpg" alt="Exemplo de curva de Kaplan-Meier estimando funções de sobrevivência para a queda de folhas de mirtilo com mancha foliar de Septoria. Fonte: (OJIAMBO; SCHERM, 2005)." width="100%" />
+<p class="caption">
+Figura 1.2: Exemplo de curva de Kaplan-Meier estimando funções de sobrevivência para a queda de folhas de mirtilo com mancha foliar de Septoria. Fonte: <span class="citation">(OJIAMBO; SCHERM, <a href="#ref-Ojiambo2005">2005</a>)</span>.
+</p>
+</div>
+<p>Na abordagem paramétrica, uma distribuição de probabilidades é considerada sendo as distribuições Weilbull, Log-normal e exponencial as mais utilizadas na análise de sobreviência. Esta abordagem pode ser aplicada tanto em estudos com apenas um fator, como também permite, em experimentos em esquema fatorial, determinar parâmetros importantes para analisar inteirações entre fatores <span class="citation">(ZHANG, <a href="#ref-Zhang2016">2016</a>)</span>.</p>
+<p>Dessa forma, este capítulo tem como objetivo ilustrar o uso coordenado dos recursos do R para aplicar a análise de sobrevivência em dois estudos de caso que envolvem experimentos com frutos destacados (<em>ex vivo</em>) com podridões de frutos ocasionadas por espécies do gênero <em>Colletotrichum</em>. No primeiro caso, a técnica não paramétrica e paramétrica serão discutidas para um experimento epidemiológico com maças com apenas um fator. No segundo caso, a técnica paramétrica utilizando a distribuição de Weibull será aplicada para analisar um experimento fatorial para o período de incubação da doença em caquis inoculados com diferentes espécies do patógeno e tratados com diferentes fungicidas.</p>
+
+<div class="figure" style="text-align: center"><span id="fig:frutos"></span>
+<img src="camilla/frutos.jpg" alt="Lesões necróticas e esporulação do patógeno Colletotrichum spp. em frutos de maça (A) e caqui (B). Fotos: Thiago de Aguiar Carraro" width="100%" />
+<p class="caption">
+Figura 1.3: Lesões necróticas e esporulação do patógeno <em>Colletotrichum</em> spp. em frutos de maça (A) e caqui (B). Fotos: Thiago de Aguiar Carraro
+</p>
+</div>
+</div>
+<div id="estudo-de-caso-1---técnica-não-paramétrica-e-paramétrica-em-experimento-com-um-fator" class="section level2">
+<h2><span class="header-section-number">1.2</span> Estudo de caso 1 - Técnica não paramétrica e paramétrica em experimento com um fator</h2>
+<p>Frutos em diferentes estágios de crescimento podem apresentar diferenças na suscetibilidade a doenças <span class="citation">(KESKE et al., <a href="#ref-Keske2011">2011</a>; JIANG et al., <a href="#ref-Jiang2014">2014</a>)</span>. Conhecer o período de maior suscetibilidade pode auxiliar na tomada de decisão para aplicações de produtos para o controle da doença. Experimentos para avaliar a suscetibilidade podem ser realizados no campo, monitorando a incidência de doenças em diferentes fases, ou até mesmo pela inoculação em frutos ensacados e a observação do desenvolvimento de sintomas. Para melhor segurança nos resultados, reduzindo o número de variáveis que possam interferir no experimento, estudos em ambientes controlados podem ser realizados. Este estudo de caso foi realizado em frutos destacados e mantidos em laboratório. A suscetibilidade foi avaliada considerando o período de incubação dos sintomas estimados pela análise de sobrevivência.</p>
+<p>Para o experimento, coletou-se frutos em campo e fez-se a classificação em cinco grupos conforme o tamanho (tam1, tam2, tam3, tam4 e tam5) para estudar o efeito do estágio de crescimento, já que frutos maiores são mais velhos. Os frutos foram desinfestados e um ferimento foi provocado na região equatorial das maças. Uma gota de suspensão de conídios do patógeno foi depositada sobre o ferimento. Após a inoculação, os frutos foram aleatoriamente distribuidos em uma sala de incubação com condições controladas e homogeneas, constituindo um delineamento inteiramente casualisado com 5 tratamentos (tamanho) e 8 repetições (Figura <a href="análise-de-sobrevivência.html#fig:esquema">1.4</a>).</p>
+
+<div class="note">
+Camilla, é possível editar essa imagem? Porque o você usou “tamanho05” com o 0 na frente da unidade e não usou esse padrão nos demais.
+</div>
+
+
+<div class="figure" style="text-align: center"><span id="fig:esquema"></span>
+<img src="camilla/esquema.jpg" alt="Ilustração do experimento onde frutos de 5 tamanhos são inoculados com o patógeno sob o ferimento feito na região equatorial." width="100%" />
+<p class="caption">
+Figura 1.4: Ilustração do experimento onde frutos de 5 tamanhos são inoculados com o patógeno sob o ferimento feito na região equatorial.
+</p>
+</div>
+<p>Após a inoculação, cada fruto foi avaliado diariamente durante 39 dias. O dia do aparecimento de sintomas foi anotado e atribuido o status 1 aos frutos sintomáticos na tabela de registro. Nos frutos em que não apresentaram sintomas, o status registrado foi 0 e atribuido ao dia 39 (último dia de avaliação), constituindo a censura à direita. Desta forma, a tabela com o conjunto de dados deste estudo só conteve a data de desfecho de cada fruto (<a href="análise-de-sobrevivência.html#tab:conjuntodedados">1.1</a> sintomático ou a última data de avaliação dos frutos sem sintomas. No caso de tabelas que contenham o histórico diário dos frutos é necessário filtrar os dados para manter apenas a data em que mudou da condição sem sintoma para com sintoma. Para isso, consultar a próxima seção.</p>
+
+<table>
+<caption><span id="tab:conjuntodedados">Tabela 1.1: </span>Conjunto de dados para análise de sobrevivência exibindo os 10 primeiros registros. A variável <code>day</code> é o dia de ocorrência do sintoma e a variável <code>status</code> é o indicador do tipo de censura: 0 é censura à direita e 1 é sem censura. Como a duração do experimento foi de 39 dias, a censura à direita foi na mesma data para todos os frutos.</caption>
+<thead>
+<tr class="header">
+<th align="center">tamanho</th>
+<th align="center">day</th>
+<th align="center">status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">tam1</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">tam1</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">tam1</td>
+<td align="center">39</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">tam1</td>
+<td align="center">39</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">tam1</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">tam1</td>
+<td align="center">39</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">tam1</td>
+<td align="center">39</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">tam1</td>
+<td align="center">39</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">tam2</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">tam2</td>
+<td align="center">39</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<p>Na sequência, os passos para a abordagem não paramétrica serão demonstrados. A função de sobrevivência e o teste de log-rank serão executados. O período de incubação de frutos de diferentes tamanhos foi obtido e comparado por meio das curvas de Kaplan-Meier.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Carrega pacotes.</span>
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(emmeans)
+<span class="kw">library</span>(multcomp)
+<span class="kw">library</span>(survival)
+<span class="kw">library</span>(survminer)</code></pre></div>
+<p>Os dados estão armazenados em um arquivo CSV contendo 3 colunas. Após a leitura, fez o gráfico que exibe a data e o tipo de desfecho de cada fruto para cada tamanho. A análise exploratória sugere que quanto maior o fruto, mais curto é o tempo para aparecimento dos sintomas.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Leitura dos dados.</span>
+dados  &lt;-<span class="st">  </span><span class="kw">read_csv2</span>(<span class="st">&quot;./camilla/sobrev.csv&quot;</span>, <span class="dt">col_types =</span> <span class="kw">cols</span>())
+<span class="kw">attr</span>(dados, <span class="st">&quot;spec&quot;</span>) &lt;-<span class="st"> </span><span class="ot">NULL</span>
+<span class="kw">str</span>(dados)</code></pre></div>
+<pre><code>## Classes &#39;spec_tbl_df&#39;, &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;: 40 obs. of  3 variables:
+##  $ tamanho: chr  &quot;tam1&quot; &quot;tam1&quot; &quot;tam1&quot; &quot;tam1&quot; ...
+##  $ day    : num  10 10 39 39 4 39 39 39 4 39 ...
+##  $ status : num  1 1 0 0 1 0 0 0 1 0 ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Tabela de frequência para o tamanho do fruto.</span>
+dados <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">count</span>(tamanho)</code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   tamanho     n
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 tam1        8
+## 2 tam2        8
+## 3 tam3        8
+## 4 tam4        8
+## 5 tam5        8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Análises exploratórias.</span>
+dados0 &lt;-<span class="st"> </span>dados <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(tamanho) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">arrange</span>(day) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">ord =</span> <span class="kw">seq_along</span>(day)<span class="op">/</span><span class="kw">n</span>()) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">ungroup</span>()
+
+<span class="co"># Gráfico com a linha do day de cada fruto que mostra quando o evento</span>
+<span class="co"># aconteceu e que tipo de desfecho.</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> dados0,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> day, <span class="dt">y =</span> ord, <span class="dt">shape =</span> <span class="kw">factor</span>(status))) <span class="op">+</span>
+<span class="st">    </span><span class="kw">facet_grid</span>(<span class="dt">facets =</span> tamanho <span class="op">~</span><span class="st"> </span>.) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> ord, <span class="dt">xend =</span> day, <span class="dt">yend =</span> ord)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_shape_manual</span>(<span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),
+                     <span class="dt">values =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">19</span>),
+                     <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Censura&quot;</span>, <span class="st">&quot;Sintoma&quot;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">shape =</span> <span class="st">&quot;Desfecho&quot;</span>,
+         <span class="dt">x =</span> <span class="st">&quot;Dias após inoculação&quot;</span>,
+         <span class="dt">y =</span> <span class="st">&quot;Frequência acumulada&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="kw">max</span>(dados<span class="op">$</span>day), <span class="dt">by =</span> <span class="dv">10</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="fl">0.95</span>, <span class="fl">0.05</span>),
+          <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))</code></pre></div>
+<p><img src="epidemioR_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Os tamanhos 1, 2 e 3 não apresentaram período de incubação amostral pois, menos de 50% das repetições apresentaram sintomas. No caso de poucos frutos apresentarem sintomas, recomenda-se aumentar o número de repetições do experimento. No entanto, isso não necessariamente impede de estimar a curva de sobrevivência e estimar o período de incubação. A definição do período de incubação, neste caso, é o tempo necessário para que metade dos indivíduos expostos apresentem o desfecho. Portanto, o período de incubação é a mediana da variável aleatória tempo para a ocorrência do desfecho.</p>
+
+<div class="note">
+Colocar alguma referência aqui ou dar uma breve explicação do estimador não paramétrico da curva de sobrevivência.
+</div>
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Resposta com avaliações sem censura e com censura à direita no final.</span>
+s1 &lt;-<span class="st"> </span><span class="kw">with</span>(dados,
+           <span class="kw">Surv</span>(<span class="dt">time =</span> day,
+                <span class="dt">event =</span> status))
+s1</code></pre></div>
+<pre><code>##  [1] 10  10  39+ 39+  4  39+ 39+ 39+  4  39+ 39+ 39+ 39+ 39+ 39+ 39+
+## [17]  9  39+ 39+ 39+  8  39+ 39+ 39+  5   5   5   6   5   5   8  39+
+## [33]  4   4   5   5   4   4   4   4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Resposta com avaliações com censura intervalar de 1 dia e com censura</span>
+<span class="co"># à direita no final.</span>
+s2 &lt;-<span class="st"> </span><span class="kw">with</span>(dados,
+           <span class="kw">Surv</span>(<span class="dt">time =</span> day,
+                <span class="dt">time2 =</span> day <span class="op">+</span><span class="st"> </span><span class="dv">1</span>,
+                <span class="dt">event =</span> <span class="kw">ifelse</span>(status <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">0</span>),
+                <span class="dt">type =</span> <span class="st">&quot;interval&quot;</span>))
+s2</code></pre></div>
+<pre><code>##  [1] [10, 11] [10, 11] 39+      39+      [ 4,  5] 39+      39+     
+##  [8] 39+      [ 4,  5] 39+      39+      39+      39+      39+     
+## [15] 39+      39+      [ 9, 10] 39+      39+      39+      [ 8,  9]
+## [22] 39+      39+      39+      [ 5,  6] [ 5,  6] [ 5,  6] [ 6,  7]
+## [29] [ 5,  6] [ 5,  6] [ 8,  9] 39+      [ 4,  5] [ 4,  5] [ 5,  6]
+## [36] [ 5,  6] [ 4,  5] [ 4,  5] [ 4,  5] [ 4,  5]</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Curvas sobreviência de Kaplan-Meier.</span>
+fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(s2 <span class="op">~</span><span class="st"> </span>tamanho, <span class="dt">data =</span> dados)
+fit</code></pre></div>
+<pre><code>## Call: survfit(formula = s2 ~ tamanho, data = dados)
+## 
+##              n events median 0.95LCL 0.95UCL
+## tamanho=tam1 8      3     NA    10.5      NA
+## tamanho=tam2 8      1     NA      NA      NA
+## tamanho=tam3 8      2     NA      NA      NA
+## tamanho=tam4 8      7    5.5     5.5      NA
+## tamanho=tam5 8      8    4.5     4.5      NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Gráfico padrão com as curvas de Kaplan-Meier.</span>
+<span class="co"># plot(fit)</span>
+
+<span class="co"># Gráfico com melhor visual, legenda, etc.</span>
+<span class="kw">ggsurvplot</span>(fit,
+           <span class="dt">data =</span> dados,
+           <span class="dt">surv.median.line =</span> <span class="st">&quot;h&quot;</span>)</code></pre></div>
+<p><img src="epidemioR_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Aplica o teste de log-rank. Só aceita censura à direita.</span>
+logrank &lt;-<span class="st"> </span><span class="kw">survdiff</span>(s1 <span class="op">~</span><span class="st"> </span>tamanho, <span class="dt">data =</span> dados)
+logrank</code></pre></div>
+<pre><code>## Call:
+## survdiff(formula = s1 ~ tamanho, data = dados)
+## 
+##              N Observed Expected (O-E)^2/E (O-E)^2/V
+## tamanho=tam1 8        3     4.98     0.787      1.21
+## tamanho=tam2 8        1     4.98     3.180      4.87
+## tamanho=tam3 8        2     5.23     1.992      3.10
+## tamanho=tam4 8        7     3.78     2.749      4.17
+## tamanho=tam5 8        8     2.04    17.449     25.74
+## 
+##  Chisq= 35.6  on 4 degrees of freedom, p= 4e-07</code></pre>
+<p>O teste do log-rank para testar a hipótese nula de igualdade entre as curvas apresentou uma estatística de teste igual a 35.6 bastante favorável (<span class="math inline">\(p &lt; 0.001\)</span>) à hipótese alternativa, ou seja, em termos práticos existe efeito do tamanho do fruto no comportamento da variável período de incubação.</p>
+<p>Apesar de ser possível testar a hipótese, essa abordagem não necessariamente irá estimar a mediana para todos os níveis, pois ocorreu alta proporção de censura em alguns tamanhos de fruto. Como pode ser visto na saída da <code>survfit()</code>, apenas os tamanhos 4 e 5 tiveram estimativa de mediana, porém sem o intervalo de confiança completo.</p>
+<p>A abordagem não paramétrica, conforme visto aqui, é mais recomendada quando o número de unidades experimentais por tratamento for grande e a porporção de censura for baixa. A censura pode ser mitigada aumentando o tempo de avaliação do experimento para que se observe o desfecho em mais unidades experimentais.</p>
+<p>Os passos para a abordagem paramétrica são relacionados a seguir. Neste caso, o período de incubação foi obtido e comparado entre os tratamentos por meio da estimativa do parâmetro de locação.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Documentação disponível no R sobre os modelos paramétricos.</span>
+<span class="kw">help</span>(survreg.distributions, <span class="dt">help_type =</span> <span class="st">&quot;html&quot;</span>)
+<span class="kw">help</span>(dweibull, <span class="dt">help_type =</span> <span class="st">&quot;html&quot;</span>)
+
+survreg.distributions<span class="op">$</span>weibull</code></pre></div>
+<p>A função de densidade da distribuição Weibull usada na <code>dweibull</code> e relacionadas é <span class="math display">\[
+f(y) = \frac{a}{b} \left( \frac{y}{b} \right)^{a-1}
+  \exp \left\{ -\left( \frac{y}{b} \right)^{a}\right\},
+  \quad y &gt; 0, a &gt; 0, b &gt; 0,
+\]</span> em que <span class="math inline">\(a\)</span> é o parâmetro de forma (shape) e <span class="math inline">\(b\)</span> é o parâmetro de escala (scale). Nessa parametrização, tem-se que:</p>
+<ul>
+<li>Média: <span class="math inline">\(\text{E}(Y) = b \Gamma (1 + 1/a)\)</span>.</li>
+<li>Variância: <span class="math inline">\(\text{Var}(Y) = b^2 (\Gamma(1 + 2/a) - (\Gamma(1 + 1/a))^2)\)</span>.</li>
+<li>Função de distribuição: <span class="math inline">\(F(y) = 1 - \exp\{-(x/b)^a\}\)</span>.</li>
+</ul>
+<p>No entanto a parametrização usada pela <code>survreg()</code> é diferente mas matematicamente relacionada a esta da seguinte forma <span class="math display">\[
+\begin{align*}
+  a &amp;= 1/\lambda \quad &amp;\Rightarrow \lambda &amp;= 1/a \\
+  b &amp;= \exp\{\mu\} \quad &amp;\Rightarrow \mu &amp;= \log(b).
+\end{align*}
+\]</span></p>
+<p>Dessa maneira, o modelo estatístico para o tempo até aparecimento de sintoma (<span class="math inline">\(Y\)</span>) pode ser escrito como <span class="math display">\[
+\begin{align*}
+  y_{ij} &amp;= \text{Weibull}(a = 1/\lambda, b = \exp\{\mu_i\}) \\
+  \mu_i &amp;= \mu + \alpha_i \\
+  \lambda &amp;\propto 1,
+\end{align*}
+\]</span> em que <span class="math inline">\(\mu_i\)</span> acomoda o efeito do nível <span class="math inline">\(i\)</span> de tamanho no parâmetro de escala, <span class="math inline">\(\lambda\)</span> está vinculado ao parâmetro de forma. A não rejeição da hipótese nula <span class="math inline">\(H_0: \alpha_i = 0\)</span> para todo <span class="math inline">\(i\)</span> corresponde não haver efeito do tamanho dos frutos.</p>
+<p>Neste modelo, os parâmetros são estimados pelo método da máxima verossimilhança. A função <code>survreg()</code> é portanto usada para estimar o modelo, realizar o teste de hipótese e demais desdobramentos usuais de análise de sobreviência.</p>
+<p>Para fins de teste de hipótese, dois modelos serão ajustados. O modelo inicial não contém o efeito de nunhuma fonte de variação e corresponde, portanto, o modelo nulo ou modelo obtido sob a não rejeição da hipótese nula <span class="math inline">\(H_0: \alpha_i = 0\)</span> para todo <span class="math inline">\(i\)</span>. O modelo seguinte acomoda o efeito de tamanho de frutos e corresponde a especificação feita acima. O teste da razão de verossimilhanças para esses modelos testa a hipótese nula por meio da estatística diferença de deviances.</p>
+
+<div class="note">
+Camilla, quando você anotou que o sintoma apareceu no dia 10, quer dizer que ele ocorreu do dia 9 para o dia 10, certo?
+</div>
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># dados$day_orig &lt;- dados$day</span>
+<span class="co"># dados$day &lt;- log(dados$day_orig)</span>
+
+<span class="co"># Modelo nulo que não tem efeito de nenhum fator.</span>
+m0 &lt;-<span class="st"> </span><span class="kw">survreg</span>(<span class="dt">formula =</span> s2 <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dados, <span class="dt">dist =</span> <span class="st">&quot;weibull&quot;</span>)
+
+<span class="co"># Inclui o efeito de tamanho do fruto.</span>
+m1 &lt;-<span class="st"> </span><span class="kw">update</span>(m0, <span class="dt">formula =</span> . <span class="op">~</span><span class="st"> </span>tamanho)
+
+<span class="co"># Valores de log-verossimilhança.</span>
+<span class="kw">c</span>(<span class="kw">logLik</span>(m0), <span class="kw">logLik</span>(m1))</code></pre></div>
+<pre><code>## [1] -96.83541 -78.25243</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Teste da razão de verossimilhanças entre modelos encaixados.</span>
+<span class="kw">anova</span>(m0, m1)</code></pre></div>
+<pre><code>##     Terms Resid. Df    -2*LL Test Df Deviance     Pr(&gt;Chi)
+## 1       1        38 193.6708      NA       NA           NA
+## 2 tamanho        34 156.5049    =  4 37.16596 1.664919e-07</code></pre>
+
+<div class="note">
+Para ser exato, os dados em questão apresentam censura intervalar. Por isso, a resposta na representação do objeto <code>s2</code> é mais apropriada.
+</div>
+
+<p>Conforme indicado pelo teste da razão de verossimilhanças, existe considerável evidência à favor da rejeição da hipótese nula, ou seja, a favor do modelo que acomoda efeito de tamanho de fruto (<span class="math inline">\(p &lt; 0.001\)</span>). Em termos práticos, isso quer dizer que existe efeito do tamanho de fruto no tempo de incubação. Será feito um estudo mais detalhado a seguir.</p>
+<p>O fragmento de código abaixo tem propósito didático pois mostra como obter o valor de log-verossimilhança do modelo ajustado. Dessa forma, fica registrado como estão relacionadas as parametrizações da Weibull da <code>dweibull()</code> e <code>survreg()</code> bem como a contribuição proveniente de dados censurados e não censurados para a log-verossimilhança.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Avaliando a log-verossimilhança manualmente para o modelo `m0`.</span>
+a &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>m0<span class="op">$</span>scale    <span class="co"># Parâmetro de forma da survreg() para a *weibull().</span>
+b &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(m0)) <span class="co"># Idem pro parâmetro de escala.</span>
+
+<span class="co"># # Log-verossimilhança e suas partes.</span>
+<span class="co"># sum(dweibull(dados$day,        # Parte dos dados não censurados.</span>
+<span class="co">#              shape = a, scale = b,</span>
+<span class="co">#              log = TRUE) * dados$status) +</span>
+<span class="co">#     sum(pweibull(dados$day,    # Parte dos dados censurados à direita.</span>
+<span class="co">#                  shape = a, scale = b,</span>
+<span class="co">#                  lower.tail = FALSE, log = TRUE) * (1 - dados$status))</span>
+
+<span class="co"># Log-verossimilhança e suas partes para censura intervalar.</span>
+<span class="kw">sum</span>(<span class="kw">log</span>(<span class="kw">pweibull</span>(dados<span class="op">$</span>day,    <span class="co"># Parte dos dados com censura intervalar.</span>
+                 <span class="dt">shape =</span> a, <span class="dt">scale =</span> b,
+                 <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>) <span class="op">-</span>
+<span class="st">        </span><span class="kw">pweibull</span>(dados<span class="op">$</span>day <span class="op">+</span><span class="st"> </span><span class="dv">1</span>,
+                 <span class="dt">shape =</span> a, <span class="dt">scale =</span> b,
+                 <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)) <span class="op">*</span><span class="st"> </span>dados<span class="op">$</span>status) <span class="op">+</span>
+<span class="st">    </span><span class="kw">sum</span>(<span class="kw">pweibull</span>(dados<span class="op">$</span>day,    <span class="co"># Parte dos dados censurados à direita.</span>
+                 <span class="dt">shape =</span> a, <span class="dt">scale =</span> b,
+                 <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>, <span class="dt">log =</span> <span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>dados<span class="op">$</span>status))</code></pre></div>
+<pre><code>## [1] -96.83541</code></pre>
+<p>Para estudar com mais detalhes o efeito do tamanho do fruto, serão determinadas as estimativas dos parâmetros para obter a curva de probabilidade de cada nível de tamanho. Com as estimativas individuais, comparações múltiplas de parâmetros serão realizadas para testar hipóteses de igualdade do período de incubação entre tamanhos de frutos.</p>
+<p>As estimativas individuais para o parâmetro de escala são facilmente obtidas com a função <code>emmean::emmeans()</code>. Tais estimativas não são imeditamente interpretáveis de modo que é mais interessante obter as estimativas de média ou mediana a partir dos mesmos. Todavia, se houver igualdade quanto ao parâmetro de escala, haverá para os demais. No código abaixo obtem-se a estimativa de média.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Médias ajustadas (é na interpretação do parâmetro da Weibull).</span>
+emm &lt;-<span class="st"> </span><span class="kw">emmeans</span>(m1, <span class="dt">specs =</span> <span class="op">~</span>tamanho)
+emm</code></pre></div>
+<pre><code>##  tamanho emmean    SE df lower.CL upper.CL
+##  tam1      4.16 0.485 34    3.170     5.14
+##  tam2      5.26 0.868 34    3.499     7.03
+##  tam3      4.61 0.607 34    3.374     5.84
+##  tam4      2.52 0.317 34    1.874     3.16
+##  tam5      1.56 0.290 34    0.967     2.14
+## 
+## Results are given on the log (not the response) scale. 
+## Confidence level used: 0.95</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Estimativas conforme parametrização da {p, d, q, r}weibull.</span>
+tb_emm &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(emm)
+a &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>m1<span class="op">$</span>scale          <span class="co"># Shape.</span>
+b &lt;-<span class="st"> </span><span class="kw">exp</span>(tb_emm<span class="op">$</span>emmean)  <span class="co"># Scale.</span>
+
+<span class="co"># Obtenção do day médio (é uma função dos dois parâmetros).</span>
+tb_emm<span class="op">$</span>mean_day &lt;-<span class="st"> </span>b <span class="op">*</span><span class="st"> </span><span class="kw">gamma</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>a)
+
+<span class="co"># Obtenção da mediana via função predict().</span>
+tb_emm<span class="op">$</span>median_day &lt;-
+<span class="st">    </span><span class="kw">predict</span>(m1,
+            <span class="dt">type =</span> <span class="st">&quot;quantile&quot;</span>,
+            <span class="dt">p =</span> <span class="fl">0.5</span>,
+            <span class="dt">newdata =</span> tb_emm[, <span class="st">&quot;tamanho&quot;</span>, <span class="dt">drop =</span> <span class="ot">FALSE</span>])
+tb_emm</code></pre></div>
+<pre><code>##   tamanho   emmean        SE df  lower.CL upper.CL   mean_day
+## 1    tam1 4.155296 0.4849418 34 3.1697754 5.140816  59.703919
+## 2    tam2 5.263208 0.8680770 34 3.4990634 7.027353 180.785302
+## 3    tam3 4.606187 0.6065576 34 3.3735141 5.838861  93.717907
+## 4    tam4 2.516880 0.3165083 34 1.8736580 3.160103  11.599735
+## 5    tam5 1.555769 0.2899374 34 0.9665453 2.144993   4.436523
+##   median_day
+## 1  47.255333
+## 2 143.090603
+## 3  74.177223
+## 4   9.181128
+## 5   3.511484</code></pre>
+<p>Para os frutos de maior tamanho, o período de incubação médio é de 4.44 dias e o período de incubação mediano é 3.51 dias. O período de inbubação mediano corresponde à definição de período de inbubação amostral no sentido de ser aquele para o qual metade das unidades experimentais apresentam sintoma. Detalhe: como a distribuição Weibull é assimétrica à direita, a mediana é por isso sempre menor que a média.</p>
+<p>Para fazer uma contemplação visual, serão obtidas as curvas de probabilidade acumuladas. Essas curvas descrevem a probabilidade de apresentar o sintoma em função do tempo saindo de uma probabilidade 0 no instante 0 até uma probabilidade limite de 1 quando o tempo vai para infinito. Pela análise da curva é possível determinar qual o tempo necessário para que, por exemplo, 70% dos frutos apresentem sintoma. A mediana, no caso, é o tempo para que 50% dos frutos apresentem sintoma.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Obtém as curvas estimadas da função de densidade e de distribuição.</span>
+tb_curves &lt;-<span class="st"> </span>tb_emm <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(tamanho) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">do</span>({
+        day &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="kw">max</span>(dados<span class="op">$</span>day), <span class="dt">length.out =</span> <span class="dv">71</span>)
+        dens &lt;-<span class="st"> </span><span class="kw">dweibull</span>(day, <span class="dt">shape =</span> a, <span class="dt">scale =</span> <span class="kw">exp</span>(.<span class="op">$</span>emmean))
+        accu &lt;-<span class="st"> </span><span class="kw">pweibull</span>(day, <span class="dt">shape =</span> a, <span class="dt">scale =</span> <span class="kw">exp</span>(.<span class="op">$</span>emmean))
+        <span class="kw">data.frame</span>(day, dens, accu)
+    }) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">ungroup</span>()
+
+<span class="co"># As curvas de densidade ajustadas.</span>
+<span class="co"># ggplot(data = tb_curves,</span>
+<span class="co">#        mapping = aes(x = day, y = dens)) +</span>
+<span class="co">#     facet_grid(facets =  ~ tamanho) +</span>
+<span class="co">#     geom_line()</span>
+
+<span class="co"># As curvas de &quot;1 - sobreviência&quot;.</span>
+<span class="co"># ggplot(data = tb_curves,</span>
+<span class="co">#        mapping = aes(x = day, y = accu)) +</span>
+<span class="co">#     facet_grid(facets = ~ tamanho) +</span>
+<span class="co">#     geom_line()</span>
+
+<span class="co"># Valores observados com sobreposição das curvas ajustadas.</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> dados0,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> day, <span class="dt">y =</span> ord, <span class="dt">shape =</span> <span class="kw">factor</span>(status))) <span class="op">+</span>
+<span class="st">    </span><span class="kw">facet_grid</span>(<span class="dt">facets =</span> tamanho <span class="op">~</span><span class="st"> </span>.) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_shape_manual</span>(<span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),
+                       <span class="dt">values =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">19</span>),
+                       <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Censura&quot;</span>, <span class="st">&quot;Sintoma&quot;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">shape =</span> <span class="st">&quot;Desfecho&quot;</span>,
+         <span class="dt">x =</span> <span class="st">&quot;Dias após inoculação&quot;</span>,
+         <span class="dt">y =</span> <span class="st">&quot;Frequência acumulada&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="co"># geom_vline(data = tb_emm,</span>
+<span class="st">    </span><span class="co">#            mapping = aes(xintercept = mean_day),</span>
+<span class="st">    </span><span class="co">#            color = &quot;orange&quot;) +</span>
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">data =</span> tb_curves,
+              <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>,
+              <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> day, <span class="dt">y =</span> accu))</code></pre></div>
+<p><img src="epidemioR_files/figure-html/unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>O gráfico exibe tanto os valores observados quando as curvas individuais estimadas sobrepostas. As curvas acompanham o padrão visto nos dados, ou seja, as curvas de menor mediana são para os tratamentos em que os frutos apresentaram sintomas mais cedo.</p>
+
+<div class="note">
+<p><strong>TODO</strong></p>
+<ul>
+<li>Comentar que a Weibull pode não ser o melhor modelo?</li>
+<li>Como acessar a qualidade do ajuste e fazer análise dos resíduos?</li>
+<li>Existe envelope simulado para essa classe de modelos?</li>
+<li>Ajustar o modelo ao log do tempo?
+</div>
+</li>
+</ul>
+<p>Com o intuito de melhor detalhar e efeito do tamanho do fruto, serão testados os contrastes com o parâmetro de locação. Considerando todos os contrastes par a par (contrastes de Tukey), são 10 hipóteses sob investigação. A correção para a multiciplidade já é acomoda na implementação disponível na função <code>cld()</code>, o que torna muito fácil a realização de procedimentos de comparação múltipla inclusive para modelos que não sejam gaussianos.</p>
+<p>O fragmento de código abaixo compara, portanto, os tamanhos de fruto em relação ao parâmetro de escala. Os resultados são exibidos de forma gráfica para mais rápida compreensão.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Comparando os tratamentos.</span>
+emm_tamanho_in &lt;-<span class="st"> </span><span class="kw">emmeans</span>(m1, <span class="dt">specs =</span> <span class="op">~</span>tamanho)
+<span class="co"># emm_tamanho_in</span>
+
+<span class="co"># contrast(emm_trat_in, method = &quot;pairwise&quot;)</span>
+tamanho_in_comp &lt;-<span class="st"> </span>multcomp<span class="op">::</span><span class="kw">cld</span>(emm_tamanho_in)
+<span class="co"># tamanho_in_comp</span>
+
+<span class="co"># Tabela com o resultado das comparações múltiplas.</span>
+tb_contr &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(tamanho_in_comp)
+<span class="co"># tb_contr</span>
+
+<span class="co"># Transformar os números para letras e ordenar as letras conforme as</span>
+<span class="co"># estimativas.</span>
+<span class="kw">source</span>(<span class="st">&quot;./funcoes.R&quot;</span>)
+
+<span class="co"># Acerta a representação da significância dos contrastes com letras.</span>
+tb_contr &lt;-<span class="st"> </span>tb_contr <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">let =</span> <span class="kw">num2cld</span>(.group)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">inner_join</span>(tb_emm[, <span class="kw">c</span>(<span class="st">&quot;tamanho&quot;</span>, <span class="st">&quot;mean_day&quot;</span>, <span class="st">&quot;median_day&quot;</span>)])</code></pre></div>
+<pre><code>## Joining, by = &quot;tamanho&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tb_contr</code></pre></div>
+<pre><code>##   tamanho   emmean        SE df  lower.CL upper.CL .group let
+## 1    tam5 1.555769 0.2899374 34 0.9665453 2.144993    1     c
+## 2    tam4 2.516880 0.3165083 34 1.8736580 3.160103    12   bc
+## 3    tam1 4.155296 0.4849418 34 3.1697754 5.140816     23  ab
+## 4    tam3 4.606187 0.6065576 34 3.3735141 5.838861      3   a
+## 5    tam2 5.263208 0.8680770 34 3.4990634 7.027353      3   a
+##     mean_day median_day
+## 1   4.436523   3.511484
+## 2  11.599735   9.181128
+## 3  59.703919  47.255333
+## 4  93.717907  74.177223
+## 5 180.785302 143.090603</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> tb_contr,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">y =</span> tamanho, <span class="dt">x =</span> emmean)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_errorbarh</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">xmin =</span> lower.CL,
+                                 <span class="dt">xmax =</span> upper.CL),
+                   <span class="dt">height =</span> <span class="fl">0.1</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">sprintf</span>(<span class="st">&quot;%0.2f %s&quot;</span>,
+                                            emmean,
+                                            let)),
+              <span class="dt">vjust =</span> <span class="op">-</span><span class="fl">0.5</span>,
+              <span class="dt">hjust =</span> <span class="fl">0.5</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Tamanho do fruto&quot;</span>,
+         <span class="dt">x =</span> <span class="st">&quot;Estimativa do parâmetro de locação&quot;</span>)</code></pre></div>
+<p><img src="epidemioR_files/figure-html/unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>O gráfico mostra que não existe diferença entre os tamanhos 1, 2 e 3. Para estes, a estimativa da mediana é superior a 45 dias. O tamanho 5 foi o que apresentou menor tempo para os sintomas sendo diferente de todos exceto do tamanho 4.</p>
+</div>
+<div id="conclusão" class="section level2">
+<h2><span class="header-section-number">1.3</span> Conclusão</h2>
+<ol style="list-style-type: decimal">
+<li>A abordagem não paramétrica:
+<ul>
+<li>A abordagem não paramétrica é interessante por não fazer muitas suposições sobre o fenômedo de interesse.</li>
+<li>Ela permite facilmente testar o efeito de uma fonte de variação.</li>
+<li>No entanto, isso pode ser restritivo quando o experimento tiver mais fatores experimentais ou estruturais (e.g. blocos).</li>
+<li>A abordagem não paramétrica não necessariamente irá estimar a mediana que é o período de incubação.</li>
+</ul></li>
+<li>A abordagem paramétrica:
+<ul>
+<li>Assume uma distribuição de probabilidade para o tempo entre eventos.</li>
+<li>É capaz de acomodar os vários tipos de censura.</li>
+<li>Permite acomodar o efeito de vários termos experimentais ou estruturais.</li>
+<li>Permite estimar funções dos parâmetros, como média e mediana.</li>
+<li>No entanto, se o modelo não for apropriado para o caso em questão, as inferências estatão comprometidas.</li>
+</ul></li>
+</ol>
+
+</div>
+</div>
+<h3>Referências Bibliográficas</h3>
+<div id="refs" class="references">
+<div id="ref-Colosimo2006">
+<p>COLOSIMO, S., E.A.; Giolo. <strong>Analise de sobrevivência aplicada</strong>. São Paulo: Editora Edgard Blücher, 2006.</p>
+</div>
+<div id="ref-Copes2008">
+<p>COPES, W. E.; THOMSON, J. L. Survival analysis to determine the length of the incubation period of camellia twig blight caused byColletotrichum gloeosporioides. <strong>Plant Disease</strong>, v. 92, n. 8, p. 1177–1182, 2008. Scientific Societies. Disponível em: &lt;<a href="https://doi.org/10.1094/pdis-92-8-1177" class="uri">https://doi.org/10.1094/pdis-92-8-1177</a>&gt;..</p>
+</div>
+<div id="ref-Jiang2014">
+<p>JIANG, J.; ZHAI, H.; LI, H.; et al. Identification and characterization of colletotrichum fructicola causing black spots on young fruits related to bitter rot of pear (pyrus bretschneideri rehd.) in china. <strong>Crop Protection</strong>, v. 58, p. 41–48, 2014. Elsevier BV. Disponível em: &lt;<a href="https://doi.org/10.1016/j.cropro.2014.01.003" class="uri">https://doi.org/10.1016/j.cropro.2014.01.003</a>&gt;..</p>
+</div>
+<div id="ref-Kaplan1958">
+<p>KAPLAN, E. L.; MEIER, P. Nonparametric estimation from incomplete observations. <strong>Journal of the American Statistical Association</strong>, v. 53, n. 282, p. 457–481, 1958. Informa UK Limited. Disponível em: &lt;<a href="https://doi.org/10.1080/01621459.1958.10501452" class="uri">https://doi.org/10.1080/01621459.1958.10501452</a>&gt;..</p>
+</div>
+<div id="ref-Keske2011">
+<p>KESKE, C.; AMORIM, L.; MIO, L. M.-D. Peach brown rot incidence related to pathogen infection at different stages of fruit development in an organic peach production system. <strong>Crop Protection</strong>, v. 30, n. 7, p. 802–806, 2011. Elsevier BV. Disponível em: &lt;<a href="https://doi.org/10.1016/j.cropro.2011.03.005" class="uri">https://doi.org/10.1016/j.cropro.2011.03.005</a>&gt;..</p>
+</div>
+<div id="ref-Ojiambo2005">
+<p>OJIAMBO, P. S.; SCHERM, H. Survival analysis of time to abscission of blueberry leaves affected by septoria leaf spot. <strong>Phytopathology</strong>, v. 95, n. 1, p. 108–113, 2005. Scientific Societies. Disponível em: &lt;<a href="https://doi.org/10.1094/phyto-95-0108" class="uri">https://doi.org/10.1094/phyto-95-0108</a>&gt;..</p>
+</div>
+<div id="ref-Zhang2016">
+<p>ZHANG, Z. Parametric regression model for survival data: Weibull regression model as an example. <strong>Annals of Translational Medicine</strong>, v. 4, n. 24, p. 484–484, 2016. AME Publishing Company. Disponível em: &lt;<a href="https://doi.org/10.21037/atm.2016.08.45" class="uri">https://doi.org/10.21037/atm.2016.08.45</a>&gt;..</p>
+</div>
+</div>
+<div>
+  <hr>
+  <p class="footer" style="margin: 0 0 0 0;">
+    <strong>epidemioR</strong>: Epidemiologia de Doenças de Plantas Aplicada com R
+    <br>
+    <div style="font-size: 90%;">Universidade Federal do Paraná</div>
+  </p>
+</div>
+
+<center>
+  <img src="config/ufpr-transparent.png" width="25%" style="box-shadow: unset; margin: 2em auto 0 auto;">
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="apresentação.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referências-bibliográficas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lemid/epidemioR/edit/master/camilla.Rmd",
+"text": "Editar"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
