@@ -29,17 +29,18 @@ tempo para ocorrência de sintomas, tempo para a queda de folhas
 sintomáticas [@Ojiambo2005], entre outros.
 
 O registro do tempo para ocorrência de um evento pode ser de 4 formas,
-sendo que 3 delas consideram censura (\@ref(fig:censuras)). O primeiro
-caso não há censura pois o instante de ocorrência do evento é registrado
-com exatidão, e.g. o instante em que um email spam é recebido. O segundo
-caso, a censura à direita, assume-se que o desfecho aconteceu em um
-instante posterior (à direita) àquele em que se fez a avaliação, e.g. o
-fruto não tinha sintomas até o dia 20 no qual encerrou-se o experimento
-mas certamente irá apresentar o sintoma. O terceiro caso é a censura à
-esquerda quando ao fazer a primeira observação o desfecho já aconteceu
-(à esquerda), e.g. o fruto já apresentava sintomas da doença antes da
-inoculação da mesma. O último é a censura intervalar em que o evento
-ocorre entre duas avaliações consecutivas.
+sendo que 3 delas consideram censura (Figura \@ref(fig:censuras)). O
+primeiro caso não há censura pois o instante de ocorrência do evento é
+registrado com exatidão, e.g. o instante em que um email spam é
+recebido. O segundo caso, a censura à direita, assume-se que o desfecho
+aconteceu em um instante posterior (à direita) àquele em que se fez a
+avaliação, e.g. o fruto não tinha sintomas até o dia 20 no qual
+encerrou-se o experimento mas certamente irá apresentar o sintoma. O
+terceiro caso é a censura à esquerda quando ao fazer a primeira
+observação o desfecho já aconteceu (à esquerda), e.g. o fruto já
+apresentava sintomas da doença antes da inoculação da mesma. O último é
+a censura intervalar em que o evento ocorre entre duas avaliações
+consecutivas.
 
 (ref:censuras) Tipo de censuras em estudos que consideram o tempo para a
 ocorrência de um desfecho. Fonte: os autores.
@@ -53,7 +54,7 @@ Dentre as técnicas não paramétricas, o estimador Kaplan-Meier
 sobrevivência, ou seja, a probabilidade de um indivíduo não apresentar o
 evento decorrido um tempo $t$. Os gráficos gerados por esta análise são
 representados por degraus de tempo em que ocorre o evento (Figura
-\@ref(fig:curvakaplan)). Por meio desta técnica, torna-se possível a
+\@ref(fig:curvaskaplan)). Por meio desta técnica, torna-se possível a
 aplicação de testes de significância, como o Log-Rank, para comparar
 tratamentos. O log-Rank testa a hipótese nula de que as curvas de
 sobrevivência são iguais [@Colosimo2006]. Este tipo de técnica é
@@ -62,11 +63,11 @@ palavras, o método não permite analisar possíveis interações em
 experimentos fatoriais ou mesmo acomodar termos estruturais do
 delineamento, como o efeito de blocos.
 
-(ref:curvakaplan) Exemplo de curva de Kaplan-Meier estimando funções de
+(ref:curvaskaplan) Exemplo de curva de Kaplan-Meier estimando funções de
 sobrevivência para a queda de folhas de mirtilo com mancha foliar de
 Septoria. Fonte: [@Ojiambo2005].
 
-```{r curvaskaplan, echo = FALSE, fig.cap = '(ref:curvakaplan)'}
+```{r curvaskaplan, echo = FALSE, fig.cap = '(ref:curvaskaplan)'}
 knitr::include_graphics("camilla/curvaskaplan.jpg")
 ```
 
@@ -124,10 +125,10 @@ controladas e homogeneas, constituindo um delineamento inteiramente
 casualisado com 5 tratamentos (tamanho) e 8 repetições (Figura
 \@ref(fig:esquema)).
 
-<!--
+```{block2, type = "note"}
 Camilla, é possível editar essa imagem? Porque o você usou "tamanho05"
 com o 0 na frente da unidade e não usou esse padrão nos demais.
--->
+```
 
 (ref:esquema) Ilustração do experimento onde frutos de 5 tamanhos são
 inoculados com o patógeno sob o ferimento feito na região equatorial.
@@ -183,12 +184,14 @@ leitura, fez o gráfico que exibe a data e o tipo de desfecho de cada
 fruto para cada tamanho. A análise exploratória sugere que quanto maior
 o fruto, mais curto é o tempo para aparecimento dos sintomas.
 
-```{r}
+```{r, message = FALSE}
 # Leitura dos dados.
 dados  <-  read_csv2("./camilla/sobrev.csv", col_types = cols())
 attr(dados, "spec") <- NULL
 str(dados)
+```
 
+```{r}
 # Tabela de frequência para o tamanho do fruto.
 dados %>%
     count(tamanho)
@@ -228,29 +231,71 @@ que metade dos indivíduos expostos apresentem o desfecho. Portanto, o
 período de incubação é a mediana da variável aleatória tempo para a
 ocorrência do desfecho.
 
-TODO colocar alguma referência aqui ou dar uma breve explicação do
+```{block2, type = "note"}
+Colocar alguma referência aqui ou dar uma breve explicação do
 estimador não paramétrico da curva de sobrevivência.
+```
 
 ```{r}
-# Curvas sobreviência de Kaplan-Meier.
-fit <- survfit(Surv(day, status) ~ tamanho, data = dados)
-fit <- survfit(Surv(log(day), status) ~ tamanho, data = dados)
+# Resposta com avaliações sem censura e com censura à direita no final.
+s1 <- with(dados,
+           Surv(time = day,
+                event = status))
+s1
 
+# Resposta com avaliações com censura intervalar de 1 dia e com censura
+# à direita no final.
+s2 <- with(dados,
+           Surv(time = day,
+                time2 = day + 1,
+                event = ifelse(status == 1, 3, 0),
+                type = "interval"))
+s2
+
+# Curvas sobreviência de Kaplan-Meier.
+fit <- survfit(s2 ~ tamanho, data = dados)
+fit
+
+# Gráfico padrão com as curvas de Kaplan-Meier.
+# plot(fit)
+
+# Gráfico com melhor visual, legenda, etc.
 ggsurvplot(fit,
            data = dados,
            surv.median.line = "h")
 
-# Aplica o teste de log-rank.
-survdiff(Surv(day, status) ~ tamanho, data = dados)
+# Aplica o teste de log-rank. Só aceita censura à direita.
+logrank <- survdiff(s1 ~ tamanho, data = dados)
+logrank
+```
+```{r, include = FALSE}
+chi <- sprintf("%0.1f", logrank$chisq)
 ```
 
-TODO interpretar as curvas. TODO interpretar o teste log-rank.
+O teste do log-rank para testar a hipótese nula de igualdade entre as
+curvas apresentou uma estatística de teste igual a `r chi` bastante
+favorável ($p < 0.001$) à hipótese alternativa, ou seja, em termos
+práticos existe efeito do tamanho do fruto no comportamento da variável
+período de incubação.
 
-Os passos para a técnica paramétrica foram relacionados a seguir. Neste
+Apesar de ser possível testar a hipótese, essa abordagem não
+necessariamente irá estimar a mediana para todos os níveis, pois ocorreu
+alta proporção de censura em alguns tamanhos de fruto. Como pode ser
+visto na saída da `survfit()`, apenas os tamanhos 4 e 5 tiveram
+estimativa de mediana, porém sem o intervalo de confiança completo.
+
+A abordagem não paramétrica, conforme visto aqui, é mais recomendada
+quando o número de unidades experimentais por tratamento for grande e a
+porporção de censura for baixa. A censura pode ser mitigada aumentando o
+tempo de avaliação do experimento para que se observe o desfecho em mais
+unidades experimentais.
+
+Os passos para a abordagem paramétrica são relacionados a seguir. Neste
 caso, o período de incubação foi obtido e comparado entre os tratamentos
 por meio da estimativa do parâmetro de locação.
 
 ```{r, eval = FALSE}
+# Documentação disponível no R sobre os modelos paramétricos.
 help(survreg.distributions, help_type = "html")
 help(dweibull, help_type = "html")
 
@@ -307,24 +352,31 @@ efeito de tamanho de frutos e corresponde a especificação feita acima. O
 teste da razão de verossimilhanças para esses modelos testa a hipótese
 nula por meio da estatística diferença de deviances.
 
+```{block2, type = "note"}
+Camilla, quando você anotou que o sintoma apareceu no dia 10, quer dizer
+que ele ocorreu do dia 9 para o dia 10, certo?
+```
+
 ```{r, message = FALSE}
 # dados$day_orig <- dados$day
 # dados$day <- log(dados$day_orig)
 
-# Define o objeto que especifica os tipos de censura.
-s <- with(dados, Surv(time = day, event = status))
-
 # Modelo nulo que não tem efeito de nenhum fator.
-m0 <- survreg(formula = s ~ 1, data = dados, dist = "weibull")
+m0 <- survreg(formula = s2 ~ 1, data = dados, dist = "weibull")
 
 # Inclui o efeito de tamanho do fruto.
-m1 <- update(m0, formula = s ~ tamanho)
+m1 <- update(m0, formula = . ~ tamanho)
 
 # Valores de log-verossimilhança.
 c(logLik(m0), logLik(m1))
 
 # Teste da razão de verossimilhanças entre modelos encaixados.
 anova(m0, m1)
+```
+
+```{block2, type = "note"}
+Para ser exato, os dados em questão apresentam censura intervalar. Por
+isso, a resposta na representação do objeto `s2` é mais apropriada.
 ```
 
 Conforme indicado pelo teste da razão de verossimilhanças, existe
@@ -344,10 +396,21 @@ censurados e não censurados para a log-verossimilhança.
 a <- 1/m0$scale    # Parâmetro de forma da survreg() para a *weibull().
 b <- exp(coef(m0)) # Idem pro parâmetro de escala.
 
-# Log-verossimilhança e suas partes.
-sum(dweibull(dados$day,        # Parte dos dados não censurados.
-             shape = a, scale = b,
-             log = TRUE) * dados$status) +
+# # Log-verossimilhança e suas partes.
+# sum(dweibull(dados$day,        # Parte dos dados não censurados.
+#              shape = a, scale = b,
+#              log = TRUE) * dados$status) +
+#     sum(pweibull(dados$day,    # Parte dos dados censurados à direita.
+#                  shape = a, scale = b,
+#                  lower.tail = FALSE, log = TRUE) * (1 - dados$status))
+
+# Log-verossimilhança e suas partes para censura intervalar.
+sum(log(pweibull(dados$day,    # Parte dos dados com censura intervalar.
+                 shape = a, scale = b,
+                 lower.tail = FALSE) -
+        pweibull(dados$day + 1,
+                 shape = a, scale = b,
+                 lower.tail = FALSE)) * dados$status) +
     sum(pweibull(dados$day,    # Parte dos dados censurados à direita.
                  shape = a, scale = b,
                  lower.tail = FALSE, log = TRUE) * (1 - dados$status))
@@ -373,10 +436,10 @@ emm
 
 # Estimativas conforme parametrização da {p, d, q, r}weibull.
 tb_emm <- as.data.frame(emm)
-a <- 1/m1$scale          # shape.
-b <- exp(tb_emm$emmean)  # scale.
+a <- 1/m1$scale          # Shape.
+b <- exp(tb_emm$emmean)  # Scale.
 
-# Obtenção do day médio (é uma função complexa dos dois parâmetros).
+# Obtenção do day médio (é uma função dos dois parâmetros).
 tb_emm$mean_day <- b * gamma(1 + 1/a)
 
 # Obtenção da mediana via função predict().
@@ -385,7 +448,6 @@ tb_emm$median_day <-
             type = "quantile",
             p = 0.5,
             newdata = tb_emm[, "tamanho", drop = FALSE])
-
 tb_emm
 ```
 
@@ -398,13 +460,16 @@ Para os frutos de maior tamanho, o período de incubação médio é de
 `r p1` dias e o período de incubação mediano é `r p2` dias. O período de
 inbubação mediano corresponde à definição de período de inbubação
 amostral no sentido de ser aquele para o qual metade das unidades
-experimentais apresentam sintoma.
+experimentais apresentam sintoma. Detalhe: como a distribuição Weibull é
+assimétrica à direita, a mediana é por isso sempre menor que a média.
 
 Para fazer uma contemplação visual, serão obtidas as curvas de
 probabilidade acumuladas. Essas curvas descrevem a probabilidade de
 apresentar o sintoma em função do tempo saindo de uma probabilidade 0 no
 instante 0 até uma probabilidade limite de 1 quando o tempo vai para
-infinito.
+infinito. Pela análise da curva é possível determinar qual o tempo
+necessário para que, por exemplo, 70% dos frutos apresentem sintoma. A
+mediana, no caso, é o tempo para que 50% dos frutos apresentem sintoma.
 
 ```{r}
 # Obtém as curvas estimadas da função de densidade e de distribuição.
@@ -432,7 +497,7 @@ tb_curves <- tb_emm %>%
 
 # Valores observados com sobreposição das curvas ajustadas.
 ggplot(data = dados0,
-       mapping = aes(x = log(day), y = ord, shape = factor(status))) +
+       mapping = aes(x = day, y = ord, shape = factor(status))) +
     facet_grid(facets = tamanho ~ .) +
     geom_point() +
     scale_shape_manual(breaks = c(0, 1),
@@ -454,13 +519,29 @@ estimadas sobrepostas. As curvas acompanham o padrão visto nos dados, ou
 seja, as curvas de menor mediana são para os tratamentos em que os
 frutos apresentaram sintomas mais cedo.
 
-TODO comentar que a Weibull pode não ser o melhor modelo? Como acessar a
-qualidade do ajuste e fazer análise dos resíduos? Envelope simulado?
+```{block2, type = "note"}
+**TODO**
 
-TODO discutir a figura.
+ * Comentar que a Weibull pode não ser o melhor modelo?
+ * Como acessar a qualidade do ajuste e fazer análise dos resíduos?
+ * Existe envelope simulado para essa classe de modelos?
+ * Ajustar o modelo ao log do tempo?
+```
+
+Com o intuito de melhor detalhar e efeito do tamanho do fruto, serão
+testados os contrastes com o parâmetro de locação. Considerando todos os
+contrastes par a par (contrastes de Tukey), são 10 hipóteses sob
+investigação. A correção para a multiciplidade já é acomoda na
+implementação disponível na função `cld()`, o que torna muito fácil a
+realização de procedimentos de comparação múltipla inclusive para
+modelos que não sejam gaussianos.
+
+O fragmento de código abaixo compara, portanto, os tamanhos de fruto em
+relação ao parâmetro de escala. Os resultados são exibidos de forma
+gráfica para mais rápida compreensão.
 
 ```{r}
-# Comparando os tratamentos
+# Comparando os tratamentos.
 emm_tamanho_in <- emmeans(m1, specs = ~tamanho)
 # emm_tamanho_in
 
@@ -499,12 +580,27 @@ ggplot(data = tb_contr,
          x = "Estimativa do parâmetro de locação")
 ```
 
-TODO interpretar o gráfico.
+O gráfico mostra que não existe diferença entre os tamanhos 1, 2
+e 3. Para estes, a estimativa da mediana é superior a 45 dias. O tamanho
+5 foi o que apresentou menor tempo para os sintomas sendo diferente de
+todos exceto do tamanho 4.
 
 ## Conclusão
 
-O modelo Weibull é questionável. Poderia ser outro. A análise não paramétrica é mais apropriada no caso.
-
-
-
-TODO
+  1. A abordagem não paramétrica:
+     * A abordagem não paramétrica é interessante por não fazer muitas
+       suposições sobre o fenômedo de interesse.
+     * Ela permite facilmente testar o efeito de uma fonte de variação.
+     * No entanto, isso pode ser restritivo quando o experimento tiver
+       mais fatores experimentais ou estruturais (e.g. blocos).
+     * A abordagem não paramétrica não necessariamente irá estimar a
+       mediana que é o período de incubação.
+  2. A abordagem paramétrica:
+     * Assume uma distribuição de probabilidade para o tempo entre
+       eventos.
+     * É capaz de acomodar os vários tipos de censura.
+     * Permite acomodar o efeito de vários termos experimentais ou
+       estruturais.
+     * Permite estimar funções dos parâmetros, como média e mediana.
+     * No entanto, se o modelo não for apropriado para o caso em
+       questão, as inferências estatão comprometidas.
