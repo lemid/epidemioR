@@ -1,86 +1,86 @@
-# Comparação de modelos polinomial e não-linear para experimentos de germinação de conídios fúngicos e equações para o estudo de monociclo de doenças em frutos 
+# Comparação de modelos polinomial e não-linear para experimentos de germinação de conídios fúngicos e equações para o estudo de monociclo de doenças em frutos
 
 ## Motivação
 
-  Estudos de condições favoráveis para o desenvolvimento de patógenos como experimentos de germinação de esporos sob diferentes temperaturas e períodos de incubação são essenciais para a compreensão do comportamento da doença no campo. Outra forma interessante é estudar a doença em condições controladas é inocular o patógeno em um momento conhecido e estudar condições diferentes para o monociclo das doenças, em n variações de condições climáticas; a partir dos dados observados, realizar a modelagem do desenvolvimento das doenças por meio de equações matemáticas é útil para prever diferentes situações e entender as epidemias. A utilização de modelos consolidados na literatura auxilia na comparação de diversas variáveis relevantes por meio dos parâmetros estimados, contudo pode apresentar algumas limitações. O objetivo desse capítulo será a comparação de modelos para ajuste de dados de germinação de conídios e estudo de monociclo de doença de frutos. Exemplificaremos com dados de germinação de conídios fúngicos e Monociclo de Podridão de Neonectria em frutos, cujo agente causal é o patógeno *Neonectria ditissima*. 
+  Estudos de condições favoráveis para o desenvolvimento de patógenos como experimentos de germinação de esporos sob diferentes temperaturas e períodos de incubação são essenciais para a compreensão do comportamento da doença no campo. Outra forma interessante é estudar a doença em condições controladas é inocular o patógeno em um momento conhecido e estudar condições diferentes para o monociclo das doenças, em n variações de condições climáticas; a partir dos dados observados, realizar a modelagem do desenvolvimento das doenças por meio de equações matemáticas é útil para prever diferentes situações e entender as epidemias. A utilização de modelos consolidados na literatura auxilia na comparação de diversas variáveis relevantes por meio dos parâmetros estimados, contudo pode apresentar algumas limitações. O objetivo desse capítulo será a comparação de modelos para ajuste de dados de germinação de conídios e estudo de monociclo de doença de frutos. Exemplificaremos com dados de germinação de conídios fúngicos e Monociclo de Podridão de Neonectria em frutos, cujo agente causal é o patógeno *Neonectria ditissima*.
 
 
-  
-  Várias doenças ocorrem em regiões produtoras de maçãs (*Malus domestica* Borkh.) do mundo todo, como Europa, América do Norte, Chile, Austrália, Nova Zelândia, Japão e África do Sul [@Beresford2011]. Detectados no Brasil em 2002, o Cancro Europeu das Pomáceas e Podridão de Neonectria em frutos se destacam entre as doenças que vêm causando grandes danos na cadeia produtiva da macieira. A doença afeta os ramos e o tronco principal da planta causando sintoma de cancro, podendo também atacar frutos, causando sintomas de podridão marrom-escura, frequentemente com esporulação esbranquiçada presente nas lesões (Figura \@ref(fig:prancha01)). A podridão de Neonectria em frutos de maçã ocorre na maioria das áreas produtoras do mundo, e no Brasil sua elevada incidência pode ser explicada pelas condições climáticas mais favoráveis e/ou pela maior quantidade de inóculo nos pomares, devido à falta de experiência no manejo [@EmbrapaCancro2015]. 
+
+  Várias doenças ocorrem em regiões produtoras de maçãs (*Malus domestica* Borkh.) do mundo todo, como Europa, América do Norte, Chile, Austrália, Nova Zelândia, Japão e África do Sul [@Beresford2011]. Detectados no Brasil em 2002, o Cancro Europeu das Pomáceas e Podridão de Neonectria em frutos se destacam entre as doenças que vêm causando grandes danos na cadeia produtiva da macieira. A doença afeta os ramos e o tronco principal da planta causando sintoma de cancro, podendo também atacar frutos, causando sintomas de podridão marrom-escura, frequentemente com esporulação esbranquiçada presente nas lesões (Figura \@ref(fig:prancha01)). A podridão de Neonectria em frutos de maçã ocorre na maioria das áreas produtoras do mundo, e no Brasil sua elevada incidência pode ser explicada pelas condições climáticas mais favoráveis e/ou pela maior quantidade de inóculo nos pomares, devido à falta de experiência no manejo [@EmbrapaCancro2015].
 
 
 (ref:prancha01) Sintomas de Cancro Europeu em macieira (esq.) e de podridão de Neonectria em fruto (dir.) em cultivar Gala.
 
-```{r prancha01, echo = FALSE, fig.cap = '(ref:prancha01)'} 
+```{r prancha01, echo = FALSE, fig.cap = '(ref:prancha01)'}
 knitr::include_graphics("./jhulia/prancha01.jpg")
 ```
 
-O fungo produz dois tipos de esporos, sendo os ascósporos produzidos sexuadamente em peritécios e os conídios produzidos assexuadamente em esporodóquios (Figura \@ref(fig:prancha02)). 
+O fungo produz dois tipos de esporos, sendo os ascósporos produzidos sexuadamente em peritécios e os conídios produzidos assexuadamente em esporodóquios (Figura \@ref(fig:prancha02)).
 
 (ref:prancha02) Esporodóquio produzindo conídios (esq.) e peritécios produzindo ascósporos (dir.) de *Neonectria ditissima*.
 
-```{r prancha02, echo = FALSE, fig.cap = '(ref:prancha02)'} 
+```{r prancha02, echo = FALSE, fig.cap = '(ref:prancha02)'}
 knitr::include_graphics("./jhulia/prancha02.jpg")
 ```
 
-  Dados sobre as taxas de germinação de conídios em diferentes temperaturas e períodos de incubação e de latência são relevantes para a predição de riscos de acordo com as condições ambientais que ocorrem no pomar. O modelo beta-monomolecular tem sido amplamente utilizado na literatura para representar o comportamento da germinação de conídios sob diferentes temperaturas e períodos de incubação ou molhamento [@Angeli2017; @Christiano2003; @Escanferla2009; @Godoy1999; @Lima2017; @MayDeMio2002; @Soares2008] e estimar diversas variáveis com aplicação biológica. Este modelo, em alguns casos, apresenta algumas limitações, que serão abordadas no tópico a seguir. 
-  
+  Dados sobre as taxas de germinação de conídios em diferentes temperaturas e períodos de incubação e de latência são relevantes para a predição de riscos de acordo com as condições ambientais que ocorrem no pomar. O modelo beta-monomolecular tem sido amplamente utilizado na literatura para representar o comportamento da germinação de conídios sob diferentes temperaturas e períodos de incubação ou molhamento [@Angeli2017; @Christiano2003; @Escanferla2009; @Godoy1999; @Lima2017; @MayDeMio2002; @Soares2008] e estimar diversas variáveis com aplicação biológica. Este modelo, em alguns casos, apresenta algumas limitações, que serão abordadas no tópico a seguir.
+
   Um outro modelo amplamente utilizado é o beta generalizado modificado, que inclui estimar não só temperatura mínima, máxima e ótima como também um parâmetro relacionado com a amplitude da curva [@Bassanezi1998]. O modelo pode ser estimado a partir de parametrização da beta-generalizada, como descrito a seguir:
-  
+
 Equação 1:
 $$
 Y(T) = \beta _1(T-T_{min})^{\beta 2} (T_{max}-T)^{\beta3}
 $$
-  
-  A equação acima foi modificada trocando dois parâmetros por outros dois parâmetros que posuem significado biológico $T_{opt}$ e o nível na temperatura ótima $Y(T_{opt} = Y_{opt}$. Portanto, a temperatura ótima para a função beta-generalizada é dada por: 
-  
+
+  A equação acima foi modificada trocando dois parâmetros por outros dois parâmetros que posuem significado biológico $T_{opt}$ e o nível na temperatura ótima $Y(T_{opt} = Y_{opt}$. Portanto, a temperatura ótima para a função beta-generalizada é dada por:
+
 Equação 2
 $$
 T{opt} = (\beta _2T_{max} + \beta _3T_{min})/(\beta _2+\beta _3)
-$$  
-  
+$$
+
   A equação acima pode ser rearranjada para trocar $\beta_2$ por $T_{opt}$:
 
 Equação 3
 $$
 \beta _2 = \beta _3(T_{opt}-T_{min})/(T_{max}-T{opt})
 $$
-  
+
   O valor máximo $Y_{opt}$ na equação 2 ocorre em $T_{opt}$ e pode ser calculada por:
- 
-Equação 4 
+
+Equação 4
 $$
   Y_{opt} = \beta_1\beta_2^{\beta_2}\beta_3^{\beta_3}[(T_{max}-T_{min})/(\beta_2+\beta_3)]^{\beta_2+\beta_3}
 $$
-  
+
   Rearranjando a equação acima para determinar $\beta_1$ em função de $\beta_2$, $\beta_3$ e $Y_{opt}$, e usando a equação 4 para substituit $\beta_2$ temos:
- 
-Equação 5  
+
+Equação 5
 $$
   Y(T) = Y_{opt}[(T-T_{min})/(T_{opt}-T{min})]^{\beta3(T_{opt}-T_{min})/(T_{max}-T_{opt})}[(T_{max}-T)/(T_{max}-T_{opt})]^{\beta_3}
 $$
-  
+
   Fixando $T_{min}$ e $T_{max}$ para valores conhecidos, a equação acima contém os três parâmetros $Y_{opt}$, $T_{opt}$ e $\beta_3$. O parâmetro $\beta_3$ representa a abertura do sino, ou seja, o intervalo de temperatura a partir do ponto $T_{opt}$, no qual a curva permanece próxima a $Y_{opt}$. Para valores de $\beta_3$ baixos (por exemplo 0,1) um amplo intervalo de temperatura foi estimado; para valores altos (próximos a 3,0) a curva tem uma descida acentuada quando a temperatura difere um pouco da $T_{opt}$.
 
   Este modelo é muito útil para comparar epidemias e verificar a dependência de um determinado patógeno a uma condição climática [@DallaPria2003; @QuesadaMoraga2006; @Leite2002; @GarciaFernandez2008] Apesar de muito utilizados, em alguns casos não se consegue ajustes e há a necessidade da adaptação de outros modelos que melhor se adequem aos dados. Uma alternativa é a utilização de modelos polinomiais que permitem melhor ajuste devido a sua flexibilidade, mas que ainda assim se consiga estimar os parâmetros relacionados às variáveis biológicas de interesse epidemiológico.
-  
+
   Embora *N. ditissima* seja mais comumente descrito como patógeno de partes lenhosas, ele também infecta frutos de maçã resultando em podridão em pré-colheita (no pomar) ou, mais comumente, em pós-colheita (armazenamento) [@Xu2010]. O uso de equações para representar o monociclo da doença em frutos sob diferentes temperaturas pode ser um recurso útil na previsão de como a doença se comportará em diferentes condições e ajudar os produtores em decisões de manejo. Estudos de monociclo envolvendo patógenos foliares serão foco de um outro capítulo deste livro (depois ligar com o item correto).
-  
+
   Esse capítulo objetivou a elucidação e comparação de modelos polinomial e beta-monomolecular para avaliação de dados de germinação de esporos em diferentes temperaturas e períodos de molhamento, bem como descrever equações que descrevam o comportamento do monociclo de doenças que causam podridão em frutos. Serão descritos os passos e análises realizadas bem como o layout dos dados de forma descritiva e analisados.
 
 
 ## Germinação de conídios
 
-  O experimento de germinação de conídios de *N. ditissima* foi conduzido por meio de metodologia descrita na Figura \@ref(fig:figuragerminacao). 
+  O experimento de germinação de conídios de *N. ditissima* foi conduzido por meio de metodologia descrita na Figura \@ref(fig:figuragerminacao).
 
 (ref:figuragerminacao) Metodologia de ensaio de germinação de conídios de *Neonectria ditissima* em diferentes temperaturas e períodos de incubação.
 
-```{r figuragerminacao, echo = FALSE, fig.cap = '(ref:figuragerminacao)'} 
+```{r figuragerminacao, echo = FALSE, fig.cap = '(ref:figuragerminacao)'}
 knitr::include_graphics("./jhulia/figuragerminacao.jpg")
 ```
 
 
-A Tabela \@ref(tab:germinacao-neonectria-ditissima) descreve como os dados da germinação de *Neonectria ditissima* foram tabulados. 
+A Tabela \@ref(tab:germinacao-neonectria-ditissima) descreve como os dados da germinação de *Neonectria ditissima* foram tabulados.
 
 (ref:germinacao-neonectria-ditissima) Descrição do tipo de esporo - esp (conídio), temperatura - temp (°C), período de incubação - pi (h) e germinação - ger (%).
 
@@ -107,8 +107,8 @@ library(directlabels)
 
 ```{r}
 # Importação dos dados.
-setwd('C:/Users/Jhulia/Projects/repo/epidemioR/jhulia')
-tb <- read_csv2("germinacao-neonectria-ditissima.csv",
+# setwd('C:/Users/Jhulia/Projects/repo/epidemioR/jhulia')
+tb <- read_csv2("./jhulia/germinacao-neonectria-ditissima.csv",
                 comment = "#")
 attr(tb, "spec") <- NULL
 tb
@@ -116,14 +116,14 @@ tb$bloc <- ifelse(test = is.element(tb$temp,
                                     set = c(12, 16, 20, 26, 35)),
                   yes = "inoc1",
                   no = "inoc2")
-# Observação: os dados tem efeito de bloco porque o inóculo usado no 
-# experimento foi oriundo de duas placas distintas e cada placa foi 
-# usada para temperaturas distintas e conhecidas. Blocar os dados é 
-# necessário porque o inóculo crescido em cada placa pode ter 
-# características de germinação distintas e inerentes às colônias. 
-# O comportamento da germinação em relação à temperatura dá uma curva 
+# Observação: os dados tem efeito de bloco porque o inóculo usado no
+# experimento foi oriundo de duas placas distintas e cada placa foi
+# usada para temperaturas distintas e conhecidas. Blocar os dados é
+# necessário porque o inóculo crescido em cada placa pode ter
+# características de germinação distintas e inerentes às colônias.
+# O comportamento da germinação em relação à temperatura dá uma curva
 # côncava com ponto de máximo no interior da região experimental. A
-# germinação como função do período de molhamento sinaliza uma função 
+# germinação como função do período de molhamento sinaliza uma função
 # monótona não decrescente. Na temperatura 35 não houve germinação.
 
 # Análise exploratória.
@@ -266,7 +266,7 @@ direct.label(gg, list("top.pieces",
 #-----------------------------------------------------------------------
 # Gráfico 3D.
 source("https://github.com/walmes/wzRfun/raw/master/R/panel.3d.contour.R")
-colr <- brewer.pal(11, "Spectral")
+colr <- RColorBrewer::brewer.pal(11, "Spectral")
 colr <- colorRampPalette(colr, space = "rgb")
 wireframe(ger ~ pm + temp,
           data = grid,
@@ -294,15 +294,15 @@ wireframe(ger ~ pm + temp,
                          alpha = 1,
                          ...))
     })
-# Observação: a utilização de gráficos 3D para visualização de dados é 
-# muito comum na literatura,porém é questionável em termos de utilidade, 
-# eficiência e expressividade. Não é possível fazer qualquer julgamento 
-# acurado sobre o comportamento da função em nunhuma das direções, 
-# tampouco verificar se o modelo se ajusta aos dados. A observação dos 
-# gráficos gerados nesse experimento demonstra claramente que se deve 
-# dar preferência para os gráficos apresentados anteriormente que são 
-# melhores para julgar adequação do modelo e entender o comparamento da 
-# função na direção da temperatura e período de molhamento. 
+# Observação: a utilização de gráficos 3D para visualização de dados é
+# muito comum na literatura,porém é questionável em termos de utilidade,
+# eficiência e expressividade. Não é possível fazer qualquer julgamento
+# acurado sobre o comportamento da função em nunhuma das direções,
+# tampouco verificar se o modelo se ajusta aos dados. A observação dos
+# gráficos gerados nesse experimento demonstra claramente que se deve
+# dar preferência para os gráficos apresentados anteriormente que são
+# melhores para julgar adequação do modelo e entender o comparamento da
+# função na direção da temperatura e período de molhamento.
 #-----------------------------------------------------------------------
 # Ajuste de modelo não linear.
 
@@ -422,13 +422,13 @@ direct.label(gg, list("top.pieces",
                       hjust = 1,
                       vjust = 1))
 #***********************************************************************
-# Observação: O modelo polinomial é bem mais adequado para o ajuste do 
-# que o beta-monomolecular. Isso porque no primeiro 1) o efeito de 
-# blocos está acomodado, 2) possui termos de interação que são 
-# significativos, 3) polinômios cúbicos são bem mais flexíveis e 
+# Observação: O modelo polinomial é bem mais adequado para o ajuste do
+# que o beta-monomolecular. Isso porque no primeiro 1) o efeito de
+# blocos está acomodado, 2) possui termos de interação que são
+# significativos, 3) polinômios cúbicos são bem mais flexíveis e
 # portanto o ajuste do modelo aos dados. Portanto, o ajuste da beta-
-# generalizada com monomolecular deve ser considerado com cuidado pois 
-# ele é um modelo que apresenta falta de ajuste em relação ao modelo 
+# generalizada com monomolecular deve ser considerado com cuidado pois
+# ele é um modelo que apresenta falta de ajuste em relação ao modelo
 # polinomial.
 
 # Diferença de ajuste dos modelos.
@@ -439,38 +439,38 @@ cor(fitted(n1), tb_con$ger)^2 # Modelo não linear aditivo.
 
 
   Para estimar a abertura do sino em para esse tipo de análise com polinômio, pode-se usar a aproximação por série de Taylor, que  vai determinar a curvatura a partir do ponto que representa a temperatura ótima (x). Para tanto, utiliza-se a derivada segunda da função f(x), da maneira descrita a seguir:
-  
+
   $$
   \frac{\partial f(x)}{\partial x} = \beta_0 + \beta_1x + \beta_2x^2 + \beta_3x^3
   $$
 
-  
+
   $$
   f' = 0+\beta _1x+2\beta _2x +3\beta _3x^2
   $$
-  
-  
+
+
   $$
   \frac{\partial f'(x)}{\partial x} = \beta _1 + 2\beta _2x + 3\beta _3x^2
   $$
-  
-  
+
+
   $$
   f''(x) = 2\beta _2 + 6\beta _3x
   $$
-  
+
   Onde $x$ é o ponto de temperatura ótima para a porcentagem de germinação.
-  
+
   A partir das análises realizadas nesse capítulo pode-se concluir que muitos modelos consolidados na literatura são bastante úteis do ponto de vista epidemiológico; porém com modelos polinomiais conseguimos um melhor ajuste atrelado à possibilidade de também obter variáveis biológicas importantes.
-  
-  
+
+
 ## Estudo do monociclo em frutos de maçã
 
-Frutos maduros de maçã 'Gala' foram desinfestados e inoculados de acordo com metodologia descrita na Figura \@ref(fig:figurainoculacao). 
+Frutos maduros de maçã 'Gala' foram desinfestados e inoculados de acordo com metodologia descrita na Figura \@ref(fig:figurainoculacao).
 
 (ref:figurainoculacao) Metodologia de ensaio de inoculação de suspensão de conídios de *Neonectria ditissima* em frutos destacados de maçã 'Gala' incubados em diferentes temperaturas.
 
-```{r figurainoculacao, echo = FALSE, fig.cap = '(ref:figurainoculacao)'} 
+```{r figurainoculacao, echo = FALSE, fig.cap = '(ref:figurainoculacao)'}
 knitr::include_graphics("./jhulia/figurainoculacao.jpg")
 ```
 
@@ -485,9 +485,9 @@ library(tidyverse)
 ```
 
 
-A Tabela \@ref(tab:maca-diam-lesao-n16-exemplo) descreve como os dados da avaliação do diâmetro da lesão de *N. ditissima* foram tabulados. 
+A Tabela \@ref(tab:maca-diam-lesao-n16-exemplo) descreve como os dados da avaliação do diâmetro da lesão de *N. ditissima* foram tabulados.
 
-(ref:maca-diam-lesao-n16-exemplo) Dados para avaliação do diâmetro da lesão de *Neonectria ditissima* em frutos maduros de maçã 'Gala' incubados em diferentes temperaturas (temp) ao longo de 18 dias de avaliação (d1 a d18), com 5 frutos por tratamento. 
+(ref:maca-diam-lesao-n16-exemplo) Dados para avaliação do diâmetro da lesão de *Neonectria ditissima* em frutos maduros de maçã 'Gala' incubados em diferentes temperaturas (temp) ao longo de 18 dias de avaliação (d1 a d18), com 5 frutos por tratamento.
 
 
 ```{r maca-diam-lesao-n16-exemplo, echo=FALSE}
@@ -524,7 +524,7 @@ dc <- db %>%
 c(nrow(da), nrow(dc))
 # Cria uma cópia de todas as celas com informação do status.
 dd <- da %>%
-  select(1:3) %>%
+  dplyr::select(1:3) %>%
   mutate(status = 1)
 # Realiza a junção. Onde tiver `NA` são os censurados.
 dd <- full_join(dc, dd, by = c("temp", "rep"))
@@ -642,7 +642,7 @@ expr <- function(dai, A, V, dai_inc) {
   0 + (dai > dai_inc) * A * (1 - exp(-log(2) * (dai - dai_inc)/V))
 }
 #-----------------------------------------------------------------------
-#Ajustaremos as equações apenas para as temperaturas nas quais houve 
+#Ajustaremos as equações apenas para as temperaturas nas quais houve
 #aparecimento de lesão, ou seja, 16, 20 e 25°C.
 # Temperatura 16.
 t <- 16
@@ -753,4 +753,3 @@ ggplot(data = grid,
              mapping = aes(x = dai, y = diam))
 #-----------------------------------------------------------------------
 ```
-
