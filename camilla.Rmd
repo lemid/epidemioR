@@ -7,8 +7,8 @@ chapter_authors(c("Camilla Castellar",
 ```
 
 ## Introdução
-Na epidemiologia de doenças de plantas são comuns experimentos em que o tempo até 
-a ocorrência de um evento é a variável de interesse. Por exemplo, o tempo para 
+Na epidemiologia de doenças de plantas são comuns experimentos em que o tempo até
+a ocorrência de um evento é a variável de interesse. Por exemplo, o tempo para
 a ocorrência de sintomas de uma doença e/ou o tempo para aparecimento dos sinais do patógeno, respectivamente, o
 período de incubação e período de latência, são componentes do
 monociclo e estudos são de grande importância para o entendimento das epidemias.
@@ -122,10 +122,10 @@ controladas e homogeneas, constituindo um delineamento inteiramente
 casualisado com 5 tratamentos (tamanho) e 8 repetições (Figura
 \@ref(fig:esquema)).
 
-```{block2, type = "note"}
+::: {.note data-latex=""}
 Camilla, é possível editar essa imagem? Porque o você usou "tamanho05"
 com o 0 na frente da unidade e não usou esse padrão nos demais.
-```
+:::
 
 (ref:esquema) Ilustração do experimento onde frutos de 5 tamanhos são
 inoculados com o patógeno sob o ferimento feito na região equatorial.
@@ -228,10 +228,10 @@ que metade dos indivíduos expostos apresentem o evento. Portanto, o
 período de incubação é a mediana da variável aleatória tempo para a
 ocorrência do evento.
 
-```{block2, type = "note"}
+::: {.note data-latex=""}
 Colocar alguma referência aqui ou dar uma breve explicação do
 estimador não paramétrico da curva de sobrevivência.
-```
+:::
 
 ```{r}
 # Resposta com avaliações sem censura e com censura à direita no final.
@@ -316,20 +316,20 @@ em que $a$ é o parâmetro de forma (shape) e $b$ é o parâmetro de escala
 No entanto a parametrização usada pela `survreg()` é diferente mas
 matematicamente relacionada a esta da seguinte forma
 $$
-\begin{align*}
+\begin{aligned}
   a &= 1/\lambda \quad &\Rightarrow \lambda &= 1/a \\
   b &= \exp\{\mu\} \quad &\Rightarrow \mu &= \log(b).
-\end{align*}
+\end{aligned}
 $$
 
 Dessa maneira, o modelo estatístico para o tempo até aparecimento de
 sintoma ($Y$) pode ser escrito como
 $$
-\begin{align*}
+\begin{aligned}
   y_{ij} &= \text{Weibull}(a = 1/\lambda, b = \exp\{\mu_i\}) \\
   \mu_i &= \mu + \alpha_i \\
   \lambda &\propto 1,
-\end{align*}
+\end{aligned}
 $$
 em que $\mu_i$ acomoda o efeito do nível $i$ de tamanho no parâmetro de
 escala, $\lambda$ está vinculado ao parâmetro de forma. A não rejeição
@@ -349,10 +349,10 @@ efeito de tamanho de frutos e corresponde a especificação feita acima. O
 teste da razão de verossimilhanças para esses modelos testa a hipótese
 nula por meio da estatística diferença de deviances.
 
-```{block2, type = "note"}
+::: {.note data-latex=""}
 Camilla, quando você anotou que o sintoma apareceu no dia 10, quer dizer
 que ele ocorreu do dia 9 para o dia 10, certo?
-```
+:::
 
 ```{r, message = FALSE}
 # dados$day_orig <- dados$day
@@ -371,10 +371,10 @@ c(logLik(m0), logLik(m1))
 anova(m0, m1)
 ```
 
-```{block2, type = "note"}
+::: {.note data-latex=""}
 Para ser exato, os dados em questão apresentam censura intervalar. Por
 isso, a resposta na representação do objeto `s2` é mais apropriada.
-```
+:::
 
 Conforme indicado pelo teste da razão de verossimilhanças, existe
 considerável evidência à favor da rejeição da hipótese nula, ou seja, a
@@ -516,14 +516,15 @@ estimadas sobrepostas. As curvas acompanham o padrão visto nos dados, ou
 seja, as curvas de menor mediana são para os tratamentos em que os
 frutos apresentaram sintomas mais cedo.
 
-```{block2, type = "note"}
+::: {.note  data-latex=""}
 **TODO**
 
  * Comentar que a Weibull pode não ser o melhor modelo?
  * Como acessar a qualidade do ajuste e fazer análise dos resíduos?
  * Existe envelope simulado para essa classe de modelos?
  * Ajustar o modelo ao log do tempo?
-```
+
+:::
 
 Com o intuito de melhor detalhar e efeito do tamanho do fruto, serão
 testados os contrastes com o parâmetro de locação. Considerando todos os
