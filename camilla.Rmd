@@ -172,6 +172,7 @@ obtido e comparado por meio das curvas de Kaplan-Meier.
 library(tidyverse)
 library(emmeans)
 library(multcomp)
+library(multcompView)
 library(survival)
 library(survminer)
 ```

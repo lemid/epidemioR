@@ -672,6 +672,13 @@
       "Repository": "CRAN",
       "Hash": "4fc62c85d9fd7bbede7868ff88f23982"
     },
+    "multcompView": {
+      "Package": "multcompView",
+      "Version": "0.1-8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "3c594aae8118cfda8a1b889c664e7295"
+    },
     "munsell": {
       "Package": "munsell",
       "Version": "0.5.0",
