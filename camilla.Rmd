@@ -1,4 +1,4 @@
-# Análise de sobrevivência
+# Técnica não paramétrica e paramétrica em experimento com um fator
 
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Camilla Castellar",
@@ -6,115 +6,9 @@ chapter_authors(c("Camilla Castellar",
                   "Louise Larissa May De Mio"))
 ```
 
-## Introdução
-Na epidemiologia de doenças de plantas são comuns experimentos em que o tempo até
-a ocorrência de um evento é a variável de interesse. Por exemplo, o tempo para
-a ocorrência de sintomas de uma doença e/ou o tempo para aparecimento dos sinais do patógeno, respectivamente, o
-período de incubação e período de latência, são componentes do
-monociclo e estudos são de grande importância para o entendimento das epidemias.
-
-Uma das principais características de dados epidemiológicos relacionados
-ao tempo é a censura à direita, ou seja, o experimento pode encerrar
-antes de todas as unidades experimentais apresentarem o evento. No
-entanto, a análise estatística baseada na análise de variância não é
-apropriada para análisar dados censurados, pois não consegue acomodar
-esta característica, o que reflete em estimativas de efeitos e médias
-inadequados. Dentro deste contexto, a análise de sobrevivência foi
-desenvolvida com técnicas não paramétricas, semi-paramétricas e
-paramétricas que consideram os tipos de censura. Alguns artigos da
-fitopatologia tem sido publicados utilizando esta análise para estimar o
-período de incubação [@Copes2008], comparar de cultivares utilizando o
-tempo para ocorrência de sintomas, tempo para a queda de folhas
-sintomáticas [@Ojiambo2005], entre outros.
-
-O registro do tempo para ocorrência de um evento pode ser de 4 formas,
-sendo que 3 delas consideram censura (Figura \@ref(fig:censuras)). O
-primeiro caso não há censura pois o instante de ocorrência do evento é
-registrado com exatidão, e.g. o instante em que um email spam é
-recebido. O segundo caso, a censura à direita, assume-se que o evento
-aconteceu em um instante posterior (à direita) àquele em que se fez a
-avaliação, e.g. o fruto não tinha sintomas até o dia 20 no qual
-encerrou-se o experimento mas certamente irá apresentar o sintoma. O
-terceiro caso é a censura à esquerda quando ao fazer a primeira
-observação o evento já aconteceu (à esquerda), e.g. o fruto já
-apresentava sintomas da doença antes do início da contagem do tempo para o evento. O último é
-a censura intervalar em que o evento ocorre entre duas avaliações
-consecutivas (ref:censuras). Tipo de censuras em estudos que consideram o tempo para a
-ocorrência de um eento. Fonte: os autores.
-
-```{r censuras, echo = FALSE, fig.cap = '(ref:censuras)'}
-knitr::include_graphics("./camilla/censuras.png")
-```
-
-Dentre as técnicas não paramétricas, o estimador Kaplan-Meier
-[@Kaplan1958] é o mais utilizado. O método estima a função de
-sobrevivência, ou seja, a probabilidade de um indivíduo não apresentar o
-evento decorrido um tempo $t$. Os gráficos gerados por esta análise são
-representados por degraus de tempo em que ocorre o evento (Figura
-\@ref(fig:curvaskaplan)). Por meio desta técnica, torna-se possível a
-aplicação de testes de significância, como o Log-Rank, para comparar
-tratamentos. O log-Rank testa a hipótese nula de que as curvas de
-sobrevivência são iguais [@Colosimo2006]. Este tipo de técnica é
-limitada em testar o efeito de apenas uma fonte de variação. Em outras
-palavras, o método não permite analisar possíveis interações em
-experimentos fatoriais ou mesmo acomodar termos estruturais do
-delineamento, como o efeito de blocos.
-
-(ref:curvaskaplan) Exemplo de curva de Kaplan-Meier estimando funções de
-sobrevivência para a queda de folhas de mirtilo com mancha foliar de
-Septoria. Fonte: [@Ojiambo2005].
-
-```{r curvaskaplan, echo = FALSE, fig.cap = '(ref:curvaskaplan)'}
-knitr::include_graphics("camilla/curvaskaplan.jpg")
-```
-
-Na abordagem paramétrica, uma distribuição de probabilidades é
-considerada sendo as distribuições Weilbull, Log-normal e exponencial as
-mais utilizadas na análise de sobreviência. Esta abordagem pode ser
-aplicada tanto em estudos com apenas um fator, como também permite, em
-experimentos em esquema fatorial, determinar parâmetros importantes para
-analisar inteirações entre fatores [@Zhang2016].
-
-Dessa forma, este capítulo tem como objetivo ilustrar o uso coordenado
-dos recursos do R para aplicar a análise de sobrevivência em dois
-estudos de caso que envolvem experimentos com frutos destacados (*ex
-vivo*) com podridões de frutos ocasionadas por espécies do gênero
-*Colletotrichum*. No primeiro caso, a técnica não paramétrica e
-paramétrica serão discutidas para um experimento epidemiológico com
-maças com apenas um fator. No segundo caso, a técnica paramétrica
-utilizando a distribuição de Weibull será aplicada para analisar um
-experimento fatorial para o período de incubação da doença em caquis
-inoculados com diferentes espécies do patógeno e tratados com diferentes
-fungicidas.
-
-(ref:frutos) Lesões necróticas e esporulação do patógeno
-*Colletotrichum* spp. em frutos de maça (A) e caqui (B). Fotos: Thiago
-de Aguiar Carraro
-
-```{r frutos, echo = FALSE, fig.cap = '(ref:frutos)'}
-knitr::include_graphics("camilla/frutos.jpg")
-```
-
-## Estudo de caso 1 - Técnica não paramétrica e paramétrica em experimento com um fator
-
-Frutos em diferentes estágios de crescimento podem apresentar diferenças
-na suscetibilidade a doenças [@Jiang2014; @Keske2011]. Conhecer o
-período de maior suscetibilidade pode auxiliar na tomada de decisão para
-aplicações de produtos para o controle da doença. Experimentos para
-avaliar a suscetibilidade podem ser realizados no campo, monitorando a
-incidência de doenças em diferentes fases, ou até mesmo pela inoculação
-em frutos ensacados e a observação do desenvolvimento de sintomas. Para
-melhor segurança nos resultados, reduzindo o número de variáveis que
-possam interferir no experimento, estudos em ambientes controlados podem
-ser realizados. Este estudo de caso foi realizado em frutos destacados e
-mantidos em laboratório. A suscetibilidade foi avaliada considerando o
-período de incubação dos sintomas estimados pela análise de
-sobrevivência.
-
-Para o experimento, coletou-se frutos em campo e fez-se a classificação
-em cinco grupos conforme o tamanho (tam1, tam2, tam3, tam4 e tam5) para
-estudar o efeito do estágio de crescimento, já que frutos maiores são
-mais velhos. Os frutos foram desinfestados e um ferimento foi provocado
+Podridões em frutos levam a redução de produtividade, visto que frutos doentes não são comercializados. Componentes do monociclo da doença podem ser investigados em diferentes estágios de crescimento de frutos para direcionar aplicações de produtos na época de maior suscetibilidade. Desta forma, o objetivo deste estudo de caso foi estimar e comparar o período de incubação de uma podridão em macieira em cinco estágios de crescimento de frutos. 
+O experimento foi realizado em condições controladas, utilizando frutos destacados. Cinco tamanhos de frutos foram coletados do campo (tam1, tam2, tam3, tam4 e tam5). 
+Os frutos foram desinfestados e um ferimento foi provocado
 na região equatorial das maças. Uma gota de suspensão de conídios do
 patógeno foi depositada sobre o ferimento. Após a inoculação, os frutos
 foram aleatoriamente distribuidos em uma sala de incubação com condições
@@ -122,20 +16,16 @@ controladas e homogeneas, constituindo um delineamento inteiramente
 casualisado com 5 tratamentos (tamanho) e 8 repetições (Figura
 \@ref(fig:esquema)).
 
-::: {.note data-latex=""}
-Camilla, é possível editar essa imagem? Porque o você usou "tamanho05"
-com o 0 na frente da unidade e não usou esse padrão nos demais.
-:::
 
 (ref:esquema) Ilustração do experimento onde frutos de 5 tamanhos são
 inoculados com o patógeno sob o ferimento feito na região equatorial.
 
 ```{r esquema, echo=FALSE, fig.cap= '(ref:esquema)'}
-knitr::include_graphics("camilla/esquema.jpg")
+knitr::include_graphics("camilla/tamanhos.jpg")
 ```
 
 Após a inoculação, cada fruto foi avaliado diariamente durante 39
-dias. O dia do aparecimento de sintomas foi anotado e atribuido o status
+dias devido ao apodrecimento dos frutos após este período. O dia do aparecimento de sintomas foi anotado e atribuido o status
 1 aos frutos sintomáticos na tabela de registro. Nos frutos em que não
 apresentaram sintomas, o status registrado foi 0 e atribuido ao dia 39
 (último dia de avaliação), constituindo a censura à direita. Desta
@@ -144,7 +34,7 @@ de desfecho de cada fruto (\@ref(tab:conjuntodedados) sintomático ou a
 última data de avaliação dos frutos sem sintomas. No caso de tabelas que
 contenham o histórico diário dos frutos é necessário filtrar os dados
 para manter apenas a data em que mudou da condição sem sintoma para com
-sintoma. Para isso, consultar a próxima seção.
+sintoma. Para isso, consultar a próxima seção..
 
 (ref:conjuntodedados) Conjunto de dados para análise de sobrevivência
 exibindo os 10 primeiros registros. A variável `day` é o dia de
@@ -231,7 +121,7 @@ ocorrência do evento.
 
 ::: {.note data-latex=""}
 Colocar alguma referência aqui ou dar uma breve explicação do
-estimador não paramétrico da curva de sobrevivência.
+estimador não paramétrico da curva de sobrevivência.- eu coloquei a referencia na introdução. Aqui também é necessario dai?
 :::
 
 ```{r}
@@ -290,7 +180,7 @@ unidades experimentais.
 
 Os passos para a abordagem paramétrica são relacionados a seguir. Neste
 caso, o período de incubação foi obtido e comparado entre os tratamentos
-por meio da estimativa do parâmetro de locação.
+por meio da estimativa do parâmetro de locação. A dsitribuição utilizada foi a de Weibull apenas com o intuito de ilustrar os passos para a técnica. Porém, esta pode não ser a distribuição mais adequada para estes dados.
 
 ```{r, eval = FALSE}
 # Documentação disponível no R sobre os modelos paramétricos.
@@ -352,7 +242,7 @@ nula por meio da estatística diferença de deviances.
 
 ::: {.note data-latex=""}
 Camilla, quando você anotou que o sintoma apareceu no dia 10, quer dizer
-que ele ocorreu do dia 9 para o dia 10, certo?
+que ele ocorreu do dia 9 para o dia 10, certo? Sim
 :::
 
 ```{r, message = FALSE}
@@ -520,7 +410,7 @@ frutos apresentaram sintomas mais cedo.
 ::: {.note  data-latex=""}
 **TODO**
 
- * Comentar que a Weibull pode não ser o melhor modelo?
+ * Comentar que a Weibull pode não ser o melhor modelo? - Inclui  dizendo que o intuito foi demonstrar os passos da abordagem paramétrica e não comparar os modelos. Mas que outras distribuições poderiam ser mais apropriados para estes dados (informação antes de iniciar a demonstração da não paramétrica)
  * Como acessar a qualidade do ajuste e fazer análise dos resíduos?
  * Existe envelope simulado para essa classe de modelos?
  * Ajustar o modelo ao log do tempo?
