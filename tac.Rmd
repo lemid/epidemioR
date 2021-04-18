@@ -1,25 +1,30 @@
-# Estudo de caso 2 - técnica paramétrica para experimento fatorial 
+# Análise de sobrevivência utilizando modelo de regressão paramétrico (Caso 2)
 
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Thiago de Aguiar Carraro", "Paulo dos Santos Faria Lichtemberg", "Camilla Castellar", "Walmes Marques Zeviani", "Louise Larissa May De Mio"))
 ```
 
-O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém alguns fungicidas de sítios específicos apresentam riscos de médio a alto, como os IDMs (Inibidores da DesMetilação) e IQes (Inibidores da Quinona externa), respectivamente, para selecionar isolados do patógeno com menor sensibilidade. Esta seleção pode levar a uma perda da eficiência de controle destes de produtos comerciais com esses ingredientes ativos em campo. Para adotar estratégias de controle eficientes, garantindo o manejo adequado ao longo das safras, é necessário que seja realizado o monitoramento da sensibilidade do fungo aos fungicidas [@lichtemberg2016].
+## Introdução
 
-Para estabelecimento de um programa de monitoramento da sensibilidade ao longo do tempo é importante determinar a sensibilidade inicial de um população de patógenos, que é chamada de linha-base (do inglês baseline). A baseline é definida em patógenos que não foram expostos a um fungicida que venha ser registrado ou indicado para controle de uma doença. Além disso, é muito interessante comparar o comportamento de diferentes isolados em diferentes anos para verificar mudanças graduais na sensibilidade do patógeno ao fungicida, como já observado em isolados de *Monilinia fructicola*, agente causal da podridão parda do pessegueiro [@russell; @maydemio2011].
+A análise de sobrevivência infere sobre a probabilidade de um evento ocorrer no tempo. Neste capítulo será abordado experimentos com mais de um fator, por exemplo os fatoriais, cujo o objetivo é analisar a correlação desses fatores ao longo do tempo, e como analisado em estudos epidemiológicos onde a estimativa do período de incubação de uma doença - exemplo típico para análise de sobrevivência do caso de fator único -, assume-se o modelo de regressão paramétrico para análise desses dados.
 
-Para realização deste monitoramento, ensaios in vitro podem ser realizados, como: i) DD (dose discriminatória), ii) CE~50~ (concentração efetiva que inibe 50% do crescimento ou germinação do patógeno) e iii) CMI (concentração mínima inibitória). 
+Estes modelos podem estimar a distribuição do tempo de vida de um patógeno e, ao mesmo tempo determinar parâmetros importantes para análise de interações de fatores [@Zhang2016]. O modelo de regressão de Weibull é um dos ajustes aplicados, o qual utiliza linha base de funções de Hazard para ajuste de coeficientes covariáveis. Além do Weibull, outros modelos de ajustes paramétricos podem ser utilizados dependendo dos dados e/ou experimentos, como as regressões exponenciais, gamma e log-logístico [@Zhang2016]. Portanto, este modelo que será usado para análise dos dados de uma situação real (experimento *ex vivo* com fungicidas) que será apresentado como caso 2 de análise de sobrevivência.
 
-Baseado nos ensaios *in vitro*, isolados são classificados fenotipicamente (baixo, médio ou alto valores de EC~50~) em relação a sensibilidade aos fungicidas, e alguns isolados representativos são selecionados para realização de ensaios ensaios *ex vivo*. Estes testes podem ser realizados com plantas (ensaios *in vivo*) ou partes vegetais destacadas (ensaios *ex vivo*), que serão submetidos a um tratamento com a concentração recomendada para o produtor [@Schnabel2015] . 
+Resumidamente, o capítulo apresentará os pasasos para análise de sobrevivência utilizando o software R com a abordagem da técnica paramétrica, assumindo a distribuição de Weibull para comparar o diferentes produtos testados para o controle da doença em caquis por meio de ferramentas epidemiológicas.
 
-Estes experimentos são recomendados para verificar uma possível resistência prática de um fungicida no controle de um patógeno/doença. Resistencia prática portanto, está relacionada a uma possível falha do controle da doença em campo [@ghinirekimatih2000]  É esperado que isolados com alto (ou até médio) valor de EC~50~ sejam capazes de desenvolver doença em frutos tratados com fungicidas, assim como nos frutos controle (testemunha).
+### Descrição do estudo de caso 2
 
-Além destas técnicas mais usuais nos trabalhos de monitoramento, a observação do período de incubação (PI) em um ensaio de eficiência de fungicidas pode ser uma medida epidemiológica importante para se analisar o efeito de controle do produto ao longo de um tempo, podendo considerar este tempo o intervalo de uma aplicação à outra, ou seja, o PI vai fornecer informações do tempo efetivo de controle de um fungicida a um patógeno, e isso é importante considerando isolados de regiões ou safras diferentes. 
-Desta forma, espera-se que fungicidas eficientes sustente um PI do patógeno longo ou ainda que não se consiga estimar no tempo do experimento. Por outro lado, fungicidas ineficientes apresentariam um PI rápido. 
+Para ambientar o leitor em relação as variáveis analisadas neste exemplo, seguem algumas informações sobre o tema em estudo. O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém alguns fungicidas de sítios específicos apresentam riscos de médio a alto, como os IDMs (Inibidores da DesMetilação) e IQes (Inibidores da Quinona externa), respectivamente, para selecionar isolados do patógeno com menor sensibilidade. Esta seleção pode levar a uma perda da eficiência de controle destes de produtos comerciais com esses ingredientes ativos em campo. Para adotar estratégias de controle eficientes, garantindo o manejo adequado ao longo das safras, é necessário que seja realizado o monitoramento da sensibilidade do fungo aos fungicidas [@lichtemberg2016].
 
-Portanto, estes ensaios de monitoramento são fundamentais para detecção dos níveis de sensibilidade de patógenos antes que a falha de controle ocorra no campo. E uma vez detectada a mudança de sensibilidade em populações de patógenos, novas recomendações e estratégias para o uso de fungicidas devem ser adotadas.
+Para estudos de monitoramento da sensibilidade de fungo a fungicidas, são utilizados ensaios *in vitro*, como: i) dose discriminatória (como análise prática rápida e seleção de sub-populações para demais ensaios), ii) CE~50~ (concentração efetiva que inibe 50% do crescimento ou germinação do esporo do patógeno) e iii) CMI (concentração mínima inibitória). Com esses dados, será possível comparar o nível de sensibilidade dos isolados ao longo do tempo (anos/safras) e verificar se está ocorrendo ou não mudanças da sensbilidade do patógeno aos fungicidas [@russell], para melhor adoção das estratégias de controle das doenças.
 
-Neste estudo de caso 2, o objetivo proposto para análise de sobrevivência foi avaliar diferentes tratamentos (fungicidas) para o controle de duas espécies de *Colletotrichum*, agente causal da antracnose caquizeiro. O experimento foi conduzido em esquema fatorial duplo, com condições ambientais favoráveis ao patógeno 25^o^C 2 , seis tratamentos foram testados, sendo cinco fungicidas (A, B, C, D, E) e uma testemunha (test) com água, duas espécies patogênicas (X e Y) foram analisadas, cada espécie/tratamento contou com 25 repetições, e o experimento foi realizado duas vezes. Os frutos foram tratados com os produtos previamente, e após 24 horas foram inoculados com as espécies fúngicas. Em relação as avaliações, durante um total de 10 dias, diariamente foram analisadas se existia a presença ou não de lesão (sintomas) nos frutos, caso observado a repetição/tratamento/espécie era anotado a status um (1), caso contrário era marcado como status zero (0). Sendo assim, o período de incubação (PI) foi estimado quando metade ou mais das repetições/tratamentos (13 frutos) apresentaram o sintoma da doença (Figura \@ref(fig:prancha-1)). 
+Baseado nos ensaios *in vitro*, isolados são classificados fenotipicamente em relação a sensibilidade aos fungicidas, e alguns isolados representativos são selecionados para realização de ensaios ensaios *ex vivo*. Estes testes são recomendados para validar uma possível resistência prática de fungicidas no controle de uma doença. Resistência prática, portanto, está relacionada a uma possível falha do controle da doença em condições de campo [@ghinirekimatih2000]. Estes ensaios podem ser realizados com plantas (*in vivo*) ou partes vegetais destacadas (*ex vivo*), que serão submetidos a um tratamento com a concentração recomendada na bula do produto para aplicação na área de produção [@Schnabel2015] . 
+
+Além destas técnicas mais usuais nos trabalhos de monitoramento, a observação do período de incubação (PI) em um ensaio de eficiência de fungicidas pode ser uma medida epidemiológica importante para se analisar o efeito de controle do produto ao longo de um tempo, podendo considerar este tempo o intervalo de uma aplicação à outra, ou seja, o PI vai fornecer informações do tempo efetivo de controle de um fungicida a um patógeno, e isso é importante considerando isolados de regiões ou safras diferentes. Uma vez detectada a mudança de sensibilidade em populações de patógenos, novas recomendações e estratégias para o uso de fungicidas devem ser adotadas.
+
+Neste caso 2 de uso de análise de sobrevivência, o objetivo proposto foi avaliar diferentes tratamentos (fungicidas) para o controle de duas espécies de *Colletotrichum*, agentes causais da antracnose do caquizeiro no Brasil. O experimento foi conduzido em esquema fatorial duplo, com condições ambientais favoráveis ao patógeno 25^o^C 2 , seis tratamentos foram testados, sendo cinco fungicidas (A, B, C, D, E) e uma testemunha (test) com água, duas espécies patogênicas (X e Y) foram analisadas, cada espécie/tratamento contou com 25 repetições, e o experimento foi realizado duas vezes. 
+
+Resumidamente, os frutos foram tratados com os produtos previamente, e após 24 horas foram inoculados com as espécies fúngicas. Em relação as avaliações, durante um total de 10 dias, diariamente foram analisadas se existia a presença ou não de lesão (sintomas) nos frutos, caso observado a repetição/tratamento/espécie era anotado a status um (1), caso contrário era marcado como status zero (0). Sendo assim, o período de incubação (PI) foi estimado quando metade ou mais das repetições/tratamentos (13 frutos) apresentaram o sintoma da doença (Figura \@ref(fig:prancha-1)). 
 
 (ref:prancha-1) Esquema ilustrativo do ensaio de eficiência de fungicidas: os frutos foram previamente desinfestados com álcool (70%), hipoclorito (0,5%) e água destilada autoclavada, em seguida, os frutos foram tratados com fungicidas, e após 24 horas foram inoculados (com suspensão de 1x10^4^ conídios.mL^-1^). Na figura, as letras de A a E  estão representando os tratamentos fungicidas (com 25 repetições) e a testemunha pela sigla 'test', enquanto as letras X e Y são os patógenos. 
 
@@ -27,8 +32,7 @@ Neste estudo de caso 2, o objetivo proposto para análise de sobrevivência foi 
 knitr::include_graphics("./tac/prancha_1.jpg") 
 ``` 
 
-Por se tratar de um experimento fatorial, a análise estatística para estimar o PI dos frutos destacados de caqui tratados com fungicidas em relação com as duas espécies patogências testadas, serão estimados por modelos de regressão paramétricos de estudos de sobrevivência (Weibull), utilizando o auxílio do software Rstudio [@R].
-
+Abaixo será mostrado o script para análise desse exemplo proposto:
 
 ```{r, message=FALSE}
 # Pacotes.
@@ -182,7 +186,7 @@ c("sample_mean" = mean(y),
 
 # Ajustar a Weibull acomodando a estrutura experimental.
 
-# COMENTÁRIO: a análise de sobrevivência é a abrodagem mais adequada para
+# COMENTÁRIO: a análise de sobrevivência é a abordagem mais adequada para
 # análise destes dados, visto que de fato a variável resposta é o tempo
 # para o desfecho e tem-se censura.
 
@@ -345,3 +349,7 @@ ggplot(data = tb_contr,
 
 ```
 
+# Conclusão
+
+Ao Final da Análise deve incluir um texto pequeno contendo o qu se pode concluir com uma análise destas e qual a vantagem em relação a uma outra técnica convencional estatistica de comparação de médias estimando PI, por ex. dar ênfase que OS dados de incidência, contagem a porcentagem de frutos doenças por exemplo perderia informações relevantes. 
+Não sei se aqui estima-se também o reisco para ocorrência do evento, se sim descrever os resultados tb como uma forma de comparação com um padrão, no caso seria um isolados fixado como sensível em relação ao fenótipo de resistência.
