@@ -1,22 +1,20 @@
 # Análise de sobrevivência utilizando modelo de regressão paramétrico (Caso 2)
 
 ```{r, echo = FALSE, results = "asis"}
-chapter_authors(c("Thiago de Aguiar Carraro", "Paulo dos Santos Faria Lichtemberg", "Camilla Castellar", "Walmes Marques Zeviani", "Louise Larissa May De Mio"))
+chapter_authors(c("Thiago de Aguiar Carraro", "Paulo dos Santos Faria Lichtemberg", "Walmes Marques Zeviani", "Louise Larissa May De Mio"))
 ```
 
 ## Introdução
 
 A análise de sobrevivência infere sobre a probabilidade de um evento ocorrer no tempo. Neste capítulo será abordado experimentos com mais de um fator, por exemplo os fatoriais, cujo o objetivo é analisar a correlação desses fatores ao longo do tempo, e como analisado em estudos epidemiológicos onde a estimativa do período de incubação de uma doença - exemplo típico para análise de sobrevivência do caso de fator único -, assume-se o modelo de regressão paramétrico para análise desses dados.
 
-Estes modelos podem estimar a distribuição do tempo de vida de um patógeno e, ao mesmo tempo determinar parâmetros importantes para análise de interações de fatores [@Zhang2016]. O modelo de regressão de Weibull é um dos ajustes aplicados, o qual utiliza linha base de funções de Hazard para ajuste de coeficientes covariáveis. Além do Weibull, outros modelos de ajustes paramétricos podem ser utilizados dependendo dos dados e/ou experimentos, como as regressões exponenciais, gamma e log-logístico [@Zhang2016]. Portanto, este modelo que será usado para análise dos dados de uma situação real (experimento *ex vivo* com fungicidas) que será apresentado como caso 2 de análise de sobrevivência.
+Estes modelos podem estimar a distribuição do tempo de vida de um patógeno e, ao mesmo tempo determinar parâmetros importantes para análise de interações de fatores [@Zhang2016]. O modelo de regressão de Weibull é um dos ajustes aplicados, o qual utiliza linha base de funções de Hazard para ajuste de coeficientes covariáveis. Além do Weibull, outros modelos de ajustes paramétricos podem ser utilizados dependendo dos dados e/ou experimentos, como as regressões exponenciais, gamma e log-logístico [@Zhang2016]. Portanto, este modelo que será usado para análise dos dados de uma situação real (experimento *ex vivo* com fungicidas) que será apresentado na sequência como caso 2 de análise de sobrevivência.
 
-Resumidamente, o capítulo apresentará os pasasos para análise de sobrevivência utilizando o software R com a abordagem da técnica paramétrica, assumindo a distribuição de Weibull para comparar o diferentes produtos testados para o controle da doença em caquis por meio de ferramentas epidemiológicas.
+### Descrição do ensaio
 
-### Descrição do estudo de caso 2
+Para ambientar o leitor em relação as variáveis analisadas neste exemplo, seguem algumas informações sobre o tema em estudo. O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém alguns fungicidas de sítios específicos apresentam riscos de médio a alto, como os IDMs (Inibidores da DesMetilação) e IQes (Inibidores da Quinona externa), respectivamente, para selecionar isolados do patógeno com menor sensibilidade. Esta seleção pode levar a uma perda da eficiência de controle destes de produtos comerciais com esses ingredientes ativos em campo. Para adotar estratégias de controle eficientes, garantindo o manejo adequado ao longo das safras, é necessário que seja realizado o monitoramento da sensibilidade do fungo a fungicidas [@lichtemberg2016].
 
-Para ambientar o leitor em relação as variáveis analisadas neste exemplo, seguem algumas informações sobre o tema em estudo. O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém alguns fungicidas de sítios específicos apresentam riscos de médio a alto, como os IDMs (Inibidores da DesMetilação) e IQes (Inibidores da Quinona externa), respectivamente, para selecionar isolados do patógeno com menor sensibilidade. Esta seleção pode levar a uma perda da eficiência de controle destes de produtos comerciais com esses ingredientes ativos em campo. Para adotar estratégias de controle eficientes, garantindo o manejo adequado ao longo das safras, é necessário que seja realizado o monitoramento da sensibilidade do fungo aos fungicidas [@lichtemberg2016].
-
-Para estudos de monitoramento da sensibilidade de fungo a fungicidas, são utilizados ensaios *in vitro*, como: i) dose discriminatória (como análise prática rápida e seleção de sub-populações para demais ensaios), ii) CE~50~ (concentração efetiva que inibe 50% do crescimento ou germinação do esporo do patógeno) e iii) CMI (concentração mínima inibitória). Com esses dados, será possível comparar o nível de sensibilidade dos isolados ao longo do tempo (anos/safras) e verificar se está ocorrendo ou não mudanças da sensbilidade do patógeno aos fungicidas [@russell], para melhor adoção das estratégias de controle das doenças.
+Para estudos de monitoramento da sensibilidade de fungo a fungicidas, são utilizados ensaios *in vitro*, como: i) dose discriminatória (única dose de fungicida capaz de separar os isolados em fenótipos sensiveís ou resistentes), ii) CE~50~ (concentração efetiva que inibe 50% do crescimento ou germinação do esporo do patógeno) e iii) CMI (concentração mínima inibitória). Com esses dados, será possível comparar o nível de sensibilidade dos isolados ao longo do tempo (anos/safras) e verificar se está ocorrendo ou não mudanças da sensbilidade do patógeno aos fungicidas [@russell], para melhor adoção das estratégias de controle das doenças.
 
 Baseado nos ensaios *in vitro*, isolados são classificados fenotipicamente em relação a sensibilidade aos fungicidas, e alguns isolados representativos são selecionados para realização de ensaios ensaios *ex vivo*. Estes testes são recomendados para validar uma possível resistência prática de fungicidas no controle de uma doença. Resistência prática, portanto, está relacionada a uma possível falha do controle da doença em condições de campo [@ghinirekimatih2000]. Estes ensaios podem ser realizados com plantas (*in vivo*) ou partes vegetais destacadas (*ex vivo*), que serão submetidos a um tratamento com a concentração recomendada na bula do produto para aplicação na área de produção [@Schnabel2015] . 
 
@@ -32,7 +30,8 @@ Resumidamente, os frutos foram tratados com os produtos previamente, e após 24 
 knitr::include_graphics("./tac/prancha_1.jpg") 
 ``` 
 
-Abaixo será mostrado o script para análise desse exemplo proposto:
+A seguir, o capítulo apresentará os passos para análise de sobrevivência utilizando o software R com a abordagem da técnica paramétrica, assumindo a distribuição de Weibull para comparar o diferentes produtos testados para o controle da doença em caquis por meio de ferramentas epidemiológicas.
+
 
 ```{r, message=FALSE}
 # Pacotes.
@@ -46,8 +45,11 @@ library(emmeans)
 # Será usada a `ordered_cld()`.
 url <- "https://raw.githubusercontent.com/walmes/wzRfun/master/R/pairwise.R"
 source(url)
+```
 
+Os dados estão armazenados em um arquivo .txt contendo 5 colunas. Após a leitura, categorizou os dados estabelecendo os dias em que o evento ocorreu. Lembrando, sendo o evento determinado pelo tempo onde 50% ou mais das repetições apresentaram sintomas da doença para cada tratamento e a testemunha (sem fungicida). Em seguida, um gráfico exploratório foi realizado para exibir esse tempo (dias) e o tipo de desfecho de cada fruto para cada tratamento.A análise exploratória sugere que tratamentos ineficientes no controle da doença apresentaram tempo de incubação igual ou inferior a testemunha. Além disso, avalia a resposta de duas diferentes espécies agentes causais em causar doença quando inoculadas em cada fruto tratado. 
 
+```{r, message=FALSE}
 # -------------------------------------------------------------------------
 
 # Importação dos dados e preparação.
@@ -105,12 +107,6 @@ xtabs(~fung + spp, data = da_final)
 
 xtabs(status ~ fung + spp, data = da_final)
 
-# Verifica.
-da_final %>%
-  filter(spp == "Ch", fung == "mythos") %>%
-  print(n = Inf)
-
-
 # -------------------------------------------------------------------------
 
 # Análise exploratória.
@@ -138,20 +134,11 @@ ggplot(data = da_final,
        x = "Dias após inoculação",
        y = "Ordem do fruto") +
   scale_x_continuous(breaks = seq(0, max(da_final$day), by = 2))
+```
 
+Será feita análise de sobrevivência com esses dados, pois é motivada pelo tipo de resposta de natureza "tempo até desfecho". Para acomodar a estrutura de planejamento fatorial completo 2 x 6, será usada uma abordagem paramétrica. Por apresentar boa flexibilidade, será usada a distribuição Weibull para o tempo até o desfecho. Com isso consegue-se acomodar a censura e a estrutura experimental.
 
-# ATENÇÃO -----------------------------------------------------------------
-
-# Será feita análise de sobreviência com esses dados pois é motivada
-# pelo tipo de resposta de natureza "tempo até desfecho". Para acomodar
-# a estrutura de planejamento fatorial completo 2 x 6, será usada uma
-# abordagem paramétrica. Por apresentar boa flexibilidade, será usada a
-# distribuição Weibull para o tempo até o desfecho. Com isso consegue-se
-# acomodar a censura e a estrutura experimental.
-
-
-# -------------------------------------------------------------------------
-
+```{r, message=FALSE}
 # Antes de ir para o ajuste da Weibull, vamos reconhecer a
 # parametrização.
 
@@ -181,17 +168,12 @@ b <- unname(exp(coef(m))[1])
 c("sample_mean" = mean(y),
   "estimated_mean" = b * gamma(1 + 1/a))
 
+```
 
-# -------------------------------------------------------------------------
+Nota-se que a análise de sobrevivência é a abordagem mais adequada para análise destes dados, visto que de fato a variável resposta é o tempo para o desfecho e tem-se censura. A modelagem para a variável aleotória é o 'tempo para o aparecimento de sintomas (desfecho)'
 
+```{r, message=FALSE}
 # Ajustar a Weibull acomodando a estrutura experimental.
-
-# COMENTÁRIO: a análise de sobrevivência é a abordagem mais adequada para
-# análise destes dados, visto que de fato a variável resposta é o tempo
-# para o desfecho e tem-se censura.
-
-# A modelagem é para a variável aleatória `tempo para aparecimento de
-# sintoma` (desfecho).
 
 s <- with(da_final,
           Surv(time = day,
@@ -219,25 +201,16 @@ m3 <- survreg(formula = s ~ spp * fung,
 
 # Teste da razão de verossimilhanças entre modelos encaixados.
 anova(m0, m1, m2, m3)
+```
 
+O modelo com interação é o mais apropriado para descrever o tempo para o aparecimento de sintomas. Portanto, existe interação entre espécies e produtos ao nível de 5% pelo teste de deviance entre modelos encaixados
 
-# O modelo com interação é o mais apropriado para descrever o tempo para
-# o aparecimento de sintomas. Portanto, existe interação entre espécies
-# e produtos ao nível de 5% pelo teste da deviance entre modelos
-# encaixados.
-
+```{r, message=FALSE}
 # Modelo final.
 mx <- m3
 
-
 # -------------------------------------------------------------------------
 # Extração dos tempos médios e confecção das curvas de sobrevivência.
-
-# Médias amostrais (que ignoram estrutura e censura).
-# da_final %>%
-#     group_by(spp, fung) %>%
-#     summarise(m_day = mean(day))
-
 # Médias ajustadas (é na interpretação do parâmetro da Weibull).
 emm <- emmeans(mx,
                specs = ~spp + fung)
@@ -296,9 +269,11 @@ ggplot(data = da_final,
 
 
 # -------------------------------------------------------------------------
+```
 
-# Fazendo o estudo da interação com desdobramento com testes para o
-# parâmetro de locação.
+Para finalizar a análise será realizado o estudo de interação dos produtos em cada espécie inoculada por meio do desdobramento com testes para o parâmetro de locação. Com esses valores podem fazer inferências sobre o tratamento mais ou menos eficientes no controle da antracnose do caquizeiro. Observa-se que existe uma diferença no controle da doença entre as espécies.
+
+```{r, message=FALSE}
 
 # Estudar produtos em cada espécie.
 emm_fung_in <- emmeans(mx, specs = ~fung | spp)
@@ -351,5 +326,9 @@ ggplot(data = tb_contr,
 
 # Conclusão
 
-Ao Final da Análise deve incluir um texto pequeno contendo o qu se pode concluir com uma análise destas e qual a vantagem em relação a uma outra técnica convencional estatistica de comparação de médias estimando PI, por ex. dar ênfase que OS dados de incidência, contagem a porcentagem de frutos doenças por exemplo perderia informações relevantes. 
-Não sei se aqui estima-se também o reisco para ocorrência do evento, se sim descrever os resultados tb como uma forma de comparação com um padrão, no caso seria um isolados fixado como sensível em relação ao fenótipo de resistência.
+- Esse tipo de análise auxilia tanto na avaliação da eficiência dos fungicidas quanto na determinação do período de incubação (dias) em cada tratamento, sendo estas variáveis muito importante para serem levadas em consideração no momento de adoções de estratégias de controle da doença.
+
+- XXXXXXXXXX
+
+Ao Final da Análise deve incluir um texto pequeno contendo o que se pode concluir com uma análise destas e qual a vantagem em relação a uma outra técnica convencional estatistica de comparação de médias estimando PI, por ex. dar ênfase que OS dados de incidência, contagem a porcentagem de frutos doenças por exemplo perderia informações relevantes. 
+Não sei se aqui estima-se também o risco para ocorrência do evento, se sim descrever os resultados tb como uma forma de comparação com um padrão, no caso seria um isolados fixado como sensível em relação ao fenótipo de resistência.
