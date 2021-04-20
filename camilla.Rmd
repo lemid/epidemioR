@@ -6,16 +6,22 @@ chapter_authors(c("Camilla Castellar",
                   "Louise Larissa May De Mio"))
 ```
 
-Podridões em frutos levam a redução de produtividade, visto que frutos doentes não são comercializados. Componentes do monociclo da doença podem ser investigados em diferentes estágios de crescimento de frutos para direcionar aplicações de produtos na época de maior suscetibilidade. Desta forma, o objetivo deste estudo de caso foi estimar e comparar o período de incubação de uma podridão em macieira em cinco estágios de crescimento de frutos. 
-O experimento foi realizado em condições controladas, utilizando frutos destacados. Cinco tamanhos de frutos foram coletados do campo (tam1, tam2, tam3, tam4 e tam5). 
-Os frutos foram desinfestados e um ferimento foi provocado
-na região equatorial das maças. Uma gota de suspensão de conídios do
-patógeno foi depositada sobre o ferimento. Após a inoculação, os frutos
-foram aleatoriamente distribuidos em uma sala de incubação com condições
+Podridões em frutos levam a redução de produtividade, visto que frutos
+doentes não são comercializados. Componentes do monociclo da doença
+podem ser investigados em diferentes estágios de crescimento de frutos
+para direcionar aplicações de produtos na época de maior
+suscetibilidade. Desta forma, o objetivo deste estudo de caso foi
+estimar e comparar o período de incubação de uma podridão em macieira em
+cinco estágios de crescimento de frutos. O experimento foi realizado em
+condições controladas, utilizando frutos destacados. Cinco tamanhos de
+frutos foram coletados do campo (tam1, tam2, tam3, tam4 e tam5). Os
+frutos foram desinfestados e um ferimento foi provocado na região
+equatorial das maças. Uma gota de suspensão de conídios do patógeno foi
+depositada sobre o ferimento. Após a inoculação, os frutos foram
+aleatoriamente distribuidos em uma sala de incubação com condições
 controladas e homogeneas, constituindo um delineamento inteiramente
 casualisado com 5 tratamentos (tamanho) e 8 repetições (Figura
 \@ref(fig:esquema)).
-
 
 (ref:esquema) Ilustração do experimento onde frutos de 5 tamanhos são
 inoculados com o patógeno sob o ferimento feito na região equatorial.
@@ -24,17 +30,18 @@ inoculados com o patógeno sob o ferimento feito na região equatorial.
 knitr::include_graphics("camilla/tamanhos.jpg")
 ```
 
-Após a inoculação, cada fruto foi avaliado diariamente durante 39
-dias devido ao apodrecimento dos frutos após este período. O dia do aparecimento de sintomas foi anotado e atribuido o status
-1 aos frutos sintomáticos na tabela de registro. Nos frutos em que não
-apresentaram sintomas, o status registrado foi 0 e atribuido ao dia 39
-(último dia de avaliação), constituindo a censura à direita. Desta
-forma, a tabela com o conjunto de dados deste estudo só conteve a data
-de desfecho de cada fruto (\@ref(tab:conjuntodedados) sintomático ou a
-última data de avaliação dos frutos sem sintomas. No caso de tabelas que
-contenham o histórico diário dos frutos é necessário filtrar os dados
-para manter apenas a data em que mudou da condição sem sintoma para com
-sintoma. Para isso, consultar a próxima seção..
+Após a inoculação, cada fruto foi avaliado diariamente durante 39 dias
+devido ao apodrecimento dos frutos após este período. O dia do
+aparecimento de sintomas foi anotado e atribuido o status 1 aos frutos
+sintomáticos na tabela de registro. Nos frutos em que não apresentaram
+sintomas, o status registrado foi 0 e atribuido ao dia 39 (último dia de
+avaliação), constituindo a censura à direita. Desta forma, a tabela com
+o conjunto de dados deste estudo só conteve a data de desfecho de cada
+fruto (\@ref(tab:conjuntodedados) sintomático ou a última data de
+avaliação dos frutos sem sintomas. No caso de tabelas que contenham o
+histórico diário dos frutos é necessário filtrar os dados para manter
+apenas a data em que mudou da condição sem sintoma para com sintoma.
+Para isso, consultar a próxima seção..
 
 (ref:conjuntodedados) Conjunto de dados para análise de sobrevivência
 exibindo os 10 primeiros registros. A variável `day` é o dia de
@@ -118,11 +125,6 @@ definição do período de incubação, neste caso, é o tempo necessário para
 que metade dos indivíduos expostos apresentem o evento. Portanto, o
 período de incubação é a mediana da variável aleatória tempo para a
 ocorrência do evento.
-
-::: {.note data-latex=""}
-Colocar alguma referência aqui ou dar uma breve explicação do
-estimador não paramétrico da curva de sobrevivência.- eu coloquei a referencia na introdução. Aqui também é necessario dai?
-:::
 
 ```{r}
 # Resposta com avaliações sem censura e com censura à direita no final.
@@ -240,11 +242,6 @@ efeito de tamanho de frutos e corresponde a especificação feita acima. O
 teste da razão de verossimilhanças para esses modelos testa a hipótese
 nula por meio da estatística diferença de deviances.
 
-::: {.note data-latex=""}
-Camilla, quando você anotou que o sintoma apareceu no dia 10, quer dizer
-que ele ocorreu do dia 9 para o dia 10, certo? Sim
-:::
-
 ```{r, message = FALSE}
 # dados$day_orig <- dados$day
 # dados$day <- log(dados$day_orig)
@@ -261,11 +258,6 @@ c(logLik(m0), logLik(m1))
 # Teste da razão de verossimilhanças entre modelos encaixados.
 anova(m0, m1)
 ```
-
-::: {.note data-latex=""}
-Para ser exato, os dados em questão apresentam censura intervalar. Por
-isso, a resposta na representação do objeto `s2` é mais apropriada.
-:::
 
 Conforme indicado pelo teste da razão de verossimilhanças, existe
 considerável evidência à favor da rejeição da hipótese nula, ou seja, a
@@ -410,11 +402,14 @@ frutos apresentaram sintomas mais cedo.
 ::: {.note  data-latex=""}
 **TODO**
 
- * Comentar que a Weibull pode não ser o melhor modelo? - Inclui  dizendo que o intuito foi demonstrar os passos da abordagem paramétrica e não comparar os modelos. Mas que outras distribuições poderiam ser mais apropriados para estes dados (informação antes de iniciar a demonstração da não paramétrica)
+ * Comentar que a Weibull pode não ser o melhor modelo? - Inclui dizendo
+   que o intuito foi demonstrar os passos da abordagem paramétrica e não
+   comparar os modelos. Mas que outras distribuições poderiam ser mais
+   apropriados para estes dados (informação antes de iniciar a
+   demonstração da não paramétrica)
  * Como acessar a qualidade do ajuste e fazer análise dos resíduos?
  * Existe envelope simulado para essa classe de modelos?
  * Ajustar o modelo ao log do tempo?
-
 :::
 
 Com o intuito de melhor detalhar e efeito do tamanho do fruto, serão
