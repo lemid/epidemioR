@@ -1,37 +1,121 @@
 # Análise de sobrevivência utilizando modelo de regressão paramétrico (Caso 2)
 
 ```{r, echo = FALSE, results = "asis"}
-chapter_authors(c("Thiago de Aguiar Carraro", "Paulo dos Santos Faria Lichtemberg", "Walmes Marques Zeviani", "Louise Larissa May De Mio"))
+chapter_authors(c("Thiago de Aguiar Carraro",
+                  "Paulo dos Santos Faria Lichtemberg",
+                  "Walmes Marques Zeviani",
+                  "Louise Larissa May De Mio"))
 ```
 
 ## Introdução
 
-A análise de sobrevivência infere sobre a probabilidade de um evento ocorrer no tempo. Neste capítulo será abordado experimentos com mais de um fator, por exemplo os fatoriais, cujo o objetivo é analisar a correlação desses fatores ao longo do tempo, e como analisado em estudos epidemiológicos onde a estimativa do período de incubação de uma doença - exemplo típico para análise de sobrevivência do caso de fator único -, assume-se o modelo de regressão paramétrico para análise desses dados.
+A análise de sobrevivência infere sobre a probabilidade de um evento
+ocorrer no tempo. Neste capítulo será abordado experimentos com mais de
+um fator, por exemplo os fatoriais, cujo o objetivo é analisar a
+correlação desses fatores ao longo do tempo, e como analisado em estudos
+epidemiológicos onde a estimativa do período de incubação de uma
+doença - exemplo típico para análise de sobrevivência do caso de fator
+único -, assume-se o modelo de regressão paramétrico para análise desses
+dados.
 
-Estes modelos podem estimar a distribuição do tempo de vida de um patógeno e, ao mesmo tempo determinar parâmetros importantes para análise de interações de fatores [@Zhang2016]. O modelo de regressão de Weibull é um dos ajustes aplicados, o qual utiliza linha base de funções de Hazard para ajuste de coeficientes covariáveis. Além do Weibull, outros modelos de ajustes paramétricos podem ser utilizados dependendo dos dados e/ou experimentos, como as regressões exponenciais, gamma e log-logístico [@Zhang2016]. Portanto, este modelo que será usado para análise dos dados de uma situação real (experimento *ex vivo* com fungicidas) que será apresentado na sequência como caso 2 de análise de sobrevivência.
+Estes modelos podem estimar a distribuição do tempo de vida de um
+patógeno e, ao mesmo tempo determinar parâmetros importantes para
+análise de interações de fatores [@Zhang2016]. O modelo de regressão de
+Weibull é um dos ajustes aplicados, o qual utiliza linha base de funções
+de Hazard para ajuste de coeficientes covariáveis. Além do Weibull,
+outros modelos de ajustes paramétricos podem ser utilizados dependendo
+dos dados e/ou experimentos, como as regressões exponenciais, gamma e
+log-logístico [@Zhang2016]. Portanto, este modelo que será usado para
+análise dos dados de uma situação real (experimento *ex vivo* com
+fungicidas) que será apresentado na sequência como caso 2 de análise de
+sobrevivência.
 
 ### Descrição do ensaio
 
-Para ambientar o leitor em relação as variáveis analisadas neste exemplo, seguem algumas informações sobre o tema em estudo. O controle químico é uma das formas mais eficientes para o controle de doenças de plantas, porém alguns fungicidas de sítios específicos apresentam riscos de médio a alto, como os IDMs (Inibidores da DesMetilação) e IQes (Inibidores da Quinona externa), respectivamente, para selecionar isolados do patógeno com menor sensibilidade. Esta seleção pode levar a uma perda da eficiência de controle destes de produtos comerciais com esses ingredientes ativos em campo. Para adotar estratégias de controle eficientes, garantindo o manejo adequado ao longo das safras, é necessário que seja realizado o monitoramento da sensibilidade do fungo a fungicidas [@lichtemberg2016].
+Para ambientar o leitor em relação as variáveis analisadas neste
+exemplo, seguem algumas informações sobre o tema em estudo. O controle
+químico é uma das formas mais eficientes para o controle de doenças de
+plantas, porém alguns fungicidas de sítios específicos apresentam riscos
+de médio a alto, como os IDMs (Inibidores da DesMetilação) e IQes
+(Inibidores da Quinona externa), respectivamente, para selecionar
+isolados do patógeno com menor sensibilidade. Esta seleção pode levar a
+uma perda da eficiência de controle destes de produtos comerciais com
+esses ingredientes ativos em campo. Para adotar estratégias de controle
+eficientes, garantindo o manejo adequado ao longo das safras, é
+necessário que seja realizado o monitoramento da sensibilidade do fungo
+a fungicidas [@lichtemberg2016].
 
-Para estudos de monitoramento da sensibilidade de fungo a fungicidas, são utilizados ensaios *in vitro*, como: i) dose discriminatória (única dose de fungicida capaz de separar os isolados em fenótipos sensiveís ou resistentes), ii) CE~50~ (concentração efetiva que inibe 50% do crescimento ou germinação do esporo do patógeno) e iii) CMI (concentração mínima inibitória). Com esses dados, será possível comparar o nível de sensibilidade dos isolados ao longo do tempo (anos/safras) e verificar se está ocorrendo ou não mudanças da sensbilidade do patógeno aos fungicidas [@russell], para melhor adoção das estratégias de controle das doenças.
+Para estudos de monitoramento da sensibilidade de fungo a fungicidas,
+são utilizados ensaios *in vitro*, como: i) dose discriminatória (única
+dose de fungicida capaz de separar os isolados em fenótipos sensiveís ou
+resistentes), ii) CE~50~ (concentração efetiva que inibe 50% do
+crescimento ou germinação do esporo do patógeno) e iii) CMI
+(concentração mínima inibitória). Com esses dados, será possível
+comparar o nível de sensibilidade dos isolados ao longo do tempo
+(anos/safras) e verificar se está ocorrendo ou não mudanças da
+sensbilidade do patógeno aos fungicidas [@russell], para melhor adoção
+das estratégias de controle das doenças.
 
-Baseado nos ensaios *in vitro*, isolados são classificados fenotipicamente em relação a sensibilidade aos fungicidas, e alguns isolados representativos são selecionados para realização de ensaios ensaios *ex vivo*. Estes testes são recomendados para validar uma possível resistência prática de fungicidas no controle de uma doença. Resistência prática, portanto, está relacionada a uma possível falha do controle da doença em condições de campo [@ghinirekimatih2000]. Estes ensaios podem ser realizados com plantas (*in vivo*) ou partes vegetais destacadas (*ex vivo*), que serão submetidos a um tratamento com a concentração recomendada na bula do produto para aplicação na área de produção [@Schnabel2015] . 
+Baseado nos ensaios *in vitro*, isolados são classificados
+fenotipicamente em relação a sensibilidade aos fungicidas, e alguns
+isolados representativos são selecionados para realização de ensaios
+ensaios *ex vivo*. Estes testes são recomendados para validar uma
+possível resistência prática de fungicidas no controle de uma doença.
+Resistência prática, portanto, está relacionada a uma possível falha do
+controle da doença em condições de campo [@ghinirekimatih2000]. Estes
+ensaios podem ser realizados com plantas (*in vivo*) ou partes vegetais
+destacadas (*ex vivo*), que serão submetidos a um tratamento com a
+concentração recomendada na bula do produto para aplicação na área de
+produção [@Schnabel2015] .
 
-Além destas técnicas mais usuais nos trabalhos de monitoramento, a observação do período de incubação (PI) em um ensaio de eficiência de fungicidas pode ser uma medida epidemiológica importante para se analisar o efeito de controle do produto ao longo de um tempo, podendo considerar este tempo o intervalo de uma aplicação à outra, ou seja, o PI vai fornecer informações do tempo efetivo de controle de um fungicida a um patógeno, e isso é importante considerando isolados de regiões ou safras diferentes. Uma vez detectada a mudança de sensibilidade em populações de patógenos, novas recomendações e estratégias para o uso de fungicidas devem ser adotadas.
+Além destas técnicas mais usuais nos trabalhos de monitoramento, a
+observação do período de incubação (PI) em um ensaio de eficiência de
+fungicidas pode ser uma medida epidemiológica importante para se
+analisar o efeito de controle do produto ao longo de um tempo, podendo
+considerar este tempo o intervalo de uma aplicação à outra, ou seja, o
+PI vai fornecer informações do tempo efetivo de controle de um fungicida
+a um patógeno, e isso é importante considerando isolados de regiões ou
+safras diferentes. Uma vez detectada a mudança de sensibilidade em
+populações de patógenos, novas recomendações e estratégias para o uso de
+fungicidas devem ser adotadas.
 
-Neste caso 2 de uso de análise de sobrevivência, o objetivo proposto foi avaliar diferentes tratamentos (fungicidas) para o controle de duas espécies de *Colletotrichum*, agentes causais da antracnose do caquizeiro no Brasil. O experimento foi conduzido em esquema fatorial duplo, com condições ambientais favoráveis ao patógeno 25^o^C 2 , seis tratamentos foram testados, sendo cinco fungicidas (A, B, C, D, E) e uma testemunha (test) com água, duas espécies patogênicas (X e Y) foram analisadas, cada espécie/tratamento contou com 25 repetições, e o experimento foi realizado duas vezes. 
+Neste caso 2 de uso de análise de sobrevivência, o objetivo proposto foi
+avaliar diferentes tratamentos (fungicidas) para o controle de duas
+espécies de *Colletotrichum*, agentes causais da antracnose do
+caquizeiro no Brasil. O experimento foi conduzido em esquema fatorial
+duplo, com condições ambientais favoráveis ao patógeno 25^o^C 2 , seis
+tratamentos foram testados, sendo cinco fungicidas (A, B, C, D, E) e uma
+testemunha (test) com água, duas espécies patogênicas (X e Y) foram
+analisadas, cada espécie/tratamento contou com 25 repetições, e o
+experimento foi realizado duas vezes.
 
-Resumidamente, os frutos foram tratados com os produtos previamente, e após 24 horas foram inoculados com as espécies fúngicas. Em relação as avaliações, durante um total de 10 dias, diariamente foram analisadas se existia a presença ou não de lesão (sintomas) nos frutos, caso observado a repetição/tratamento/espécie era anotado a status um (1), caso contrário era marcado como status zero (0). Sendo assim, o período de incubação (PI) foi estimado quando metade ou mais das repetições/tratamentos (13 frutos) apresentaram o sintoma da doença (Figura \@ref(fig:prancha-1)). 
+Resumidamente, os frutos foram tratados com os produtos previamente, e
+após 24 horas foram inoculados com as espécies fúngicas. Em relação as
+avaliações, durante um total de 10 dias, diariamente foram analisadas se
+existia a presença ou não de lesão (sintomas) nos frutos, caso observado
+a repetição/tratamento/espécie era anotado a status um (1), caso
+contrário era marcado como status zero (0). Sendo assim, o período de
+incubação (PI) foi estimado quando metade ou mais das
+repetições/tratamentos (13 frutos) apresentaram o sintoma da doença
+(Figura \@ref(fig:prancha-1)).
 
-(ref:prancha-1) Esquema ilustrativo do ensaio de eficiência de fungicidas: os frutos foram previamente desinfestados com álcool (70%), hipoclorito (0,5%) e água destilada autoclavada, em seguida, os frutos foram tratados com fungicidas, e após 24 horas foram inoculados (com suspensão de 1x10^4^ conídios.mL^-1^). Na figura, as letras de A a E  estão representando os tratamentos fungicidas (com 25 repetições) e a testemunha pela sigla 'test', enquanto as letras X e Y são os patógenos. 
+(ref:prancha-1) Esquema ilustrativo do ensaio de eficiência de
+fungicidas: os frutos foram previamente desinfestados com álcool (70%),
+hipoclorito (0,5%) e água destilada autoclavada, em seguida, os frutos
+foram tratados com fungicidas, e após 24 horas foram inoculados (com
+suspensão de 1x10^4^ conídios.mL^-1^). Na figura, as letras de A a E
+estão representando os tratamentos fungicidas (com 25 repetições) e a
+testemunha pela sigla 'test', enquanto as letras X e Y são os patógenos.
 
-```{r prancha-1, echo = FALSE, fig.cap= '(ref:prancha-1)'} 
-knitr::include_graphics("./tac/prancha_1.jpg") 
-``` 
+```{r prancha-1, echo = FALSE, fig.cap= '(ref:prancha-1)'}
+knitr::include_graphics("./tac/prancha_1.jpg")
+```
 
-A seguir, o capítulo apresentará os passos para análise de sobrevivência utilizando o software R com a abordagem da técnica paramétrica, assumindo a distribuição de Weibull para comparar o diferentes produtos testados para o controle da doença em caquis por meio de ferramentas epidemiológicas.
-
+A seguir, o capítulo apresentará os passos para análise de sobrevivência
+utilizando o software R com a abordagem da técnica paramétrica,
+assumindo a distribuição de Weibull para comparar o diferentes produtos
+testados para o controle da doença em caquis por meio de ferramentas
+epidemiológicas.
 
 ```{r, message=FALSE}
 # Pacotes.
@@ -47,7 +131,31 @@ url <- "https://raw.githubusercontent.com/walmes/wzRfun/master/R/pairwise.R"
 source(url)
 ```
 
-Os dados estão armazenados em um arquivo .txt contendo 5 colunas. Após a leitura, categorizou os dados estabelecendo os dias em que o evento ocorreu. Lembrando, sendo o evento determinado pelo tempo onde 50% ou mais das repetições apresentaram sintomas da doença para cada tratamento e a testemunha (sem fungicida). Em seguida, um gráfico exploratório foi realizado para exibir esse tempo (dias) e o tipo de desfecho de cada fruto para cada tratamento.A análise exploratória sugere que tratamentos ineficientes no controle da doença apresentaram tempo de incubação igual ou inferior a testemunha. Além disso, avalia a resposta de duas diferentes espécies agentes causais em causar doença quando inoculadas em cada fruto tratado. 
+Os dados estão armazenados em um arquivo .txt contendo 5 colunas. Após a
+leitura, categorizou os dados estabelecendo os dias em que o evento
+ocorreu. Lembrando, sendo o evento determinado pelo tempo onde 50% ou
+mais das repetições apresentaram sintomas da doença para cada tratamento
+e a testemunha (sem fungicida). Em seguida, um gráfico exploratório foi
+realizado para exibir esse tempo (dias) e o tipo de desfecho de cada
+fruto para cada tratamento.A análise exploratória sugere que tratamentos
+ineficientes no controle da doença apresentaram tempo de incubação igual
+ou inferior a testemunha. Além disso, avalia a resposta de duas
+diferentes espécies agentes causais em causar doença quando inoculadas
+em cada fruto tratado.
+
+::: {.note  data-latex=""}
+**TODO**
+
+  * Esconder o processo de transformação dos dados no formato verboso
+    para o formato baseado nas estiatísticas suficientes para a análise
+    (tempo para ocorrência do desfecho e tipo de censura).
+  * Na realidade, criar uma seção sobre o processamento para passar do
+    formato de anotações diárias para dia do desfecho.
+  * Fazer as comparações múltiplas para a mediana porque a mediana tem a
+    interpretação de tempo para o período de incubação. Foi usado a
+    média.
+
+:::
 
 ```{r, message=FALSE}
 # -------------------------------------------------------------------------
@@ -77,7 +185,7 @@ da <- da %>%
          spp = factor(spp),
          ue = interaction(fung, spp, rep))
 
-# A tabela contém o registro dia após dia de cada unidade 
+# A tabela contém o registro dia após dia de cada unidade
 #experimental. O evento ocorre quando o variável `status` troca de valor
 # 0 para 1.
 da %>%
@@ -136,7 +244,12 @@ ggplot(data = da_final,
   scale_x_continuous(breaks = seq(0, max(da_final$day), by = 2))
 ```
 
-Será feita análise de sobrevivência com esses dados, pois é motivada pelo tipo de resposta de natureza "tempo até desfecho". Para acomodar a estrutura de planejamento fatorial completo 2 x 6, será usada uma abordagem paramétrica. Por apresentar boa flexibilidade, será usada a distribuição Weibull para o tempo até o desfecho. Com isso consegue-se acomodar a censura e a estrutura experimental.
+Será feita análise de sobrevivência com esses dados, pois é motivada
+pelo tipo de resposta de natureza "tempo até desfecho". Para acomodar a
+estrutura de planejamento fatorial completo 2 x 6, será usada uma
+abordagem paramétrica. Por apresentar boa flexibilidade, será usada a
+distribuição Weibull para o tempo até o desfecho. Com isso consegue-se
+acomodar a censura e a estrutura experimental.
 
 ```{r, message=FALSE}
 # Antes de ir para o ajuste da Weibull, vamos reconhecer a
@@ -170,7 +283,10 @@ c("sample_mean" = mean(y),
 
 ```
 
-Nota-se que a análise de sobrevivência é a abordagem mais adequada para análise destes dados, visto que de fato a variável resposta é o tempo para o desfecho e tem-se censura. A modelagem para a variável aleotória é o 'tempo para o aparecimento de sintomas (desfecho)'
+Nota-se que a análise de sobrevivência é a abordagem mais adequada para
+análise destes dados, visto que de fato a variável resposta é o tempo
+para o desfecho e tem-se censura. A modelagem para a variável aleotória
+é o 'tempo para o aparecimento de sintomas (desfecho)'
 
 ```{r, message=FALSE}
 # Ajustar a Weibull acomodando a estrutura experimental.
@@ -203,7 +319,9 @@ m3 <- survreg(formula = s ~ spp * fung,
 anova(m0, m1, m2, m3)
 ```
 
-O modelo com interação é o mais apropriado para descrever o tempo para o aparecimento de sintomas. Portanto, existe interação entre espécies e produtos ao nível de 5% pelo teste de deviance entre modelos encaixados
+O modelo com interação é o mais apropriado para descrever o tempo para o
+aparecimento de sintomas. Portanto, existe interação entre espécies e
+produtos ao nível de 5% pelo teste de deviance entre modelos encaixados
 
 ```{r, message=FALSE}
 # Modelo final.
@@ -271,7 +389,12 @@ ggplot(data = da_final,
 # -------------------------------------------------------------------------
 ```
 
-Para finalizar a análise será realizado o estudo de interação dos produtos em cada espécie inoculada por meio do desdobramento com testes para o parâmetro de locação. Com esses valores podem fazer inferências sobre o tratamento mais ou menos eficientes no controle da antracnose do caquizeiro. Observa-se que existe uma diferença no controle da doença entre as espécies.
+Para finalizar a análise será realizado o estudo de interação dos
+produtos em cada espécie inoculada por meio do desdobramento com testes
+para o parâmetro de locação. Com esses valores podem fazer inferências
+sobre o tratamento mais ou menos eficientes no controle da antracnose do
+caquizeiro. Observa-se que existe uma diferença no controle da doença
+entre as espécies.
 
 ```{r, message=FALSE}
 
@@ -326,9 +449,20 @@ ggplot(data = tb_contr,
 
 # Conclusão
 
-- Esse tipo de análise auxilia tanto na avaliação da eficiência dos fungicidas quanto na determinação do período de incubação (dias) em cada tratamento, sendo estas variáveis muito importante para serem levadas em consideração no momento de adoções de estratégias de controle da doença.
+- Esse tipo de análise auxilia tanto na avaliação da eficiência dos
+  fungicidas quanto na determinação do período de incubação (dias) em
+  cada tratamento, sendo estas variáveis muito importante para serem
+  levadas em consideração no momento de adoções de estratégias de
+  controle da doença.
 
 - XXXXXXXXXX
 
-Ao Final da Análise deve incluir um texto pequeno contendo o que se pode concluir com uma análise destas e qual a vantagem em relação a uma outra técnica convencional estatistica de comparação de médias estimando PI, por ex. dar ênfase que OS dados de incidência, contagem a porcentagem de frutos doenças por exemplo perderia informações relevantes. 
-Não sei se aqui estima-se também o risco para ocorrência do evento, se sim descrever os resultados tb como uma forma de comparação com um padrão, no caso seria um isolados fixado como sensível em relação ao fenótipo de resistência.
+Ao Final da Análise deve incluir um texto pequeno contendo o que se pode
+concluir com uma análise destas e qual a vantagem em relação a uma outra
+técnica convencional estatistica de comparação de médias estimando PI,
+por ex. dar ênfase que OS dados de incidência, contagem a porcentagem de
+frutos doenças por exemplo perderia informações relevantes. Não sei se
+aqui estima-se também o risco para ocorrência do evento, se sim
+descrever os resultados tb como uma forma de comparação com um padrão,
+no caso seria um isolados fixado como sensível em relação ao fenótipo de
+resistência.
