@@ -117,9 +117,8 @@ assumindo a distribuição de Weibull para comparar o diferentes produtos
 testados para o controle da doença em caquis por meio de ferramentas
 epidemiológicas.
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 # Pacotes.
-
 rm(list = objects())
 
 library(tidyverse)
@@ -131,17 +130,17 @@ url <- "https://raw.githubusercontent.com/walmes/wzRfun/master/R/pairwise.R"
 source(url)
 ```
 
-Os dados estão armazenados em um arquivo .txt contendo 5 colunas. Após a
-leitura, categorizou os dados estabelecendo os dias em que o evento
-ocorreu. Lembrando, sendo o evento determinado pelo tempo onde 50% ou
-mais das repetições apresentaram sintomas da doença para cada tratamento
-e a testemunha (sem fungicida). Em seguida, um gráfico exploratório foi
-realizado para exibir esse tempo (dias) e o tipo de desfecho de cada
-fruto para cada tratamento.A análise exploratória sugere que tratamentos
-ineficientes no controle da doença apresentaram tempo de incubação igual
-ou inferior a testemunha. Além disso, avalia a resposta de duas
-diferentes espécies agentes causais em causar doença quando inoculadas
-em cada fruto tratado.
+Os dados estão armazenados em um arquivo de texto pleno (`*.txt`)
+contendo 5 colunas. Após a leitura, categorizou os dados estabelecendo
+os dias em que o evento ocorreu. Lembrando, sendo o evento determinado
+pelo tempo onde 50% ou mais das repetições apresentaram sintomas da
+doença para cada condição experimental. Em seguida, um gráfico
+exploratório foi realizado para exibir esse tempo (dias) e o tipo de
+desfecho de cada fruto para cada tratamento. A análise exploratória
+sugere que tratamentos ineficientes no controle da doença apresentaram
+tempo de incubação igual ou inferior a testemunha. Além disso, avalia a
+resposta de duas diferentes espécies agentes causais em causar doença
+quando inoculadas em cada fruto tratado.
 
 ::: {.note  data-latex=""}
 **TODO**
@@ -157,9 +156,12 @@ em cada fruto tratado.
 
 :::
 
-```{r, message=FALSE}
-# -------------------------------------------------------------------------
+O bloco de código abaixo faz a importação dos dados, conversão de tipo
+de valor nas variáveis que são termos experimentais e mostra como estão
+os registros para uma unidade experimental.
 
+```{r, message = FALSE}
+#-----------------------------------------------------------------------
 # Importação dos dados e preparação.
 
 # Análise dos dados (leitura).
@@ -175,73 +177,116 @@ u <- !complete.cases(da)
 sum(u)
 da[u, ]
 
-# # Substitui o NA por censura a direita.
-# da <- da %>%
-#   replace_na(replace = list(status = 0))
-
-# Criar fatores.
+# Converter termos experimentais em fatores.
 da <- da %>%
-  mutate(fung = factor(fung),
-         spp = factor(spp),
-         ue = interaction(fung, spp, rep))
+    mutate(fung = factor(fung),
+           spp = factor(spp),
+           ue = interaction(fung, spp, rep))
 
-# A tabela contém o registro dia após dia de cada unidade
-#experimental. O evento ocorre quando o variável `status` troca de valor
-# 0 para 1.
+# A tabela contém o registro dia após dia de cada unidade experimental.
+# O evento ocorre quando o variável `status` troca de valor 0 para 1.
 da %>%
-  filter(ue == levels(ue)[1])
+    filter(ue == levels(ue)[1])
+```
 
+Como mostrado, a primeira UE, o fruto de rótulo `A.X.1`, teve o desfecho
+observado no dia 2. Depois dessa data, os valores serão todos iguais a
+1, bem como antes dela, todos iguais a 0.
+
+No bloco de código a seguir, os dados no formato longo com anotações
+diárias da condição das UEs são transformados para a representação
+necessária para a análise de sobrevivência.
+
+Na prática, não é necessário anotar diariamente 0, 0, 0, etc, para datas
+quando a unidade experimental (UE) ainda não apresentou o desfecho e 1,
+1, 1, etc para datas após a UE apresentar o desfecho. Basta registrar as
+estatísticas suficientes que são: identificador da UE ou condição
+experimental e a data de ocorrência do evento desfecho. Essa data
+corresponde ao dia em que observou-se aparecimento de sintoma no fruto,
+neste caso. Àquelas UEs que não apresentaram sintomas até o final do
+período experimental, são as UEs com resposta censurada, em particular,
+censura à direita, visto que o evento irá certamente acontecer e ser
+obervado se o período experimental for prolonagado.
+
+Diante do que foi dito, o pesquisador pode optar por registrar os dados
+no formato longo com anotações diárias por UE, que é o temos, ou anotar
+apenas as estatísticas suficientes, com um linha na tabela por UE. O
+código abaixo mostra como passar do primeiro formato para o segundo.
+
+```{r, message = FALSE}
 # Determina a primeira data de valor `status == 1` para cada unidade
 # experimental.
 da_1 <- da %>%
-  group_by(ue) %>%
-  filter(status == 1) %>%
-  top_n(day, n = -1)
+    group_by(ue) %>%
+    filter(status == 1) %>%
+    top_n(day, n = -1) %>%
+    ungroup()
 da_1
 
 # Determina a última data de valor `status == 0` para cada unidade
-# experimental restante, ou seja, que não apresentou `status == 1`.
+# experimental restante, ou seja, as que não apresentaram `status == 1`.
 da_0 <- anti_join(da, da_1, by = "ue") %>%
-  group_by(ue) %>%
-  top_n(day, n = 1)
+    group_by(ue) %>%
+    top_n(day, n = 1) %>%
+    ungroup()
 da_0
 
 # Junta as duas porções.
-da_final <- bind_rows(da_1, da_0) %>%
-  ungroup()
+da_final <- bind_rows(da_1, da_0)
 da_final
 
+# Desenho experimental (5 + 1) * 2 com 25 frutos por condição
+# experimental.
 xtabs(~fung + spp, data = da_final)
 
+# Número de frutos com desfecho observado.
 xtabs(status ~ fung + spp, data = da_final)
+```
 
-# -------------------------------------------------------------------------
+Agora com a tabela contendo os dados necessários e no formato apropriado
+para a análise de sobreviência, pode-se realizar a análise exploratória
+para uma inspeção preliminar dos dados. É importante realizar essa etapa
+para verificar eventuais inconsistências nos valores, erros de
+preenchimento, perdas de unidiades experimentais, etc, bem como
+antecipar alguns resultados que poderão ser confirmados pela análise.
 
+```{r}
+#-----------------------------------------------------------------------
 # Análise exploratória.
 
 str(da_final)
 
 # Ordena pelo dia do evento dentro de cada unidade experimental.
 da_final <- da_final %>%
-  group_by(spp, fung) %>%
-  arrange(day) %>%
-  mutate(ord = seq_along(day)/n())
+    group_by(spp, fung) %>%
+    arrange(day) %>%
+    mutate(ord = seq_along(day)/n()) %>%
+    ungroup()
+```
 
+(ref:ecdf-frutos) Distribuição acumulada empírica do tempo até
+ocorrência do desfecho nos frutos do experimento separados por condição
+experimental. Pontos indicam o tipo de desfecho (com censura ou não). As
+linhas vão desde o início do experimento até o momento de registro do
+desfecho. A linha horizontal está na posição 0.5 e permite determinar a
+mediada no tempo cuja interpretação é o período de incubação.
+
+```{r ecdf-frutos, echo = FALSE, fig.cap= '(ref:ecdf-frutos)'}
 # Gráfico com a linha do tempo de cada fruto que mostra quando o evento
 # aconteceu e que tipo de desfecho.
-
 ggplot(data = da_final,
        mapping = aes(x = day, y = ord, shape = factor(status))) +
-  facet_grid(facets = spp ~ fung) +
-  geom_point() +
-  geom_segment(mapping = aes(x = 0, y = ord, xend = day, yend = ord)) +
-  scale_shape_manual(breaks = c(0, 1),
-                     values = c(1, 19),
-                     labels = c("Censura", "Sintoma")) +
-  labs(shape = "Desfecho",
-       x = "Dias após inoculação",
-       y = "Ordem do fruto") +
-  scale_x_continuous(breaks = seq(0, max(da_final$day), by = 2))
+    facet_grid(facets = spp ~ fung) +
+    geom_point() +
+    geom_segment(mapping = aes(x = 0, y = ord, xend = day, yend = ord)) +
+    scale_shape_manual(breaks = c(0, 1),
+                       values = c(1, 19),
+                       labels = c("Censura", "Sintoma")) +
+    labs(shape = "Desfecho",
+         x = "Dias após inoculação",
+         y = "Ordem do fruto") +
+    scale_x_continuous(breaks = seq(0, max(da_final$day), by = 2)) +
+    geom_hline(yintercept = 0.5, color = "orange")
 ```
 
 Será feita análise de sobrevivência com esses dados, pois é motivada
@@ -251,12 +296,11 @@ abordagem paramétrica. Por apresentar boa flexibilidade, será usada a
 distribuição Weibull para o tempo até o desfecho. Com isso consegue-se
 acomodar a censura e a estrutura experimental.
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 # Antes de ir para o ajuste da Weibull, vamos reconhecer a
 # parametrização.
 
 # Gera números aleatórios de uma distribuição Weibull.
-
 y <- rweibull(n = 1000, shape = 4, scale = 2)
 plot(ecdf(y))
 
