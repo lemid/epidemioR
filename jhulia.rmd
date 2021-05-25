@@ -32,7 +32,7 @@ $$
 Y(T) = \beta _1(T-T_{min})^{\beta 2} (T_{max}-T)^{\beta3}
 $$
   
-  A equação acima foi modificada trocando dois parâmetros por outros dois parâmetros que posuem significado biológico $T_{opt}$ e o nível na temperatura ótima $Y(T_{opt} = Y_{opt}$. Portanto, a temperatura ótima para a função beta-generalizada é dada por: 
+  A equação acima foi modificada trocando dois parâmetros por outros dois parâmetros que posuem significado biológico $T_{opt}$ e o nível na temperatura ótima $Y(T_{opt} = Y_{opt})$. Portanto, a temperatura ótima para a função beta-generalizada é dada por: 
   
 Equação 2
 $$
@@ -93,7 +93,7 @@ knitr::kable(head(tb), caption = '(ref:germinacao-neonectria-ditissima)',
              row.names = FALSE)
 ```
 
-  Os tópicos a seguir testarão ajuste de modelos para ensaio que avaliou a germinação em um experimento fatorial completamente cruzado com períodos de incubação. Serão testados polinômios e modelos não lineares para fazer o ajuste.
+  Os tópicos a seguir testarão ajuste de modelos para ensaio que avaliou a germinação em um experimento fatorial completamente cruzado com períodos de incubação. Os dados tem efeito de bloco porque o inóculo usado no experimento foi oriundo de duas placas distintas e cada placa foi usada para temperaturas distintas e conhecidas. Blocar os dados é necessário porque o inóculo crescido em cada placa pode ter características de germinação distintas e inerentes às colônias. Serão testados polinômios e modelos não lineares para fazer o ajuste.
 
 ```{r, message=FALSE}
 # Pacotes.
@@ -436,8 +436,11 @@ cor(fitted(mx), tb_con$ger)^2 # Modelo maximal.
 cor(fitted(m0), tb_con$ger)^2 # Polinômio com interação.
 cor(fitted(n1), tb_con$ger)^2 # Modelo não linear aditivo.
 ```
-
-
+  
+  Como observações importantes, temos que:
+  A utilização de gráficos 3D para visualização de dados é muito comum na literatura,porém é questionável em termos de utilidade, eficiência e expressividade. Não é possível fazer qualquer julgamento acurado sobre o comportamento da função em nunhuma das direções, tampouco verificar se o modelo se ajusta aos dados. A observação dos gráficos gerados nesse experimento demonstra claramente que se deve dar preferência para os gráficos apresentados anteriormente (curvas de nível em 2D) que são melhores para julgar adequação do modelo e entender o comparamento da função na direção da temperatura e período de molhamento. 
+  Como pode ser observado nas análises, O modelo polinomial é bem mais adequado para o ajuste do que o beta-monomolecular. Isso porque no primeiro 1) o efeito de blocos está acomodado, 2) possui termos de interação que são significativos, 3) polinômios cúbicos são bem mais flexíveis e portanto o ajuste do modelo aos dados. Portanto, o ajuste da beta- generalizada com monomolecular deve ser considerado com cuidado pois ele é um modelo que apresenta falta de ajuste em relação ao modelo polinomial.
+  
   Para estimar a abertura do sino em para esse tipo de análise com polinômio, pode-se usar a aproximação por série de Taylor, que  vai determinar a curvatura a partir do ponto que representa a temperatura ótima (x). Para tanto, utiliza-se a derivada segunda da função f(x), da maneira descrita a seguir:
   
   $$
@@ -754,3 +757,4 @@ ggplot(data = grid,
 #-----------------------------------------------------------------------
 ```
 
+As equações apresentadas nesse tópico foram utilizadas para comparar a evolução do tamanho de lesões em diferentes temperaturas, mas esses ajustes não estão limitados somente a esse tipo de experimento.Ensaios de comparação de eficiência de tratamentos químicos ou biológicos, comparação de agressividade de diferentes isolados e espécies, e comparação da agressividade do mesmo isolado em diferentes hospedeiros, por exemplo, também podem usufruir desse método estatístico.
