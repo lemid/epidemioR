@@ -1,10 +1,11 @@
 # ---- Configurações do bookdown não específicas de nenhum output. ----
 rmd_files:
   - index.Rmd
+  - sobrevivencia.Rmd
   - camilla.Rmd
-  - jhulia.rmd
   - tac.Rmd
-  - alexandre.Rmd
+  #- jhulia.rmd
+  #- alexandre.Rmd
   - 99-referencias.Rmd
 book_filename: "epidemioR.Rmd"
 before_chapter_script: "config/setup.R"

@@ -96,4 +96,93 @@
 %\captionsetup[table]{skip=0pt, singlelinecheck=off}
 %\LTcapwidth=5.65in
 
+\usepackage{color}
+\usepackage{framed}
+\setlength{\fboxsep}{.8em}
+\newenvironment{note}{
+  \definecolor{shadecolor}{rgb}{0, 0, 0}
+  \color{white}
+  \begin{shaded}
+  }{
+  \end{shaded}}
+
+% \newenvironment{note}{
+%   \begin{center}
+%     \begin{tabular}{|p{0.6\textwidth}|}
+%       \hline\\
+%       }{
+%       \\\\\hline
+%     \end{tabular}
+%   \end{center}
+% }
+
+%-----------------------------------------------------------------------
+% Knitr.
+
+% ATTENTION: this needs `\usepackage{xcolor}'.
+\usepackage{xcolor}
+\definecolor{color_line}{HTML}{333333}
+\definecolor{color_back}{HTML}{DDDDDD}
+% \definecolor{color_back}{HTML}{FF0000}
+
+% ATTENTION: usa o fancyvrb.
+% https://ctan.math.illinois.edu/macros/latex/contrib/fancyvrb/doc/fancyvrb-doc.pdf
+% R input.
+\usepackage{tcolorbox}
+\ifcsmacro{Highlighting}{
+  % Statment if it exists. ------------------
+  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+    % frame=lines,     % Linha superior e inferior.
+    % framesep=1ex,    % Distância da linha para o texto.
+    % framerule=0.5pt, % Espessura da linha.
+    % rulecolor=\color{color_line},
+    % numbers=right,
+    fontsize=\small, % Tamanho da fonte.
+    baselinestretch=0.9,   % Espaçamento entre linhas.
+    commandchars=\\\{\}}
+  % Margens do ambiente `Shaded'.
+  % \fvset{listparameters={\setlength{\topsep}{-1em}}}
+  % \renewenvironment{Shaded}{\vspace{-1ex}}{\vspace{-2ex}}
+  \renewenvironment{Shaded}{
+    \vspace{2pt}
+    \begin{tcolorbox}[
+      boxrule=0pt,      % Espessura do contorno.
+      colframe=gray!10, % Cor do contorno.
+      colback=gray!10,  % Cor de fundo da caixa.
+      % arc=1em,          % Raio para contornos arredondados.
+      sharp corners,
+      % boxsep=0.5em,     % Margem interna.
+      left=3pt, right=3pt, top=3pt, bottom=3pt, % Margens internas.
+      % grow to left by=0mm,
+      grow to right by=6pt,
+      ]
+    }{
+    \end{tcolorbox}
+    \vspace{-3pt}
+    }
+  }{
+  % Statment if it not exists. --------------
+}
+
+% R output e todo `verbatim'.
+\makeatletter
+\def\verbatim@font{\linespread{0.9}\normalfont\ttfamily\small}
+\makeatother
+
+% Cor de fundo e margens do `verbatim'.
+\let\oldv\verbatim
+\let\oldendv\endverbatim
+
+\def\verbatim{%
+  \par\setbox0\vbox\bgroup % Abre grupo.
+  \vspace{-5px}            % Reduz margem superior.
+  \oldv                    % Chama abertura do verbatim.
+}
+\def\endverbatim{%
+  \oldendv                 % Chama encerramento do verbatim.
+  % \vspace{0cm}           % Controla margem inferior.
+  \egroup%\fboxsep5px      % Fecha grupo.
+  \noindent{\colorbox{color_back}{\usebox0}}\par
+}
+
 %---- config/preamble.tex ----------------------------------------------

@@ -7,10 +7,13 @@ opts_chunk$set(cache = FALSE,
                out.width = "100%",
                fig.align = "center",
                eval.after= "fig.cap",
-               #dpi = 96,
-               #dev = "png",
-               #dev.args = list(family = "Lato"),
-               dev.args = list(family = "Palatino"))
+               # dpi = 96,
+               # dev = "png",
+               # dev.args = list(family = "Lato"),
+               dev.args = list(
+                   family = ifelse(
+                       knitr::opts_knit$get("rmarkdown.pandoc.to") == "html",
+                       "Roboto Condensed", "Palatino")))
 options(width = 68)
 
 # Verifica se o output é html, pdf, etc.

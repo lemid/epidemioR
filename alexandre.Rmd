@@ -1,220 +1,1058 @@
-# Estudos de sensibilidade de patógenos
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Estudos de sensibilidade de populações de patógenos
 
 ## Introdução
 
-## Ensaios de sensibilidade de patógenos biotróficos - Exemplo com *Phakopsora pachyrhizi*
+Estudos de CE~50~ (concentração efetiva) são muito utilizados, pois permite obter uma curva dose-resposta, que relaciona diferentes concentrações do produto utilizado no controle da doença, sendo então possível estimar uma concentração a ser utilizada, ou mesmo monitorar a mudança da sensibilidade do patógeno. Se a CE~50~ de um fungicida, ao longo do tempo, apresentar alterações para valores superiores aos inicialmente estabelecidos, para obter controle de um determinado patógeno, poderá indicar redução na sensibilidade do patógeno ao controle com aquele fungicida [@REIS2007]. 
 
-A soja, *Glycine max* (L.) Merr, é uma das commodities mais importantes a nível mundial, pois é fonte de óleo e proteína para alimentação humana e animal [@conab]. A produtividade dessa cultura pode ser afetada por doenças, principalmente a ferrugem asiática causada pelo fungo *P. pachyrhizi*.
+Geralmente se utiliza ao menos cinco concentrações, variando para mais gradientes do mesmo produto, para possibilitar a visualização de níveis de controle e assim uma melhor estimativa do valor de CE~50~. O valor de controle sempre é calculado em relação a testemunha, ou seja, um tratamento sem o uso do fungicida. Os parâmetros geralmente utilizados nas avaliações de CE~50~, visam expressar o grau de toxicidade de uma substância, que representa a concentração de um composto químico onde 50% de seu efeito máximo é observado [@OGA2014]. 
 
-O manejo da ferrugem asiática é executado principalmente com o uso de fungicidas do grupo dos inibidores de desmetilação (IDM’s), inibidores de quinona externa (IQe’s), inibidores da succinato desidrogenase (ISDH’s) e o tradicional mancozebe. Falhas no controle da ferrugem da soja tem sido observada nos últimos anos em diferentes regiões do Brasil, devido a mutações do fungo [@godoy2019].
+O uso de modelos não lineares aos dados de CE~50~ é constantemente aplicada em estudos de eficiência de moléculas. Devido a grande quantidade de modelos não lineares, a tarefa de escolher o modelo mais adequado para utilizar não é fácil e demanda de conhecimento e interpretação do resultado correto. Porém, para que haja uma boa interpretação dos dados e escolha do modelo, é necessário quantificar algum parâmetro que forneça subsidio que permita diferenciar se o modelo tem um ajuste “adequado” ou “inadequado”. A medida mais comumente utilizada na literatura cientifica é o coeficiente de determinação R^2^. Para analises lineares, essa medida é intuitiva, pois fornecem rápida interpretação de quanto a variação dos dados se explica pelo modelo [@SPIESS2010]. 
 
-Foi relatado mutações em isolados de *P. pachyrhizi* nos genes CYP51 [@schmitz2013], CYT-b [@klosowski2015] e SDH-c [@simoes2017]. Genótipos com resistência nos genes CYP51 e CYT-b são mais comumente encontrados [@klosowski2016] porém recentemente foi descrito a ocorrência de múltipla resistência para estes três genes no mesmo isolado [@muller].
+O valor de R^2^ varia de 0 a 1, sendo que quanto mais próximo de 1, maior será o ajuste dos dados ao modelo. Há algum tempo foi descrita como inadequada a medida do R^2^ para regressões não lineares [@SA1987; @KVLSETH1985]. Porém no meio cientifico, pesquisadores e revisores continuam a utilizar e exigir que essa medida seja disponibilizada em artigos que utilizam modelos não lineares. Essa abordagem possivelmente ocorre, pois pesquisadores geralmente aplicam métodos estatísticos sem possuírem um detalhado conhecimento estatístico [@SPIESS2010]. 
 
-Frequentemente, isolados resistentes a fungicidas são menos adaptados, se comparado com isolados sensíveis. Evidências experimentais sobre estudo de adaptabilidade sugerem que isso ocorre com isolados mutantes que têm resistência a fungicidas do grupo dos Qoi [@klosowski2016].
+A maioria dos softwares estatísticos disponíveis (R, Sisvar, Systat, Statistica, Prism, Origin, Matlab, SPSS, SAS, Prism) calculam os valores de R^2^ para ajustes não lineares, o que possivelmente contribua involuntariamente para o seu frequente uso. Isso também pode ocorrer com os usuários do software TableCurve2 D (Systat, EUA), que possibilita ajustar centenas de modelos não lineares a um determinado conjunto de dados e depois classificá-los por meio de R^2^ [@SPIESS2010].
 
-Entretanto, pouco se sabe sobre a estabilidade e adaptabilidade da mutação do gene SDH-c que confere resistência aos fungicidas do grupo SDHI. Assim como, quanto ao comportamento epidemiológico de populações de diferentes regiões do Brasil, nas diferentes condições ambientais. Desta forma, serão conduzidos ensaios visando conhecer melhor a dinâmica populacional de *P. pachyrhizi* oriundas de diferentes localidades do Brasil.
+Diversos esforços foram realizados para desenvolver medidas do tipo R^2^ para os modelos de regressão não linear, porem é descrito que essa abordagem é inadequada e se comparada com os valores de AICc, BIC, variância residual e qui-quadrado, pois a medida de R^2^ raramente é afetada mais do que na terceira ou quarta casa decimal [@CAMERON1997]. Simulações de Monte Carlo mostraram que o AIC, o AICc ou o BIC têm um desempenho muito melhor nesse sentido, demonstrando que valores de R^2^ para validar modelos não lineares não é o ideal [@SPIESS2010]. 
 
-Neste trabalho será abordado análises estatisticas com o uso do R, para alguns dos componentes de adaptabilidade das populações *P. pachyrhizi* oriundas de diferentes regiões produtoras do Brasil, da qual se identificou a presença de diferentes mutações que conferem resistência a fungicidas. Será analisado os parâmetros de monociclo em plantas e folha destacada em diferentes condições de temperatura; a germinação de esporos em diferentes tempo de exposição a radiação UV; em diferentes temperaturas e incidencia luminosidade; germinacao em meio salino e quanto ao stress oxidativo das populações. Para tal se utilizou seis populações... Além disso, será analisado a EC50 de alguns grupos químicos de fungicida. Teste
+Desta forma, neste capitulo será abordado o uso de modelos não lineares para avaliar ensaios de CE~50~ para populações de ferrugem asiática da soja e nematoides, e diferentes compostos serão utilizados visando o controle destes patógenos. Será abordado o uso do software R para calcular as CE~50~ e plotar os respectivos gráficos. Vamos detalhar a utilização do pacote DRC e NLME para ambos exemplos biológicos. Abordaremos o melhor ajuste de modelo analisando os valores de AIC, BIC e Loglike para os dados de cada CE~50~, comparando-os com a linearização das concentrações com o LOG10 e discutindo modelos linear e não-lineares e suas respectivas interpretações. 
 
-(ref:image1) Escala diagramática.
 
-```{r, image1, echo = FALSE, fig.cap = '(ref:image1)'}
-# Uma imagem apenas para demarcar lugar temporariamente.
-knitr::include_graphics("./config/bookcover.png")
+## Ensaios de sensibilidade de *Phakopsora pachyrhizi*
+
+A soja, *Glycine max* (L.) Merr, é uma das commodities mais importantes no Brasil e a nível mundial, pois é fonte de óleo e proteína para alimentação humana e animal [@CONAB2019]. A produtividade dessa cultura pode ser afetada por doenças, principalmente a ferrugem asiática da soja – FAS, causada pelo fungo *Phakopsora pachyrhizi* Syd. & P. Syd por Hans e Paul Sydow. O agente causal da FAS pertence ao reino Fungi, classe de Basidiomycetos, ordem Uredinales, família Phakopsoraceae, gênero *Phakopsora*, espécie *Phakopsora pachyrhizi* [@GOELLNER2010]. Trata-se de um patógeno biotrófico, o qual não se reproduz em meio axênico [@HARTMAN2011]. 
+
+No Brasil a doença foi constatada em 2001, na safra 2001/2002 no estado do Paraná, na região oeste, fronteira do Paraguai (Foz do Iguaçu à Guaíra), e avançou rapidamente, se espalhando para outros estados [@YORINORI2005]. Atualmente, a FAS está presente em todas regiões produtoras da soja no mundo, porém vem sendo um grave problema principalmente na América do Sul, devido a ocorrência de todas a vértices do triângulo da doença, com grande expressão do ambiente [@MURITHI2015]. É a doença mais grave para a cultura, pois o custo (redução de produtividade e gastos com controle) é estimado em dois bilhões de dólares por safra [@CAF2018]. 
+
+Trata-se de um patógeno muito agressivo, pois a FAS é uma doença policíclica, assim inúmeros ciclos de infecção podem ocorrer em um único ciclo do hospedeiro [@GODOY2016], garantindo assim a disseminação dos urediniósporos dentro da mesma área de cultivo e áreas adjacentes [@BROWN2002]. Além disso, possui ágil dispersão dos esporos pelo vento, curto período latente e longo período infeccioso, sendo que as condições ambientais favoráveis para o desenvolvimento da soja também são favoráveis para o patógeno, e a sua constante evolução permite redução de sensibilidade a fungicidas e a quebra de genes de resistência de plantas de soja melhoradas geneticamente [@GODOY2016].
+
+As principais estratégias de manejo da doença para reduzir o risco de danos à cultura são: a utilização de cultivares de ciclo precoce, realização de semeadura no início da época recomendada, uso de cultivares com resistência genética, eliminação de plantas tigueras, respeitar o vazio sanitário de no mínimo 60 dias, sendo recomendado 90 dias pelo consórcio Anti-Ferrugem, e ainda realizar desde o início do desenvolvimento da cultura constante monitoramento da lavoura, e assim que surgir os primeiros sintomas e/ou ainda de forma preventiva utilizar fungicidas, este sendo o mais utilizado para o controle desta doença [@GODOY2016].
+
+Os principais fungicidas utilizados no manejo da FAS, são os inbidores de desmetilação (IDM’s), inibidores de quinona externa (IQe’s), inibidores da succinato desidrogenase (ISDH’s) e o tradicional mancozebe. Falhas no controle da FAS tem sido observada nos últimos anos em diferentes regiões do Brasil, devido a mutações do fungo, que conferem resistência aos fungicidas [@GODOY2019]. 
+
+Mutações em isolados de *P. pachyrhizi* foram relatadas nos genes CYP51 [@SCHMITZ2013], CYT-b [@KLOSOWSKI2015] e SDH-c [@SIMOES2017]. Genótipos com resistência nos genes CYP51 e CYT-b são mais comumente encontrados [@KLOZOWSKI2016] porém recentemente foi descrito a ocorrência de múltipla resistência para estes três genes no mesmo isolado [@MULLER2018]. A constante evolução do patógeno e a pressão de seleção imposta pelo uso constante de fungicidas, permitiu que o fungo apresente alta frequência da sua população resistente para as moléculas disponíveis. Portanto, estudos que monitorem a sensibilidade do fungo aos fungicidas são cada vez mais importantes.
+Para a *P. pachyrhizi* os estudos de CE~50~ - concentração efetiva para controlar 50% do patógeno são realizados em folha destacada (*ex vivo*) em placas de Petri, pois permite avaliar a sensibilidade do fungo em condições controladas de laboratório, sem demandar de grande estrutura. 
+
+A metodologia descrita por [@SCHERB2006] é difundida mundialmente pela FRAC (Comitê de Ação a Resistencia a Fungicidas). Essa metodologia consiste de ensaio ex vivo, com folhas destacadas, tratadas com os diferentes concentrações de fungicida e acondicionadas em placa de Petri com meio Agar-agua e incubadas em em BOD a 22°C com fotoperiodo de 12h por cerca de 15 a 20 dias até o surgimento e estabilização dos sintomas do patógeno nas folhas, que então serão avaliados e/ou quantificados com o uso de escala diagramática que possibilita avaliar a severidade da doença. Para tal avaliação, se utiliza a escala diagramática de  (Figura \@ref(fig:fig1)) que contempla seis níveis de intensidade de dano em folhas, variando de 0,6 a 78,5% de área foliar afetada pela ferrugem [@GODOY2006]. 
+
+```{r, fig1, echo = FALSE, fig.cap = '(ref:fig1)'}
+knitr::include_graphics("./Alexandre/fig1.jpg")
+```
+(ref:fig1) Escala diagramática da ferrugem da soja [@GODOY2006].
+
+Neste trabalho será abordado análises estatísticas com o uso do software R, para avaliar a eficiência de controle de fungicidas, para populações do fungo *P. pachyrhizi* oriundas de diferentes regiões produtoras do Brasil. Será analisado diferentes ajustes de modelos matemáticos para dados de CE~50~, com o intuito de propor novas abordagens para este tipo de dados, devido grande variação encontrada na literatura nas análises estatísticas para dados de CE~50~, o que dificulta na interpretação, e pode gerar valores para CE~50~ com grande variação para um mesmo conjunto de dados, o que pode sub ou superestimar a sensibilidade avaliada.  Espera-se também facilitar o uso do R no meio cientifico com a descrição detalhada dos pacotes utilizados para as analises estatísticas. 
+
+Na situação hipotética deste capitulo, em que se deseja estudar o efeito de moléculas no controle da FAS, utilizou-se 8 concentrações de fungicida para obter os valores de CE~50~ (Figura \@ref(fig:fig2)) para 6 isolados populacionais de *P. pachyrhizi* oriundas de diferentes regiões. Neste caso será abordado análise estatística com o software estatístico R, comparando e plotando os valores de CE~50~ para as populações e verificando em qual modelo matemático se obtém os melhores ajustes dos dados.
+
+```{r, fig2, echo = FALSE, fig.cap = '(ref:fig2)'}
+knitr::include_graphics("./Alexandre/fig2.jpg")
+```
+(ref:fig2) Sintomas e sinais de ferrugem asiática da soja após 15 dias de inoculação com suspensão de esporos de *P. pachyrhizi*. Folhas foram tratadas com 8 concentrações do fungicida A, após 24 h foram inoculadas com suspensão de esporos 1X104 e incubadas em BOD a temperatura de 22°C com fotoperíodo de 12 h. (Imagem de um ensaio de CE~50~ onde cada folha recebeu uma concentração de fungicida diferente).
+
+O exemplo a seguir utiliza um script desenvolvido para estimar a CE~50~ de 6 diferentes populações de *P. pachyrhizi*. Cada um dos isolados foi testado com 8 concentrações (0; 0,05; 0,5; 1; 5; 15; 50; 100 mg L^-1) de um fungicida. O experimento foi realizado em esquema fatorial 6X8 em delineamento inteiramente casualizado com 4 repetições. Esse exemplo será abordado utilizando scipts desenvolvidos para o pacote 'nlme' [@PINHEIRO2020] e 'drc' [@RITZ2016].
+
+### Estimando a CE~50~ com o pacote 'NLME'
+
+O script demanda da instalação dos pacotes 'nlme', 'tidyverse' e 'ggplot2'. Os procedimentos a seguir apontam os comando necessários para o procedimento. A instalação dos pacotes será realiza somente uma vez.
+
+```{r, message=TRUE}
+### Carregar os pacotes
+#install.packages("nlme")
+#install.packages("ggplot2")
+#install.packages("lmtest")
+#install.packages("tidyverse")
+library(nlme)
+library(ggplot2)
+library(lmtest)
+library(tidyverse)
+```
+
+Os dados foram organizados em uma planilha em formato .csv. A primeira coluna denominada "trat"" continha os tratamentos avaliados no fator 1. Nesse caso, 6 populações do patógeno. Na segunda coluna, denominada como "conc", estavam descritas as concentrações testadas. Na terceira coluna foi expressa a variável resposta denominada "sev", correspondendo a severidade da doença avaliada com o uso de escala diagramática. Os dados importados para o R serão salvos em uma dataframe denominado "tb"
+
+```{r}
+### Importação dos dados em .csv salvos no github
+tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/p_pachyrhizi.csv", sep=";", dec=",", header = T)
+
+### Explorar os dados dentro de "tb"
+head(tb)
+str(tb)
+summary(tb)
+```
+
+Recomenda-se plotar os dados em curvas separadamente para realizar uma análise visual preliminar dos dados. Essa análise é importante para verificar pontos discrepantes nos dados, dos quais são prejudiciais à confiabilidade da análise. Além disso, o padrão formado pelos pontos indicará a possivel forma da curva, como por exemplo: reta, sigmoidal ou parabólica. Ao não identificar um padrão, possivelmente há erros na coleta dos dados.
+
+```{r}
+### Plotar as curvas
+ggplot(tb,
+       aes(x = conc, y = sev)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+```
+
+Nesse exemplo, iremos testar o ajuste dos dados de curvas sigmoidais aos modelos não lineares log-logistico. Esse modelo possui 3 parametros de ajuste: "A", "B" e "C". O parametro "A" corresponde a assintota máxima limite da função quando x vai para o infinito. O parametro "C" é relacionado com a taxa no ponto de inflexão. "B" é um parâmetro de forma relacionado com a posição do ponto de inflexão. O modelo log-logistico é expresso pela equação:
+
+$$
+f(x)=\frac{A}{1+e^{(C*(log(conc)-B)))}}
+$$
+
+O modelo log-logistico utilizado no script precisa ser descrito. Utilizamos a função a baixo para anexar a equação da curva ao script.
+
+```{r}
+### Equação de Log-Logistico
+loglogistico <- sev ~ A / (1+exp(C*(log(conc)-B)))
+```
+
+O ajuste dos dados nesse modelo utilizando o pacote nlme demanda de estimativas iniciais para os parâmetros, que aqui chamamos de "chutes iniciais". Esses "chutes" são realizados para os parâmetros "A", "B" e "C". Para facilitar os chutes iniciais, utilizaremos a função nls() do pacote 'stats' que está associado ao 'nlme'. Essas funções combinadas permitem estimar os valores dos parametros com um nível de tolerância, permitindo a inserção na função gnls().
+
+```{r}
+### Estima curvas para os dados
+fit <- nls(sev ~ A / (1+exp(C*(log(conc)-B))), data=tb,
+           start = list(A = 90, B = 0.5, C = 0.3))
+
+### Extrai os coeficientes das curvas
+coef(fit)
+
+### Expões o número de níveis que geram curvas
+levels(tb$trat)
+```
+
+Os valores dos parametros estimados pela função nls serão utilizados na função gnls. Os valores de cada parametro serão repetidos o número de níveis -1. Em nosso exemplo, os valores aproximados dos paramêtros foram de 90 para A, 0.5 para C e 0.3 para B. O número de níveis -1 é igual a 5. Se o modelo de Weibull, Gompertz ou qualquer outro  for testado, deve-se substituir o "model" pela equação descrita anteriormente.
+
+```{r}
+### Primeiro ajuste
+m1 <- gnls(model = loglogistico,
+           data = tb,
+           params = A + C + B ~ trat,
+           start = c(88, rep(0, times = 5),
+                     0.6, rep(0, times = 5),
+                     -0.8, rep(0, times = 5)))
+
+### Extrair os coeficientes para confirmação
+coef(m1)
+```
+
+A utilização dos "chutes" permitiu o primeiro ajuste dos dados no modelo. Entretanto, quando extraimos os valores dos parametros dos modelos para cada uma das curvas, observamos que os valores dos parametros não condizem com os valores que as curvas expressam. Ou seja, a assintota máxima é o ponto máximo da curva onde há a estabilização. Quando plotamos as curvas, observamos que a assintoma máxima é de aproximadamente 90%. Como nosso ajuste apontou valores do parametro A muito distantes de 90%, devemos realizar um novo ajuste. Nessa situação, utilizaremos novamente os chutes iniciais que utilizamos no primeiro ajuste. Nesse segundo ajuste, não iremos descontar um nível, sendo usado os 6 níveis disponíveis.
+
+```{r}
+### Segundo ajuste
+m2 <- gnls(model = loglogistico,
+           data = tb,
+           params = A + C + B ~ 0 + trat,
+           start = c(rep(100, times = 6),
+                     rep(0.9, times = 6),
+                     rep(0.5, times = 6)))
+
+### Extrair os coeficientes para confirmação
+coef(m2)
+```
+
+O segundo ajuste permite observar que as novas estimativas para os parametros são muito proximas daquelas que obtivemos com o segunde ajuste. Com os dados ajustados ao modelo, podemos extrair os valores da curva do modelo e os resíduos dos dados em relação a curva do modelo. Os valores da curva do modelo e os resíduos serão acomodados no dataframe com os dados iniciais.
+
+```{r}
+### Resíduos e curva do modelo
+tb$res <- residuals(m2)
+tb$fit <- fitted(m2)
+
+### Dataframe com os dados iniciais 
+head(tb)
+```
+
+Os valores dos resíduos calculados podem ser plotados na forma de gráficos. Recomenda-se que os graficos com os resíduos apresentem uma distribuição aleatória, e não forme padrões.
+
+```{r}
+### Gráfico com os resíduos contra o tempo
+ggplot(tb,
+       aes(x = conc, y = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+### Gráfico com os resíduos contra os valores ajustados
+ggplot(tb,
+       aes(x = fit, y = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+### Gráfico de normalidade dos resíduos.
+ggplot(tb,
+       aes(sample = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_qq()
+
+```
+
+Após a determinação dos pontos de fixação da curva pela função fitted (), e dos resíduos, é recomendável predizer o maior número de pontos na curva modelada. Essa predição é recomendável para aumentar o ajuste da curva. Utilizaremos em nosso exemplo, uma curva predita para cada 0,5 unidade do eixo "X". Para cada valor de "X" serão calculados todos os parâmetros da curva.
+
+```{r}
+### Grid para a predição com bandas
+conc_seq <- seq(0, 100, by = 0.5)
+grid <- with(tb,
+             expand.grid(conc = conc_seq,
+                         trat = levels(trat)))
+
+grid$fit <- predict(m2, newdata = grid)
+head(grid)
+
+### Para retornar a matriz gradiente para o vetor `conc`
+partials <- deriv(loglogistico[-2],
+                  namevec = c("A", "C", "B"),
+                  function.arg = function(conc, A, C, B) {
+                    NULL
+                  })
+
+### Matriz com os parâmetros estimados po curva
+params <- matrix(coef(m2),
+                 ncol = 3,
+                 dimnames = list(levels(tb$trat),
+                                 c("A", "C", "B")))
+
+### Lista de matrizes gradiente
+grad <- sapply(levels(tb$trat),
+               simplify = FALSE,
+               FUN = function(trat) {
+                 u <- do.call(partials,
+                              args = c(list(conc = conc_seq),
+                                       as.list(params[trat, ])))
+                 u <- attr(u, "gradient")
+                 colnames(u) <- sprintf("%s.trat%s",
+                                        colnames(u),
+                                        trat)
+                 return(u)
+               })
+
+### Criação da matriz bloco diagonal e atribui os tratamentos
+X <- as.matrix(Matrix::bdiag(grad))
+colnames(X) <- c(sapply(grad, colnames))
+
+### Troca colunas de lugar para corresponder com `vcov()`.
+X <- X[, colnames(vcov(m2))]
+```
+
+Após a predição da curva, podemos calcular o intervalo de confiança para cada um dos pontos preditos. Neste exemplo utilizaremos 95% de confiança, deste modo, os 5% de probabilidade de erro serão dispostos igualmente sobre o ponto da curva predita.
+
+```{r}
+### Calcula o erro padrão do valor predito e o intervalo de confiança
+qtl <- qt(0.975, df = nrow(tb) - length(coef(m2)))
+grid$se <- sqrt(diag(X %*% vcov(m2) %*% t(X)))
+grid <- grid %>%
+  mutate(lwr = fit - qtl * se,
+         upr = fit + qtl * se)
+```
+
+A estimativa dos valores de CE~50~ serão calculadas derivando o modelo log-logistico. Esse calculo será realizado invertendo a equação, para obter o valor de "Y" correspondente a CE~50~.
+
+```{r}
+params <- params %>%
+  as.data.frame() %>%
+  rownames_to_column("trat")
+
+head(params)
+
+tb_params <- params%>%as.data.frame()%>% 
+  mutate(CE50 = exp((log(((A/((A-C)/2))-1))/(C))+B))
+
+tb_params <- tb_params%>%as.data.frame()%>% 
+  mutate(sev50 = ((A-C)/2))
+
+head(tb_params)
+```
+
+O coeficiente de determinação como já descrito anteriormente nesse capítulo, não é um inidicativo de ajuste confiável. Entretanto, sabemos que diversos periódicos e revisores insistem nesse dado. Nesse caso, podemos obter os valores de CE~50~ utilizando os comando abaixo:
+
+```{r}
+### Cálcular o CE50 
+tb_r2 <- tb %>%
+  group_by(trat) %>%
+  summarise(R2 = cor(sev, fit)^2)
+
+### Insere o valor do CE50 na tabela de paramêtros
+tb_params <- tb_params %>% inner_join(tb_r2)
+
+### Confirmação da criação da coluna R2
+head(tb_params)
+```
+
+A expressão gráfica dos resultados é uma ferramenta impressindivel para muitos casos, podendo ser a melhor maneira de expressar os resultados. Utilizaremos um gráfico produzido com o pacote 'ggplot2'.
+
+```{r}
+### Legenda contendo o valor de CE50 e CE50 com duas casas decimais 
+fmt <- "CE50: %0.2f \n CE50: %0.2f"
+
+### Plotar os dados em 6 gráficos
+grafico <- ggplot(tb, aes(x = conc, y = sev)) +
+  facet_wrap(facets = ~trat, nrow = 2) 
+
+### Insere a curva do modelo
+grafico <- grafico + geom_line(data = grid,
+            mapping = aes(x = conc, y = fit))
+
+### Insere o intervalo de confiança
+grafico <- grafico + geom_ribbon(data = grid,
+              inherit.aes = FALSE,
+              mapping = aes(x = conc, ymin = lwr, ymax = upr),
+              fill = "darkorange",
+              alpha = 0.4) 
+
+### Insere os pontos correspondentes aos dados
+grafico <- grafico + geom_point(pch = 1)
+
+### Insere a legenda
+grafico <- grafico + geom_text(data = tb_params, 
+                               mapping = aes(x = 100,
+                                             y = 60,
+                                             label = sprintf(fmt, R2, CE50)),
+                               parse = FALSE,
+                               size = 3,
+                               hjust = 1,
+                               vjust = 0)
+
+### Insere os eixos e os títulos
+grafico <- grafico + geom_hline(yintercept = 50,
+                                lty = 3,
+                                size = 0.5,
+                                col = "darkorange") +
+  scale_y_continuous(breaks = seq(0, 100, by = 20)) +
+  scale_x_continuous(breaks = seq(0, 100, by = 20)) +
+  labs(x = "Concentração (ppm)",
+       y = "Severidade (%)")
+
+### Plota o gráfico
+grafico
+```
+
+Os valores do parametros e a estimativa do valor de CE~50~ foram organizados em um data frame nomeado de tb_params. Esse data frame poderá ser exportado para um arquivo .csv para facilitar a análise dos dados.
+
+```{r}
+write.csv2(tb_params, file = "nlme_LL3.csv")
 ```
 
 
-## Ensaios de sensibilidade de patógenos hemibiotróficos e necrotróficos - Exemplo com *Monilinia*???
+### Estimando a CE~50~ com o pacote 'drc'
 
+Os mesmos dados de sensibilidade de *P. pachyrhizi* podem ser analisados pelo pacote DRC [@RITZ2015]. Para tanto, são necessários alguns pacotes que precisam ser carregados antes de iniciar o script. O carregamento dos pacotes é realizado pelos comandos abaixo.
 
-## Ensaios de sensibilidade de nematoides - Exemplo com *Meloidogyne* spp.
+```{r}
+#install.packages("drc")
+#install.packages("ggplot2")
+#install.packages("lmtest")
+#install.packages("tidyverse")
+library(drc)
+library(ggplot2)
+library(lmtest)
+library(tidyverse)
 
-### Motivação
-
-Os nematoides são animais pertencentes ao filo Nematoda, que engloba cerca de 4000 espécies. Esses animais são essencilamente aquáticos, podendo ser encontrados em todos os ecossistemas da terra. Um grupo desses animais são de extrema importância para os seres humanos, pois causam diversos prejuizos, parasitando plantas e animais. 
-
-Na agricultura, os nematoides são extremamente importantes pois parasitam as raizes de plantas de interesse agrícola. Esse grupo de nematoides possuem em orgão destinado exclusivamente para se alimentar do protoplasto das células das plantas, o estilete. Esse orgão atua como uma agulha de uma seringa, que ao penetrar a célula vegetal, é capaz de sugar seu conteudo. Esse habito faz com que os nematoides sejam exclusivamente dependentes das plantas, toranando-os parasitas obrigatórios.
-
-Dentre os gêneros de nematoides de importancia agricola, podemos destacar os gêneros *Meloidogyne* e *Pratylenchus*. Esses gêneros de nematoides possuem espécies capazes de parasitar as principais espécies vegetais de interesse agricola. Além disso, as espécies desses gêneros estão distrbuidas pelas diversas regiões produtoras das espécies vegetais de interesse economico.
-
-Os nematoides do gênero *Meloidogyne* são endoparasitas e possuem a caracteristica marcante de causar galhas na raizes das plantas parasitadas. Essas galhas são causadas pela penetração do estilete dos juvenis nas células das raízes das plantas. Ao inserir o estilete, o nematoide inicia a alimentação e segrega substâncias que inibem a resposta da planta e induzem a formação do sítio de alimentação. Esse sítio de alimentação irá direcionar fotossimilados e nutrientes das células vizinhas para a célula que está sendo sugada pelo juvenil. Ao se alimentar, o juvenil se desenvolve e realiza as ecdises necessárias para seu desenvolvimento. Ao atingir o estágio adulto, a fêmea possuirá o corpo periforme (fom o formato de pêra) e produzirá uma massa de ovos que se acumula em uma matriz gelatinosa que em alguns casos poderá romper a parede da galha e ser exposta para fora das raízes da planta parasitada. Os ovos, cerca de 2000, irão iniciar um novo ciclo de parasitismo.
-
-O gênero *Pratylenchus* abriga espécies ectoparasitas, pois são nematoides filiformes durante todas as fases de sua vida, podendo permear entre o solo e as raízes das plantas. Em todos os estágios após a eclosão do juvenil para fora o ovo, os nematoides desse gênero serão capazes de pentrar as raízes das plantas e se alimentar do conteudo das células das raizes das plantas. Esse gênero de nematoides não induz a formação do sítio de alimentação. Ao sugar o conteudo da célula, os nematoides podem movimentar-se no interior da raíz em busca de novos células. Deste modo, ao se alimentar e causar a morte das células, os nematoides desse gênero causam a necrose das raízes, rasultando em lesões que levam as raízes a morte.
-
-```{r j2andeggs, echo = FALSE, fig.cap = '(ref:j2andeggs)'} 
-knitr::include_graphics("./marlon/j2andeggs.jpg")
 ```
 
-O controle dos nematoides busca evitar as perdas economicas devido o parasitismo dos nematoides. Basicamente, após a entrada dos nematoides na área de produção agricola, atualmente não há estratégias capazes de erradicar os nematoides de maneira eficiente. Deste modo, possuimos somente estratégias que permitem conviver com os nematoides de modo a reduzir as perdas. O controle pela aplicação de algum agente de controle químico, biológico ou alternativo são amplamente realizados e estudados. 
+Utilizaremos os mesmos dados do exemplo com o pacote 'nlme'. O processo de importação dos dados é igual aos descrito anteriormente.
 
+```{r}
+### Importação dos dados em .csv salvos no github
+tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/p_pachyrhizi.csv", sep=";", dec=",", header = T)
+
+### Explorar os dados dentro de "tb"
+head(tb)
+str(tb)
+summary(tb)
+
+### Plotar as curvas
+ggplot(tb,
+       aes(x = conc, y = sev)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+```
+
+O pacote drc não exige o carregamento de uma equação, pois o pacote já conta com as equações em suas funções. Para ajustar os dados à equação log-logistico com três parâmetros (como utilizado no exemplo com o pacote 'nlme'), utilizare-mos somente o comando LL.3().
+
+```{r}
+### Ajustando ao modelo de Gompertz de três parâmetros
+drc1.LL.3 <- drm(sev ~ conc, trat, data = tb, 
+                 fct = LL.3(names = c("C", "A", "B")))
+```
+
+Se houver interesse de verificar o ajuste dos dados aos demais modelos, podemos submeter o ajuste a função que irá comparar o primeiro ajuste com os demais modelos selecionados. Como exemplo, iremos comparar o modelo log-logistico de três paramêtros com os modelos logistico (L.3), logistico natural (LN.3), Gompertz (G.3) e Weibull (W2.3), todos com três parametros. 
+
+```{r}
+### Selecionando o melhor modelo global
+mselect(drc1.LL.3, list(G.3(), LN.3(), LL.3(), W2.3()))
+```
+
+Comparado ao pacote 'nlme', o pacote drc não demanda de chutes iniciais para estimar os valores dos parametros. A função drm permite estimar os valores dos parametros do modelo.
+
+```{r}
+### Montagem de um modelo com nomes atribuídos aos parâmetros
+drc2.LL.3 <- drm(sev ~ conc, trat, data = tb, 
+                 fct = LL.3(names = c("C", "A", "B")))
+```
+
+O modelo já conseguiu estimar a curva.Com os dados ajustados ao modelo, podemos extrair os valores da curva do modelo e os resíduos dos dados em relação a curva do modelo. Os valores da curva do modelo (fit) e os resíduos (res) serão acomodados no dataframe com os dados iniciais.
+
+```{r}
+### Adicionando a coluna da curva estimada
+tb$fit <- fitted(drc2.LL.3)
+
+### Adicionando a coluna dos residuos
+tb$res <- residuals(drc2.LL.3)
+
+# Confirmação da inclusão dos residuos e fit
+head(tb)
+
+# Resíduos contra o tempo.
+ggplot(tb,
+       aes(x = conc, y = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+# Resíduos contra os valores ajustados.
+ggplot(tb,
+       aes(x = fit, y = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+# Normalidade dos resíduos.
+ggplot(tb,
+       aes(sample = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_qq()
+
+```
+
+Os valores dos parametros precisam ser organizados em uma tabela. Os comando abaixo criam uma tabela com os três parametros extraidos do modelo (A, B e C). Uma coluna será criada para acomodar o valor de CE~50~ para cada curva.
+
+```{r}
+### Cria a tabela com os parametros para cada curva
+params <- matrix(coef(drc2.LL.3),
+                 ncol = 3,
+                 dimnames = list(levels(tb$trat),
+                                 c("C", "A", "B")))
+
+### Adiciona a coluna tratamentos na tabela de parametros
+params <- params %>%
+  as.data.frame() %>%
+  rownames_to_column("trat")
+
+tb_params <- params
+
+### Calcula o R2 das curvas
+tb_r2 <- tb %>%
+  group_by(trat) %>%
+  summarise(R2 = cor(sev, fit)^2)
+
+### Nomeia as colunas
+names(tb_r2) <- c("trat", "R2")
+
+### Adiociona a coluna de R2 na tabela com os valores dos parametros
+tb_params <- tb_params %>% inner_join(tb_r2)
+
+### Obtenção do valor correspondente a 50% da resposta.
+tb_params <- tb_params%>%as.data.frame()%>% 
+  mutate(sev50 = (A/2))
+
+head(tb_params)
+```
+
+Outra facilidade do drc em relação ao nlme, é o calculo de CE~50~. O drc não demanda da derivada da equação do modelo para extrair o valor de CE~50~. A função ED() extrai os valores da CE~50~ estimada para a curva predita. Os valores do intervalo de confiança das estimativas também são calculados e expressos em uma tabela.
+
+```{r}
+### Estimativa de CE50
+CE50 <- ED(drc2.LL.3, 50, interval = "delta")
+
+CE50 <- CE50 %>%
+  as.data.frame() %>%
+  rownames_to_column("trat")
+
+CE50 <- CE50 %>%  mutate(trat = as.numeric(trat))
+
+CE50$trat <- levels(tb$trat)
+
+names(CE50) <- c("trat", "CE50", "Error", "lwr", "upr")
+
+### Limitar o data.frame a duas casas decimais
+tb_params <- tb_params %>% inner_join(CE50)
+
+tb_params <- tb_params %>% 
+  mutate_if(is.numeric, round, digits = 2)
+
+tb_params
+```
+
+Após a predição da curva, podemos calcular o intervalo de confiança para cada um dos pontos preditos. Neste exemplo utilizaremos 95% de confiança, deste modo, os 5% de probabilidade de erro serão dispostos igualmente sobre o ponto da curva predita.
+
+```{r}
+# Grid para a prediçãoo com bandas.
+conc_seq <- seq(0, 500, by = 0.5)
+grid <- with(tb,
+             expand.grid(conc = conc_seq,
+                         trat = levels(trat)))
+
+head(grid)
+grid <- grid %>%
+  as.data.frame() %>%
+  rownames_to_column("ponto")
+
+fit <- fitted(drc2.LL.3, newdata = grid, interval = "confidence")
+
+fit <- fit %>%
+  as.data.frame() %>%
+  rownames_to_column("ponto")
+
+head(fit)
+
+grid <- grid %>% inner_join(fit)
+
+names(grid) <- c("ponto", "conc", "trat", "fit", "lwr", "upr")
+
+head(grid)
+```
+
+A expressão gráfica dos resultados é uma ferramenta impressindivel para muitos casos, podendo ser a melhor maneira de expressar os resultados. Utilizaremos um gráfico produzido com o pacote 'ggplot2'.
+
+```{r}
+fmt <- "R2: %0.2f \n CE50: %0.2f"
+
+# Gr?fico com bandas de confian?a.
+grafico <- ggplot(tb,
+                  aes(x = conc, y = sev)) + 
+  facet_wrap(facets = ~trat, nrow = 4) + 
+  geom_line(data = grid,
+            mapping = aes(x = conc, y = fit)) +
+  geom_ribbon(data = grid,
+              inherit.aes = FALSE,
+              mapping = aes(x = conc, ymin = lwr, ymax = upr),
+              fill = "darkorange",
+              alpha = 0.4) 
+
+grafico <- grafico + geom_point(pch = 1)
+
+grafico <- grafico + geom_text(data = tb_params, 
+                               mapping = aes(x = 500,
+                                             y = 60,
+                                             label = sprintf(fmt, R2, CE50)),
+                               parse = FALSE,
+                               size = 3,
+                               hjust = 1,
+                               vjust = 0)
+
+grafico <- grafico + 
+  scale_y_continuous(breaks = seq(0, 100, by = 20)) +
+  scale_x_continuous(breaks = seq(0, 500, by = 50)) +
+  labs(x = "ConcentraÃ§Ã£o",
+       y = "seviÃ§Ã£o (%)")
+
+grafico <- grafico + geom_hline(aes(yintercept = sev50), tb_params, 
+                                lty = 3, size = 0.5, col = "black")
+
+grafico <- grafico + geom_vline(aes(xintercept = CE50), tb_params, 
+                                lty = 3, size = 0.5, col = "black")
+
+grafico
+```
+
+Para salvar os valores dos parâmetros, estimativas de CE~50~ em arquivo .csv, recomendamos uilizar a função abaixo:
+
+```{r}
+write.csv2(tb_params, file = "drc_LL3.csv")
+```
+
+
+
+
+## Ensaios de sensibilidade de nematoides
+
+Os nematoides são animais essencialmente aquáticos, possuem hábitos alimentares que envolvem o parasitismo de animais e plantas, a predação de fungos, bactérias e outros nematoides, e a saprofágia [@PERRYMOENS2013]. Entretanto, os nematoides parasitas de animais e plantas são os que despertam maior preocupação nos seres humanos, pois causam diversas perdas econômicas. 
+
+Na agricultura, os nematoides são extremamente importantes pois parasitam as raizes de plantas de interesse agrícola. Esse grupo de nematoides possuem em orgão destinado exclusivamente para se alimentar do protoplasto das células das plantas, o estilete (Figura \@ref(fig:fig10)). Esse orgão atua como uma agulha de uma seringa, que ao penetrar a célula vegetal, é capaz de sugar seu conteudo. Esse habito faz com que os nematoides sejam exclusivamente dependentes das plantas, tornando-os parasitas obrigatórios.
+
+```{r, fig10, echo = FALSE, fig.cap = '(ref:fig10)'}
+knitr::include_graphics("./Alexandre/fig10.jpg")
+```
+(ref:fig10) A esquerda uma fêmea adulta de *Meloidogyne javanica* e a direita um adulto de *helicotylenchus dihystera*. Ambos são nematoides fitoparatitas e apresentam estilete para se alimentar sugando o conteudo celular.
+
+Os nematoides fitoparasitas possuem potencial de gerar prejuízos para a agricultura que variam de 157 bilhões de dólares [@ABAD2008; @HASSAN2013; @SINGH2015] a 358 bilhões de dólares anuais [@ABD-ELGAWAD2014]. Para a cultura da soja, uma das principais commodities exportadas pelo Brasil, são relatadas ao menos 50 espécies de nematoides fitoparasitas [@DIAS2010]. Dentre essas espécies, destacam-se *Meloidogyne javanica* (Treub, 1885) Chitwood, 1949, *Meloidogyne incognita* (Kofoid & White) Chitwood, 1949, *Pratylenchus brachyurus* (Godfrey, 1929) Filipjev & S. Stekhoven, 1941, *Heterodera glycines* Ichinohe, 1951  e *Rotylenchulus reniformis* Linford & Oliveira, 1940  como as mais importantes para a cultura da soja no Brasil, sendo a espécie *M. javanica* a mais frequente  [@FRANZENER2005; @DIAS2010; @MATTOS2016; @LOBO2017; @MAZZETTI2019].
+
+O Gênero *Meloidogyne*, popularmente conhecido como nematoide das galhas,  é extremamente importante para diversas culturas. Atualmente esse gênero contem 97 espécies [@HUNT2009] e esse número elevado de espécies é equivalente ao grande número de hospedeiros parasitados pelos nematoides desse gênero, estimadas em 5500 espécies vegetais [@TRUDGILL2001; @BLOK2008].
+
+Os nematoides do gênero *Meloidogyne* são endoparasitas e possuem a caracteristica marcante de causar galhas na raizes das plantas parasitadas. Essas galhas são causadas pela penetração do estilete dos juvenis nas células das raízes das plantas. Ao inserir o estilete, o nematoide inicia a alimentação e segrega substâncias que inibem a resposta da planta e induzem a formação do sítio de alimentação. Esse sítio de alimentação irá direcionar fotossimilados e nutrientes das células vizinhas para a célula que está sendo sugada pelo juvenil. Ao se alimentar, o juvenil se desenvolve e realiza as ecdises necessárias para seu desenvolvimento. Ao atingir o estágio adulto, a fêmea possuirá o corpo periforme (fom o formato de pêra) e produzirá uma massa de ovos que se acumula em uma matriz gelatinosa que em alguns casos poderá romper a parede da galha e ser exposta para fora das raízes da planta parasitada (Figura \@ref(fig:fig11)) [@PERRYMOENS2013].
+
+```{r, fig11, echo = FALSE, fig.cap = '(ref:fig11)'}
+knitr::include_graphics("./Alexandre/fig11.jpg")
+```
+(ref:fig11) Fases da vida e sintomas provocados por *Meloidogyne javanica*. A primeira imagem contem ovos e juvenis de segundo estádio de *M. javanica*. A segunda imagem exibe uma fêmea adulta de *M. javanica*, imóvel, obesa e com formato periforme. A terceira imagem exibe raízes de tomateiros parasitas por *M. javanica* com sintomas da formação de galhas.
+
+Na tentativa de reduzir perdas causadas por nematoides, algumas medidas de controle são utilizadas. A seleção de mudas sadias impede a inserção de nematoides em uma área de cultivo [@BRIDGE1996; @COLLANGE2011]. Entretanto, pode ocorrer a inserção acidental de nematóides, podendo ocorrer não somente pelo material propagativo, mas também por meio da água de irrigação [@HUGO2010], implementos agrícolas e/ou pelos calçados dos trabalhadores rurais [@COLLANGE2011]. Após o estabelecimento dos nematoides na lavoura, são utilizadas medidas para manter a população de nematoides em níveis populacionais baixos, na tentativa de minimizar as perdas. Em resumo, possuimos somente estratégias que permitem conviver com os nematoides de modo a reduzir as perdas. O controle pela aplicação de algum agente de controle químico, biológico ou alternativo são amplamente realizados e estudados. Entretanto o controle químico é o mais utilizado no campo [@NYCZEPIR2009].
 
 A aplicação de substâncias para o controle de nematoides demanda de estudos do efeito da aplicação de diferentes concentrações sobre a resposta obtida. Assim, determinando o efeito de dose-resposta, é possivel estimar a concentração eficiente para obter o controle desejado. Esses estudos são realizados utilizando gradientes de concentrações de produtos, nos quais as fases de vida do nematoide são expostos ao tratamento por determinado periodo de tempo. Esses experimentos são comumente chamados de testes de eclosão, testes de motilidade e mortalidade, teste de penetração de juvenis e testes de Reprodução (Fator de reprodução).
 
-Os testes de dose-resposta são realizados ao menos com 5 tratamentos, cada um deles com uma concentração diferente do produto. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Èssa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestima ou superestimada.
+Os testes de dose-resposta são realizados diferentes tratamentos, que são concentração as produto que se quer conhecer a CE50. Geralmente são adicionados tratamentos testemunhas, no qual a concentração do produto testado é 0%. Cada concentração vai gerar uma resposta, afim de obter uma curva de resposta. Essa curva deve formar um gradiente, onde as respostas apresentem diferentes níveis. Quando as concentrações não representam um gradiente de resposta, a estimativa da concentração efetiva pode ser subestimada ou superestimada. Um exemplo de CE~50~ para nematoides é o efeito de nematicidas sobre a eclosão de juvenis. Deste modo, com o aumento da concentração de nematicida, possivelmente a taxa de eclosão reduzirá (Figura \@ref(fig:fig12)).
 
-```{r curvaexemplo, echo = FALSE, fig.cap = '(ref:curvaexemplo)'} 
-knitr::include_graphics("./marlon/curvaexemplo.jpg")
+```{r, fig12, echo = FALSE, fig.cap = '(ref:fig12)'}
+knitr::include_graphics("./Alexandre/fig12.jpg")
+```
+(ref:fig12) Modelo esquemático de um experimento de eclosão de nematoides. Esse experimento possui delineamento interiamente casualizado com 6 tratamentos e 4 repetições.
+
+O exemplo que apresentaremos neste capítulo, utiliza um script desenvolvido para estimar a CE~50~ de 4 nematicidas contra juvenis de *M. javanica*. Cada um dos nematicidas foi testado com 7 concentrações (0; 1,0; 2,5; 5; 10; 15 e 20 ppm). O experimento foi realizado em esquema fatorial 4X7 em delineamento inteiramente casualizado com 3 repetições. Esse exemplo será abordado utilizando scipts desenvolvidos para o pacote 'nlme' [@PINHEIRO2020] e 'drc' [@RITZ2016].
+
+### Estimando a CE50 com o pacote 'NLME'
+
+```{r, message=TRUE}
+### Carregar os pacotes
+#install.packages("nlme")
+#install.packages("ggplot2")
+#install.packages("lmtest")
+#install.packages("tidyverse")
+library(nlme)
+library(ggplot2)
+library(lmtest)
+library(tidyverse)
+
+### Importação dos dados em .csv salvos no github
+tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/meloidogyne.csv", sep=";", dec=",", header = T)
+
+### Explorar os dados dentro de "tb"
+head(tb)
+str(tb)
+summary(tb)
+
+### Plotar as curvas
+ggplot(tb,
+       aes(x = conc, y = mort)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+### Equação de Log-Logistico
+loglogistico <- mort ~ A / (1+exp(C*(log(conc)-B)))
 ```
 
-A curva de resposta corresponde a uma curva sigmoidal típica. Frequentemente os experimentos de expression(CE_50) apresentam somente parte da curva total, onde pode ocorrer ajuste em modelos lineares. A curva de dose resposta geralmente utilizada em estudos de CE50 para nematoides é baseada na curva de dose resposta baseada em um estudo de Seefeldt et al. (1995).
+O ajuste os dados nesse modelo utilizando o pacote nlme demanda de estimativas iniciais para os parametros, que aqui chamamos de "chutes iniciais". Esses "chutes" aos parâmetros "A", "B" e "C". Para facilitar os chutes iniciais, utilizaremos a função nls() do pacote 'stats' que está associado ao 'nlme'. Essas funções combinadas permitem estimar os valores dos parametros com um nível de tolerância, permitindo a inserção na função gnls().
 
+```{r}
+### Estima curvas para os dados
+fit <- nls(mort ~ A / (1+exp(C*(log(conc)-B))), data=tb,
+           start = list(A = 95, B = 2, C = -1))
 
-$$
-y = f(x) = C + \frac{D - C}{1 + exp\left [ b \left ( log ( x \right ) - log\left ( CE_{50} \right ) \right )]}
-$$
+### Extrai os coeficientes das curvas
+coef(fit)
 
-Onde: C é o limite inferior da curva, D é limite superior, b é o "Slup" e CE_50 é a concentração capaz de inibir em 50% a atividade dos nematoides.
+### Expões o número de níveis que geram curvas
+levels(tb$trat)
+```
 
+Os valores dos parametros estimados pela função nls serão utilizados na função gnls. Os valores de cada parametro serão repetidos o número de níveis -1. Em nosso exemplo, os valores aproximados dos paramêtros foram de 95 para A, -1 para C e 2 para B. O número de níveis -1 é igual a 3. Se o modelo de Weibull, Gompertz ou qualquer outro  for testado, deve-se substituir o "model" pela equação descrita anteriormente.
 
-### Análise de Dose-Resposta no R
+```{r}
+### Primeiro ajuste
+m1 <- gnls(model = loglogistico,
+           data = tb,
+           params = A + C + B ~ trat,
+           start = c(100, rep(0, times = 3),
+                     -1, rep(0, times = 3),
+                     2, rep(0, times = 3)))
 
-Os dados obtidos pelas avaliações de um experimento preisam ser tabuladas em uma planilha. A planilha precisará ser organizada em colunas, no qual a primeira coluna corresponde ao tratamento. Na segunda coluna, devem ser dispostos as rapetições ou blocos. As colunas posteriores correspondem a variável resposta, das quais podem ser tantas quanto for necessário. A planilha poderá ser salvo em .txt, .csv ou .xlsc. Em nosso exemplo usaremos um arquivo em formato .csv. O arquivo poderá ser criado utilizando o comando de salvar como em csv (separado por ponto e vírgula). 
+### Extrair os coeficientes para confirmação
+coef(m1)
 
-A importação dos dados da planilha será realizada usando os comandos abaixo:
+### Segundo ajuste
+m2 <- gnls(model = loglogistico,
+           data = tb,
+           params = A + C + B ~ 0 + trat,
+           start = c(rep(93, times = 4),
+                     rep(-1.3, times = 4),
+                     rep(0.8, times = 4)))
 
-````{r importação de dados}
-# selecionar diretório onde o arquivo da planilha está salvo
-setwd("D:/EC50 Nematoides")
+### Extrair os coeficientes para confirmação
+coef(m2)
 
-# importar os dados para o R
-tb <- read.csv2("marlon/mortalidade.csv")
+### Resíduos e curva do modelo
+tb$res <- residuals(m2)
+tb$fit <- fitted(m2)
 
-# exibir os dados
+### Dataframe com os dados iniciais 
 head(tb)
 
-knitr::kable(head(tb), caption = '(ref:script mortalidade)',
-             digits = c(NA, 0, 0, 1, 1),
-             align = c("ccccc"),
-             row.names = FALSE)
+### Gráfico com os resíduos contra o tempo
+ggplot(tb,
+       aes(x = conc, y = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+### Gráfico com os resíduos contra os valores ajustados
+ggplot(tb,
+       aes(x = fit, y = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+### Gráfico de normalidade dos resíduos.
+ggplot(tb,
+       aes(sample = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_qq()
+
+### Grid para a predição com bandas
+conc_seq <- seq(0, 20, by = 0.5)
+grid <- with(tb,
+             expand.grid(conc = conc_seq,
+                         trat = levels(trat)))
+
+grid$fit <- predict(m2, newdata = grid)
+head(grid)
+
+### Para retornar a matriz gradiente para o vetor `conc`
+partials <- deriv(loglogistico[-2],
+                  namevec = c("A", "C", "B"),
+                  function.arg = function(conc, A, C, B) {
+                    NULL
+                  })
+
+### Matriz com os parâmetros estimados po curva
+params <- matrix(coef(m2),
+                 ncol = 3,
+                 dimnames = list(levels(tb$trat),
+                                 c("A", "C", "B")))
+
+### Lista de matrizes gradiente
+grad <- sapply(levels(tb$trat),
+               simplify = FALSE,
+               FUN = function(trat) {
+                 u <- do.call(partials,
+                              args = c(list(conc = conc_seq),
+                                       as.list(params[trat, ])))
+                 u <- attr(u, "gradient")
+                 colnames(u) <- sprintf("%s.trat%s",
+                                        colnames(u),
+                                        trat)
+                 return(u)
+               })
+
+### Criação da matriz bloco diagonal e atribui os tratamentos
+X <- as.matrix(Matrix::bdiag(grad))
+colnames(X) <- c(sapply(grad, colnames))
+
+### Troca colunas de lugar para corresponder com `vcov()`.
+X <- X[, colnames(vcov(m2))]
+
+### Calcula o erro padrão do valor predito e o intervalo de confiança
+qtl <- qt(0.975, df = nrow(tb) - length(coef(m2)))
+grid$se <- sqrt(diag(X %*% vcov(m2) %*% t(X)))
+grid <- grid %>%
+  mutate(lwr = fit - qtl * se,
+         upr = fit + qtl * se)
 ```
 
-A verificação do comportamento dos dados é importante para verificar a ocorrência de pontos fora da curva. Em nosso exemplo vamos plotar os dados em gráficos do estilo boxplot. Esse tipo de gráfico permitirá observar os dados, as médias e o desvio padrão correspondente a cada tratamento.
-Os dados originais de mortalidade não serão utilizados para a estimativa de CE50. Entretanto, a verificação dos dados originais de mortalidade permitirão identificar pontos discordantes. 
-
-```{r gráfico-exploratório-mortalidade, echo=FALSE}
-# gráfico exploratório dos dados de mortalidade
-knitr::kable((with(tb, boxplot(mort ~ conc, xlab="Concentração do tratamento (%)", ylab="Mortalidade de J2s (%)", 
-                     ylim=c(0,100), las=1, cex.axis=0.8, horizontal = F))), caption = '(ref:gráfico-exploratório-mortalidade)',
-             digits = c(NA, 0, 0, 1, 1),
-             align = c("ccccc"),
-             row.names = FALSE)
-```
-
-Os dados corrigidos pela equação de SCHNEIDER-ORELLI, 1947 foram expressos na planilha na coluna corr. Após a correção pela equação, a mortalidade natural da testemunha é eliminada dos dados, deste modo, os valores da testemunha após a correção são valores próximos de 0 (zero).
+A estimativa dos valores de CE~50~ serão calculadas derivando o modelo log-logistico. Esse calculo será realizado invertendo a equação, para obter o valor de "Y" correspondente a CE~50~.
 
 ```{r}
-# gráfico exploratório dos dadosdados de mortalidade corrigidos
-knitr::kable((with(tb, boxplot(corr ~ conc, xlab="Concentração do tratamento (%)", ylab="Mortalidade de J2s (%)", 
-                     ylim=c(0,100), las=1, cex.axis=0.8, horizontal = F))), caption = '(ref:gráfico-exploratório-corrigido)',
-             digits = c(NA, 0, 0, 1, 1),
-             align = c("ccccc"),
-             row.names = FALSE)
+params <- params %>%
+  as.data.frame() %>%
+  rownames_to_column("trat")
+
+head(params)
+
+tb_params <- params%>%as.data.frame()%>% 
+  mutate(CE50 = exp((log(((A/((100-C)/2))-1))/(C))+B))
 ```
 
-O teste de Bartlett é recomendável .
-Existe homogeneidade entre as variâncias?
-Se P>0.05 as variâncias são homogêneas
-Se P<0.05 as variâncias não são homogêneas
+Este exemplo de CE~50~ com *Meloidogyne* é semelhante ao exemplo com *Phakopsora pachyrhizi*, mas a maior diferença entre eles, surge nesse ponto do script. Alguns microrganismos ou isolados, não são totalmente inibidos, ou não apresentam a máxima redução na sua atividade biológica (crescimento micelial, germinação e tamanho de lesões) quando expostos as maiores concentrações de determinada molécula utilizada em um ensaio de CE~50~.Essa resposta de cada microrganismo, afeta a amplitude da curva de CE~50~. Em nosso exemplo, temos ciência que é possivel obter 100% de mortalidade de nematoides. Deste modo, consideramos que a assintota máxima da curva de mortalidade corresponde a 100% de mortalidade, do qual, a CE~50~ corresponde a 50% de mortabilidade dos nematoides.
 
 ```{r}
-bartlett.test(residuals(aov(corr ~ bloco+conc, data=mortalidade)) 
-              ~ interaction(ordered(conc)), data=mortalidade)
+tb_params <- tb_params%>%as.data.frame()%>% 
+  mutate(mort50 = ((100-C)/2))
+
+head(tb_params)
+
+### Cálcular o CE50 
+tb_r2 <- tb %>%
+  group_by(trat) %>%
+  summarise(R2 = cor(mort, fit)^2)
+
+### Insere o valor do CE50 na tabela de paramêtros
+tb_params <- tb_params %>% inner_join(tb_r2)
+
+### Confirmação da criação da coluna R2
+head(tb_params)
 ```
+
+A expressão gráfica dos resultados é uma ferramenta impressindivel para muitos casos, podendo ser a melhor maneira de expressar os resultados. Utilizaremos um gráfico produzido com o pacote 'ggplot2'.
 
 ```{r}
-par(mfrow=c(1,1), mar=c(4,4,2,2))
-qqPlot(rstudent(aov(corr ~ bloco+ordered(conc), data=mortalidade)), 
-       pch=19, ylab="Resíduos")
+### Legenda contendo o valor de CE50 e CE50 com duas casas decimais 
+fmt <- "CE50: %0.2f \n CE50: %0.2f"
+
+### Plotar os dados em 6 gráficos
+grafico <- ggplot(tb, aes(x = conc, y = mort)) +
+  facet_wrap(facets = ~trat, nrow = 2) 
+
+### Insere a curva do modelo
+grafico <- grafico + geom_line(data = grid,
+            mapping = aes(x = conc, y = fit))
+
+### Insere o intervalo de confiança
+grafico <- grafico + geom_ribbon(data = grid,
+              inherit.aes = FALSE,
+              mapping = aes(x = conc, ymin = lwr, ymax = upr),
+              fill = "darkorange",
+              alpha = 0.4) 
+
+### Insere os pontos correspondentes aos dados
+grafico <- grafico + geom_point(pch = 1)
+
+### Insere a legenda
+grafico <- grafico + geom_text(data = tb_params, 
+                               mapping = aes(x = 20,
+                                             y = 10,
+                                             label = sprintf(fmt, R2, CE50)),
+                               parse = FALSE,
+                               size = 3,
+                               hjust = 1,
+                               vjust = 0)
+
+grafico <- grafico + 
+  scale_y_continuous(breaks = seq(0, 100, by = 20)) +
+  scale_x_continuous(breaks = seq(0, 20, by = 2)) +
+  labs(x = "Concentração",
+       y = "mortalidade (%)")
+
+grafico <- grafico + geom_hline(aes(yintercept = mort50), tb_params, 
+                                lty = 3, size = 0.5, col = "black")
+
+grafico <- grafico + geom_vline(aes(xintercept = CE50), tb_params, 
+                                lty = 3, size = 0.5, col = "black")
+
+### Plota o gráfico
+grafico
 ```
 
-Os blocos tem efeito aditivo?
-Se Tukey.p>0.05 o bloco tem efeito aditivo
-Se Tukey.p<0.05 o bloco não tem efeito aditivo
+Os valores do parametros e a estimativa do valor de CE~50~ foram organizados em um data frame nomeado de tb_params. Esse data frame poderá ser exportado para um arquivo .csv para facilitar a análise dos dados.
 
 ```{r}
-require(dae)
-modad<-aov(corr ~ bloco+ordered(conc) + Error(bloco), mortalidade)
-tukey.1df(modad, mortalidade, error.term= "Within")
+write.csv2(tb_params, file = "nlme_LL3.csv")
 ```
 
-Transformação dos dados
-```{r}
-require(MASS)
-
-boxcox(aov(eclo ~ bloco+ordered(conc), data=mortalidade), lambda = seq(0, 3, l = 101))
-abline(v=1,col="blue")
-```
-
-O pacote DRC (Dose-Responde Curve)
-
-Regressão não linear de com 4 parâmetros
+### Estimando a CE~50~ com o pacote 'drc'
 
 ```{r}
-require(drc)
+#install.packages("drc")
+#install.packages("ggplot2")
+#install.packages("lmtest")
+#install.packages("tidyverse")
+library(drc)
+library(ggplot2)
+library(lmtest)
+library(tidyverse)
+
+### Importação dos dados em .csv salvos no github
+tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/meloidogyne.csv", sep=";", dec=",", header = T)
+
+### Explorar os dados dentro de "tb"
+head(tb)
+str(tb)
+summary(tb)
+
+### Plotar as curvas
+ggplot(tb,
+       aes(x = conc, y = mort)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+### Ajustando ao modelo log-logistico de três parâmetros
+drc1.LL.3 <- drm(mort ~ conc, trat, data = tb, 
+                 fct = LL.3(names = c("C", "A", "B")))
+
+### Selecionando o melhor modelo global
+mselect(drc1.LL.3, list(G.3(), LN.3(), LL.3(), W2.3()))
+
+### Montagem de um modelo com nomes atribuídos aos parâmetros
+drc2.LL.3 <- drm(mort ~ conc, trat, data = tb, 
+                 fct = LL.3(names = c("C", "A", "B")))
+
+### Adicionando a coluna da curva estimada
+tb$fit <- fitted(drc2.LL.3)
+
+### Adicionando a coluna dos residuos
+tb$res <- residuals(drc2.LL.3)
+
+# Confirmação da inclusão dos residuos e fit
+head(tb)
+
+# Resíduos contra o tempo.
+ggplot(tb,
+       aes(x = conc, y = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+# Resíduos contra os valores ajustados.
+ggplot(tb,
+       aes(x = fit, y = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_point()
+
+# Normalidade dos resíduos.
+ggplot(tb,
+       aes(sample = res)) +
+  facet_wrap(facets = ~trat) +
+  geom_qq()
+
+### Cria a tabela com os parametros para cada curva
+params <- matrix(coef(drc2.LL.3),
+                 ncol = 3,
+                 dimnames = list(levels(tb$trat),
+                                 c("C", "A", "B")))
+
+### Adiciona a coluna tratamentos na tabela de parametros
+params <- params %>%
+  as.data.frame() %>%
+  rownames_to_column("trat")
+
+tb_params <- params
+
+### Calcula o R2 das curvas
+tb_r2 <- tb %>%
+  group_by(trat) %>%
+  summarise(R2 = cor(mort, fit)^2)
+
+### Nomeia as colunas
+names(tb_r2) <- c("trat", "R2")
+
+### Adiociona a coluna de R2 na tabela com os valores dos parametros
+tb_params <- tb_params %>% inner_join(tb_r2)
+
+### Obtenção do valor correspondente a 50% da resposta.
+tb_params <- tb_params%>%as.data.frame()%>% 
+  mutate(mort50 = ((100-C)/2))
+
+head(tb_params)
+
+### Estimativa de CE50
+CE50 <- ED(drc2.LL.3, 50, interval = "delta", 
+           reference = "control", type = "absolute")
+
+CE50 <- CE50 %>%
+  as.data.frame() %>%
+  rownames_to_column("trat")
+
+CE50 <- CE50 %>%  mutate(trat = as.numeric(trat))
+
+CE50$trat <- levels(tb$trat)
+
+names(CE50) <- c("trat", "CE50", "Error", "lwr", "upr")
+
+### Limitar o data.frame a duas casas decimais
+tb_params <- tb_params %>% inner_join(CE50)
+
+tb_params <- tb_params %>% 
+  mutate_if(is.numeric, round, digits = 2)
+
+tb_params
+
+# Grid para a prediçãoo com bandas.
+conc_seq <- seq(0, 20, by = 0.5)
+grid <- with(tb,
+             expand.grid(conc = conc_seq,
+                         trat = levels(trat)))
+
+head(grid)
+grid <- grid %>%
+  as.data.frame() %>%
+  rownames_to_column("ponto")
+
+fit <- fitted(drc2.LL.3, newdata = grid, interval = "confidence")
+
+fit <- fit %>%
+  as.data.frame() %>%
+  rownames_to_column("ponto")
+
+head(fit)
+
+grid <- grid %>% inner_join(fit)
+
+names(grid) <- c("ponto", "conc", "trat", "fit", "lwr", "upr")
+
+head(grid)
 ```
 
-Ajustando um modelo log-logístico de cinco parâmetros (f=1)
+A expressão gráfica dos resultados é uma ferramenta impressindivel para muitos casos, podendo ser a melhor maneira de expressar os resultados. Utilizaremos um gráfico produzido com o pacote 'ggplot2'.
+
 ```{r}
-mortalidade.m5 <- drm(corr ~ conc, data = mortalidade, fct = LL.5(fixed = c(NA, NA, NA, NA, 1)))
-coef(mortalidade.m5)
-# Intervalos de confiança para todos os parâmetros
-confint(mortalidade.m5)
+fmt <- "R2: %0.2f \n CE50: %0.2f"
+
+# Gr?fico com bandas de confian?a.
+grafico <- ggplot(tb,
+                  aes(x = conc, y = mort)) + 
+  facet_wrap(facets = ~trat, nrow = 2) + 
+  geom_line(data = grid,
+            mapping = aes(x = conc, y = fit)) +
+  geom_ribbon(data = grid,
+              inherit.aes = FALSE,
+              mapping = aes(x = conc, ymin = lwr, ymax = upr),
+              fill = "darkorange",
+              alpha = 0.4) 
+
+grafico <- grafico + geom_point(pch = 1)
+
+grafico <- grafico + geom_text(data = tb_params, 
+                               mapping = aes(x = 20,
+                                             y = 10,
+                                             label = sprintf(fmt, R2, CE50)),
+                               parse = FALSE,
+                               size = 3,
+                               hjust = 1,
+                               vjust = 0)
+
+grafico <- grafico + 
+  scale_y_continuous(breaks = seq(0, 100, by = 20)) +
+  scale_x_continuous(breaks = seq(0, 20, by = 2)) +
+  labs(x = "Concentração (ppm)",
+       y = "Mortalidade (%)")
+
+grafico <- grafico + geom_hline(aes(yintercept = mort50), tb_params, 
+                                lty = 3, size = 0.5, col = "black")
+
+grafico <- grafico + geom_vline(aes(xintercept = CE50), tb_params, 
+                                lty = 3, size = 0.5, col = "black")
+
+grafico
 ```
 
+Para salvar os valores dos parâmetros, estimativas de CE~50~ em arquivo .csv, recomendamos uilizar a função abaixo:
+  
+  ```{r}
+write.csv2(tb_params, file = "drc_LL3.csv")
+```
+
+## Comparando o pacote 'nlme' e o pacote 'drc'
+
+Os dois pacotes foram desenvolvidos para modelos estatisticos não lineares. Apresentamos dois exemplos de dados analisados pelos dois métodos.
 
 ```{r}
-# Calculando os valores de EC/ED
-ec50 <- ED(mortalidade.m5, c(50))
+### Importação dos dados em .csv salvos no github
+tb <- read.table("https://raw.githubusercontent.com/lemid/epidemioR/master/alexandre/drc_nlme_log.csv", sep=";", dec=",", header = T)
 
-# Obter o intervalo de confiança de 95%
-ED(mortalidade.m5, c(50), interval = "delta")
+### Explorar os dados dentro de "tb"
+head(tb)
+str(tb)
+summary(tb)
+
+comp <- lm(drc ~ nlme, data=tb)
+summary(comp)
+
+funcL <- function (x, beta){
+  return (beta[1]+beta[2]*(x))
+}
+
+plot(drc ~ nlme, xlim=c(0, 15), ylim=c(0, 15),
+     xlab=expression(CE[50]~estimados~pelo~'drc'), 
+     ylab=expression(CE[50]~estimados~pelo~'nlme'), data=tb)
+curve(funcL (x, beta=coef(comp)), from=0, to=16, type = "l",
+      col = "blue", add = T, lty = 5, lwd=0.5)
 ```
 
-Comparando o método delta e transformado reversamente
-intervalos de confiança para valores ED
-Ajustar log-logist de 5 parâmetros
+Ao compararmos as estimativas de CE~50~ entre os dois pacotes pelo teste exato de Fisher, observamos que os resultados obtidos são iguais.
 
 ```{r}
-# Estimativa de corrição por dose
-backfit(mortalidade.m5)
-summary(mortalidade.m5)
-
-# Gráfico dos resíduos
-plot(fitted(mortalidade.m5), residuals(mortalidade.m5)) 
-abline(h=0,col="red")
-
-# Diagnóstico de modelo para modelos de dose-resposta não linear
-hatvalues(mortalidade.m5)
-cooks.distance(mortalidade.m5)
-logLik(mortalidade.m5)
-modelFit(mortalidade.m5)
+fisher.test(tb$drc, tb$nlme)
 ```
 
-Plotagem da curva de dose resposta
+Ao considerarmos que a utilização correta de ambas as ferramentas garantem o acerto, cada pesquisador poderá optar pela ferramenta que mais se adapta as suas necessidades. Destacamos que o pacote 'drc' possui diversas facilidades devido a suas funções nativas presente no pacote, que facilitam a execução e reduzem o script. Entretanto, o 'nlme' permitiria realizar análises com modelos não lineares que não estão programados do 'drc'. Este capítulo tem a função de facilitar o acesso a essas funcionalidades, facilitando a análise e interpretação de dados em pesquisas de sensibilidade de fungos e nematoides a moléculas em ensaios de CE~50~.
 
-```{r}
-#Plotagem da curva de dose resposta
-plot(corr ~ conc, data = mortalidade, xlab = "Concentration (%)", ylab = "Inhibition of hatching (%)", 
-     xlim=c(0, 0.8), ylim=c(-20, 120), las=1, log="", lwd=0, cex=1.5, cex.axis=2.8, cex.lab=2.8,
-     pch=19)
-
-# Plotando a curva de regressão ajustada
-plot(mortalidade.m5, xlab = "Concentration (%)", ylab = "Inhibition of hatching (%)",
-     xlim=c(0, 0.8), ylim=c(-20, 120), log="", lwd=2, cex=0, add=TRUE)
-abline(v=0.345,h=50,col="blue")
-# Adicionando intervalo de confiança
-plot(mortalidade.m5, broken = FALSE, type="confidence", add=TRUE)
-
-jpeg(filename = "mortalidade.jpg",
-     width = 1181, height = 788, units = "px", pointsize = 12,
-     quality = 75,
-     bg = "white", res = NA, family = "", restoreConsole = TRUE,
-     type = c("windows"))
-dev.off()
-dev.off()
-
-```
-@RCoreTeam2019
-@Ritz2015
-@Ritz2016
 

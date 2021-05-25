@@ -64,7 +64,8 @@ table > caption {
 
 /* References ------------------------------ */
 
-.book .book-body .page-wrapper .page-inner div.references p {
+.book .book-body .page-wrapper .page-inner div.references p,
+.book .book-body .page-wrapper .page-inner div.csl-entry {
     text-indent: -1em !important;
     margin-left: 1em;
     text-align: left;
@@ -262,6 +263,16 @@ div.chapterauthors {
 
 div.chapterauthors p {
     text-align: right;
+}
+
+/*---------------------------------------------------------------------- */
+/* Custom blocks. */
+
+div.note {
+    color: #ff6c00;
+    background-color: #5e5d5d;
+    padding: 1em;
+    border-radius: 1ex;
 }
 
 /*---------------------------------------------------------------------- */
