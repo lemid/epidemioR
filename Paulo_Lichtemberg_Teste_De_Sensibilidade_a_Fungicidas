@@ -1,4 +1,4 @@
-# Sensibilidade de fungos fitopatogenicos a fungicidas
+# Sensibilidade de fungos fitopatogênicos a fungicidas
 
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Paulo dos Santos Faria Lichtemberg",
@@ -8,10 +8,10 @@ chapter_authors(c("Paulo dos Santos Faria Lichtemberg",
 
 ## Introdução
 
-### Determinacao de sensibilidade por metodo convencional 
+### Determinação de sensibilidade por método convencional 
 
-### Determinacao de sensibilidade por metodo de gradiente espiral
+### Determinação de sensibilidade por método de gradiente espiral
 
-### Determinacao de sensibilidade por metodo interpolacao de spline
+### Determinação de sensibilidade por método interpolação de spline
 
 ## Conclusão
