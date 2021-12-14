@@ -1,0 +1,18 @@
+# Sensibilidade de fungos fitopatogenicos a fungicidas
+
+```{r, echo = FALSE, results = "asis"}
+chapter_authors(c("Paulo dos Santos Faria Lichtemberg",
+                  "Thiago Carraro De Aguiar",
+                  "Gabriel Torres Lodono",
+                  "Walmes Marques Zeviani"))
+```
+
+## Introdução
+
+### Determinacao de sensibilidade por metodo convencional 
+
+### Determinacao de sensibilidade por metodo de gradiente espiral
+
+### Determinacao de sensibilidade por metodo interpolacao de spline
+
+## Conclusão
