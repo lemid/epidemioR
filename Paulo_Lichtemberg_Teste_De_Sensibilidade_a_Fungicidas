@@ -2,6 +2,7 @@
 
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Paulo dos Santos Faria Lichtemberg",
+                  "Thiago Aguiar Carraro"
                   "Gabriel Torres Lodono",
                   "Walmes Marques Zeviani"))
 ```
