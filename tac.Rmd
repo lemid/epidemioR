@@ -2,7 +2,7 @@
 
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Thiago de Aguiar Carraro",
-                  "Paulo dos Santos Faria Lichtemberg",
+                  # "Paulo dos Santos Faria Lichtemberg",
                   "Walmes Marques Zeviani",
                   "Louise Larissa May De Mio"))
 ```
@@ -66,7 +66,7 @@ controle da doença em condições de campo [@ghinirekimatih2000]. Estes
 ensaios podem ser realizados com plantas (*in vivo*) ou partes vegetais
 destacadas (*ex vivo*), que serão submetidos a um tratamento com a
 concentração recomendada na bula do produto para aplicação na área de
-produção [@Schnabel2015] .
+produção [@Schnabel2015].
 
 Além destas técnicas mais usuais nos trabalhos de monitoramento, a
 observação do período de incubação (PI) em um ensaio de eficiência de
@@ -491,15 +491,13 @@ ggplot(data = tb_contr,
 
 ```
 
-# Conclusão
+## Conclusão
 
 - Esse tipo de análise auxilia tanto na avaliação da eficiência dos
   fungicidas quanto na determinação do período de incubação (dias) em
   cada tratamento, sendo estas variáveis muito importante para serem
   levadas em consideração no momento de adoções de estratégias de
   controle da doença.
-
-- XXXXXXXXXX
 
 Ao Final da Análise deve incluir um texto pequeno contendo o que se pode
 concluir com uma análise destas e qual a vantagem em relação a uma outra
