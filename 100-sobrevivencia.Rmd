@@ -27,7 +27,7 @@ autores.
 a ocorrência de um evento. Fonte: os autores.
 
 ```{r censuras, echo = FALSE, fig.cap = '(ref:censuras)'}
-knitr::include_graphics("./camilla/censuras.png")
+knitr::include_graphics("./101-camilla/censuras.png")
 ```
 
 Avaliações do tempo para a ocorrência de algum evento na epidemiologia
@@ -72,7 +72,7 @@ sobrevivência para a queda de folhas de mirtilo com mancha foliar de
 Septoria. Fonte: [@Ojiambo2005].
 
 ```{r curvaskaplan, echo = FALSE, fig.cap = '(ref:curvaskaplan)'}
-knitr::include_graphics("camilla/curvaskaplan.jpg")
+knitr::include_graphics("101-camilla/curvaskaplan.jpg")
 ```
 
 Na abordagem paramétrica, uma distribuição de probabilidades é

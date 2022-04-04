@@ -108,7 +108,7 @@ estão representando os tratamentos fungicidas (com 25 repetições) e a
 testemunha pela sigla 'test', enquanto as letras X e Y são os patógenos.
 
 ```{r prancha-1, echo = FALSE, fig.cap= '(ref:prancha-1)'}
-knitr::include_graphics("./tac/prancha_1.jpg")
+knitr::include_graphics("./102-thiago/prancha_1.jpg")
 ```
 
 A seguir, o capítulo apresentará os passos para análise de sobrevivência
@@ -165,7 +165,7 @@ os registros para uma unidade experimental.
 # Importação dos dados e preparação.
 
 # Análise dos dados (leitura).
-da <- read_tsv("tac/frutosmaduros.txt")
+da <- read_tsv("102-thiago/frutosmaduros.txt")
 attr(da, "spec") <- NULL
 str(da)
 

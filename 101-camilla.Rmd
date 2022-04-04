@@ -27,7 +27,7 @@ casualisado com 5 tratamentos (tamanho) e 8 repetições (Figura
 inoculados com o patógeno sob o ferimento feito na região equatorial.
 
 ```{r esquema, echo=FALSE, fig.cap= '(ref:esquema)'}
-knitr::include_graphics("camilla/tamanhos.jpg")
+knitr::include_graphics("101-camilla/tamanhos.jpg")
 ```
 
 Após a inoculação, cada fruto foi avaliado diariamente durante 39 dias
@@ -51,7 +51,7 @@ experimento foi de 39 dias, a censura à direita foi na mesma data para
 todos os frutos.
 
 ```{r conjuntodedados, echo = FALSE}
-tb <- read.csv2("camilla/sobrev.csv")
+tb <- read.csv2("101-camilla/sobrev.csv")
 knitr::kable(head(tb, n = 10),
              caption = '(ref:conjuntodedados)',
              digits = c(1, 1, 1, 1),
@@ -81,7 +81,7 @@ o fruto, menor o tempo para aparecimento dos sintomas.
 
 ```{r, message = FALSE}
 # Leitura dos dados.
-dados  <-  read_csv2("./camilla/sobrev.csv", col_types = cols())
+dados  <-  read_csv2("./101-camilla/sobrev.csv", col_types = cols())
 attr(dados, "spec") <- NULL
 str(dados)
 ```
