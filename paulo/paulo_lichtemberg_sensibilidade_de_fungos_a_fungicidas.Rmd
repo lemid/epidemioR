@@ -1,0 +1,384 @@
+# Métodos para a determinação da Sensibilidade de fungos patogênicos a fungicidas  
+
+```{r, echo FALSE, results = "asis"}
+##---------------------------------------------------------------
+chapter_authors(c("Paulo dos Santos Faria Lichtemberg",
+                  "Thiago Aguiar Carraro",
+                  "Gabriel Torres Lodoño",
+                  "Walmes Marques Zeviani"))
+```
+
+## Introdução
+
+## Método linear para determinação convencional da sensibilidade de fungos a fungicida  
+
+Neste primeiro roteiro apresentado, tem-se por objetivo determinar a concentração efetiva de diferentes fungicidas inibidores de succinato-desidrogenase, para inibir em 50% (CE~50~) o crescimento de colônias de  **Alternaria alternata**. Aqui serão apresentados os passos necessários para a determinação dos valores de sensibilidade de 12 isolados selecionados aleatoriamente, que fizeram parte de estudos preliminares que resultaram na publicação de @Lichtemberg2018-CALAG. Para maior transparência, segue uma breve descrição deste ensaio laboratorial. Isolados foram coletados de folhas de pistache cultivados comercialmente no Vale Central da California, nos Estados Unidos, durante o ano de 2015. As colônias foram obtidas pelo método de isolamento direto e indireto, a partir de suas estruturas produzidas sobre a lesão @Alfenas2007-Ch2Livrometodos ou com a técnica da incubação por congelamento noturno, do inglês 'Overnight freezing incubation technique - ONFIT' desenvolvido por @Michailides1994-ONFIT. Em seguida, as colônias obtidas foram purificadas. Colônias monospóricas crescidas em batata dextrose ágar (BDA) tiveram discos de micélios medindo 5 mm de diâmetro transferidos para o centro de placas Petri contendo Yeast extract-bactopeptone-sodium acetate (YBA) preparadas com diferentes doses de fungicidas. Discos de micélio foram colocados em contato direto com o meio de cultura contendo fungicida. As seguintes doses e repetições foram utilizadas por isolado: 0 µg/ml (controle com duas placas); 0,01 µg/ml (duas placas); 0,05 µg/ml (uma placa); 0,1 µg/ml (duas placas); 0,5 µg/ml (uma placa); 1 µg/ml (duas placas); 10 µg/ml (uma placa); 50 µg/ml (duas placas) e 100 µg/ml (uma placa). Os ingredientes ativos testados foram, boscalida, fluopirame, fluxapiroxade e pentiopirade. Após incubação de sete dias a 24^o^C, dois diâmetros perpendiculares das colônias foram tomados em milímetros. Dados obtidos incluíram o tamanho do disco de micélio e foram anotados sem a pontuação dos valores decimais.
+
+(Figura \@ref(fig:figura1))
+
+(ref:figura1) Tecido foliar apresentando infecções naturais e latentes estimuladas com o uso da técnica ONFIT.
+
+```{r prancha-1, echo = FALSE, fig.cap= '(ref:figura1)'}
+knitr::include_graphics("./psfl/figura1.jpg")
+```
+
+Agora que uma breve descrição da metodologia já foi realizada, pode-se iniciar o detalhamento do roteiro que permitirá o cálculo dos valores de CE~50~. Para isso, os seguintes pacotes deverão ser instalados: 'lattice', 'latticeExtra', 'grid', 'doBy', 'multicomp', 'MASS' and 'devetools'.
+
+
+```{r, message = FALSE}
+##----------------------------------------------------------------------------      
+## Pacotes     
+
+pkg <- c("lattice", 
+         "latticeExtra",
+         "grid",
+         "doBy", 
+         "multcomp",
+         "MASS", 
+         "devtools")
+
+sapply(pkg, library, character.only=TRUE, logical.return=TRUE)
+
+```
+
+Além da seleção do diretório e carregamento do arquivo de dados, os seguintes comandos descrevem as edições necessárias para iniciarmos as estimativas de CE~50~.
+A transformação para 'fator' das colunas 'iso' (isolado), 'fun' (fungicida) e 'dos' (dose), devem ser realizados para tê-los como variáveis independentes. As colunas 'd1' e 'd2', representando os valores de ambos diâmetros da colônia, necessitam ser transformadas para valores numéricos, colocados na escala correta de medida de crescimento (mm), subtraindo-se o tamanho do disco de micélio inicial. Ainda neste grupo de comando, insere-se duas novas colunas para expressar o crescimento médio da colônia e uma nova codificação para separar o mesmo isolado testado para diferentes ingredientes ativos. Aqui remove-se dados perdidos durante a condução do estudo, identificados no banco de dados como 'NA'.
+
+```{r, message = FALSE}
+##----------------------------------------------------------------------------      
+## Seleção de diretório
+
+setwd("~/Literature/PSFL_Manuscripts/EpidemioR/case_1_MC")
+list.files(pattern="*.txt")
+
+
+##----------------------------------------------------------------------------      
+## Carregamento do arquivo de dados 
+
+da <- read.table("aa_sdhi.txt", header=TRUE,
+                   sep="\t", dec=".", stringsAsFactors=FALSE)
+
+##----------------------------------------------------------------------------      
+## Edições de dados
+
+str(da)
+
+da <- transform (da,
+                iso=factor(iso),
+                fun=factor(fun), 
+                dos=as.numeric(dos),
+                d1=as.numeric(d1),
+                d2=as.numeric(d2))
+
+da <- transform (da,
+                d1=(d1/100)-5,
+                d2=(d2/100)-5)
+
+da$cod <- with(da, interaction(iso, fun, sep="-", drop=TRUE))
+da$cre = apply(da[,c(5:6)],1,mean)
+
+str(da)
+head(da, 100)
+
+##----------------------------------------------------------------------------      
+## Remoção de dados perdidos      
+
+sum(is.na(da$cre)) 
+da <- droplevels(da[complete.cases(da$cre),])
+nlevels(da$iso)
+
+```
+
+Após a edição inicial dos dados, passa-se a separar a tabela pelo identificador 'cod' que codifica a combinação entre isolado e ingrediente ativo testado. Também se faz necessário estabelecer o crescimento médio (ao máximo de crescimento) obtido em cada dose relativa ao controle 'crerel'. Logo, separamos a tabela com crescimento e dose maiores que zero. Finalizando este grupo de comandos, alguns ajustes finais são realizados para o cálculo da sensibilidade.
+
+```{r, message = FALSE}
+##----------------------------------------------------------------------------      
+## Identificador 'cod' e Crescimento Relativo 'crerel' 
+
+das <- split(da, f=da$cod)
+
+das <- lapply(das,
+                function(i){
+                    mx <- max(i$cre[i$dos==0])#, na.rm=TRUE 
+                    transform(i, crerel=cre/mx,
+                              ld=log10(dos))
+                })
+
+db <- lapply(das, subset, subset=cre>0 & dos>0)
+
+##----------------------------------------------------------------------------
+# Número de observações para cada subgrupo
+nd <- sapply(db, nrow)
+# Subgrupo com n igual a zero
+iz <- nd==0
+# Não é possível ter quaisquer valor zero
+sum(iz)
+# Esvaziar subgrupo
+db[iz]                 
+# Limpa
+db <- db[!iz]        
+dbs <- do.call(rbind, db)
+
+```
+
+Antecipando-se ao cálculo dos valores da sensibilidade, os seguintes grupos de comandos estabelecem dados estatísticos que indicarão a validade das regressões lineares e apontarão a necessidade de ajustes nas doses utilizadas para a realização do estudo final.  
+
+```{r, message = FALSE}
+##----------------------------------------------------------------------------      
+## Valores de regressões lineares e probabilidades de significância
+
+regs <- lapply(db, lm, formula=crerel~ld)
+head(regs)
+#mostra os valores de 'a' e 'b' da equação da reta
+sapply(regs, coef)
+#mostra os valores de coeficiente de determinação (r^2)
+sapply(regs, function(cod) summary(cod)$r.squared)
+#mostra os valores de equação da reta com r^2 e probabilidades de significância  
+lapply(regs, function(cod) summary(cod))
+#mostra os valores de significância da regressao para Log(dose) de forma resumida
+reg_info <- lapply(regs, function(cod) summary(cod)$coeff)
+#reg_info
+```
+Finalmente, chega-se ao curto grupo de comando que determinará os valores de sensibilidades para os 12 isolados testados para quatro diferente ingrediente ativos. 
+
+```{r, message = FALSE}
+##----------------------------------------------------------------------------      
+## Cálculo dos valores de sensibilidade
+
+ec50 <- sapply(regs,
+               function(cod){
+                   b <- coef(cod)
+                   10^((0.5-b[1])/b[2])
+               })
+
+str(ec50)
+head(ec50,5)
+```
+
+Para facilitar a transferência de dados calculados, adiciona-se os comandos abaixo que permitirão transferir para dentro do diretório selecionado inicialmente uma tabela de Microsoft Excel contendo os valores de sensibilidade para cada combinação entre isolado e ingrediente ativo em formato *.csv.
+
+```{r, message = FALSE}
+##----------------------------------------------------------------------------      
+## Criar uma tabela em excel (*.csv) com os valores calculados de sensibilidade
+
+write.csv(ec50, 'valores_de_sensibilidade_estimados.csv')
+
+```
+
+Antes de finalizar este roteiro, indica-se o uso de uma figura exploratória para observar as curvas obtidas neste exercício onde se identifica os diferentes ingredientes ativos com diferentes cores  \@ref(fig:figura2).
+
+(ref:figure2) Curvas do crescimento relativo (crerel) em função de doses de fungicidas para 12 isolados de **Alternaria alternata**.
+
+```{r figure2, echo = FALSE, fig.cap = '(ref:figure2)'}
+##----------------------------------------------------------------------------      
+## Figura Exploratória
+
+str(dbs)
+xyplot(crerel~ld|cod, group=fun, data=dbs, type=c("p","r"), strip=FALSE)
+
+```
+
+
+## Método de gradiente espiral para determinação da sensibilidade a fungicidas
+
+Antes de iniciar o detalhamento do método seguinte, cabe uma breve descrição das etapas que antecedem a coleta de dados, utilizando-se do método de gradiente espiral. Para este estudo, duas populações de **Colletotrichum fiorinae**, uma exposta (EX) e outra não exposta (BL) a inibidores de succinate-dehidrogenase, foram comparadas quanto aos seus valores de sensibilidade a dois ingredientes ativos, bezovindiflupir e fluopirame. Ao invés de utilizar o método convencional de múltiplas placas de Petri, utilizou-se uma única placa de 150 mm de diâmetro contendo 50 ml de meio de cultura YBA. Com o auxílio do equipamento Eddy Jet 2W - Spiral Ppater (Neutec Group Inc, Farmingdale, NY, USA), soluções estoque de fungicidas preparados a 100 e 1.000 µg/ml foram aplicados em função exponencial, na superfície solidificada do meio de cultura, no qual foram mantidas por 6 horas, dentro de uma câmera de fluxo, para permitir correta difusão do produto químico no meio de cultura. Isolados a serem testados foram cultivados sobre palitos de madeira duplamente autoclavados e medindo 5 cm de comprimento por 6 mm de largura. Em resumo, palitos de madeira foram colocados sobre meio de cultura tradicional como BDA, permitindo um pequeno espaço entre um e outro. Aproximadamente 1 ml de suspensão de conídios foram pipetados sobre os palitos. Placas de BDA foram incubadas entre 4 e 7 dias a 24^o^C antes da transferência. Palitos de madeira contendo micélio foram transferidos para placas de 150 mm através do gradiente de concentração do produto testado, onde cada placa permite o teste de oito diferentes isolados. Cada combinação de isolado e ingrediente ativo contou com duas placas, assim como controle. Após o período de incubação de 72hrs, a uma temperatura de 24^o^C, ocorreu a avaliação. O processo de avaliação da sensibilidade é resumido na Figura \@ref(fig:figura3) resume o processo de avaliação deste método. Importante informar que as medidas de 'c' representadas na  Figura \@ref(fig:figura3) devem estar entre 20 e 64 mm. Em outras palavras, quaisquer medidas abaixo de 20 mm ou acima de 64 mm do centro da placa não devem ser contabilizados, pois nestas áreas a distribuição do fungicida não ocorre de forma homogênea (@Lodono).  
+
+(Figura \@ref(fig:figura3))
+
+(ref:figura3) Método da diluição em gradiente espiral. Preparo de inóculos em placa de BDA com palitos de madeira autoclavadas (A1), crescimento micelial do patógeno sobre os palitos após 7 dias de incubação a 24^o^C (A2), equipamento Eddy Jet 2W (Neutec Group Inc) com a placa de corante para observar o padrão de aplicação da solução estoque (B), oito palitos com crescimento micelial de diferentes isolados de Colletotrichum fioriniae em contato direto com o meio de cultura (C), placa sem fungicida (controle) com o crescimento micelial após 3 dias de incubação, onde 'a' representa a espessura de maior crescimento (D), placa de fungicida mostrando em 'b' o ponto de gradiente espiral onde o isolado foi inibido a 50%. e em 'c' mostra a distância entre o centro da placa e o ponto de inibição de 50% (E), sendo esta, a medida utilizada para o cálculo da EC^50.
+
+Para esta nova análise, os seguintes pacotes necessitam ser carregados,'ECX','lattice', 'latticeExtra', 'grid', 'gridExtra', 'doBy', 'multcomp', 'reshape', 'reshape2', 'plyr', 'MASS', 'devtools' and 'agricolae'. No caso do pacote 'ECX', este pode ser encontrado em github.com (CAMINHO A SER DEFINIDO APOS CONSULTA COM CO-AUTOR GABRIEL TORRES).  
+
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------      
+## Pacotes
+
+pkg <- c("ECX",
+         "lattice", 
+         "latticeExtra",
+         "grid",
+         "gridExtra",
+         "doBy", 
+         "multcomp",
+         "reshape",
+         "reshape2",
+         "plyr",
+         "MASS", 
+         "devtools",
+         "agricolae")
+
+sapply(pkg, library, character.only=TRUE, logical.return=TRUE)
+
+```
+
+Nos comandos apresentados logo em seguida, serão selecionados os diretórios onde se encontram os arquivos de dados utilizados para este estudo. Logo em seguida, serão criados uma nova categoria de dados 'pf' que unirá em uma única coluna os dados de população (pop) e fungicida estudado (fun). Para garantir que os códigos descritos funcionem apropriadamente, as distâncias coletadas nas placas devem ter o formato numérico 'as.numeric'. Por último, serão removidos os dados perdidos, assim como leituras de distâncias das placas que ficaram abaixo de 20mm ou acima de 64mm.
+
+```{r,include=FALSE}
+#-----------------------------------------------------------------------------
+# Seleção de diretório
+
+rm(list=ls())
+setwd("~/Literature/PSFL_Manuscripts/EpidemioR/case_2_GE")
+list.files(pattern="*.txt")
+
+#-----------------------------------------------------------------------------
+# Carregamento de arquivo de dados 
+
+da <- read.table("Aaecdis.txt", header=TRUE, sep="\t", dec=".",
+                 stringsAsFactors=FALSE)
+#str(da)
+
+#-----------------------------------------------------------------------------
+# Edições de dados
+
+da$pf <- with(da, interaction(pop, fun, sep="-", drop=TRUE))
+  
+da <- transform(da,
+                dis=as.numeric(dis))
+
+#str(da)
+
+##----------------------------------------------------------------------------      
+## Remoção de dados perdidos (NAs) e distâncias fora do range recomendado       
+
+sum(is.na(da$dis)) 
+da <- droplevels(da[complete.cases(da$dis),])
+
+da=da[da$di>=20&da$dis<64,]
+range(da$dis)
+
+str(da)
+head(da,10)
+
+```
+
+Para poder executar a função 'ECcal' corretamente será necessário a indicação dos nomes das colunas com suas respectivas funções dentro do comando a seguir, onde o arquivo de dados utilizado deverá incluir a coluna de isolado (iso), população (pop), repetição (rep), solução estoque (ss), fungicida (fun), peso molecular do ingrediente ativo (mw) e a distância da medida retirada da placa (dis). Recomenda-se o uso da página de internet PubChem (https://pubchem.ncbi.nlm.nih.gov/) para obter dados de peso molecular para as moléculas de interesse. Em seguida, ocorrerá o pareamento dos dados de isolado, população, fungicida com os valores de EC^50 recém gerado. Os nomes das colunas que formarão os resultados de sensibilidade podem ser modificados de acordo com a necessidade individual, como mostrado no comando 'names'. Uma tabela de Microsoft Excel em formato (*.CSV) pode ser gerada neste momento, informando os valores de sensibilidade para cada isolado, população e fungicida listado assim como mostra o último comando da seguinte célula de comandos.
+
+```{r}
+##----------------------------------------------------------------------------      
+## Cálculo da EC50.
+
+ec<-ECcal(da$dis, mw=da$mw, ppm=da$ss, product=da$fun, AH=2.6,iso=da$iso, info=F)
+ec
+
+db<- data.frame(da$iso,da$pop,da$fun,da$pf, ec)
+names(db)<-c("iso","pop","fun","pf", "ec50")
+
+str(db)
+head(db,10)
+
+##----------------------------------------------------------------------------
+## Criar dados de Excel para valores de sensibilidade.
+write.csv(db, row.names=F,'valores_ec50.csv')
+
+```
+
+Uma vez geradas as informações de EC^50, é possível realizar algumas comparações estatísticas para analisar as diferenças de sensibilidade entre populações. Nesse caso, serão exemplificados com o teste de Kolmogorov-smirnov, que determina as diferenças de médias entre populações através do valor de significância e D-estatístico.  
+
+```{r}
+##-----------------------------------------------------------------------------
+## Kolmogorov-smirnov test for equal EC50 distribution.
+
+str(db)
+levels(db$pf)
+
+##-----------------------------------------------------------------------------
+## KS test for California
+
+E <- split(db$ec50, f=db$pf)
+
+ks.test(x=E[["BL-Bz"]], y=E[["EX-Bz"]])
+ks.test(x=E[["BL-Bz"]], y=E[["BL-Fp"]])
+ks.test(x=E[["BL-Bz"]], y=E[["EX-Fp"]])
+ks.test(x=E[["EX-Bz"]], y=E[["BL-Fp"]])
+ks.test(x=E[["EX-Bz"]], y=E[["EX-Fp"]])
+ks.test(x=E[["BL-Fp"]], y=E[["EX-Fp"]])
+
+```
+Na figura (Figura \@ref(fig:figura4)), pode-se visualizar as densidades de distribuição das curvas de cada população de isolados estudados, assim como a frequência acumulada de suas sensibilidades a dois fungicidas testados. E assim finalizando este método de determinação da EC^50.   
+
+(ref:figura1) Densidade de distribuição (A) e frequência acumulada da sensibilidade de duas populações de **Colletotrichum fioriniae** em pistache.
+
+```{r,fig.height=8, fig.width=8}
+##----------------------------------------------------------------------------      
+## Representação Gráfica das curvas de densidade da EC50
+
+## Legenda da Figura contendo D-Statistico e valor de significância
+exp <- list(  (BL-Bz:EX-Bz)~(D==0.17~~p==0.21),
+              (BL-Bz:BL-Fp)~(D==0.31~~p==0.001),
+              (BL-Bz:EX-Fp)~(D==0.29~~p==0.003),
+              (EX-Bz:BL-Fp)~(D==0.23~~p==0.009),
+              (EX-Bz:EX-Fp)~(D==0.15~~p==0.21),
+              (BL-Fp:EX-Fp)~(D==0.36~~p==3.3*x10^-6))
+
+## Densidade da distribuição da sensibilidade
+p1 <-
+    densityplot(~ec50,
+                groups=pf,
+                scales=list(x=list(log=10)),
+                data=db,
+                auto.key=list(columns=2), n=500,
+                xlab=expression(log[10]~EC[50]),
+                ylab="Density", plot.points="rug",
+                xscale.components=xscale.components.log10.3,
+                page=function(page){
+                    grid.text("A", x=0.025, y=0.95)
+                }, 
+                panel=function(...){
+                 panel.densityplot(...)
+                 sapply(1:length(exp),
+                        function(i){
+                            grid.text(exp[[i]], x=0.025,
+                                      y=unit(0.9, "npc")-
+                                          unit(i-1, "lines"),
+                                      just=c("left","centre"),
+                                      gp=gpar(fontsize=9))
+                        })
+              })
+
+## Frequência acumulada da sensibilidade
+p2 <-
+    ecdfplot(~ec50,
+             groups=pf,
+             scales=list(x=list(log=10)),
+             data=db,
+            # auto.key=list(columns=2),
+             xlab=expression(log[10]~EC[50]),
+             ylab="Cumulative relative frequency",
+             xscale.components=xscale.components.log10.3,
+             page=function(page){
+                 grid.text("B", x=0.025, y=0.95)
+             })
+
+## Gerar Gráfico
+grid.arrange(p1, p2, ncol=1)
+#plot (p1, more=TRUE)
+
+
+```
+
+
+## SPLINLINE TERCEIRA PARTE
+
+## Informações adicionais de pacotes utilizados
+
+Ao final de cada script, é sugerido a utilização dos seguintes comandos para a identificação das versões de pacotes utilizados e plataforma de R-software utilizada, assim como a correta citação do R em publicações e a data e hora que as analises foram realizadas.
+
+```{r}
+##----------------------------------------------------------------------------
+## Versions.
+
+sessionInfo()
+
+##-----------------------------------------------------------------------------
+## Citation.
+
+citation()
+
+##-----------------------------------------------------------------------------
+## Last modification.
+
+Sys.time()
+
+```
