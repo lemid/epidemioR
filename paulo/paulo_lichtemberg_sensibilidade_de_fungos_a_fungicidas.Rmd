@@ -359,7 +359,8 @@ grid.arrange(p1, p2, ncol=1)
 ```
 
 
-## SPLINLINE TERCEIRA PARTE
+## Estimating isolate sensitivity by using the spline regression 
+
 
 ## Informações adicionais de pacotes utilizados
 
