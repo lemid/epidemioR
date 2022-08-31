@@ -4,7 +4,7 @@
 ##---------------------------------------------------------------
 chapter_authors(c("Paulo dos Santos Faria Lichtemberg",
                   "Thiago Aguiar Carraro",
-                  "Gabriel Torres Lodoño",
+                  "Gabriel Torres-Londoño",
                   "Walmes Marques Zeviani"))
 ```
 
