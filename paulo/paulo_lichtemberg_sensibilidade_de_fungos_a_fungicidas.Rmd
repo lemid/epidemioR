@@ -12,18 +12,15 @@ chapter_authors(c("Paulo dos Santos Faria Lichtemberg",
 
 ## Método linear para determinação convencional da sensibilidade de fungos a fungicida  
 
-Neste primeiro roteiro apresentado, tem-se por objetivo determinar a concentração efetiva de diferentes fungicidas inibidores de succinato-desidrogenase, para inibir em 50% (CE~50~) o crescimento de colônias de  **Alternaria alternata**. Aqui serão apresentados os passos necessários para a determinação dos valores de sensibilidade de 12 isolados selecionados aleatoriamente, que fizeram parte de estudos preliminares que resultaram na publicação de @[Lichtemberg2018]. Para maior transparência, segue uma breve descrição deste ensaio laboratorial. Isolados foram coletados de folhas de pistache cultivados comercialmente no Vale Central da California, nos Estados Unidos, durante o ano de 2015. As colônias foram obtidas pelo método de isolamento direto e indireto, a partir de suas estruturas produzidas sobre a lesão @[Alfenas2007] ou com a técnica da incubação por congelamento noturno, do inglês 'Overnight freezing incubation technique - ONFIT' desenvolvido por @[Pryor2002]. Em seguida, as colônias obtidas foram purificadas. Colônias monospóricas crescidas em batata dextrose ágar (BDA) tiveram discos de micélios medindo 5 mm de diâmetro transferidos para o centro de placas Petri contendo Yeast extract-bactopeptone-sodium acetate (YBA) preparadas com diferentes doses de fungicidas. Discos de micélio foram colocados em contato direto com o meio de cultura contendo fungicida. As seguintes doses e repetições foram utilizadas por isolado: 0 µg/ml (controle com duas placas); 0,01 µg/ml (duas placas); 0,05 µg/ml (uma placa); 0,1 µg/ml (duas placas); 0,5 µg/ml (uma placa); 1 µg/ml (duas placas); 10 µg/ml (uma placa); 50 µg/ml (duas placas) e 100 µg/ml (uma placa). Os ingredientes ativos testados foram, boscalida, fluopirame, fluxapiroxade e pentiopirade. Após incubação de sete dias a 24^o^C, dois diâmetros perpendiculares das colônias foram tomados em milímetros. Dados obtidos incluíram o tamanho do disco de micélio e foram anotados sem a pontuação dos valores decimais, por exemplo: uma medida em milímetros de 20,15 foi computado como 2015.
+Neste primeiro roteiro apresentado, tem-se por objetivo determinar a concentração efetiva de diferentes fungicidas inibidores de succinato-desidrogenase, para inibir em 50% (CE~50~) o crescimento de colônias de  **Alternaria alternata**. Aqui serão apresentados os passos necessários para a determinação dos valores de sensibilidade de 12 isolados selecionados aleatoriamente, que fizeram parte de estudos preliminares que resultaram na publicação de @[Lichtemberg2018]. Para maior transparência, segue uma breve descrição deste ensaio laboratorial. Isolados foram coletados de folhas de pistache cultivados comercialmente no Vale Central da California, nos Estados Unidos, durante o ano de 2015. As colônias foram obtidas pelo método de isolamento direto e indireto, a partir de suas estruturas produzidas sobre a lesão @[Alfenas2007] ou com a técnica da incubação por congelamento noturno, do inglês 'Overnight freezing incubation technique - ONFIT' desenvolvido por @[Pryor2002] (Figura \@ref(fig:figura1)). Em seguida, as colônias obtidas foram purificadas. Colônias monospóricas crescidas em batata dextrose ágar (BDA) tiveram discos de micélios medindo 5 mm de diâmetro transferidos para o centro de placas Petri contendo Yeast extract-bactopeptone-sodium acetate (YBA) preparadas com diferentes doses de fungicidas. Discos de micélio foram colocados em contato direto com o meio de cultura contendo fungicida. As seguintes doses e repetições foram utilizadas por isolado: 0 µg/ml (controle com duas placas); 0,01 µg/ml (duas placas); 0,05 µg/ml (uma placa); 0,1 µg/ml (duas placas); 0,5 µg/ml (uma placa); 1 µg/ml (duas placas); 10 µg/ml (uma placa); 50 µg/ml (duas placas) e 100 µg/ml (uma placa). Os ingredientes ativos testados foram, boscalida, fluopirame, fluxapiroxade e pentiopirade. Após incubação de sete dias a 24^o^C, dois diâmetros perpendiculares das colônias foram tomados em milímetros. Dados obtidos incluíram o tamanho do disco de micélio e foram anotados sem a pontuação dos valores decimais, por exemplo: uma medida em milímetros de 20,15 foi computado como 2015.
 
-(Figura \@ref(fig:figura1))
+(ref:figura1) Tecido foliar de pistache apresentando infecções naturais de onde isolados foram obtidos pelo método direto (A) e método indireto, com isolados obtidos de infecções latentes estimuladas com o uso da técnica ONFIT (B).
 
-(ref:figura1) Tecido foliar apresentando infecções naturais e latentes estimuladas com o uso da técnica ONFIT.
-
-```{r prancha-1, echo = FALSE, fig.cap= '(ref:figura1)'}
-knitr::include_graphics("./psfl/figura1.jpg")
+```{r figura1, echo = FALSE, fig.cap= '(ref:figura1)'}
+knitr::include_graphics("paulo/figura1.tif")
 ```
 
 Agora que uma breve descrição da metodologia já foi realizada, pode-se iniciar o detalhamento do roteiro que permitirá o cálculo dos valores de CE~50~. Para isso, os seguintes pacotes deverão ser instalados: 'lattice', 'latticeExtra', 'grid', 'doBy', 'multicomp', 'MASS' and 'devetools'.
-
 
 ```{r, message = FALSE}
 ##----------------------------------------------------------------------------      
@@ -42,20 +39,29 @@ sapply(pkg, library, character.only=TRUE, logical.return=TRUE)
 ```
 
 Além da seleção do diretório e carregamento do arquivo de dados, os seguintes comandos descrevem as edições necessárias para iniciarmos as estimativas de CE~50~.
-A transformação para 'fator' das colunas 'iso' (isolado), 'fun' (fungicida) e 'dos' (dose), devem ser realizados para tê-los como variáveis independentes. As colunas 'd1' e 'd2', representando os valores de ambos diâmetros da colônia, necessitam ser transformadas para valores numéricos, colocados na escala correta de medida de crescimento (mm), subtraindo-se o tamanho do disco de micélio inicial. Ainda neste grupo de comando, insere-se duas novas colunas para expressar o crescimento médio da colônia e uma nova codificação para separar o mesmo isolado testado para diferentes ingredientes ativos. Aqui remove-se dados perdidos durante a condução do estudo, identificados no banco de dados como 'NA'.
+No aquivo de dados (ref:dado1), faz necessário a transformação para 'fator' das colunas 'iso' (isolado), 'fun' (fungicida) e 'dos' (dose), devem ser realizados para tê-los como variáveis independentes. As colunas 'd1' e 'd2', representando os valores de ambos diâmetros da colônia, necessitam ser transformadas para valores numéricos, colocados na escala correta de medida de crescimento (mm), subtraindo-se o tamanho do disco de micélio inicial. Ainda neste grupo de comando, insere-se duas novas colunas para expressar o crescimento médio da colônia e uma nova codificação para separar o mesmo isolado testado para diferentes ingredientes ativos. Aqui remove-se dados perdidos durante a condução do estudo, identificados no banco de dados como 'NA'.
+
+```{r dados1, echo = FALSE}
+d1 <- read.txt("paulo/dados1.txt")
+knitr::kable(head(d1, n = 10),
+             caption = '(ref:dados1)',
+             digits = c(0, NA, 2, 0, 0, 0),
+             align = c("cccccc"),
+             row.names = FALSE)
+```
 
 ```{r, message = FALSE}
 ##----------------------------------------------------------------------------      
 ## Seleção de diretório
 
-setwd("~/Literature/PSFL_Manuscripts/EpidemioR/case_1_MC")
+#setwd()
 list.files(pattern="*.txt")
 
 
 ##----------------------------------------------------------------------------      
 ## Carregamento do arquivo de dados 
 
-da <- read.table("aa_sdhi.txt", header=TRUE,
+da <- read.table("dados1.txt", header=TRUE,
                    sep="\t", dec=".", stringsAsFactors=FALSE)
 
 ##----------------------------------------------------------------------------      
@@ -155,7 +161,7 @@ str(ec50)
 head(ec50,5)
 ```
 
-Para facilitar a transferência de dados calculados, adiciona-se os comandos abaixo que permitirão transferir para dentro do diretório selecionado inicialmente uma tabela de Microsoft Excel contendo os valores de sensibilidade para cada combinação entre isolado e ingrediente ativo em formato comma-separated velues (csv).
+Para facilitar a transferência de dados calculados, adiciona-se os comandos abaixo que permitirão transferir para dentro do diretório selecionado inicialmente uma tabela de Microsoft Excel contendo os valores de sensibilidade para cada combinação entre isolado e ingrediente ativo em formato comma-separated velues (csv).  
 
 ```{r, message = FALSE}
 ##----------------------------------------------------------------------------      
@@ -165,9 +171,13 @@ write.csv(ec50, 'valores_de_sensibilidade_estimados.csv')
 
 ```
 
-Antes de finalizar este roteiro, indica-se o uso de uma figura exploratória para observar as curvas obtidas neste exercício onde se identifica os diferentes ingredientes ativos com diferentes cores  \@ref(fig:figura2).
+Antes de finalizar este roteiro, indica-se o uso de uma figura exploratória para observar as curvas obtidas neste exercício onde se identifica os diferentes ingredientes ativos com diferentes cores (Figura \@ref(fig:figura2)).
 
-(ref:figure2) Curvas do crescimento relativo (crerel) em função de doses de fungicidas para 12 isolados de **Alternaria alternata**.
+(ref:figura2) Crescimento relativo (crerel) em função de doses de fungicidas em escala logaritmica, para 12 isolados de **Alternaria alternata**, onde cores identificam diferentes ingredientes ativos testados. 
+
+```{r figura2, echo = FALSE, fig.cap= '(ref:figura2)'}
+knitr::include_graphics("paulo/figura2.png")
+```
 
 ```{r figure2, echo = FALSE, fig.cap = '(ref:figure2)'}
 ##----------------------------------------------------------------------------      
@@ -178,17 +188,18 @@ xyplot(crerel~ld|cod, group=fun, data=dbs, type=c("p","r"), strip=FALSE)
 
 ```
 
-
 ## Método de gradiente espiral para determinação da sensibilidade a fungicidas
 
-Antes de iniciar o detalhamento do método seguinte, cabe uma breve descrição das etapas que antecedem a coleta de dados, utilizando-se do método de gradiente espiral. Para este estudo, duas populações de **Colletotrichum fiorinae**, uma exposta (EX) e outra não exposta (BL) a inibidores de succinate-dehidrogenase, foram comparadas quanto aos seus valores de sensibilidade a dois ingredientes ativos, bezovindiflupir e fluopirame. Ao invés de utilizar o método convencional de múltiplas placas de Petri, utilizou-se uma única placa de 150 mm de diâmetro contendo 50 ml de meio de cultura YBA. Com o auxílio do equipamento Eddy Jet 2W - Spiral Ppater (Neutec Group Inc, Farmingdale, NY, USA), soluções estoque de fungicidas preparados a 100 e 1.000 µg/ml foram aplicados em função exponencial, na superfície solidificada do meio de cultura, no qual foram mantidas por 6 horas, dentro de uma câmera de fluxo, para permitir correta difusão do produto químico no meio de cultura. Isolados a serem testados foram cultivados sobre palitos de madeira duplamente autoclavados e medindo 5 cm de comprimento por 6 mm de largura. Em resumo, palitos de madeira foram colocados sobre meio de cultura tradicional como Batata Dextrose Ágar (BDA), permitindo um pequeno espaço entre um e outro. Aproximadamente 1 ml de suspensão de conídios foram pipetados sobre os palitos. Placas de BDA foram incubadas entre 4 e 7 dias a 24^o^C antes da transferência. Palitos de madeira contendo micélio foram transferidos para placas de 150 mm através do gradiente de concentração do produto testado, onde cada placa permite o teste de oito diferentes isolados. Cada combinação de isolado e ingrediente ativo contou com duas placas, assim como controle. Após o período de incubação de 72hrs, a uma temperatura de 24^o^C, ocorreu a avaliação. O processo de avaliação da sensibilidade é resumido na Figura \@ref(fig:figura3). Importante informar que as medidas de 'c' representadas na Figura \@ref(fig:figura3) devem estar entre 20 e 64 mm. Em outras palavras, quaisquer medidas abaixo de 20 mm ou acima de 64 mm do centro da placa não devem ser contabilizados, pois nestas áreas a distribuição do fungicida não ocorre de forma homogênea @[Torres-Londoño2016].
+Antes de iniciar o detalhamento do método seguinte, cabe uma breve descrição das etapas que antecedem a coleta de dados, utilizando-se do método de gradiente espiral. Para este estudo, duas populações de **Colletotrichum fiorinae**, uma exposta (EX) e outra não exposta (BL) a inibidores de succinate-dehidrogenase, foram comparadas quanto aos seus valores de sensibilidade a dois ingredientes ativos, bezovindiflupir e fluopirame. Ao invés de utilizar o método convencional de múltiplas placas de Petri, utilizou-se uma única placa de 150 mm de diâmetro contendo 50 ml de meio de cultura YBA. Com o auxílio do equipamento Eddy Jet 2W - Spiral Plater (Neutec Group Inc, Farmingdale, NY, USA), soluções estoque de fungicidas preparados a 100 e 1.000 µg/ml foram aplicados em função exponencial, na superfície solidificada do meio de cultura, no qual foram mantidas por 6 horas, dentro de uma câmera de fluxo, para permitir correta difusão do produto químico no meio de cultura. Para a utilização do equipamento, recomenda-se seguir as intruções do fabricante. Isolados a serem testados foram cultivados sobre palitos de madeira duplamente autoclavados e medindo 5 cm de comprimento por 6 mm de largura. Em resumo, palitos de madeira foram colocados sobre meio de cultura tradicional como Batata Dextrose Ágar (BDA), permitindo um pequeno espaço entre um e outro. Aproximadamente 1 ml de suspensão de conídios foram pipetados sobre os palitos. Placas de BDA foram incubadas entre 4 e 7 dias a 24^o^C antes da transferência. Palitos de madeira contendo micélio foram transferidos para placas de 150 mm através do gradiente de concentração do produto testado, onde cada placa permite o teste de oito diferentes isolados. Cada combinação de isolado e ingrediente ativo contou com duas placas, assim como no controle. Após o período de incubação de 72hrs, a uma temperatura de 24^o^C, ocorreu a avaliação. O processo de avaliação da sensibilidade é detalhado na (Figura\@ref(fig:figura3). 
+Importante informar que as medidas de 'c' representadas na (Figura\@ref(fig:figura3) devem estar entre 20 e 64 mm. Em outras palavras, quaisquer medidas abaixo de 20 mm ou acima de 64 mm do centro da placa não devem ser contabilizados, pois nestas áreas a distribuição do fungicida não ocorre de forma homogênea @[Torres-Londoño2016].
 
-(Figura \@ref(fig:figura3))
+(ref:figura3) Método da diluição em gradiente espiral. Preparo de inóculos em placa de BDA com palitos de madeira autoclavadas (A1), crescimento micelial do patógeno sobre os palitos após 7 dias de incubação a 24^o^C (A2), equipamento Eddy Jet 2W (Neutec Group Inc) com a placa de corante para observar o padrão de aplicação da solução estoque (B), oito palitos com crescimento micelial de diferentes isolados de **Colletotrichum fioriniae** em contato direto com o meio de cultura (C), placa sem fungicida (controle) com o crescimento micelial após 3 dias de incubação, onde 'a' representa a espessura de maior crescimento que deve ser tomada como futura referência para encontrar o ponto de gradiente espiral - brevemente, o ponto de gradiente espiral de cada isolado é obtido com a subtração da espessura do palito de madeira do valor de maior espessura de crescimento micelial no controle, ou valor referência, sendo este resultado dividido por 2. Subsequentemente, adiciona o valor da espessura do palito de madeira (D), placa de fungicida mostrando em 'b' o ponto de gradiente espiral onde o isolado foi inibido a 50%, e em 'c' mostra a distância entre o centro da placa e o ponto de inibição de 50% (E), sendo esta última medida utilizada no arquivo de dados para o cálculo da EC^50.
 
-(ref:figura3) Método da diluição em gradiente espiral. Preparo de inóculos em placa de BDA com palitos de madeira autoclavadas (A1), crescimento micelial do patógeno sobre os palitos após 7 dias de incubação a 24^o^C (A2), equipamento Eddy Jet 2W (Neutec Group Inc) com a placa de corante para observar o padrão de aplicação da solução estoque (B), oito palitos com crescimento micelial de diferentes isolados de Colletotrichum fioriniae em contato direto com o meio de cultura (C), placa sem fungicida (controle) com o crescimento micelial após 3 dias de incubação, onde 'a' representa a espessura de maior crescimento (D), placa de fungicida mostrando em 'b' o ponto de gradiente espiral onde o isolado foi inibido a 50%. e em 'c' mostra a distância entre o centro da placa e o ponto de inibição de 50% (E), sendo esta, a medida utilizada para o cálculo da EC^50.
+```{r figura3, echo = FALSE, fig.cap= '(ref:figura3)'}
+knitr::include_graphics("paulo/figura3.tif")
+```
 
-Para esta nova análise, os seguintes pacotes necessitam ser carregados,'ECX','lattice', 'latticeExtra', 'grid', 'gridExtra', 'doBy', 'multcomp', 'reshape', 'reshape2', 'plyr', 'MASS', 'devtools' and 'agricolae'. No caso do pacote 'ECX', este pode ser encontrado em github.com (CAMINHO A SER DEFINIDO APOS CONSULTA COM CO-AUTOR GABRIEL TORRES).  
-
+Para esta nova análise, os seguintes pacotes necessitam ser carregados,'ECX','lattice', 'latticeExtra', 'grid', 'gridExtra', 'doBy', 'multcomp', 'reshape', 'reshape2', 'plyr', 'MASS', 'devtools' and 'agricolae'. No caso do pacote 'ECX', este pode ser encontrado em github.com (CAMINHO A SER DEFINIDO APOS CONSULTA COM CO-AUTOR GABRIEL TORRES). 
 
 ```{r, message=FALSE}
 ##----------------------------------------------------------------------------      
@@ -212,20 +223,29 @@ sapply(pkg, library, character.only=TRUE, logical.return=TRUE)
 
 ```
 
-Nos comandos apresentados logo em seguida, serão selecionados os diretórios onde se encontram os arquivos de dados utilizados para este estudo. Logo em seguida, serão criados uma nova categoria de dados 'pf' que unirá em uma única coluna os dados de população (pop) e fungicida estudado (fun). Para garantir que os códigos descritos funcionem apropriadamente, as distâncias coletadas nas placas devem ter o formato numérico 'as.numeric'. Por último, serão removidos os dados perdidos, assim como leituras de distâncias das placas que ficaram abaixo de 20 mm ou acima de 64 mm.
+Nos comandos apresentados logo em seguida, serão selecionados os diretórios onde se encontram os arquivos de dados utilizados para este estudo (ref:dados2). Logo em seguida, serão criados uma nova categoria de dados 'pf' que unirá em uma única coluna os dados de população 'pop' e fungicida estudado 'fun'. Para garantir que os códigos descritos funcionem apropriadamente, a distância coletadas nas placas, coluna 'dis', devem ter o formato numérico 'as.numeric'. Por último, serão removidos os dados perdidos, assim como leituras de distâncias das placas que ficaram abaixo de 20 mm ou acima de 64 mm.
+
+```{r dados2, echo = FALSE}
+d2 <- read.txt("paulo/dados2.txt")
+knitr::kable(head(d2, n = 10),
+             caption = '(ref:dados2)',
+             digits = c(NA, NA, 0, 0, NA, 2, 2),
+             align = c("ccccccc"),
+             row.names = FALSE)
+```
 
 ```{r,include=FALSE}
 #-----------------------------------------------------------------------------
 # Seleção de diretório
 
 rm(list=ls())
-setwd("~/Literature/PSFL_Manuscripts/EpidemioR/case_2_GE")
+setwd()
 list.files(pattern="*.txt")
 
 #-----------------------------------------------------------------------------
 # Carregamento de arquivo de dados 
 
-da <- read.table("Aaecdis.txt", header=TRUE, sep="\t", dec=".",
+da <- read.table("dados2.txt", header=TRUE, sep="\t", dec=".",
                  stringsAsFactors=FALSE)
 #str(da)
 
@@ -253,7 +273,7 @@ head(da,10)
 
 ```
 
-Para poder executar a função 'ECcal' corretamente será necessário a indicação dos nomes das colunas com suas respectivas funções dentro do comando a seguir, onde o arquivo de dados utilizado deverá incluir a coluna de isolado (iso), população (pop), repetição (rep), solução estoque (ss), fungicida (fun), peso molecular do ingrediente ativo (mw) e a distância da medida retirada da placa (dis). Recomenda-se o uso da página de internet PubChem (https://pubchem.ncbi.nlm.nih.gov/) para obter dados de peso molecular para as moléculas de interesse. Em seguida, ocorrerá o pareamento dos dados de isolado, população, fungicida com os valores de EC^50 recém gerado. Os nomes das colunas que formarão os resultados de sensibilidade podem ser modificados de acordo com a necessidade individual, como mostrado no comando 'names'. Uma tabela de Microsoft Excel em formato comma-separated values (csv) pode ser gerada neste momento, informando os valores de sensibilidade para cada isolado, população e fungicida listado, assim como mostra o último comando da seguinte célula de comandos.
+Para poder executar a função 'ECcal' corretamente será necessário a indicação dos nomes das colunas com suas respectivas funções dentro do comando a seguir, onde o arquivo de dados utilizado (ref:dados2) deverá incluir a coluna de isolado 'iso', população 'pop', repetição 'rep', solução estoque 'ss', fungicida 'fun', peso molecular do ingrediente ativo 'mw' e a distância da medida retirada da placa 'dis'. Recomenda-se o uso da página de internet PubChem para obter dados de peso molecular para as moléculas de interesse, informação esta disponível em (https://pubchem.ncbi.nlm.nih.gov/). Em seguida, ocorrerá o pareamento dos dados de isolado, população, fungicida com os valores de EC^50 recém gerado. Os nomes das colunas que formarão os resultados de sensibilidade podem ser modificados de acordo com a necessidade individual, como mostrado no comando 'names'. Uma tabela de Microsoft Excel em formato comma-separated values (csv) pode ser gerada neste momento, informando os valores de sensibilidade para cada isolado, população e fungicida listado, assim como mostra o último comando da seguinte célula de comandos.
 
 ```{r}
 ##----------------------------------------------------------------------------      
@@ -296,9 +316,14 @@ ks.test(x=E[["EX-Bz"]], y=E[["EX-Fp"]])
 ks.test(x=E[["BL-Fp"]], y=E[["EX-Fp"]])
 
 ```
-Na figura (Figura \@ref(fig:figura4)), pode-se visualizar as densidades de distribuição das curvas de cada população de isolados estudados, assim como a frequência acumulada de suas sensibilidades a dois fungicidas testados. E assim finalizando este método de determinação da EC^50.   
+Na figura (Figura\@ref(fig:figura4)), pode-se visualizar as densidades de distribuição das curvas de cada população de isolados estudados, assim como a frequência acumulada de suas sensibilidades a dois fungicidas testados. E assim finalizando este método de determinação da EC^50.   
 
-(ref:figura1) Densidade de distribuição (A) e frequência acumulada da sensibilidade de duas populações de **Colletotrichum fioriniae** em pistache.
+
+(ref:figura4) Densidade de distribuição, incluindo valores de significância para 5% e D-estatístico (A) e frequência acumulada da sensibilidade de duas populações de **Colletotrichum fioriniae** em pistache. Onde, BL = população baseline (antes da exposição ao ingrediente ativo), EX = população exposta ao ingrediente ativo, Bz = bezovindiflupir, e Fp = fluopirame e fluopirame. 
+
+```{r figura4, echo = FALSE, fig.cap= '(ref:figura4)'}
+knitr::include_graphics("paulo/figura3.png")
+```
 
 ```{r,fig.height=8, fig.width=8}
 ##----------------------------------------------------------------------------      
@@ -355,12 +380,12 @@ p2 <-
 grid.arrange(p1, p2, ncol=1)
 #plot (p1, more=TRUE)
 
-
 ```
-
+ANOTACAO PARA PAULO - CONSIDERAR INCLUIR OS ESTUDOS DE CORRELACAO - VER SCRIP IN WORD
 
 ## Estimating isolate sensitivity by using the spline regression 
 
+ESCREVER - CONTATO DE WHATSAPP FEITO EM AGO-31
 
 ## Informações adicionais de pacotes utilizados
 
