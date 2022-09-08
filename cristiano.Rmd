@@ -1,0 +1,713 @@
+---
+title: "EpidemioR"
+author: "CRISTIANO NUNES NESI - Epagri/SC"
+date: "Versão de Setembro de 2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+# Modelos não lineares
+
+
+## Introdução
+
+\
+
+Um modelo é não linear quando o valor esperado de uma variável dependente $Y$ não pode ser escrita como funções 
+lineares dos seus parâmetros. A forma clássica de um modelo normal não linear é expressa como
+
+$$
+Y=g(\beta; X)+{\varepsilon},
+$$
+
+\noindent em que $g(\beta; X)=E(Y \mid X)$ e os ${\varepsilon_{i}'s}$ são não correlacionados e normalmente 
+distribuídos com média zero e variância comum $\sigma^{2}$, isto é, ${\varepsilon}\sim N(0, I\sigma^{2})$,
+  $g(\beta; X)$ é uma função diferenciável em $\beta$, $\beta=[\beta_{1}, \beta_{2}, ..., \beta_{p}]^{\top}$
+contém parâmetros desconhecidos a serem estimados e $X=(x^{(1)}, x^{(2)}, ..., x^{(s)})$ representa a matriz
+ de dimensão $n \times s$, dos valores de $s$ variáveis explanatórias (Seber e Wild, 2003; Cordeiro et al., 2009).
+
+Ao contrário de regressão linear, a minimização da $SQR(\beta)$ será um problema não linear devido à não linearidade
+de $g(.)$, sendo necessário utilizar métodos de otimização numérica. Estes métodos são procedimentos iterativos que, idealmente,
+aproximam-se do valor ótimo do parâmetro a cada passo. Em cada passo, os algorítimos determinam o novo valor do parâmetro
+baseado nos dados, no modelo e no valor da estimativa corrente. 
+
+As principais complicações dos métodos de otimização
+numérica são a escolha de valores inicias para os parâmetros e a técnica para distinguir o mínimo global de um mínimo
+local. Estes dois problemas são relacionados, de forma que se o valor inicial for suficientemente próximo do valor 
+ótimo do parâmetro, o procedimento estará cada vez mais próximo do valor ideal do parâmetro e o algorítimo convergirá
+em poucos passos. Desta forma, é fundamental especificar valores iniciais adequados, pois uma escolha ruim pode levar ao ajuste 
+de um modelo incorreto. Caso não se consiga o ajuste do modelo apesar de tentativas adequadas de valores iniciais,
+isso pode indicar que o modelo não é apropriado para os dados em questão (Seber e Wild, 2003). Como as soluções de
+ um problema de regressão não linear são numéricas, elas podem diferir como consequência de
+diferentes algorítimos, diferentes implementações de um mesmo algorítimo, diferentes parametrizações ou diferentes
+valores iniciais. 
+
+ A principal característica dos modelos não lineares é que a
+ parte fixa $g(\beta; X)$ geralmente decorre de um processo determinístico deduzido a partir de situações teóricas,
+ quase sempre baseado em equações diferenciais, de tal forma que os parâmetros podem ter interpretações práticas.
+ Muitas vezes, assume-se que o pesquisador tem algum co\-nhe\-ci\-men\-to sobre o tipo de
+função $g(.)$ a ser utilizada. Os métodos de regressão não lineares são empregados na análise de dados
+para os quais há uma relação funcional não linear entre preditor e resposta empiricamente ou teoricamente estabelecida  (Cordeiro et al., 2009).
+
+
+## Estudo de caso 2: Efeito do molhamento foliar sobre infecção de *Diplodia macrospora* em milho 
+
+
+A sensibilidade a Diplodia leaf streak (*Diplodia macrospora* (Earle)) pode ser influenciada pela duração do molhamento foliar. Assim, o objetivo deste estudo foi avaliar o da duração do molhamento foliar na severidade da doença em plântulas de milho. 
+
+*D. macrospora* causa podridão da espiga e podridão da base do colmo em milho. Estas podridões  causam perda em produtividade, reduzem a qualidade dos grãos e causam o aparecimento de micotoxinas.
+
+![](fig1.JPG){width=30%}
+![](fig2.JPG){width=30%}
+![](fig3.JPG){width=30%}
+
+## Metodologia
+  
+  
+A inoculação de plântulas da variedade de polinização aberta (SCS 155 - Catarina) foi realizada em salas de crescimento com 4 sementes em vasos de plástico com 500 g de subsstrato com sete repetições. 
+  
+O isolado monospósrico Dm 54 foi utilizado nas inoculações. O inóculo foi produzido por transferência de conídios para uma placa de petri (9 cm) contendo meio de cultura e incubado por 30 dias a  $22°C$  com fotoperíodo de 12h. A suspensão de conídios foi preparada e quantificada, filtrada com dois discos de algodão para eliminar fragmentos de micélio. $100 \mu l/L$ do surfactante (polyoxyethylene-20-sorbitan monolaurate) foi adicionado a suspensão para facilitar a dispersão do ióculo na superfície foliar.
+
+  
+As plântulas foram inoculadas no estágio V1 (10 to 12 dias de idade) por pulverização de uma suspensão de conídios ($ 5 \times 10^4 /mL$, $ 2.3 mL/plântula$) com um atomizador De Vilbiss a pressão de 55 kPa e então transferidos para câmara úmida por 0; 6; 12; 18; 24; 30; 36; 42; 48 e 54 h de duração de molhamento foliar a $24\pm 0.5°C$ e 95% de umidade relativa e 12 hours de fotoperíodo. Deixou-se secar a superfície foliar das plântulas antes de retornar para a câmara de crescimento a temperatura constante por $24\pm 0.5°C$ até avaliação. 
+  
+As avaliações de doenças foram feitas sete dias após a inoculação avaliando a percentagem de tecido foliar danificado por *D. macrospora* (severidade). 
+Os valores de severidade foram avaliados individualmente para cada folha das plantulas e a média foi calculada. 
+
+
+
+  
+
+
+
+### Visualizando os dados
+
+
+A inspeção dos dados observados é apresentada a seguir:
+
+
+```{r setup, include=T}
+knitr::opts_chunk$set(echo = TRUE)
+
+dado <- read.csv("dados.csv", header=T, dec=",")
+dado$sev <- dado$severidade/100
+head(dado)
+str(dado)
+summary(dado)
+```
+
+
+
+
+
+### Curvas de progresso da doença
+
+
+ A caracterização da intensidade de uma doença de plantas no tempo é fundamental em epidemiologia
+para descrever e compreender a sua dinâmica. Utilizando-se curvas de progresso
+da doença, interações entre patógeno, hospedeiro e ambiente podem ser caracterizadas, estratégias de controle
+ avaliadas e níveis futuros de doenças previstos. Além disso, a partir da curva de progresso vários aspectos podem ser
+observados, como o início da epidemia, as quantidades inicial, máxima e final da doença, a taxa de aumento da doença, a 
+forma da curva e a duração da epidemia (Van Der Plank, 1963; Madden et al., 2007; Bergamin Filho, 2011). 
+
+
+```{r pressure, echo=FALSE}
+plot(sev~tempo, xlim=c(0, 60),xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=dado)
+```
+
+
+
+
+### Modelos propostos
+
+
+
+
+O desenvolvimento da doença sobre a folha em função da duração do molhamento foliar foi analizado estudando-se os modelos Monomolecular, Exponencial, Logístico e Gompertz.
+
+
+Um conjunto de modelos não lineares são propostos com base no comportamento biológico do fenônemo e modelos propostos na literatura. Cada modelo será apresentado e ajustado na sequência. A seguir, os modelos serão comparados pelo critério de informação de Akaike (AIC), dado por $AIC=-2l+2p$ em que $l$ - é o logarítmo neperiano da função de verossimilhança calculado para os valores das estimativas dos parâmetros e $p$ - é o número de parâmetros do modelo considerado (Akaike, 1974). Por este critério, o melhor modelo é aquele que apresenta menor valor de AIC; além disto, avaliou-se o coeficiente de determinação obtido na regressão linear simples entre os valores observados e os preditos pelo modelo, utilizando-se a função implementada em \texttt{R} pelo Prof. Dr. Walmes MArques Zeviani - UFPR, conforme apresentada a seguir:
+
+
+
+```{r cars0}
+R2 <- function(nls.obj){
+  da <- eval(nls.obj$data)
+  resp.name <- all.vars(summary(nls.obj)$formula)[1]
+  form <- paste(resp.name, "~1", sep="")
+  m0 <- lm(form, da)
+  an <- anova(nls.obj, m0)
+  sqn <- deviance(nls.obj)
+  sqe <- deviance(m0)
+  r2 <- 1-(sqn/sqe)
+  aov <- data.frame(fv=c("regression","residuals"),
+                    gl=c(-an$Df[2],an$Res.Df[1]),
+                    sq=c(-an$Sum[2],an$Res.Sum[1]))
+  aov$qm <- aov$sq/aov$gl
+  aov$F <- c(aov$qm[1]/aov$qm[2], NA)
+  aov$"Pr(>F)" <- c(1-pf(aov$F[1], df1=aov$gl[1], df2=aov$gl[2]), NA)
+  names(aov) <- c(" ","Df", "Sum Sq", "Mean Sq", "F value", "Pr(>F)")
+  return(list(anova=aov, R2=r2))
+}
+```
+
+
+
+## Ajuste de modelos
+
+
+O estudo de modelos estatísticos para descrever 
+dinâmicas de doenças assume posição de importância na teoria epidemiológica. Após medir ou estimar a intensidade da
+ doença em uma população de hospedeiros, o uso de ferramentas estatísticas auxilia na compreensão do processo
+ epidêmico. Geralmente, utilizam-se modelos para resumir os aspectos essenciais das observações de interesse. 
+No modelo estatístico, as estruturas de casualidade, que são concebidas através do raciocínio epidemiológico e
+ motivadas por evi\-dências empíricas, são representadas pelos efeitos principais e interações, associados a cada 
+covariável escolhida para compor o modelo. Uma vantagem dos modelos estatísticos para a descrição e 
+representação do conhecimento científico está na possibilidade de afirmações probabilísticas. Na construção de 
+intervalos de confiança a variabilidade é geralmente interpretada como o grau de incerteza associado às
+ predições produzidas pelo modelo e para os testes de hipóteses está relacionada à estimativa da probabilidade do 
+erro de rejeição da hipótese nula (Madden et al., 2007).
+
+Para este estudo, foram ajustados os modelos Exponencial, Monomolecular, Logístico e de Gompertz, com variações nas parametrizações visando melhor interpretação das estimativas dos parâmetros.
+
+
+
+
+### Modelo Exponencial
+
+
+Este modelo também é conhecido como modelo logarítimico, geométrico ou 
+Malthusiano. É apropriado quando indivíduos doentes dão origem a novos indivíduos doentes o que indica que a 
+velocidade de aumento da doença é proporcional à própria quantidade de doença. Por ser demasiado simplista, este
+ modelo pode ser utilizado para 
+descrever estágios iniciais de doenças policíclicas, enquanto a quantidade de doença não exceder (arbitrariamente) a 5\%.
+A equação que descreve a quantidade de doença ($y$) em função do tempo ($t$) é dada por
+
+ 
+ 
+$$y=a_{1}e^{-a_{2}*(T)}$$
+em que, 
+  
+$y$ = severidade observada;
+  
+$T$ = duração do molhamento foliar;
+
+$a_{1}$ = intercepto; 
+  
+$a_{2}$ = parâmetro relacionado à taxa de progresso da doença.
+
+
+
+```{r cars}
+modE <- nls(sev~a1*exp(a2*tempo), start=c(a1=0.18, a2=0.03), data=subset(dado, tempo>0))
+summary(modE)
+AIC(modE)
+R2(modE)
+confint.default(modE)
+```
+
+
+
+#### Função
+
+
+A seguir é apresentada a função implementada em *R* para plotar a curva ajustada sobre a dispersão de pontos.
+
+
+```{r cars1}
+funcE <- function(x, beta){
+  return(beta[1]*exp(beta[2]*x))
+}
+```
+
+
+
+##### Gráfico
+
+
+```{r , echo=FALSE}
+plot(sev~tempo, xlim=c(0, 60), xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=subset(dado, tempo>0))
+curve(funcE(x, beta=coef(modE)), from=0, to=60, add= T,type = "l", lty = 1, lwd=3)
+
+```
+
+
+### Modelo Monomolecular
+
+
+
+
+
+Este modelo é apropriado para epidemias em que não há dispersão de 
+inóculo secundário na mesma estação de crescimento, o que significa que o aumento da doença se deve ao inóculo produzido
+em epidemias anteriores ou epidemias em outros locais. Neste modelo, a velocidade de aumento da doença é proporcional
+ ao inóculo inicial e à taxa de incremento, ambos supostos constantes. A equação que descreve a intensidade de
+ doença ($y$) em função do tempo ($t$) é dada por
+
+
+    
+$$y= 1- (1-c_{1})e^{(-c_{2}*T)}$$
+ 
+$y$ = severidade observada;
+  
+$T$ = duração do molhamento foliar;
+  
+$c_{1}$ = assíntota superior (máxima severidade); 
+  
+$c_{2}$ = parâmetro relacionado à taxa de progresso da doença.
+  
+
+
+```{r cars2}
+modM <- nls(sev~1-(1-c1)*exp(-c2*tempo), start=c(c1=18, c2=-0.02), data=subset(dado, tempo>0))
+summary(modM)
+AIC(modM)
+R2(modM)
+confint.default(modM)
+```
+
+
+#### Função
+
+A seguir é apresentada a função implementada em *R* para plotar a curva ajustada sobre a dispersão de pontos.
+
+
+```{r cars3}
+funcM <- function(x, beta){
+  return(1-(1-beta[1])*exp(-beta[2]*x))
+}
+```
+
+##### Gráfico
+
+
+```{r , echo=FALSE}
+plot(sev~tempo, xlim=c(0, 60),xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=subset(dado, tempo>0))
+curve(funcM(x, beta=coef(modM)), from=0, to=60, add= T,type = "l", lty = 1, lwd=3)
+
+```
+
+
+
+### Modelo Logístico
+ 
+ 
+
+Este modelo incorpora aspectos dos modelos monomolecular e exponencial e tem 
+sido o mais empregado desde que Van Der Plank (1963) propôs seu uso para descrever o progresso de doenças 
+policíclicas. A equação que descreve a intensidade de doença ($y$) em função do tempo ($t$) é dada a seguir em diferentes parametrizações:
+ 
+#### Parametrização 1
+ 
+ 
+$$y= \frac{b_{1}}{1+exp^{(\frac{b_{2}-T}{b_{3}})}}$$
+ 
+$y$ = severidade observada;
+  
+$T$ = duração do molhamento foliar;
+  
+$b_{1}$ = assíntota superior (máxima severidade); 
+  
+$b_{2}$ = tempo de molhamento foliar para se observar metade da máxima severidade;
+  
+$b_{3}$ = parâmetro de escala sem interpretação direta.
+
+
+
+
+```{r cars4}
+modL1 <- nls(sev~b1/(1+exp((b2-tempo)/b3)), start=c(b1=0.48, b2=16, b3=4), data=subset(dado, tempo>0))
+summary(modL1)
+AIC(modL1)
+R2(modL1)
+confint.default(modL1)
+```
+
+#### Função
+
+
+A seguir é apresentada a função implementada em *R* para plotar a curva ajustada sobre a dispersão de pontos.
+
+
+```{r cars5}
+funcL1 <- function(x, beta){
+  return(beta[1]/(1+exp((beta[2]-x)/beta[3])))
+}
+```
+
+
+#### Gráfico
+
+
+```{r , echo=FALSE}
+plot(sev~tempo, xlim=c(0, 60), xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=subset(dado, tempo>0))
+curve(funcL1(x, beta=coef(modL1)), from=0, to=60, add= T,type = "l", lty = 1, lwd=3)
+```
+
+
+
+
+#### Parametrização 2
+
+$$y= \frac{b_{1}}{1+(\frac{1}{b_{2}}-1)}exp^{(-b_{3}*T)}$$
+ 
+$y$ = severidade observada;
+  
+$T$ = duração do molhamento foliar;
+  
+$b_{1}$ = assíntota superior (máxima severidade); 
+  
+$b_{2}$ = estima a quantidade de doença no tempo 0;
+  
+$b_{3}$ = parâmetro interpretado compo taxa aparente de infecção.
+
+
+
+
+```{r cars6}
+modL2 <- nls(sev~b1/(1+((1/b2)-1)*exp(-b3*tempo)), start=c(b1=0.48, b2=0.15, b3=0.04), data=subset(dado, tempo>0))
+summary(modL2)
+AIC(modL2)
+R2(modL2)
+confint.default(modL2)
+```
+
+####Função
+
+
+A seguir é apresentada a função implementada em *R* para plotar a curva ajustada sobre a dispersão de pontos.
+
+
+```{r cars7}
+funcL2 <- function(x, beta){
+  return(beta[1]/(1+((1/beta[2])-1)*exp(-beta[3]*x)))
+}
+```
+
+
+#### Gráfico
+
+
+```{r , echo=FALSE}
+plot(sev~tempo, xlim=c(0, 60), xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=subset(dado, tempo>0))
+curve(funcL2(x, beta=coef(modL2)), from=0, to=60, add= T,type = "l", lty = 1, lwd=3)
+```
+
+
+#### Parametrização 3
+
+
+
+
+
+$$y= \frac{b_{1}}{1+(\frac{1-0.95}{0.95})}exp^{(-b_{2}*T)}$$
+ 
+$y$ = severidade observada;
+  
+$T$ = duração do molhamento foliar;
+  
+$b_{1}$ = assíntota superior (máxima severidade); 
+  
+$b_{2}$ = parâmetro sem interpretação direta;
+  
+$b_{3}$ = duração do molhamento foliar para alcançar 95% da máxima severidade.
+
+
+```{r cars8}
+modL3 <- nls(sev ~ b1/(1+((1-0.95)/0.95)*exp(-b2*(tempo-b3))), start = list(b1=0.48, b2=0.4, b3=21), data=subset(dado, tempo>0))
+summary(modL3)
+AIC(modL3)
+R2(modL3)
+confint.default(modL3)
+```
+#### Função
+
+
+A seguir é apresentada a função implementada em *R* para plotar a curva ajustada sobre a dispersão de pontos.
+
+```{r cars9}
+funcL3 <- function(x, beta){
+  return(beta[1]/(1+((1-0.95)/0.95)*exp(-beta[2]*(x-beta[3]))))
+}
+```
+
+
+
+#### Gráfico
+
+
+```{r , echo=FALSE}
+plot(sev~tempo,xlim=c(0, 60), xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=subset(dado, tempo>0))
+curve(funcL3(x, beta=coef(modL3)), from=0, to=60, add= T,type = "l", lty = 1, lwd=3)
+```
+
+
+### Modelo de Gompertz
+
+
+
+Apropriado para doenças policíclicas como alternativa ao 
+modelo logístico, com ponto de inflexão em torno de $y=0,37$, fazendo com que a curva 
+alcance um máximo mais rapidamente que o modelo logístico. A equação que descreve a 
+quantidade de doença ($y$) em função do tempo ($t$) é dada a seguir em diferentes parametrizações:
+
+
+#### Parametrização 1
+
+
+
+
+$$y= b_{1}*exp^{-b_{2}*{b_{3}}^T}$$
+ 
+$y$ = severidade observada;
+  
+$T$ = duração do molhamento foliar;
+  
+$b_{1}$ = estima a quantidade de doença no tempo 0;
+  
+$b_{2}$ = parâmetro interpretado compo taxa aparente de infecção.
+
+
+
+```{r cars10}
+modG1 <- nls(sev~b1*exp(-b2*b3^tempo), start=c(b1=0.48, b2=7.4, b3=0.86), data=subset(dado, tempo>0))
+summary(modG1)
+AIC(modG1)
+R2(modG1)
+confint.default(modG1)
+```
+
+#### Função
+
+
+A seguir é apresentada a função implementada em *R* para plotar a curva ajustada sobre a dispersão de pontos.
+
+
+```{r cars11}
+funcG1 <- function(x, beta){
+  return(beta[1]*exp(-beta[2]*beta[3]^x))
+}
+```
+
+
+
+
+##### Gráfico
+
+
+```{r , echo=FALSE}
+plot(sev~tempo, xlim=c(0, 60),xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=subset(dado, tempo>0))
+curve(funcG1(x, beta=coef(modG1)), from=0, to=60, add= T,type = "l", lty = 1, lwd=3)
+```
+
+
+
+#### Parametrização 2
+
+
+
+Esta reparametrização foi proposta por ZEVIANI (2013):
+
+
+
+
+$$y=b_{1}exp^{log(0.99)exp^{b_{2}*(1-\frac{x}{b_{3}})}}$$
+ 
+$y$ = severidade observada;
+  
+$T$ = duração do molhamento foliar;
+  
+$b_{1}$ = estima a quantidade de doença no tempo 0;
+  
+$b_{2}$ = parâmetro interpretado compo taxa aparente de infecção.
+
+
+```{r cars12}
+modG2 <- nls(sev~b1*exp(log(0.95)*exp(b2*(1-tempo/b3))), start=c(b1=0.48, b2=5, b3=32), data=subset(dado, tempo>0))
+summary(modG2)
+AIC(modG2)
+R2(modG2)
+confint.default(modG2)
+```
+
+
+
+#### Função
+
+
+A seguir é apresentada a função implementada em *R* para plotar a curva ajustada sobre a dispersão de pontos.
+
+
+```{r cars13}
+funcG2 <- function (x, beta){
+return (beta[1]*exp(log(0.95)*exp(beta[2]*(1-x/beta[3]))))
+}
+```
+
+##### Gráfico
+
+
+```{r , echo=FALSE}
+plot(sev~tempo, xlim=c(0, 60),xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=subset(dado, tempo>0))
+curve(funcG2(x, beta=coef(modG2)), from=0, to=60, add= T,type = "l", lty = 1, lwd=3)
+```
+
+
+
+##### Parametrização 3
+
+
+
+
+$$y= b_{1}*exp^{-b_{2}*exp^{({-b_{3}}*{T})}}$$
+ 
+$y$ = severidade observada;
+  
+$T$ = duração do molhamento foliar;
+  
+$b_{1}$ = estima a assintota máxima;
+  
+$b_{2}$ = parâmetro de locação, sem interpretação biológica;
+
+$b_{3}$ = parâmetro interpretado compo taxa de expansão das lesões.
+
+```{r cars14}
+modG3 <- nls(sev~b1*exp(-b2*exp(-b3*tempo)), start=c(b1=0.48, b2=7, b3=0.15), data=subset(dado, tempo>0))
+summary(modG3)
+AIC(modG3)
+R2(modG3)
+confint.default(modG3)
+```
+
+#### Função
+
+
+A seguir é apresentada a função implementada em *R* para plotar a curva ajustada sobre a dispersão de pontos.
+
+
+```{r cars15}
+funcG3 <- function(x, beta){
+  return(beta[1]*exp(-beta[2]*exp(-beta[3]*x)))
+}
+```
+
+##### Gráfico
+
+
+```{r , echo=FALSE}
+plot(sev~tempo, xlim=c(0, 60),xlab="Duração do molhamento foliar (h)", ylab="Severidade (%)",
+     data=subset(dado, tempo>0))
+curve(funcG3(x, beta=coef(modG3)), from=0, to=60, add= T,type = "l", lty = 1, lwd=3)
+```
+
+
+
+## Considerações
+
+- Foram apresentados diferentes modelos que, como esperado, levaram a diferentes qualidades de ajuste;
+
+- As diferentes parametrizações dos modelos apresentam mesmos valores de AIC e $R²$. Adequada abordagem sobre reparametrizações pode ser estudada em Zeviani (2013);
+
+- Neste exemplo apresentado, o modelo de Gompertz é aquele que melhor se ajusta ao fenômeno estudado, e no geral, a parametrização escolhida deve ser aquela cuja parametrização melhor auxilia na explicação do fenômeno estudado.
+
+## Bibliografia citada e consultada
+
+
+\noindent Bates, D.M.; Watts, D.G. Relative curvature measures of nonlinearity. **Journal of The Royal Statistical Society**, Serie B, Methodological, London, 42(1): 1-25, 1980.
+
+\
+
+\noindent Bergamin Filho, A. **Curvas de progresso da doença**. In: Manual de Fitopatologia. Princípios e conceitos
+(Vol. I), Amorin, L.; Rezende, J.A.M; Bergamin Filho, A.; Piracicaba: Editora Agronômica Ceres. p.647-666, 2011.
+
+\
+
+\noindent Bolker, B.; R DEVELOPMENT CORE TEAM. bbmle: Tools for general maximum likelihood estimation. R
+ package version 1.0.4.1, 2012. http://CRAN.R-project.org/package=bbmle 
+
+\
+
+\noindent Bonat, W.H.; Krainski, E.T.; Ribeiro Junior, P.J.; Zeviani, W.M. Minicurso: **Métodos computacionais para inferência com aplicações em R**. João Pessoa, ABE: 20° Simpósio Nacional de Probabilidade e Estatística. 113p., 2012.
+
+\
+
+\noindent Box, M.J. Bias in nonlinear estimation. **Journal of The Royal Statistical Society**, Serie B, 
+Methodological, London, 33(2): 171-201, 1971.
+
+\
+
+\noindent Cook, R.D.; Witmer, J.A. A note on parameter-effects curvature. **Journal of the American Statistical Association**, 80(392): 872-878, 1985.
+
+\
+
+\noindent Cordeiro, G.M.; Prudente, A.A.; Demétrio, C.G.B. Uma revisão dos modelos normais não-lineares. **Revista Brasileira de Biometria**, 27(3): 360-393, 2009.
+
+\
+
+\noindent Draper, N.R.; Smith, H. **Applied Regression Analysis**. New York: John Wiley \& Sons, 407p. 1998.
+
+\
+
+\noindent Fox, J.; Weisberg, S. **Nonlinear regression and nonlinear least squares in R** - An R Companion to 
+Applied Regression, 2nd. ed. Thousand Oaks, CA: Sage. 2010.
+
+\
+
+\noindent Gilat, A.; Subramaniam, V. **Métodos Numéricos para Engenheiros e Cientistas: uma introdução com aplicações usando o MATLAB**. Porto Alegre: Bookman, 2008. 
+
+\
+
+\noindent Madden, L.V.; Hughes, G.; Bosh, F.V.D. **The study of plant disease epidemics**. Minnesota: The American
+ Phytopathological Society, 2007.
+
+\
+
+\noindent Mazucheli, J.; Achcar, J.A. Algumas considerações em regressão não linear. **Acta scientiarum**,
+ 24(6): 1761-1770, 2002.
+
+\
+
+\noindent R Development Core Team. **R: A Language and Environment for Statistical Computing**, R Foundation for
+ Statistical Computing, Vienna, Austria, 2021.
+
+\
+
+\noindent Ratkowsky, D.A. **Nonlinear regression modeling**, New York: M. Dekker, 1993.
+
+\
+
+\noindent Seber, G.A.F.; Wild, C.J. **Nonlinear regression**, New York: J. Wiley, 2003.
+
+\
+
+\noindent Tjorve, E.; Tjorve, K.M.C. A unified approach tothe Richards-model family for use in growth
+analyses: why we need only two model forms. **Journal of Theoretical Biology**, 267: 417-425, 2010.
+
+\
+
+\noindent Ueda, C.M.; Yamamoto, A.Y.; Nunes, W.M.C.; Scapim, C.A.; Guedes, T.A. Nonlinear models for describing 
+the Citrus Variegated Chlorosis in groves of two counties at nort\-wes\-tern Paraná State, Brazil. **Acta Scientiarum
+Agronomy**, 32(4): 603-611, 2010.
+
+\
+
+\noindent Van Der Plank, J.E. **Plant Diseases: epidemics and control**. New York: Academic Press. 1963.
+
+\
+
+\noindent Venables, W.N.; Ripley, B.D. **Modern Applied Statistics with S**. Fourth Edition. New York: Springer,
+ 2002.
+
+\
+
+\noindent Zeviani, W.M. **Avaliação de modelos de regressão não linear na cinética de liberação de potássio de resíduos orgânicos**. 87f., Dissertação (Mestrado em Estatística e Experimentação Agropecuária) - Universidade 
+Federal de Lavras, Lavras, 2009.
