@@ -1,4 +1,4 @@
-# Análise de sobrevivência utilizando modelo de regressão paramétrico (Caso 2)
+# Análise de sobrevivência por abordagem paramétrica com experimento fatorial
 
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Thiago de Aguiar Carraro",
@@ -7,54 +7,45 @@ chapter_authors(c("Thiago de Aguiar Carraro",
                   "Louise Larissa May De Mio"))
 ```
 
-## Introdução
-
 A análise de sobrevivência infere sobre a probabilidade de um evento
-ocorrer no tempo. Neste capítulo será abordado experimentos com mais de
-um fator, por exemplo os fatoriais, cujo o objetivo é analisar a
-correlação desses fatores ao longo do tempo, e como analisado em estudos
-epidemiológicos onde a estimativa do período de incubação de uma
-doença - exemplo típico para análise de sobrevivência do caso de fator
-único -, assume-se o modelo de regressão paramétrico para análise desses
-dados.
+ocorrer no tempo. Neste capítulo será abordada a análise de experimentos
+com mais de um fator. Dada a limitação em acomodar estruturas
+experimentais visto na abordagem com Kaplam-Meier, a análise com modelos
+paramétricos será utilizada.
 
-Estes modelos podem estimar a distribuição do tempo de vida de um
-patógeno e, ao mesmo tempo determinar parâmetros importantes para
-análise de interações de fatores [@Zhang2016]. O modelo de regressão de
-Weibull é um dos ajustes aplicados, o qual utiliza linha base de funções
-de Hazard para ajuste de coeficientes covariáveis. Além do Weibull,
-outros modelos de ajustes paramétricos podem ser utilizados dependendo
-dos dados e/ou experimentos, como as regressões exponenciais, gamma e
-log-logístico [@Zhang2016]. Portanto, este modelo que será usado para
-análise dos dados de uma situação real (experimento *ex vivo* com
-fungicidas) que será apresentado na sequência como caso 2 de análise de
-sobrevivência.
+Os modelos paramétricos podem estimar a distribuição do tempo de vida de
+um patógeno e, ao mesmo tempo determinar parâmetros importantes para
+compreender a interações de fatores [@Zhang2016]. Além do Weibull, visto
+anteriormente, outros modelos de ajustes paramétricos podem ser
+utilizados dependendo dos dados e/ou experimentos, como as regressões
+exponenciais, gamma e log-logístico [@Zhang2016]. Portanto, este modelo
+que será usado para análise dos dados de uma situação real (experimento
+*ex vivo* com fungicidas) que será apresentado na sequência como caso 2
+de análise de sobrevivência.
 
-### Descrição do ensaio
+## Descrição do experimento
 
-Para ambientar o leitor em relação as variáveis analisadas neste
-exemplo, seguem algumas informações sobre o tema em estudo. O controle
-químico é uma das formas mais eficientes para o controle de doenças de
-plantas, porém alguns fungicidas de sítios específicos apresentam riscos
-de médio a alto, como os IDMs (Inibidores da DesMetilação) e IQes
-(Inibidores da Quinona externa), respectivamente, para selecionar
-isolados do patógeno com menor sensibilidade. Esta seleção pode levar a
-uma perda da eficiência de controle destes de produtos comerciais com
-esses ingredientes ativos em campo. Para adotar estratégias de controle
-eficientes, garantindo o manejo adequado ao longo das safras, é
-necessário que seja realizado o monitoramento da sensibilidade do fungo
-a fungicidas [@lichtemberg2016].
+O controle químico é uma das formas mais eficientes para o controle de
+doenças de plantas, porém alguns fungicidas de sítios específicos
+apresentam riscos de médio a alto, como os IDMs (Inibidores da
+DesMetilação) e IQes (Inibidores da Quinona externa), respectivamente,
+para selecionar isolados do patógeno com menor sensibilidade. Esta
+seleção pode levar a uma perda da eficiência de controle destes de
+produtos comerciais com esses ingredientes ativos em campo. Para adotar
+estratégias de controle eficientes, garantindo o manejo adequado ao
+longo das safras, é necessário que seja realizado o monitoramento da
+sensibilidade do fungo a fungicidas [@lichtemberg2016].
 
-Para estudos de monitoramento da sensibilidade de fungo a fungicidas,
+Para estudos de monitoramento da sensibilidade de fungo à fungicidas,
 são utilizados ensaios *in vitro*, como: i) dose discriminatória (única
 dose de fungicida capaz de separar os isolados em fenótipos sensiveís ou
 resistentes), ii) CE~50~ (concentração efetiva que inibe 50% do
 crescimento ou germinação do esporo do patógeno) e iii) CMI
 (concentração mínima inibitória). Com esses dados, será possível
 comparar o nível de sensibilidade dos isolados ao longo do tempo
-(anos/safras) e verificar se está ocorrendo ou não mudanças da
-sensbilidade do patógeno aos fungicidas [@russell], para melhor adoção
-das estratégias de controle das doenças.
+(anos/safras) e verificar se está ocorrendo mudanças da sensbilidade do
+patógeno aos fungicidas [@russell], para melhor adoção das estratégias
+de controle das doenças.
 
 Baseado nos ensaios *in vitro*, isolados são classificados
 fenotipicamente em relação a sensibilidade aos fungicidas, e alguns
@@ -71,64 +62,42 @@ produção [@Schnabel2015].
 Além destas técnicas mais usuais nos trabalhos de monitoramento, a
 observação do período de incubação (PI) em um ensaio de eficiência de
 fungicidas pode ser uma medida epidemiológica importante para se
-analisar o efeito de controle do produto ao longo de um tempo, podendo
-considerar este tempo o intervalo de uma aplicação à outra, ou seja, o
+analisar o efeito de controle do produto ao longo do tempo, podendo
+considerar este tempo o intervalo de uma aplicação à outra. Ou seja, o
 PI vai fornecer informações do tempo efetivo de controle de um fungicida
 a um patógeno, e isso é importante considerando isolados de regiões ou
 safras diferentes. Uma vez detectada a mudança de sensibilidade em
 populações de patógenos, novas recomendações e estratégias para o uso de
 fungicidas devem ser adotadas.
 
-Neste caso 2 de uso de análise de sobrevivência, o objetivo proposto foi
-avaliar diferentes tratamentos (fungicidas) para o controle de duas
-espécies de *Colletotrichum*, agentes causais da antracnose do
-caquizeiro no Brasil. O experimento foi conduzido em esquema fatorial
-duplo, com condições ambientais favoráveis ao patógeno 25^o^C 2 , seis
-tratamentos foram testados, sendo cinco fungicidas (A, B, C, D, E) e uma
-testemunha (test) com água, duas espécies patogênicas (X e Y) foram
-analisadas, cada espécie/tratamento contou com 25 repetições, e o
-experimento foi realizado duas vezes.
+Neste uso de análise de sobrevivência, o objetivo proposto foi avaliar
+diferentes tratamentos (fungicidas) para o controle de duas espécies de
+*Colletotrichum*, agentes causais da antracnose do caquizeiro no Brasil.
+O experimento foi conduzido em esquema fatorial duplo $6 \times 2$
+combinando por completo seis fungicidas (A, B, C, D, E e testemunha) com
+duas espécies patogênicas (X e Y). Cada combinação experimental contou
+com 25 repetições e o experimento foi realizado duas vezes.
 
-Resumidamente, os frutos foram tratados com os produtos previamente, e
-após 24 horas foram inoculados com as espécies fúngicas. Em relação as
-avaliações, durante um total de 10 dias, diariamente foram analisadas se
-existia a presença ou não de lesão (sintomas) nos frutos, caso observado
-a repetição/tratamento/espécie era anotado a status um (1), caso
-contrário era marcado como status zero (0). Sendo assim, o período de
-incubação (PI) foi estimado quando metade ou mais das
-repetições/tratamentos (13 frutos) apresentaram o sintoma da doença
-(Figura \@ref(fig:prancha-1)).
+Os frutos foram tratados com os produtos previamente, e após 24 horas
+foram inoculados com as espécies fúngicas. Durante um total de 10 dias,
+diariamente foi examinado se existia a presença ou não de lesão
+(sintomas) nos frutos. Em caso positivo, era anotado a status um (1),
+caso contrário era marcado como status zero (0). Sendo assim, o período
+de incubação (PI) foi estimado quando metade ou mais das unidades
+experimentais de uma combinação experimental (13 frutos) apresentaram o
+sintoma da doença (Figura \@ref(fig:prancha-1)).
 
-(ref:prancha-1) Esquema ilustrativo do ensaio de eficiência de
-fungicidas: os frutos foram previamente desinfestados com álcool (70%),
-hipoclorito (0,5%) e água destilada autoclavada, em seguida, os frutos
-foram tratados com fungicidas, e após 24 horas foram inoculados (com
-suspensão de 1x10^4^ conídios.mL^-1^). Na figura, as letras de A a E
-estão representando os tratamentos fungicidas (com 25 repetições) e a
-testemunha pela sigla 'test', enquanto as letras X e Y são os patógenos.
+(ref:prancha-1) Esquema ilustrativo do ensaio de eficiência de fungicidas: os frutos foram previamente desinfestados com álcool (70%), hipoclorito (0,5%) e água destilada autoclavada, em seguida, os frutos foram tratados com fungicidas, e após 24 horas foram inoculados (com suspensão de 1x10^4^ conídios.mL^-1^). Na figura, as letras de A a E estão representando os tratamentos fungicidas (com 25 repetições) e a testemunha pela sigla 'test', enquanto as letras X e Y são os patógenos.
 
 ```{r prancha-1, echo = FALSE, fig.cap= '(ref:prancha-1)'}
 knitr::include_graphics("./102-thiago/prancha_1.jpg")
 ```
 
-A seguir, o capítulo apresentará os passos para análise de sobrevivência
-utilizando o software R com a abordagem da técnica paramétrica,
-assumindo a distribuição de Weibull para comparar o diferentes produtos
-testados para o controle da doença em caquis por meio de ferramentas
-epidemiológicas.
+## Análise de sobreviência
 
-```{r, message = FALSE}
-# Pacotes.
-rm(list = objects())
-
-library(tidyverse)
-library(survival)
-library(emmeans)
-
-# Será usada a `ordered_cld()`.
-url <- "https://raw.githubusercontent.com/walmes/wzRfun/master/R/pairwise.R"
-source(url)
-```
+Nessa seção, será apresentada a abordagem paramétrica, assumindo a
+distribuição de Weibull, para analisar o experimento com estrutura
+fatorial.
 
 Os dados estão armazenados em um arquivo de texto pleno (`*.txt`)
 contendo 5 colunas. Após a leitura, categorizou os dados estabelecendo
@@ -142,40 +111,28 @@ tempo de incubação igual ou inferior a testemunha. Além disso, avalia a
 resposta de duas diferentes espécies agentes causais em causar doença
 quando inoculadas em cada fruto tratado.
 
-::: {.note  data-latex=""}
-**TODO**
 
-  * Esconder o processo de transformação dos dados no formato verboso
-    para o formato baseado nas estiatísticas suficientes para a análise
-    (tempo para ocorrência do desfecho e tipo de censura).
-  * Na realidade, criar uma seção sobre o processamento para passar do
-    formato de anotações diárias para dia do desfecho.
-  * Fazer as comparações múltiplas para a mediana porque a mediana tem a
-    interpretação de tempo para o período de incubação. Foi usado a
-    média.
+```{r, message = FALSE}
+# Pacotes.
+rm(list = objects())
 
-:::
+library(tidyverse)
+library(survival)
+library(emmeans)
+```
 
 O bloco de código abaixo faz a importação dos dados, conversão de tipo
 de valor nas variáveis que são termos experimentais e mostra como estão
 os registros para uma unidade experimental.
 
 ```{r, message = FALSE}
-#-----------------------------------------------------------------------
-# Importação dos dados e preparação.
-
-# Análise dos dados (leitura).
+# Importação.
 da <- read_tsv("102-thiago/frutosmaduros.txt")
 attr(da, "spec") <- NULL
 str(da)
 
 # Tabela de frequência cruzada.
 xtabs(~spp + fung, data = da)
-
-# Existe NA em algum lugar?
-u <- !complete.cases(da)
-sum(u)
-da[u, ]
 
 # Converter termos experimentais em fatores.
 da <- da %>%
@@ -191,7 +148,9 @@ da %>%
 
 Como mostrado, a primeira UE, o fruto de rótulo `A.X.1`, teve o desfecho
 observado no dia 2. Depois dessa data, os valores serão todos iguais a
-1, bem como antes dela, todos iguais a 0.
+1, bem como antes dela, todos iguais a 0. Essa forma de armezenar mostra
+o status para cada dia de avaliação. Para análise de sobreviência só é
+necessário o dia em que o status mudou de 0 para 1.
 
 No bloco de código a seguir, os dados no formato longo com anotações
 diárias da condição das UEs são transformados para a representação
@@ -203,15 +162,16 @@ quando a unidade experimental (UE) ainda não apresentou o desfecho e 1,
 estatísticas suficientes que são: identificador da UE ou condição
 experimental e a data de ocorrência do evento desfecho. Essa data
 corresponde ao dia em que observou-se aparecimento de sintoma no fruto,
-neste caso. Àquelas UEs que não apresentaram sintomas até o final do
+neste caso. Aquelas UEs que não apresentaram sintomas até o final do
 período experimental, são as UEs com resposta censurada, em particular,
 censura à direita, visto que o evento irá certamente acontecer e ser
 obervado se o período experimental for prolonagado.
 
 Diante do que foi dito, o pesquisador pode optar por registrar os dados
-no formato longo com anotações diárias por UE, que é o temos, ou anotar
-apenas as estatísticas suficientes, com um linha na tabela por UE. O
-código abaixo mostra como passar do primeiro formato para o segundo.
+no formato longo com anotações diárias por UE, que é o que temos, ou
+anotar apenas as estatísticas necessárias, com um linha na tabela por
+UE. O código abaixo mostra como passar do primeiro formato para o
+segundo.
 
 ```{r, message = FALSE}
 # Determina a primeira data de valor `status == 1` para cada unidade
@@ -251,11 +211,6 @@ preenchimento, perdas de unidiades experimentais, etc, bem como
 antecipar alguns resultados que poderão ser confirmados pela análise.
 
 ```{r}
-#-----------------------------------------------------------------------
-# Análise exploratória.
-
-str(da_final)
-
 # Ordena pelo dia do evento dentro de cada unidade experimental.
 da_final <- da_final %>%
     group_by(spp, fung) %>%
@@ -264,12 +219,7 @@ da_final <- da_final %>%
     ungroup()
 ```
 
-(ref:ecdf-frutos) Distribuição acumulada empírica do tempo até
-ocorrência do desfecho nos frutos do experimento separados por condição
-experimental. Pontos indicam o tipo de desfecho (com censura ou não). As
-linhas vão desde o início do experimento até o momento de registro do
-desfecho. A linha horizontal está na posição 0.5 e permite determinar a
-mediada no tempo cuja interpretação é o período de incubação.
+(ref:ecdf-frutos) Distribuição acumulada empírica do tempo até ocorrência do desfecho nos frutos do experimento separados por condição experimental. Pontos indicam o tipo de desfecho (com censura ou não). As linhas vão desde o início do experimento até o momento de registro do desfecho. A linha horizontal está na posição 0.5 e permite determinar a mediada no tempo cuja interpretação é o período de incubação.
 
 ```{r ecdf-frutos, echo = FALSE, fig.cap= '(ref:ecdf-frutos)'}
 # Gráfico com a linha do tempo de cada fruto que mostra quando o evento
@@ -289,6 +239,11 @@ ggplot(data = da_final,
     geom_hline(yintercept = 0.5, color = "orange")
 ```
 
+Como são vários frutos por combinação experimental e o período de
+observação amplo o suficiente, sempre obteve-se frutos apresentando o
+desfecho. Houveram condições experimentais, no entanto, com mais da
+metade dos frutos apresentando censura à direita.
+
 Será feita análise de sobrevivência com esses dados, pois é motivada
 pelo tipo de resposta de natureza "tempo até desfecho". Para acomodar a
 estrutura de planejamento fatorial completo 2 x 6, será usada uma
@@ -296,7 +251,7 @@ abordagem paramétrica. Por apresentar boa flexibilidade, será usada a
 distribuição Weibull para o tempo até o desfecho. Com isso consegue-se
 acomodar a censura e a estrutura experimental.
 
-```{r, message = FALSE}
+```{r, eval = FALSE, include = FALSE, message = FALSE}
 # Antes de ir para o ajuste da Weibull, vamos reconhecer a
 # parametrização.
 
@@ -324,7 +279,6 @@ a <- 1/m$scale
 b <- unname(exp(coef(m))[1])
 c("sample_mean" = mean(y),
   "estimated_mean" = b * gamma(1 + 1/a))
-
 ```
 
 Nota-se que a análise de sobrevivência é a abordagem mais adequada para
@@ -332,9 +286,13 @@ análise destes dados, visto que de fato a variável resposta é o tempo
 para o desfecho e tem-se censura. A modelagem para a variável aleotória
 é o 'tempo para o aparecimento de sintomas (desfecho)'
 
-```{r, message=FALSE}
-# Ajustar a Weibull acomodando a estrutura experimental.
+Para testar a significância dos termos experimentais, uma sequência de
+modelos aninhados será ajustada aos dados. O teste da razão de
+verossimilhanças será aplicado para testar a contribuição de cada termo
+experimental.
 
+```{r, message=FALSE}
+# Definição do tipo de censura.
 s <- with(da_final,
           Surv(time = day,
                event = status))
@@ -364,14 +322,15 @@ anova(m0, m1, m2, m3)
 ```
 
 O modelo com interação é o mais apropriado para descrever o tempo para o
-aparecimento de sintomas. Portanto, existe interação entre espécies e
-produtos ao nível de 5% pelo teste de deviance entre modelos encaixados
+aparecimento de sintomas. O teste da razão de verossimilhanças entre
+modelos aninhados indicou que o termo de interação é significativo.
+Portanto, existe interação entre espécies e produtos ao nível de 5% pelo
+teste de deviance entre modelos encaixados
 
 ```{r, message=FALSE}
 # Modelo final.
 mx <- m3
 
-# -------------------------------------------------------------------------
 # Extração dos tempos médios e confecção das curvas de sobrevivência.
 # Médias ajustadas (é na interpretação do parâmetro da Weibull).
 emm <- emmeans(mx,
@@ -399,17 +358,17 @@ tb_curves <- tb_emm %>%
   }) %>%
   ungroup()
 
-# As curvas de densidade ajustadas.
-ggplot(data = tb_curves,
-       mapping = aes(x = day, y = dens)) +
-  facet_grid(facets = spp ~ fung) +
-  geom_line()
+# # As curvas de densidade ajustadas.
+# ggplot(data = tb_curves,
+#        mapping = aes(x = day, y = dens)) +
+#   facet_grid(facets = spp ~ fung) +
+#   geom_line()
 
-# As curvas de "1 - sobreviência".
-ggplot(data = tb_curves,
-       mapping = aes(x = day, y = accu)) +
-  facet_grid(facets = spp ~ fung) +
-  geom_line()
+# # As curvas de "1 - sobreviência".
+# ggplot(data = tb_curves,
+#        mapping = aes(x = day, y = accu)) +
+#   facet_grid(facets = spp ~ fung) +
+#   geom_line()
 
 # Valores observados com sobreposição das curvas ajustadas.
 ggplot(data = da_final,
@@ -428,9 +387,6 @@ ggplot(data = da_final,
   geom_line(data = tb_curves,
             inherit.aes = FALSE,
             mapping = aes(x = day, y = accu))
-
-
-# -------------------------------------------------------------------------
 ```
 
 Para finalizar a análise será realizado o estudo de interação dos
@@ -440,37 +396,21 @@ sobre o tratamento mais ou menos eficientes no controle da antracnose do
 caquizeiro. Observa-se que existe uma diferença no controle da doença
 entre as espécies.
 
-```{r, message=FALSE}
+(fig:errorbar-fungxesp) Estimativas para o parâmetro de locação da distribuição Weibull, acompanhadas do intervalo de confiança (95%), para cada uma das combinações experimentais.
 
+```{r errorbar-fungxesp, message=FALSE, fig.cap = '(fig:errorbar-fungxesp)'}
 # Estudar produtos em cada espécie.
 emm_fung_in <- emmeans(mx, specs = ~fung | spp)
 emm_fung_in
 
 # contrast(emm_fung_in, method = "pairwise")
-fung_in_comp <- multcomp::cld(emm_fung_in)
+fung_in_comp <- multcomp::cld(emm_fung_in, Letters = letters)
 fung_in_comp
 
 # Tabela com o resultado das comparações múltiplas.
-tb_contr <- as.data.frame(fung_in_comp)
+tb_contr <- as.data.frame(fung_in_comp) %>%
+    mutate_at(".group", trimws)
 tb_contr
-
-# Transformar os números para letras e ordenar as letras conforme as
-# estimativas.
-f <- function(x) {
-  l <- x %>%
-    str_trim() %>%
-    str_split("") %>%
-    flatten_chr() %>%
-    as.integer()
-  str_c(letters[l], collapse = "")
-}
-f(" 123 ")
-
-# Acerta a representação da significância dos contrastes com letras.
-tb_contr <- tb_contr %>%
-  mutate(let = map_chr(.group, f)) %>%
-  group_by(spp) %>%
-  mutate(let2 = ordered_cld(let = let, means = emmean))
 
 ggplot(data = tb_contr,
        mapping = aes(x = fung, y = emmean)) +
@@ -481,30 +421,24 @@ ggplot(data = tb_contr,
                 width = 0.05) +
   geom_text(mapping = aes(label = sprintf("%0.2f %s",
                                           emmean,
-                                          let2)),
+                                          .group)),
             hjust = 0.5,
             vjust = -1,
             angle = 90,
             nudge_x = 0.075) +
   labs(x = "fungicidas",
        y = "Estimativa do parâmetro de locação")
-
 ```
+
+Para a espécie X, houve diferença da testemunha apenas com os fungicidas
+B, C e E. Para a espécie Y, a houve diferença da testemunha apenas para
+com o fungicida C.
+
+Para estimar os temos médios e medianos, pode-se usar as instruções
+apresentadas no capítulo anterior.
 
 ## Conclusão
 
-- Esse tipo de análise auxilia tanto na avaliação da eficiência dos
-  fungicidas quanto na determinação do período de incubação (dias) em
-  cada tratamento, sendo estas variáveis muito importante para serem
-  levadas em consideração no momento de adoções de estratégias de
-  controle da doença.
-
-Ao Final da Análise deve incluir um texto pequeno contendo o que se pode
-concluir com uma análise destas e qual a vantagem em relação a uma outra
-técnica convencional estatistica de comparação de médias estimando PI,
-por ex. dar ênfase que OS dados de incidência, contagem a porcentagem de
-frutos doenças por exemplo perderia informações relevantes. Não sei se
-aqui estima-se também o risco para ocorrência do evento, se sim
-descrever os resultados tb como uma forma de comparação com um padrão,
-no caso seria um isolados fixado como sensível em relação ao fenótipo de
-resistência.
+A análise com a abordagem paramétrica é interessante pois, além de ser
+apropriada para o tipo de variável resposta em questão, é capaz de
+acomodar a estrutura experimental.

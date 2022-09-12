@@ -6,25 +6,27 @@ chapter_authors(c("Camilla Castellar",
                   "Louise Larissa May De Mio"))
 ```
 
+## Descrição do experimento
+
 Podridões em frutos levam a redução de produtividade, visto que frutos
 doentes não são comercializados. Componentes do monociclo da doença
 podem ser investigados em diferentes estágios de crescimento de frutos
 para direcionar aplicações de produtos na época de maior
 suscetibilidade. Desta forma, o objetivo deste estudo de caso foi
 estimar e comparar o período de incubação de uma podridão em macieira em
-cinco estágios de crescimento de frutos. O experimento foi realizado em
-condições controladas, utilizando frutos destacados. Cinco tamanhos de
-frutos foram coletados do campo (tam1, tam2, tam3, tam4 e tam5). Os
-frutos foram desinfestados e um ferimento foi provocado na região
-equatorial das maças. Uma gota de suspensão de conídios do patógeno foi
-depositada sobre o ferimento. Após a inoculação, os frutos foram
-aleatoriamente distribuidos em uma sala de incubação com condições
-controladas e homogeneas, constituindo um delineamento inteiramente
-casualisado com 5 tratamentos (tamanho) e 8 repetições (Figura
-\@ref(fig:esquema)).
+cinco estágios de crescimento de frutos.
 
-(ref:esquema) Ilustração do experimento onde frutos de 5 tamanhos são
-inoculados com o patógeno sob o ferimento feito na região equatorial.
+O experimento foi realizado em condições controladas, utilizando frutos
+destacados. Cinco tamanhos de frutos foram coletados do campo (tam1,
+tam2, tam3, tam4 e tam5). Os frutos foram desinfestados e um ferimento
+foi provocado na região equatorial das maças. Uma gota de suspensão de
+conídios do patógeno foi depositada sobre o ferimento. Após a
+inoculação, os frutos foram aleatoriamente distribuidos em uma sala de
+incubação com condições controladas e homogeneas, constituindo um
+delineamento inteiramente casualisado com 5 tratamentos (tamanho) e 8
+repetições (Figura \@ref(fig:esquema)).
+
+(ref:esquema) Ilustração do experimento onde frutos de 5 tamanhos são inoculados com o patógeno sob o ferimento feito na região equatorial.
 
 ```{r esquema, echo=FALSE, fig.cap= '(ref:esquema)'}
 knitr::include_graphics("101-camilla/tamanhos.jpg")
@@ -37,18 +39,12 @@ sintomáticos na tabela de registro. Nos frutos em que não apresentaram
 sintomas, o status registrado foi 0 e atribuido ao dia 39 (último dia de
 avaliação), constituindo a censura à direita. Desta forma, a tabela com
 o conjunto de dados deste estudo só conteve a data de desfecho de cada
-fruto (\@ref(tab:conjuntodedados) sintomático ou a última data de
-avaliação dos frutos sem sintomas. No caso de tabelas que contenham o
+fruto (Tabela \@ref(tab:conjuntodedados)) sintomático ou a última data
+de avaliação dos frutos sem sintomas. No caso de tabelas que contenham o
 histórico diário dos frutos é necessário filtrar os dados para manter
 apenas a data em que mudou da condição sem sintoma para com sintoma.
-Para isso, consultar a próxima seção..
 
-(ref:conjuntodedados) Conjunto de dados para análise de sobrevivência
-exibindo os 10 primeiros registros. A variável `day` é o dia de
-ocorrência do sintoma e a variável `status` é o indicador do tipo de
-censura: 0 é censura à direita e 1 é sem censura. Como a duração do
-experimento foi de 39 dias, a censura à direita foi na mesma data para
-todos os frutos.
+(ref:conjuntodedados) Conjunto de dados para análise de sobrevivência exibindo os 10 primeiros registros. A variável `day` é o dia de ocorrência do sintoma e a variável `status` é o indicador do tipo de censura: 0 é censura à direita e 1 é sem censura. Como a duração do experimento foi de 39 dias, a censura à direita foi na mesma data para todos os frutos.
 
 ```{r conjuntodedados, echo = FALSE}
 tb <- read.csv2("101-camilla/sobrev.csv")
@@ -58,6 +54,8 @@ knitr::kable(head(tb, n = 10),
              align = c("cccc"),
              row.names = FALSE)
 ```
+
+## Análise não paramétrica
 
 Na sequência, os passos para a abordagem não paramétrica serão
 demonstrados. A função de sobrevivência e o teste de log-rank serão
@@ -75,7 +73,7 @@ library(survminer)
 ```
 
 Os dados estão armazenados em um arquivo CSV contendo 3 colunas. Após a
-leitura, fez o gráfico que exibe a data e o tipo de evento de cada
+leitura, fez-se o gráfico que exibe a data e o tipo de evento de cada
 fruto para cada tamanho. A análise exploratória sugere que quanto maior
 o fruto, menor o tempo para aparecimento dos sintomas.
 
@@ -97,7 +95,11 @@ dados0 <- dados %>%
     arrange(day) %>%
     mutate(ord = seq_along(day)/n()) %>%
     ungroup()
+```
 
+(ref:aed-frutos) Análise exploratória do experimento. Cada linha horizontal é um fruto do experimento, ordenados conforme o tempo em que o sintoma foi observado. Os frutos estão agrupados conforme o tratamento ao qual pertencem. Símbolos abertos indicam censura à direita e símbolos fechados indicam não censura.
+
+```{r aed-frutos, fig.cap = '(ref:aed-frutos)'}
 # Gráfico com a linha do day de cada fruto que mostra quando o evento
 # aconteceu e que tipo de desfecho.
 ggplot(data = dados0,
@@ -116,15 +118,23 @@ ggplot(data = dados0,
           legend.justification = c(1, 0))
 ```
 
-Os tamanhos 1, 2 e 3 não apresentaram período de incubação amostral
-pois, menos de 50% das repetições apresentaram sintomas. No caso de
-poucos frutos apresentarem sintomas, recomenda-se aumentar o número de
-repetições do experimento. No entanto, isso não necessariamente impede
-de estimar a curva de sobrevivência e estimar o período de incubação. A
-definição do período de incubação, neste caso, é o tempo necessário para
-que metade dos indivíduos expostos apresentem o evento. Portanto, o
-período de incubação é a mediana da variável aleatória tempo para a
-ocorrência do evento.
+O número de frutos por tratamento é o mesmo. Os tamanhos 1, 2 e 3 não
+apresentaram período de incubação amostral pois, menos de 50% das
+repetições apresentaram sintomas. No caso de poucos frutos apresentarem
+sintomas, recomenda-se aumentar o número de repetições do experimento.
+No entanto, isso não necessariamente impede de estimar a curva de
+sobrevivência e estimar o período de incubação. A definição do período
+de incubação, neste caso, é o tempo necessário para que metade dos
+indivíduos expostos apresentem o evento. Portanto, o período de
+incubação é a mediana da variável aleatória tempo para a ocorrência do
+evento.
+
+Nos fragmentos a seguir, define-se o objetos com diferentes
+representações de censura. Definiou-se censura à diretira no `s1`, o que
+não é exatamente o que ocorre no experimento cuja a censura é
+intervalar, conforme definido em `s2`. É comum encontrar análises usando
+censura à direita no lugar de intervalar quando a duração dos intervalos
+é curta e uniforme.
 
 ```{r}
 # Resposta com avaliações sem censura e com censura à direita no final.
@@ -141,7 +151,15 @@ s2 <- with(dados,
                 event = ifelse(status == 1, 3, 0),
                 type = "interval"))
 s2
+```
 
+O modelo com a resposta do tipo censura intervalar é ajustado aos dados,
+usando o método de Kaplan-Meier. Na saída tem-se que a mediana não é
+estimada para 3 dos 5 tratamentos. O gráfico de sobrevida é apresentado
+na sequência, indicando a sobrevida dos frutos maiores é inferior aos
+demais.
+
+```{r}
 # Curvas sobreviência de Kaplan-Meier.
 fit <- survfit(s2 ~ tamanho, data = dados)
 fit
@@ -163,8 +181,8 @@ chi <- sprintf("%0.1f", logrank$chisq)
 ```
 
 O teste do log-rank para testar a hipótese nula de igualdade entre as
-curvas apresentou uma estatística de teste igual a `r chi` bastante
-favorável ($p < 0.001$) à hipótese alternativa, ou seja, em termos
+curvas apresentou uma estatística de teste igual a `r chi`, bastante
+desfavorável ($p < 0.001$) à hipótese nula, ou seja, em termos
 práticos existe efeito do tamanho do fruto no comportamento da variável
 período de incubação.
 
@@ -175,14 +193,24 @@ visto na saída da `survfit()`, apenas os tamanhos 4 e 5 tiveram
 estimativa de mediana, porém sem o intervalo de confiança completo.
 
 A abordagem não paramétrica, conforme visto aqui, é mais recomendada
-quando o número de unidades experimentais por tratamento for grande e a
-prorporção de censura for baixa. A censura pode ser mitigada aumentando o
-tempo de avaliação do experimento para que se observe o evento em mais
-unidades experimentais.
+quando o número de unidades experimentais por tratamento for
+suficientemente grande de forma que combinada com a prorporção de
+censura, ainda permita estimar o tempo mediano. A censura pode ser
+mitigada aumentando o tempo de avaliação do experimento para que se
+observe o evento em mais unidades experimentais. Já que há dificuldade
+de determinar a taxa de censura antes do experimento, as opções são:
+usar um tamanho de amostra grande ou aumentar o período de monitoramento
+do desfecho. O primeiro caso é uma decisão antes do experimento começar.
+O último, pode ser feito a medida que o experimento é conduzido.
+
+## Análise paramétrica
 
 Os passos para a abordagem paramétrica são relacionados a seguir. Neste
 caso, o período de incubação foi obtido e comparado entre os tratamentos
-por meio da estimativa do parâmetro de locação. A dsitribuição utilizada foi a de Weibull apenas com o intuito de ilustrar os passos para a técnica. Porém, esta pode não ser a distribuição mais adequada para estes dados.
+por meio da estimativa do parâmetro de locação. A distribuição utilizada
+foi a de Weibull apenas com o intuito de ilustrar os passos para a
+técnica. Porém, esta pode não ser a distribuição mais adequada para
+estes dados.
 
 ```{r, eval = FALSE}
 # Documentação disponível no R sobre os modelos paramétricos.
@@ -192,7 +220,7 @@ help(dweibull, help_type = "html")
 survreg.distributions$weibull
 ```
 
-A função de densidade da distribuição Weibull usada na `dweibull` e
+A função de densidade da distribuição Weibull usada na `dweibull()` e
 relacionadas é
 $$
 f(y) = \frac{a}{b} \left( \frac{y}{b} \right)^{a-1}
@@ -206,7 +234,7 @@ em que $a$ é o parâmetro de forma (shape) e $b$ é o parâmetro de escala
   * Variância: $\text{Var}(Y) = b^2 (\Gamma(1 + 2/a) - (\Gamma(1 + 1/a))^2)$.
   * Função de distribuição: $F(y) = 1 - \exp\{-(x/b)^a\}$.
 
-No entanto a parametrização usada pela `survreg()` é diferente mas
+No entanto, a parametrização usada pela `survreg()` é diferente mas
 matematicamente relacionada a esta da seguinte forma
 $$
 \begin{aligned}
@@ -231,8 +259,8 @@ efeito do tamanho dos frutos.
 
 Neste modelo, os parâmetros são estimados pelo método da máxima
 verossimilhança. A função `survreg()` é portanto usada para estimar o
-modelo, realizar o teste de hipótese e demais desdobramentos usuais de
-análise de sobreviência.
+modelo com censura intervalar, realizar o teste de hipótese e demais
+desdobramentos usuais de análise de sobreviência.
 
 Para fins de teste de hipótese, dois modelos serão ajustados. O modelo
 inicial não contém o efeito de nunhuma fonte de variação e corresponde,
@@ -265,24 +293,16 @@ favor do modelo que acomoda efeito de tamanho de fruto ($p < 0.001$). Em
 termos práticos, isso quer dizer que existe efeito do tamanho de fruto
 no tempo de incubação. Será feito um estudo mais detalhado a seguir.
 
-O fragmento de código abaixo tem propósito didático pois mostra como
+O fragmento de código abaixo tem propósito didático, pois mostra como
 obter o valor de log-verossimilhança do modelo ajustado. Dessa forma,
-fica registrado como estão relacionadas as parametrizações da Weibull da
-`dweibull()` e `survreg()` bem como a contribuição proveniente de dados
+fica registrado como estão relacionadas as parametrizações da Weibull na
+`dweibull()` e `survreg()`, bem como a contribuição proveniente de dados
 censurados e não censurados para a log-verossimilhança.
 
 ```{r}
 # Avaliando a log-verossimilhança manualmente para o modelo `m0`.
 a <- 1/m0$scale    # Parâmetro de forma da survreg() para a *weibull().
 b <- exp(coef(m0)) # Idem pro parâmetro de escala.
-
-# # Log-verossimilhança e suas partes.
-# sum(dweibull(dados$day,        # Parte dos dados não censurados.
-#              shape = a, scale = b,
-#              log = TRUE) * dados$status) +
-#     sum(pweibull(dados$day,    # Parte dos dados censurados à direita.
-#                  shape = a, scale = b,
-#                  lower.tail = FALSE, log = TRUE) * (1 - dados$status))
 
 # Log-verossimilhança e suas partes para censura intervalar.
 sum(log(pweibull(dados$day,    # Parte dos dados com censura intervalar.
@@ -300,14 +320,15 @@ Para estudar com mais detalhes o efeito do tamanho do fruto, serão
 determinadas as estimativas dos parâmetros para obter a curva de
 probabilidade de cada nível de tamanho. Com as estimativas individuais,
 comparações múltiplas de parâmetros serão realizadas para testar
-hipóteses de igualdade do período de incubação entre tamanhos de frutos.
+hipóteses de igualdade da distribuição do período de incubação entre
+tamanhos de frutos.
 
-As estimativas individuais para o parâmetro de escala são facilmente
+As estimativas por tratamento para o parâmetro de escala são facilmente
 obtidas com a função `emmean::emmeans()`. Tais estimativas não são
-imeditamente interpretáveis de modo que é mais interessante obter as
+imeditamente interpretáveis, de modo que é mais interessante obter as
 estimativas de média ou mediana a partir dos mesmos. Todavia, se houver
-igualdade quanto ao parâmetro de escala, haverá para os demais. No
-código abaixo obtem-se a estimativa de média.
+igualdade quanto ao parâmetro de escala, haverá para os demais, pois são
+funções uns dos outros. No código abaixo obtem-se a estimativa de média.
 
 ```{r}
 # Médias ajustadas (é na interpretação do parâmetro da Weibull).
@@ -336,12 +357,13 @@ p1 <- sprintf("%0.2f", tb_emm$mean_day[5])
 p2 <- sprintf("%0.2f", tb_emm$median_day[5])
 ```
 
-Para os frutos de maior tamanho, o período de incubação médio é de
-`r p1` dias e o período de incubação mediano é `r p2` dias. O período de
+Para os frutos de maior tamanho, o período de incubação médio é de `r
+p1` dias e o período de incubação mediano é `r p2` dias. O período de
 inbubação mediano corresponde à definição de período de inbubação
 amostral no sentido de ser aquele para o qual metade das unidades
 experimentais apresentam sintoma. Detalhe: como a distribuição Weibull é
-assimétrica à direita, a mediana é por isso sempre menor que a média.
+assimétrica à direita, com o atual parâmetro de forma, a mediana é por
+isso sempre menor que a média.
 
 Para fazer uma contemplação visual, serão obtidas as curvas de
 probabilidade acumuladas. Essas curvas descrevem a probabilidade de
@@ -394,23 +416,10 @@ ggplot(data = dados0,
               mapping = aes(x = day, y = accu))
 ```
 
-O gráfico exibe tanto os valores observados quando as curvas individuais
-estimadas sobrepostas. As curvas acompanham o padrão visto nos dados, ou
+O gráfico exibe tanto os valores observados quanto as curvas estimadas
+para cada tratamento. As curvas acompanham o padrão visto nos dados, ou
 seja, as curvas de menor mediana são para os tratamentos em que os
 frutos apresentaram sintomas mais cedo.
-
-::: {.note  data-latex=""}
-**TODO**
-
- * Comentar que a Weibull pode não ser o melhor modelo? - Inclui dizendo
-   que o intuito foi demonstrar os passos da abordagem paramétrica e não
-   comparar os modelos. Mas que outras distribuições poderiam ser mais
-   apropriados para estes dados (informação antes de iniciar a
-   demonstração da não paramétrica)
- * Como acessar a qualidade do ajuste e fazer análise dos resíduos?
- * Existe envelope simulado para essa classe de modelos?
- * Ajustar o modelo ao log do tempo?
-:::
 
 Com o intuito de melhor detalhar e efeito do tamanho do fruto, serão
 testados os contrastes com o parâmetro de locação. Considerando todos os
@@ -430,22 +439,20 @@ emm_tamanho_in <- emmeans(m1, specs = ~tamanho)
 # emm_tamanho_in
 
 # contrast(emm_trat_in, method = "pairwise")
-tamanho_in_comp <- multcomp::cld(emm_tamanho_in)
+tamanho_in_comp <- multcomp::cld(emm_tamanho_in, Letters = letters)
 # tamanho_in_comp
 
 # Tabela com o resultado das comparações múltiplas.
 tb_contr <- as.data.frame(tamanho_in_comp)
 # tb_contr
 
-# Transformar os números para letras e ordenar as letras conforme as
-# estimativas.
-source("./funcoes.R")
-
-# Acerta a representação da significância dos contrastes com letras.
+# Puxa as demais estimativas para a mesma tabela.
 tb_contr <- tb_contr %>%
-    mutate(let = num2cld(.group)) %>%
+    rename("let" = ".group") %>%
     inner_join(tb_emm[, c("tamanho", "mean_day", "median_day")])
-tb_contr
+tb_contr %>%
+    arrange(tamanho) %>%
+    mutate_if(is.numeric, round, digits = 2)
 ```
 
 ```{r, fig.height = 3}
@@ -464,9 +471,9 @@ ggplot(data = tb_contr,
          x = "Estimativa do parâmetro de locação")
 ```
 
-O gráfico mostra que não existe diferença entre os tamanhos 1, 2
-e 3. Para estes, a estimativa da mediana é superior a 45 dias. O tamanho
-5 foi o que apresentou menor tempo para os sintomas sendo diferente de
+O gráfico mostra que não existe diferença entre os tamanhos 1, 2 e 3.
+Para estes, a estimativa da mediana foi superior a 45 dias. O tamanho 5
+foi o que apresentou menor tempo para os sintomas sendo diferente de
 todos exceto do tamanho 4.
 
 ## Conclusão
@@ -488,3 +495,19 @@ todos exceto do tamanho 4.
      * Permite estimar funções dos parâmetros, como média e mediana.
      * No entanto, se o modelo não for apropriado para o caso em
        questão, as inferências estatão comprometidas.
+
+Nas análises aqui apresentadas, tem-se algumas considerações de itens que podem ser avaliados mais a fundo.
+
+O intuito da análise paramétrica foi demonstrar os passos da abordagem e
+usou-se a distribuição Weibull. Todavia, outras distribuições poderiam
+ser mais apropriados para estes dados. Caba ao pesquisador especificar e
+ajustar diferentes distribuições e comparar a bondade de ajuste. Em
+amostras pequenas, pode-se não se chegar a conclusões muito claras sobre
+a melhor distribuição.
+
+Uma forma de diagnósticas problemas em relação a distribuição assumida,
+no caso Weibull, ou especificação do modelo, como assumir parâmetro de
+forma comum aos tratamentos, é por meio da análise dos resíduos. Esse
+processo pode indicar mudar a distribuição, considerar uma transformação
+do tempo, como log, ou tranformação potência. Deve-se em situações como
+essa, procurar auxílio de um estatístico.
