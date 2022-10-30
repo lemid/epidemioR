@@ -1,6 +1,10 @@
 # Análises para validação de escalas diagramáticas usando o R
   
-
+```{r, echo = FALSE, results = "asis"}
+chapter_authors(c("Henrique da Silva Silveira Duarte",
+                  "Walmes Marques Zeviani",
+                  "Louise Larissa May De Mio"))
+```
   
 ## Introdução
   
