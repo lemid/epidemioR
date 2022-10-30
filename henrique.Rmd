@@ -1,0 +1,441 @@
+# Análises para validação de escalas diagramáticas usando o R
+  
+
+  
+## Introdução
+  
+As escalas diagramáticas (ED) são ferramentas extremamente úteis no processo de quantificação de doenças de plantas, auxiliando avaliadores a estimar a doença com precisão e acurácia com resultados reproduzíveis. ED consistem de representações esquemáticas de órgão da planta (folhas, frutos, raízes, tubérculos, caules, hastes, flores, etc.), ou da planta inteira com diferentes níveis de severidade da doença. Nestas escalas é mostrado o órgão a ser avaliado com formato, tamanho e distribuição de lesões o mais próximo possível da realidade. Os diagramas mostram diferentes níveis de severidade da doença os quais são usados para o avaliador balizar suas avaliações, podendo o avaliador estimar valores de severidade diferentes daqueles contidos na escala.
+  
+O termo acurácia refere-se à proximidade dos valores estimados de uma determinada amostra em relação ao valor real. Portanto, quando se tem uma escala acurada para a quantificação, os valores das estimativas da doença são muito próximos aos valores reais, havendo baixa tendência de superestimar e subestimar a severidade. A precisão refere-se à uma escala que apresenta uma baixa variação associada às estimativas da quantidade da doença. Portanto, quando se tem um método preciso, os valores estimados da doença são semelhantes aos reais. Já a reprodutibilidade refere-se à variabilidade dos valores estimados entres os diferentes avaliadores combinados aos pares. Sendo assim, uma escala que fornece estimativas reprodutíveis é aquela em que os valores estimados pelos diferentes avaliadores são próximos entre si.
+  
+Diversas escalas diagramáticas estão disponíveis na literatura em periódicos especializados para os mais variados patossistemas. Caso não haja uma escala para a quantificação de uma determinada doença que se deseja quantificar, a mesma deverá ser elaborada e validada.
+  
+## Validação de escalas diagramáticas
+
+Muitas das escalas diagramáticas desenvolvidas, principalmente aquelas antes do surgimento de recursos computacionais, não passaram pelo processo de validação. Com isso, é difícil dizer se essas escalas ajudam ou não os avaliadores a obterem estimativas de severidade da doença de forma acurada, precisa e reproduzível. Para que uma escala diagramática desenvolvida possa ser recomendada como um método padrão de quantificação para uma determinada doença, esta precisa ser validada. Só assim, seria possível sabermos se a escala produz resultados satisfatórios, e caso não produza, esta deverá ser reajustada e novamente validada.
+
+O primeiro passo para a validação de uma escala diagramática consiste na escolha dos avaliadores. Normalmente, são escolhidos apenas os que não possuem experiência na quantificação de doenças de plantas. Pode-se também usar ao mesmo tempo avaliadores com e sem experiência na quantificação de doenças para determinar se a escala também ajudaria na estimação de avaliadores experientes com a doença avaliada.
+
+O segundo passo é a obtenção das estimativas de severidade da doença realizadas pelos avaliadores. Esse passo é dividido em duas etapas. Na primeira etapa, os avaliadores fazem as estimativas de severidade da doença analisando um conjunto de amostras de um determinado material vegetal (Ex: folhas, frutos, plantas inteiras etc.) contendo diferentes níveis de severidade da doença, sem a utilização da escala diagramática proposta. Na segunda etapa, os mesmos avaliadores fazem as estimativas de severidade da doença utilizando o mesmo conjunto de amostras com diferente sequência da usada na primeira etapa, porém, agora, com a utilização da escala diagramática à qual se deseja validar.
+
+O terceiro passo consiste nas análises estatísticas dos dados obtidos no segundo passo. As análises são realizadas entre as severidades reais e estimadas da doença para cada avaliador, sem e, posteriormente, com o uso da escala diagramática desenvolvida. A partir desses dados, pode-se determinar a acurácia, precisão e reprodutibilidade das estimativas dos avaliadores.
+
+A acurácia e a precisão das estimativas de cada avaliador são obtidas por meio da análise de correlação concordante de Lin (CCL) [@Lin1989], a qual associa em um único índice a acurácia e a precisão das estimativas de severidade. Pela análise de Lin, se calcula e avalia o grau em que os pares das observações se deslocam em relação a linha concordante de 45º (com intercepto = 0 e inclinação = 1).O `ρc`, que é conhecido como o coeficiente de correlação concordante de Lin (CCCL) é poderoso por combinar as medidas de acurácia e precisão em uma mesma análise [@Bock2010].A fórmula do `ρc` é: $ρc = Cb . r$, onde `Cb` é um fator de correção do desvio que mede o quão longe está a linha ajustada dos desvios em relação à linha concordante e, portanto, é uma medida de acurácia, e r, que é o coeficiente de correlação entre a severidade estimada (`Y`) e a severidade real (`X`), sendo uma medida de precisão. `Cb` é derivado de: $Cb = 2/[(υ + 1/υ + u2)]$, onde $υ = σy / σx$, onde `σ` é o desvio padrão de `Y` e `X`, respectivamente; e $u = (µy - µx) / √(σy . σx)$, onde `µ` é o valor médio de `Y` e `X`, respectivamente, `σ` é definido como acima. O componente `υ` mede a diferença de escala entre os valores de `Y` e `X`, que, essencialmente, é definida pela diferença na inclinação das duas linhas (linha ajustada da regressão com a linha concordante). Iguais inclinações para as duas linhas implicam em um valor de `υ` igual a 1. O termo `u` reflete a mudança de localização da linha ajustada da regressão em relação à linha concordante, que é caracterizado pela diferença de altura entre essas duas linhas. Iguais alturas implicam em um valor de `u` igual a 0. Portanto, um avaliador perfeito é aquele em que suas estimativas estão todas iguais à linha concordante, ou seja, $r = 1$, $Cb = 1 [υ = 1, u = 0]$, e, consequentemente, $ρc = 1$ [@Bock2010; @Nita2003)]. Para maiores detalhes sobre a análise de correlação concordante de Lin consultar @Bock2010; @Madden2017, @Nita2003 e @Yadav2012.
+
+A reprodutibilidade das avaliações pode ser determinada de duas maneiras. A primeira, e a mais utilizada, é baseada nos valores de `R2` da regressão linear ou no coeficiente de correlação de Pearson entre as severidades estimadas pelos diferentes avaliadores combinados aos pares, com e sem o uso da escala diagramática. A segunda maneira é baseada na obtenção do coeficiente de correlação intra-classe (`ρ`), com e sem o uso da escala diagramática. O `ρ` é obtido por meio de estimativas dos componentes de variância, utilizando um esquema fatorial com dois fatores. Um fator são todos os avaliadores e o outro são todas as amostras, sendo a variável resposta a severidade estimada por cada avaliador. O `ρ` é determinado pela fórmula $ρ= σ2amostra/(σ2amostra + σ2avaliador + σ2erro)$, onde: `σ2amostra`, `σ2avaliador` e `σ2erro` são a variância da amostra, do avaliador e do erro, respectivamente. Quanto mais próximo de 1 for o valor de `ρ`, maior é a reprodutibilidade dos avaliadores.
+
+Para concluir sobre a melhoria ou não da acurácia, precisão e reprodutibilidade das estimativas de severidade da doença com o uso das escalas diagramáticas recomenda-se realizar as análises estatísticas com todas as variáveis discutidas acima (`u`, `υ`, `Cb`, `r`, `ρc`, `R2` e `ρ`). Dentre as  análises disponíveis, o teste de equivalência é o mais recomendado [@Yi2008; @Bardsley2012]. Para realizar este teste, cada um dos parâmetros (`u`, `υ`, `Cb`, `r`, `ρc`, e `R2`) é calculado pela diferença dos valores de cada variável com e sem o uso da escala para cada avaliador em análise. O teste de equivalência é usado para calcular o intervalo de confiança (IC) a 95% de probabilidade para cada variável por “bootstrapping” usando o método do percentil [(@Yadav2012]. Se o IC para uma determinada variável não incluir o valor zero, indica que a diferença é significativa ($P = 0,05$), ou seja, prova-se que o uso da escala diagramática melhora significativamente a variável em análise, baseado nas estimativas de todos os avaliadores. Para o `ρ`, é obtido um IC sendo que ocorre uma diferença significativa quando os ICs não se sobrepõem.
+
+## Análises sobre a validação de escalas diagramáticas usando o R
+
+Será usado um exemplo de um patossistema hipotético para os detalhes das análises e interpretação dos dados. A coluna real são os dados reais de severidade das 50 amostras utilizadas para a validação. As demais colunas têm os valores estimados de severidade sem e com o uso das escalas diagramáticas para os 16 avaliadores \@ref(tab:conjunto-de-dados).
+  
+  
+(ref:conjunto-de-dados) Exemplo de patossistema hipotético para os detalhes das análises e interpretação dos dados.
+
+```{r conjunto-de-dados, echo = FALSE, tab.cap='(ref:conjunto-de-dados)'}
+# Leitura dos dados.
+
+DISEASE <- read.csv2("henrique/conjuntodedados.csv", header = TRUE, dec = ",")
+rmarkdown::paged_table(DISEASE)
+
+# A coluna real são os dados reais de severidade das 50 amostras utilizadas 
+#para a validação. As demais colunas têm os valores estimados de severidade sem
+#e com o uso das escalas diagramáticas para os 16 avaliadores.Se quiser alterar o
+#número de avaliadores é só alterar o número de colunas com as respectivas
+#letras em maiúsculo e o sem e com em minúsculo. 
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+# Pacotes.
+
+#install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+(ref:graf-severidade) Visualização das estimativas de severidade vs a severidade real por meio de gráficos.
+
+```{r graf-severidade, echo=FALSE, fig.cap = '(ref:graf-severidade)'}
+# Visualização das estimativas de severidade vs a severidade real 
+# por meio de gráficos.
+
+tb_dis <- DISEASE |>
+    pivot_longer(cols = -real,
+                 names_to = "condicao",
+                 values_to = "estimativa") |>
+    separate(col = "condicao", into = c("avaliador", "escala")) |>
+    arrange(avaliador, escala, real) |>
+    relocate(avaliador, escala, real, estimativa) |>
+    mutate(escala = factor(escala, levels = c("sem", "com")))
+
+rmarkdown::paged_table(tb_dis)
+
+
+ggplot(data = tb_dis,
+       mapping = aes(x = real, y = estimativa, color = escala)) +
+    geom_point() +
+    geom_abline(intercept = 0, slope = 1, lty = 2, size = 0.25) +
+    expand_limits(x = c(0, 100)) +
+    expand_limits(y = c(0, 100)) +
+    coord_equal() +
+    labs(x = "Severidade real (%)",
+         y = "Severidade estimada (%)",
+         color = "Escala")
+
+ggplot(data = tb_dis,
+       mapping = aes(x = real, y = estimativa)) +
+    facet_wrap(facets = ~escala) +
+    geom_point() +
+    geom_abline(intercept = 0, slope = 1, lty = 2, size = 0.25) +
+    expand_limits(x = c(0, 100)) +
+    expand_limits(y = c(0, 100)) +
+    coord_equal() +
+    labs(x = "Severidade real (%)",
+         y = "Severidade estimada (%)",
+         color = "Escala")
+
+```
+
+Por meio dos dois tipos de gráficos (Figura \@ref(fig:graf-severidade)) foi possível observar que a severidade estimada foi mais próximo à severidade real usando a escala comparado ao não uso porque os pontos ficaram mais próximos da linha pontilhada (ideal). Nestes gráficos foi usado os valores de todos os avaliadores.       
+      
+    
+(ref:graf-sem-com) Visualização da severidade estimada vs severidade real para cada avaliador sem e com o uso da escala diagramática.       
+```{r graf-sem-com, fig.cap='(graf-sem-com)'}
+ggplot(data = tb_dis,
+       mapping = aes(x = real, y = estimativa, color = escala)) +
+    facet_wrap(facets = ~avaliador) +
+    geom_point() +
+    # geom_smooth(se = FALSE) +
+    geom_abline(intercept = 0, slope = 1, lty = 2, size = 0.25) +
+    expand_limits(x = c(0, 100)) +
+    expand_limits(y = c(0, 100)) +
+    coord_equal() +
+    labs(x = "Severidade real (%)",
+         y = "Severidade estimada (%)",
+         color = "Escala")
+```
+
+O gráfico \@ref(fig:graf-sem-com) é usado para observar a severidade estimada vs severidade real para cada avaliador sem e com o uso da escala diagramática.         
+  
+      
+  
+    
+(ref:erro-absoluto) Visualização dos erros absolutos.   
+```{r erro-absoluto, fig.cap='(ref:erro-absoluto)'}
+# Visualização dos erros absolutos.
+# O erro absoluto é valor de severidade estimado - o valor de severidade real.
+
+ggplot(data = tb_dis,
+       mapping = aes(x = real, y = estimativa - real, color = escala)) +
+    geom_point() +
+    geom_hline(yintercept = 0, lty = 2, size = 0.25) +
+    expand_limits(x = c(0, 100)) +
+    coord_equal() +
+    labs(x = "Severidade real (%)",
+         y = "Erro absoluto (%)",
+         color = "Escala")
+
+ggplot(data = tb_dis,
+       mapping = aes(x = real, y = estimativa - real)) +
+    facet_wrap(facets = ~escala) +
+    geom_point() +
+    geom_hline(yintercept = 0, lty = 2, size = 0.25) +
+    expand_limits(x = c(0, 100)) +
+    coord_equal() +
+    labs(x = "Severidade real (%)",
+         y = "Erro absoluto (%)")
+```
+
+Por meio dos dois tipos de gráficos é possível observar que o erro absoluto foi mais próximo de zero usando a escala comparado ao não uso porque os pontos ficaram mais próximos da linha pontilhada (ideal). Nestes gráficos foi usado os valores de todos os avaliadores \@ref(fig:erro-absoluto).       
+    
+    
+
+
+```{r erro-abs-avaliador, fig.cap='(ref:erro-abs-avaliador)'}
+ggplot(data = tb_dis,
+       mapping = aes(x = real, y = estimativa - real, color = escala)) +
+    facet_wrap(facets = ~avaliador) +
+    geom_point() +
+    # geom_smooth(se = FALSE) +
+    geom_hline(yintercept = 0, lty = 2, size = 0.25) +
+    expand_limits(x = c(0, 100)) +
+    labs(x = "Severidade real (%)",
+         y = "Erro absoluto (%)",
+         color = "Escala")
+
+rmarkdown::paged_table(tb_dis)
+```
+Este gráfico \@ref(fig:erro-abs-avaliador) é usado para observar o erro absoluto para cada avaliador sem e com o uso da escala diagramática.        
+      
+  
+  
+
+(ref:todas-variaveis) Todas variáveis para todos os avaliadores sem e com o uso da escala diagramática.
+```{r todas-variaveis, message=FALSE, warning=FALSE}
+# Cálculo do coeficiente de correlação concordante de Lin (CCL) (Lin, 1989).
+# Cálculo do Lin's concordance correlation coefficient (1989) - LCCC ou rho.c.
+
+# Carregar o pacote e conferir a versão.
+
+library(epiR)
+#packageVersion("epiR") # ‘2.0.46’
+# ls("package:epiR")
+
+# `epi.ccc`: Calculates Lin's (1989) concordance correlation
+# coefficient for agreement on a continuous measure.
+
+# Calcula o coeficiente de correlação concordante de Lin, outras métricas e a
+# correlação de Pearson.
+
+tidy_epi.ccc <- function(...) {
+    calc <- epi.ccc(...)
+    correl <- cor(...)
+    cbind(as.data.frame(do.call(c, calc[1:4])), r = correl)
+}
+
+tb_ccc <- tb_dis |>
+    group_by(avaliador, escala) |>
+    summarise(tidy_epi.ccc(real, estimativa)) |>
+    ungroup()
+
+
+rmarkdown::paged_table(tb_ccc)
+```
+A tabela \@ref(tab:todas-variaveis) mostra todas variáveis da análise para todos os avaliadores sem e com o uso da escala diagramática. 
+
+`rho.c.est` é o coeficiente de correlação concordante de Lin (r x Cb)
+  
+`s.shift` é o v.
+  
+`l.shift` é o u.
+  
+`C.b` é um fator de correção do desvio
+  
+`r` é a correlação de Pearson.
+  
+  
+  
+
+```{r min-med-max}  
+# Estatísticas descritivas dos dados
+
+tb_ccc <- tb_ccc |>
+    rename(u = "l.shift", v = "s.shift")
+
+m <- c("rho.c.est", "C.b", "u", "v", "r")
+
+tb_stats <- tb_ccc |>
+    group_by(escala) |>
+    summarise_at(m,
+                 c("min","mean", "max","sd")) |>
+    pivot_longer(cols = -escala,
+                 names_to = c("medida", "estatística"),
+                 names_sep = "_",
+                 values_to = "valor") |>
+    pivot_wider(names_from = "escala",
+                values_from = "valor")
+
+rmarkdown::paged_table(tb_stats)
+```
+A tabela \@ref(tab:min-med-max) mostra para as 5 variáveis os valores mínimos, médios, máximos e desvio sem e com o uso da escala diagramática.       
+      
+  
+  
+  
+```{r teste-equivalencia, message=FALSE, warning=FALSE}  
+# Teste de equivalência é usado para calcular o intervalo de confiança (IC 95%) 
+#da diferenca média entre estimativas sem e com o uso da escala diagramática
+# para cada variável do CCL (rho.c, C.b, r, u, v) por “bootstrapping”
+
+
+# Carregar o pacote e conferir a versão.
+
+library(boot)
+# packageVersion("boot") # ‘1.3.28’
+# ls("package:boot")
+
+
+tb_ccc$strata <- as.integer(as.factor(tb_ccc$escala))
+mean_diff <- function(tbl,
+                      index,
+                      y = "rho.c.est") {
+    tbl_sample <- tbl[index, c("escala", y)]
+    sem <- tbl_sample$escala == "sem"
+    m1 <- mean(tbl_sample[[y]][sem])
+    m2 <- mean(tbl_sample[[y]][!sem])
+    m <- m2 - m1
+    return(m)
+}
+
+tidy_boostrap <- function(totalBoot) {
+        tb_est <- data.frame(t0 = totalBoot$t0,
+                         bias = mean(totalBoot$t[, 1]) - totalBoot$t0,
+                         stderror = sd(totalBoot$t[, 1]))
+    totalBootCI <- boot.ci(totalBoot, conf = 0.95)
+    tb_ci <- lapply(totalBootCI[4:7],
+                    FUN = function(x) tail(c(x), n = 2)) |>
+        do.call(what = rbind) |>
+        as.data.frame()
+    names(tb_ci) <- c("lwr", "upr")
+    tb_ci$type <- names(totalBootCI[4:7])
+    rownames(tb_ci) <- NULL
+    tb_ci <- tb_ci[, c(3, 1, 2)]
+    tb_est <- rbind(tb_est,
+                    matrix(NA,
+                           nrow = nrow(tb_ci) - 1,
+                           ncol = ncol(tb_est),
+                           dimnames = list(NULL, names(tb_est))))
+    bind_cols(tb_est, tb_ci)
+}
+
+boot_list <- lapply(m,
+                    FUN = function(y) {
+                        boot(data = tb_ccc[, c("escala", y)],
+                             statistic = mean_diff,
+                             y = y,
+                             strata = tb_ccc$strata,
+                             R = 10000) |>
+                            tidy_boostrap() |>
+                            mutate(y = y) |>
+                            relocate(y)
+                    })
+names(boot_list) <- m
+
+boot_list[["rho.c.est"]]
+
+tb_boot <- bind_rows(boot_list)
+
+rmarkdown::paged_table(tb_boot)
+```
+
+A tabela \@ref(tab:teste-equivalencia) mostra o `t0` (diferença estimada entre cada varíavel com - sem o uso da escala), `stderror` (erro padrão), `type` (normalmente se usa o método normal ou percent) e IC da diferença inferior (`lwr`) e superior (`upr`).
+  
+Analisando a tabela verifica-se que as variáveis `rho.c`, `C.b`, `v` e `r` os valores do IC não incluiram o zero, mostrando que o uso da escala diagramática melhorou significativamente a variável em análise, baseado nas estimativas de todos avaliadores. Obs: é importante verificar se os valores médios de cada variável realmente foram melhores com o uso da escala para que essa diferença significativa do IC seja melhor analisada. Como o valor de u não incluiu o zero, significa que não melhorou significativamente na variável em análise. Neste caso específico não era de se esperar que houvesse uma diferença porque tanto sem e com o uso da escala os valores médios estão próximos de zero, que a situação ideal.            
+      
+         
+(ref:calculo-da-reprodutibilidade1) Cálculo da reprodutibilidade (inter-rater reliability) pelo coeficiente de determinação (R2).       
+```{r calculo-da-reprodutibilidade1}
+# Cálculo da reprodutibilidade (inter-rater reliability).
+# Feito de duas formas.
+
+# 1ª é pelo coeficiente de determinação (R2) 
+
+correlation_table <- function(...) {
+    K <- cor(...)
+    i <- row(K) > col(K)
+    tb_cor <- data.frame(row = rep(rownames(K), times = ncol(K))[i],
+                         col = rep(colnames(K), each = nrow(K))[i],
+                         cor = c(K)[i])
+    return(tb_cor)
+}
+
+tb_r2 <- tb_dis |>
+    group_split(escala) |>
+    lapply(function(split) {
+        split |>
+            pivot_wider(id_cols = "real",
+                        names_from = "avaliador",
+                        values_from = "estimativa") |>
+            select(-real) |>
+            correlation_table() |>
+            mutate(escala = split$escala[1],
+                   r2 = cor^2)
+    }) |>
+    bind_rows()
+rmarkdown::paged_table(tb_r2)
+```
+Nesta tabela \@ref(tab:calculo-da-reprodutibilidade1) é possível observar os valores de `R2` para os diferentes avaliadores combinados aos pares, tanto sem e com o uso da escala diagramática.       
+      
+      
+
+```{r dif-estimada, message=FALSE, warning=FALSE}
+tb_r2 |>
+    group_by(escala) |>
+    summarise_at("r2", c("min", "mean", "max", "sd"))
+
+totalBoot <- boot(tb_r2,
+                  mean_diff,
+                  y = "r2",
+                  strata = as.integer(as.factor(tb_r2$escala)),
+                  R = 10000)
+tidy_boostrap(totalBoot)
+
+tb_boot <- rbind(tb_boot,
+                 cbind(y = "R2", tidy_boostrap(totalBoot)))
+
+rmarkdown::paged_table(tb_boot)
+```
+  
+A tabela \@ref(tab:dif-estimada) mostra o `t0` (diferença estimada entre cada varíavel com - sem o uso da escala), `stderror` (erro padrão), `type` (normalmente se usa o método normal ou percent) e IC da diferença inferior (`lwr`) e superior (`upr`).
+  
+Analisando a tabela verifica-se que para `R2`, o valor do IC não incluiu o zero, mostrando que o uso da escala diagramática melhorou significativamente a reprodutibilidade.
+  
+```{r calculo-da-reprodutibilidade2, message=FALSE, warning=FALSE}
+# 2ª análise de reprodutibilidade é pelo coeficiente de correlação intra-classe (ρ) 
+
+
+# Carregar o pacote e conferir a versão.
+
+#install.packages("irr")
+library(irr)
+# packageVersion("irr") # ‘0.84.1’
+# ls("package:irr")
+
+tidy_icc <- function(...) {
+    x <- icc(...)
+    x |>
+        unclass() |>
+        as.data.frame() |>
+        select(value, Fvalue, p.value, lbound, ubound) |>
+        rename("icc" = "value", lwr = "lbound", upr = "ubound")
+}
+
+tb_icc <- tb_dis |>
+    group_split(escala) |>
+    lapply(function(split) {
+        split |>
+            pivot_wider(id_cols = "real",
+                        names_from = "avaliador",
+                        values_from = "estimativa") |>
+            select(-real) |>
+            tidy_icc(model = "twoway",
+                     unit = "single",
+                     type = "agreement") |>
+            mutate(escala = split$escala[1]) |>
+            relocate(escala)
+    }) |>
+    bind_rows()
+
+rmarkdown::paged_table(tb_icc)
+```
+  
+Para o `ρ`, é obtido um IC sendo que ocorre uma diferença significativa quandoos ICs não se sobrepõem, o que ocorreu neste caso mostrando que o uso da escala  diagramática melhorou significativamente a reprodutibilidade (Tabela \@ref(tab:calculo-da-reprodutibilidade2)). `icc` é o valor do coeficiente de correlação intra-classe (`ρ`).
+  
+```{r, eval=FALSE}
+# Todos os resultados reunidos.
+
+rmarkdown::paged_table(tb_boot)
+rmarkdown::paged_table(tb_icc)
+
+
+# install.packages("openxlsx")
+library(openxlsx)
+
+# Escreve em disco numa planilha, uma tabela por aba.
+
+write.xlsx(list("Dados empilhados" = tb_dis,
+                "Métricas" = tb_ccc,
+                "Estatísticas amostrais" = tb_stats,
+                "Boostrap" = tb_boot,
+                "ICC" = tb_icc),
+           file = "resultados.xlsx")
+
+```
+  
+## Considerações Finais
+  
+Neste capítulo, mostramos como devem ser feitas as análises para validação de escalas diagramáticas para estimativas de severidade de doenças de plantas. Esses mesmos códigos apresentados também podem ser utilizados quando se quer comparar avaliadores inexperientes e experientes sem e com o uso da escala. Neste caso deve se usar inexperiente e experiente ao invés de sem e com escala, sendo uma análise para sem e outra para com o auxílio da escala diagramática. Exemplo de aplicação dessas análises podem ser encontradas em @CostaLage2015. Outra situação que esses códigos podem ser usados é quando ser quer propor uma nova escala para uma doença em que uma escala já existe e precisa ser melhorada. Neste caso se usa dois grupos de avaliadores, um que avaliam as amostras obtendo estimativas sem e com uso da escala antiga e outro que avaliam as amostras sem e com uso da escala nova. Pode ser feita três análises para comparação, i) sem x com escala antiga; ii) sem x escala nova e iii) antiga x escala nova. Exemplo de aplicação dessas análises podem ser encontradas em @Moreira2018. Esperamos com esse capítulo incentivar o processo de validação de escalas diagramáticas utilizando análises atuais e o programa R.        
+    
