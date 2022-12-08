@@ -392,11 +392,476 @@ grid.arrange(p1, p2, ncol=1)
 #plot (p1, more=TRUE)
 
 ```
-ANOTACAO PARA PAULO - CONSIDERAR INCLUIR OS ESTUDOS DE CORRELACAO - VER SCRIP IN WORD
 
 ## Estimating isolate sensitivity by using the spline regression 
 
-ESCREVER - CONTATO DE WHATSAPP FEITO EM AGO-31
+Para esta última descrição metodológica serão utilizados os pacotes 'lattice', 'latticeExtra', 'plyr', 'lme4', 'lmerTest', 'doBy', 'multcomp' e 'splines'.
+
+```{r, message=FALSE}
+#-----------------------------------------------------------------------------
+# Pacotes
+
+pkg <- c("lattice",
+         "latticeExtra",
+         "plyr",
+         "lme4",
+         "lmerTest",
+         "doBy",
+         "multcomp",
+         "splines")
+
+```
+
+```{r dados3, echo = FALSE}
+
+d3 <- read.txt("paulo/dados3.txt")
+knitr::kable(head(d1, n = 10),
+            caption = '(ref:dados3)',
+            digits = c(0, NA, NA, NA, NA, 0, NA, 2, 0, 0, 0),
+            align = c("ccccccccccc"),
+            row.names = FALSE)
+
+```
+
+Na sequência, deverão ser selecionados os diretórios para acessar o arquivo de dados (ref:dados3) que serão transformados para formatos numérico 'as.numeric' e de fator 'factor'. A partir disto, os valores de diâmetro serão colocados em escala natural em milímitros, descontando-se o tamanho inicial do disco de micélio. Diâmetro médio (dm) e área da colônia (ar) também serão calculados.
+
+```{r, message=FALSE}
+#-----------------------------------------------------------------------------
+# Seleção de diretório
+
+list.files(pattern="*.txt")
+
+#-----------------------------------------------------------------------------
+# Carregamento de arquivo de dados
+
+d3 <- read.table("dados3.txt", header=TRUE, sep="\t", dec=".",
+                 stringsAsFactors=FALSE)
+
+#-----------------------------------------------------------------------------
+# Edições de dados
+
+str(d3)
+
+d3 <- transform(d3,
+                pop=factor(pop),
+                hed=factor(hed),
+                tra=factor(tra),
+                plot=factor(plot),
+                fun=factor(fun),
+                d1=as.numeric(d1),
+                d2=as.numeric(d2))
+
+sen <- within(d3, {
+    # 500 é o tamanho do disco de micélio.
+    d1 <- (d1 - 500)/100
+    d2 <- (d2 - 500)/100
+    dm <- (d1 + d2)/2
+    ar <- pi * (dm/2)^2
+})
+
+str(sen)
+
+#-----------------------------------------------------------------------------      
+# População ao longo dos anos
+
+xtabs(~pop + yr, data = sen)
+
+```
+
+O seguinte comando tem caráter exploratório. Demonstram os fatores de campo utilizados na coleta de dados durante o estudo. Onde a combinação entre ano da coleta (yr), severidade da poda de inverno (hed), tratamento de fungicida utilizado (tra) e fungicida testado in vitro (fun) foram coletados. Em seguida, observa-se a quantidade de dados perdidos durante o ensaio por isolado testado.
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------      
+## Análise exploratória do número de observações por fator de combinação
+
+with(sen,
+     ftable(tapply(iso,
+                   INDEX = list(yr, hed, tra, fun),
+                   FUN = function(x) {
+                       length(unique(x))
+                   })))
+```
+
+```{r, message=FALSE}
+##-----------------------------------------------------------------------------
+# Isolados vs. leituras perdidas para fungicidas
+
+xt <- xtabs(complete.cases(cbind(dm, dos)) ~ iso + fun,
+            data = sen)
+i <- xt == 0
+sum(i)
+xt[rowSums(i) > 0, ]
+
+```
+
+As cinco próximas representações gráficas, aqui descritas nos conjuntos de comando anotados de (a) à (e), exploram: a dispersão dos diâmetros coletados para todos isolados excluindo outliners (a); a dispersão entre os diâmetros coletados por isolados (b); a dispersão entre diâmetro médio e dose de fungicida (c). Onde em escala natural, exibe-se as curvas de inibições do diâmetro micelial médio para cada isolado. A dispersão entre o diâmetro médio e dose de fungicida por isolado em escala logarítmica (d), onde no mesmo gráfico observa-se uma clara assimetria nas curvas das doses de fungicidas. Além disso, pode-se observar a ausência de uma relação linear entre parâmetros mostrados, mesmo quando em escala log-log. E finalmente, a dispersão do diâmetro médio e dose fungicida transformada na raíz quinta (e). Para todas as representações gráficas, os ingredientes ativos de fluxapiroxade, fluopírame e pentiopirade são representados pelas cores azul, rosa e verde respectivamente.
+
+```{r, fig.width=8, fig.height=8}
+##-----------------------------------------------------------------------------
+## Dispersão dos diâmetros coletados para todos isolados (a)
+sen = sen[sen$d1<100&sen$d2<100,]
+
+xyplot(d2 ~ d1,
+       data = sen,
+       title = "Dispersão entre diâmetros todos isolados",
+       aspect = "iso",
+       xlab = "Primeiro diâmetro (mm)",
+       ylab = "Segundo diâmetro (mm)") +
+    layer(panel.abline(a = 0, b = 1))
+
+```
+
+```{r,fig.height=8, fig.width=8}
+##----------------------------------------------------------------------------      
+# Dispersão dos diâmetros coletados por isolados (b) 
+
+xyplot(d2 ~ d1 | iso,
+       data = sen,
+       title = "Dispersão entre diâmetros coletadas por isolados",
+       aspect = "iso",
+       groups = fun,
+       strip = FALSE,
+       as.table = TRUE,
+       xlab = "Primeiro diâmetro (mm)",
+       ylab = "Segundo diâmetro (mm)") +
+    layer(panel.abline(a = 0, b = 1))
+
+```
+
+```{r,fig.height=8, fig.width=8}
+##----------------------------------------------------------------------------      
+# Dispersão dos diâmetros coletados por isolados (c)
+
+xyplot(dm ~ dos | iso,
+       data = sen,
+       title = "Dispersão entre diâmetro médio e dose fungicida - escala natural",
+       groups = fun,
+       type = c("p", "a"),
+       strip = FALSE,
+       as.table = TRUE,
+       ylab = "Diâmetro médio (mm)",
+       xlab = "Dose de fungicida (µl)")
+
+```
+
+```{r,fig.height=8, fig.width=8}
+##----------------------------------------------------------------------------      
+# Dispersão dos diâmetros coletados por isolados - escala logarítmica (d)
+# (Figure Chapter 3 n1)
+xyplot(dm ~ dos | iso,
+       scales = list(log = TRUE),
+       data = sen,
+       title = "Dispersão dos diâmetros coletados por isolados - escala logarítmica",
+       groups = fun,
+       type = c("p", "a"),
+       strip = FALSE,
+       as.table = TRUE,
+       ylab = "log Diâmetro médio (mm)",
+       xlab = "log Dose de fungicida (µl)")
+
+```
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------      
+# Dispersão do diâmetro médio e dose fungicida transformada na raíz quinta (e)
+# (Figure Chapter 3 n2)
+xyplot(dm ~ dos^0.2 | iso,
+       data = sen,
+       groups = fun,
+       title = expression("Dispersão do diâmetro médio e dose fungicida na" ~ 5^o ~ "potência"),
+       type = c("p", "a"),
+       strip = FALSE,
+       as.table = TRUE,
+       ylab = "Diâmetro médio (mm)",
+       xlab = expression("Raiz" ~ 5^o ~ "da dose de fungicida" ))
+       
+```
+
+A transformação na raíz quinta, faz com que a distâncias entre doses sejam equalizadas. De fato, como é demonstrado, 0.2 foi o valor encontrado com a minimização da variância da distância entre doses (σ^2) e a transformação exponencial (p) da dose redimensionada a uma unidade de intervalo, descritas na seguinte equação \@ref(eq:equation1).
+
+```{r,fig.height=8, fig.width=8}
+#----------------------------------------------------------------------------- 
+# Equação                                 
+\begin{equation}
+(\#eq:equation1) 
+       z_{i} = x_i^p      
+       u_{i} = \frac{z_{i} - min(z)}{max(z) - min(z)},  \rightarrow  u_{i}  \in  [0,1]      
+       d_{i} = u_{i}+1 - u_{i}      
+       \overline{d} = \sum_{i=1}^{k-1}d_{i}/k      
+       \sigma^{2} = \sum_{i=1}^{k-1} \frac{(d_{i} - \overline{d})^2}{k-2}
+\end{equation}  
+```
+
+Em que, $x$ é a dose em escala natural, $z$ é a dose transformada na quinta potência, $u$ é o dimensionamento para a unidade de intervalo, $d$ são as diferenças entre dose, $d¯$ é a diferença média, e $σ2$ é a variância da diferença.
+
+```{r, message=FALSE}
+##---------------------------------------------------------------------------- 
+# Level único de dose de fungicida
+
+x <- sort(unique(sen$dos))
+x
+
+```
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------    
+# Variância da distância entre escala de dose e unidade de intervalo
+
+esp <- function(p) {
+    u <- x^p
+    u <- (u - min(u))
+    u <- u/max(u)
+    var(diff(u))
+}
+
+# Melhoria do parâmetro de potência para melhor espaçamento entre doses
+
+op <- optimize(f = esp, interval = c(0, 1))
+op$minimum
+
+```
+
+Na seguinte representação gráfica exploratória, fica demonstrado a similar distribuição das doses, obtida com a transformação exponencial. Esta distribuição é desejada, porque assim reduz-se os problemas de alavancagem das curvas.
+
+```{r,fig.height=8, fig.width=8}
+##----------------------------------------------------------------------------      
+# Gráfico exploratório das doses transformadas e igualmente espaçadas
+
+p <- seq(0, 1, by = 0.01)
+v <- sapply(p, esp)
+plot(log(v) ~ p, type = "o")
+abline(v = op$minimum)
+
+```
+
+Segundo @[Lawrence2001] a regressão spline é uma função construída de polinômios de terceiro grau que passam por um conjunto de nós (m+1). Estes nós abrangem o domínio observado do fator contínuo x, de modo que o conjunto de nós é
+K=\left\{\xi_{0},\xi_{1},...,\xi_{m}\right\}.
+Uma função s(x) é um spline cúbico se for formada por polinómios cúbicos s_i(x) em cada intervalo: \left[x_{i-1},x_{m}\right], i = 1,...,m.
+Os fragmentos polinomiais cúbicos adjacentes devem se conectar de forma suavizada aos nós internos, de modo que restrições adicionais sejam feitas para resultar numa função composta e suave. Derivados contínuos asseguram que a função resultante seja a mais suave possível.
+Para splines naturais, duas condições são necessárias
+s_1^"\left(x\right)=0 , s_m^"\left(x\right)=0, 
+ou seja, as partes das bordas não são cúbicas, mas sim lineares.
+
+Os splines cúbicos naturais são utilizadas para estimar a concentração da meia dose efetiva de inibição micelial (EC50). Nesse contexto, o modelo não linear é geralmente aplicado, mas não foi encontrado um modelo não linear o suficientemente flexível para dar um bom ajuste a uma taxa de convergência satisfatória.
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------
+## Uso de spline para estimar concentração da meia dose efetiva (CE50)
+
+sen$iso <- factor(sen$iso, levels = sort(unique(sen$iso)))
+sen$ue <- with(sen, interaction(iso, fun, drop = TRUE))
+sen$doz <- sen$dos^0.2
+
+str(sen)
+
+# banco de dados sem dose
+senu <- unique(subset(sen,
+                      select = c(ue, iso, fun, tra,
+                                 hed, pop, yr, plot)))
+
+str(senu)
+```
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------      
+# Função para ajustar splines
+
+fitting <- function(x) {
+    x <- na.omit(x)
+    if (nrow(x) > 4) {
+        n0 <- lm(dm ~ ns(doz, df = 3), data = x)
+        yfit <- predict(n0, newdata = pred)
+        return(cbind(xfit = pred$doz, yfit = yfit))
+    } else {
+        NULL
+    }
+}
+
+# Valores de doses para antecipar diâmetros
+pred <- data.frame(doz = seq(0, max(sen$doz,na.rm = T), length.out = 30))
+
+# Aplicar para todas unidades experimentais
+res <- ddply(sen, .(ue), .fun = fitting)
+
+# Juntar par `iso` e `fun`.
+res <- merge(res, senu, by = "ue")
+
+```
+
+Sendo assim, os comandos abaixo estimam tanto a (CE~50~) quanto a área abaixo da curva de inibição, aqui chamada AACI. Também é disponibilizado um comando para exportar uma tabela de Microsoft Excel em formato comma-separated velues (*.CSV).
+
+```{r, message=FALSE}
+##---------------------------------------------------------------------------- 
+# Estimando CE50 e AACI
+
+get_ec50 <- function(x, y, interval = c(0, max(sen$doz,na.rm = T))) {
+    fa <- approxfun(x = x, y = y)
+    int <- integrate(fa,
+                     lower = 0,
+                     upper = max(sen$doz,na.rm = T))$value
+    mxm <- optimize(fa, interval = interval, maximum = TRUE)
+    ymid <- mxm[[2]]/2
+    u <- try(uniroot(f = function(x) fa(x) - ymid,
+                     interval = interval),
+             silent = TRUE)
+    if (class(u) == "try-error") {
+        return(c(ec50 = NA, ev50 = NA, auc = int))
+    }
+    else {
+        return(c(ec50 = u$root, ev50 = ymid, auc = int))
+    }
+}
+
+# CE50 and AACI for each experimental unit.
+ec <- ddply(res, .(ue), .fun = function(x) get_ec50(x$xfit, x$yfit))
+str(ec)
+head(ec)
+
+```
+
+```{r, message = FALSE}
+##----------------------------------------------------------------------------      
+## Criar uma tabela em excel (*.csv) com os valores calculados de sensibilidade
+
+write.csv(ec, 'spline_valores_de_ec.csv')
+```
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------    
+# Proporção da CE50 e AUC não estimada
+cbind(AUC = sum(is.na(ec$auc)),
+      EC50 = sum(is.na(ec$ev50)))/nrow(ec)
+
+```
+
+A representação gráfica a seguir, demonstra a área abaixo da curva de inibição em função dos valores CE~50~, onde segundo @[Lichtemberg2017], existe uma significante e alta correlação entre estas duas variáveis, estimadas com r^2 = 82.5%.
+
+```{r, message=FALSE}
+# Scatter plot matrix para valores estimados
+
+splom(ec[, -1], type = c("p", "smooth"), col.line = 2)
+
+# Função entre AACI e CE50 para isolados com valor de sensibilidade estimados
+xyplot(auc ~ ec50,
+       data = ec,
+       type = c("p", "smooth"),
+       ylab = "Área abaixo da curva ajustada",
+       xlab = expression("Estimado" ~ EC[50]))
+
+##Figure 3: Area under the fitted curve as a function of the EC50 for those isolates where EC50 were estimated.
+```
+
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------
+# Correlação entre variáveis
+
+cor(ec[, -1], use = "complete")
+
+# Juntar o par `iso` e `fun`
+
+ec <- merge(ec, senu, by = "ue", all = TRUE)
+str(ec)
+
+```
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------         
+# Figura incluindo todos isolados com suas estimativas para CE50
+
+L <- split(ec, ec$iso)
+
+xyplot(dm ~ dos^0.2 | iso,
+       data = sen,
+       groups = fun,
+       cex = 0.4,
+       strip = FALSE,
+       as.table = TRUE,
+       auto.key = list(columns = 3,
+                       title = "Fungicida In vitro todos isolados",
+                       cex.title = 1.1),
+       xlab = expression("Dose de fungicida In vitro na" ~ 5^o ~ "potência" ),
+       ylab = "diâmetro médio (mm)") +
+    as.layer(xyplot(yfit ~ xfit | iso,
+                    groups = fun,
+                    data = res,
+                    type = "l")) +
+    layer({
+        with(L[[which.packet()]], {
+            cl <- trellis.par.get()$superpose.symbol$col[as.integer(fun)]
+            panel.segments(x0 = ec50,
+                           y0 = ev50,
+                           x1 = ec50,
+                           y1 = 0,
+                           col = "gray50")
+            panel.segments(x0 = ec50,
+                           y0 = ev50,
+                           x1 = 0,
+                           y1 = ev50,
+                           col = "gray50")
+            panel.points(x = ec50,
+                         y = ev50,
+                         pch = 19,
+                         cex = 0.6,
+                         col = cl)
+        })
+    })
+
+#Figure 4: Mean diameter as function of fungicide dose 5th root for each isolate. Solid line is the natural cubic spline fitted for each fungicide in each isolate. Gray straight line indicates the EC50 on each curve.
+```
+
+Finalizando esta metodologia, é possível criar uma representação gráfica onde se demonstra, para 40 isolados, o diâmetro médio em função da dose de fungicida transformada na raíz quinta para cada isolado. Onde, a linha sólida é o spline cúbico natural, ajustado para cada fungicida em cada isolado. Em linhas sólidas cinzas indicam o valor de sensibilidade para cada curva.  
+
+```{r, message=FALSE}
+##----------------------------------------------------------------------------
+# Figura incluindo apenas 40 isolados
+
+set.seed(123)
+i <- sample(levels(sen$iso), size = 40)
+i <- as.character(sort(as.integer(i)))
+L <- L[i]
+
+xyplot(dm ~ dos^0.2 | iso,
+       data = sen,
+       subset = iso %in% i,
+       groups = fun,
+       cex = 0.4,
+       strip = FALSE,
+       as.table = TRUE,
+       auto.key = list(columns = 3,
+                       title = "Fungicida In vitro n=40",
+                       cex.title = 1.1),
+       xlab = expression("Raiz" ~ 5^o ~ "da dose de fungicida" ),
+       ylab = "diâmetro médio (mm)") +
+    as.layer(xyplot(yfit ~ xfit | iso,
+                    groups = fun,
+                    data = res,
+                    subset = iso %in% i,
+                    type = "l")) +
+    layer({
+        with(L[[which.packet()]], {
+            cl <- trellis.par.get()$superpose.symbol$col[as.integer(fun)]
+            panel.segments(x0 = ec50,
+                           y0 = ev50,
+                           x1 = ec50,
+                           y1 = 0,
+                           col = "gray50")
+            panel.segments(x0 = ec50,
+                           y0 = ev50,
+                           x1 = 0,
+                           y1 = ev50,
+                           col = "gray50")
+            panel.points(x = ec50,
+                         y = ev50,
+                         pch = 19,
+                         cex = 0.6,
+                         col = cl)
+        })
+    })
+
+#Figure 5: Mean diameter as function of fungicide dose 5th root for a random sample of isolates. Solid line is the natural cubic spline fitted for each fungicide in each isolate. Gray straight line indicates the EC50 on each curve.
+
+```
 
 ## Informações adicionais de pacotes utilizados
 
