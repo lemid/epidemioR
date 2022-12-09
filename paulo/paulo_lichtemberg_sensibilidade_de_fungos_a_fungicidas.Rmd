@@ -210,7 +210,7 @@ Importante informar que as medidas de 'c' representadas na (Figura\@ref(fig:figu
 knitr::include_graphics("paulo/figura3.tif")
 ```
 
-Para esta nova análise, os seguintes pacotes necessitam ser carregados,'ECX','lattice', 'latticeExtra', 'grid', 'gridExtra', 'doBy', 'multcomp', 'reshape', 'reshape2', 'plyr', 'MASS', 'devtools' and 'agricolae'. No caso do pacote 'ECX', este pode ser encontrado em github.com no seguinte caminho: [EDITAR CAMINHO GITHUB DE GABRIEL]. 
+Para esta nova análise, os seguintes pacotes necessitam ser carregados,'ECX','lattice', 'latticeExtra', 'grid', 'gridExtra', 'doBy', 'multcomp', 'reshape', 'reshape2', 'plyr', 'MASS', 'devtools' and 'agricolae'. No caso do pacote 'ECX', este pode ser encontrado em github.com no seguinte caminho: https://github.com/GabrielTorres/ECX.
 
 ```{r, message=FALSE}
 ##----------------------------------------------------------------------------      
