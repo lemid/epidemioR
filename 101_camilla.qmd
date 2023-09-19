@@ -1,59 +1,67 @@
-# Técnica não paramétrica e paramétrica em experimento com um fator
+# Técnica não paramétrica e paramétrica para experimento com um fator
 
 ```{r, echo = FALSE, results = "asis"}
-chapter_authors(c("Camilla Castellar",
-                  "Walmes Marques Zeviani",
-                  "Louise Larissa May De Mio"))
+box::use(./config/setup)
+setup$chapter_authors(c("Camilla Castellar",
+                        "Walmes Marques Zeviani",
+                        "Louise Larissa May De Mio"))
 ```
 
 ## Descrição do experimento
 
-Podridões em frutos levam a redução de produtividade, visto que frutos
-doentes não são comercializados. Componentes do monociclo da doença
-podem ser investigados em diferentes estágios de crescimento de frutos
-para direcionar aplicações de produtos na época de maior
-suscetibilidade. Desta forma, o objetivo deste estudo de caso foi
-estimar e comparar o período de incubação de uma podridão em macieira em
-cinco estágios de crescimento de frutos.
+As podridões em frutos resultam em redução de produtividade, uma vez que
+frutos doentes não podem ser comercializados. Para entender melhor o
+ciclo da doença, este estudo se concentrou em investigar diferentes
+estágios de crescimento de frutos, visando orientar a aplicação de
+produtos durante o período de maior suscetibilidade. O objetivo
+principal foi estimar e comparar o período de incubação de uma podridão
+que afeta macieiras em cinco estágios de crescimento dos frutos.
 
-O experimento foi realizado em condições controladas, utilizando frutos
-destacados. Cinco tamanhos de frutos foram coletados do campo (tam1,
-tam2, tam3, tam4 e tam5). Os frutos foram desinfestados e um ferimento
-foi provocado na região equatorial das maças. Uma gota de suspensão de
-conídios do patógeno foi depositada sobre o ferimento. Após a
-inoculação, os frutos foram aleatoriamente distribuidos em uma sala de
-incubação com condições controladas e homogeneas, constituindo um
-delineamento inteiramente casualisado com 5 tratamentos (tamanho) e 8
-repetições (Figura \@ref(fig:esquema)).
+O experimento foi conduzido em condições controladas, usando frutos
+colhidos no campo em cinco tamanhos diferentes. Após desinfecção, cada
+fruto foi ferido na região equatorial e inoculado sobre o ferimento com
+uma suspensão de conídios do patógeno. Os frutos foram então
+distribuídos aleatoriamente em uma sala de incubação com condições
+controladas e uniformes, seguindo um delineamento inteiramente
+casualizado com cinco tratamentos (os tamanhos) e oito repetições
+(consulte a Figura @fig-esquema).
 
-(ref:esquema) Ilustração do experimento onde frutos de 5 tamanhos são inoculados com o patógeno sob o ferimento feito na região equatorial.
-
-```{r esquema, echo=FALSE, fig.cap= '(ref:esquema)'}
-knitr::include_graphics("101-camilla/tamanhos.jpg")
+```{r}
+#| label: fig-esquema
+#| echo: false
+#| fig-cap: "Ilustração do experimento onde frutos de 5 tamanhos são inoculados com o patógeno sob o ferimento feito na região equatorial."
+knitr::include_graphics("101_camilla/tamanhos.png")
 ```
 
-Após a inoculação, cada fruto foi avaliado diariamente durante 39 dias
-devido ao apodrecimento dos frutos após este período. O dia do
-aparecimento de sintomas foi anotado e atribuido o status 1 aos frutos
-sintomáticos na tabela de registro. Nos frutos em que não apresentaram
-sintomas, o status registrado foi 0 e atribuido ao dia 39 (último dia de
-avaliação), constituindo a censura à direita. Desta forma, a tabela com
-o conjunto de dados deste estudo só conteve a data de desfecho de cada
-fruto (Tabela \@ref(tab:conjuntodedados)) sintomático ou a última data
-de avaliação dos frutos sem sintomas. No caso de tabelas que contenham o
-histórico diário dos frutos é necessário filtrar os dados para manter
-apenas a data em que mudou da condição sem sintoma para com sintoma.
+Posteriormente à inoculação, cada fruto foi avaliado diariamente ao
+longo de 39 dias, período em que os frutos poderiam desenvolver sintomas
+de podridão. O dia em que os sintomas apareciam era registrado e
+atribuído um status de 1 aos frutos sintomáticos na tabela de registro.
+Para os frutos que não apresentavam sintomas, era registrado o status 0
+e atribuído ao dia 39 (último dia de avaliação), indicando censura à
+direita. Portanto, a tabela de dados deste estudo (Tabela
+@tbl-conjuntodedados) continha apenas a data de ocorrência dos sintomas
+para frutos sintomáticos ou a última data de avaliação para frutos sem
+sintomas. Quando se faz necessário trabalhar com tabelas contendo o
+histórico diário dos frutos, é preciso filtrar os dados para manter
+apenas a data em que ocorreu a transição da condição sem sintoma para a
+com sintoma.
 
-(ref:conjuntodedados) Conjunto de dados para análise de sobrevivência exibindo os 10 primeiros registros. A variável `day` é o dia de ocorrência do sintoma e a variável `status` é o indicador do tipo de censura: 0 é censura à direita e 1 é sem censura. Como a duração do experimento foi de 39 dias, a censura à direita foi na mesma data para todos os frutos.
+```{r}
+#| label: tbl-conjuntodedados
+#| echo: false
+#| tbl-cap: "Conjunto de dados para análise de sobrevivência exibindo os 3 primeiros registros para cada tamanho de fruto. A variável `day` é o dia de ocorrência do sintoma e a variável `status` é o indicador do tipo de censura: 0 é censura à direita e 1 é sem censura. Como a duração do experimento foi de 39 dias, a censura à direita foi na mesma data para todos os frutos."
+tb <- read.csv2("101_camilla/sobrev.csv")
 
-```{r conjuntodedados, echo = FALSE}
-tb <- read.csv2("101-camilla/sobrev.csv")
-knitr::kable(head(tb, n = 10),
-             caption = '(ref:conjuntodedados)',
-             digits = c(1, 1, 1, 1),
-             align = c("cccc"),
-             row.names = FALSE)
+tb |>
+    dplyr::group_by(tamanho) |>
+    dplyr::slice_head(n = 3) |>
+    knitr::kable(digits = c(1, 1, 1, 1),
+                 align = c("cccc"),
+                 row.names = FALSE)
 ```
+
+<!-- WALMES -->
 
 ## Análise não paramétrica
 
@@ -62,12 +70,13 @@ demonstrados. A função de sobrevivência e o teste de log-rank serão
 executados. O período de incubação de frutos de diferentes tamanhos foi
 obtido e comparado por meio das curvas de Kaplan-Meier.
 
-```{r, message = FALSE}
+```{r}
+#| message: false
+
 # Carrega pacotes.
 library(tidyverse)
-library(emmeans)
 library(multcomp)
-library(multcompView)
+library(emmeans)
 library(survival)
 library(survminer)
 ```
@@ -77,29 +86,34 @@ leitura, fez-se o gráfico que exibe a data e o tipo de evento de cada
 fruto para cada tamanho. A análise exploratória sugere que quanto maior
 o fruto, menor o tempo para aparecimento dos sintomas.
 
-```{r, message = FALSE}
-# Leitura dos dados.
-dados  <-  read_csv2("./101-camilla/sobrev.csv", col_types = cols())
+```{r}
+#| message: false
+
+# Importação dos dados do arquivo CSV.
+dados  <-  readr::read_csv2("./101_camilla/sobrev.csv",
+                            col_types = cols())
 attr(dados, "spec") <- NULL
 str(dados)
 ```
 
 ```{r}
-# Tabela de frequência para o tamanho do fruto.
-dados %>%
-    count(tamanho)
+# Tabela com medidas resumo.
+dados |>
+    group_by(tamanho) |>
+    rstatix::get_summary_stats(day, type = "common")
 
-# Análises exploratórias.
-dados0 <- dados %>%
-    group_by(tamanho) %>%
-    arrange(day) %>%
-    mutate(ord = seq_along(day)/n()) %>%
+# Ordena pelo dia do desfecho para fazer o gráfico ECDF.
+dados0 <- dados |>
+    group_by(tamanho) |>
+    arrange(day) |>
+    mutate(ord = seq_along(day)/n()) |>
     ungroup()
 ```
 
-(ref:aed-frutos) Análise exploratória do experimento. Cada linha horizontal é um fruto do experimento, ordenados conforme o tempo em que o sintoma foi observado. Os frutos estão agrupados conforme o tratamento ao qual pertencem. Símbolos abertos indicam censura à direita e símbolos fechados indicam não censura.
+```{r}
+#| label: fig-aed-frutos
+#| fig-cap: "Análise exploratória do experimento. Cada linha horizontal é um fruto do experimento, ordenados conforme o tempo em que o sintoma foi observado. Os frutos estão agrupados pelo tratamento ao qual pertencem. Símbolos abertos indicam censura à direita e símbolos fechados indicam não censura."
 
-```{r aed-frutos, fig.cap = '(ref:aed-frutos)'}
 # Gráfico com a linha do day de cada fruto que mostra quando o evento
 # aconteceu e que tipo de desfecho.
 ggplot(data = dados0,
@@ -176,7 +190,8 @@ ggsurvplot(fit,
 logrank <- survdiff(s1 ~ tamanho, data = dados)
 logrank
 ```
-```{r, include = FALSE}
+```{r}
+#| include: false
 chi <- sprintf("%0.1f", logrank$chisq)
 ```
 
@@ -212,7 +227,9 @@ foi a de Weibull apenas com o intuito de ilustrar os passos para a
 técnica. Porém, esta pode não ser a distribuição mais adequada para
 estes dados.
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
+
 # Documentação disponível no R sobre os modelos paramétricos.
 help(survreg.distributions, help_type = "html")
 help(dweibull, help_type = "html")
@@ -270,7 +287,9 @@ efeito de tamanho de frutos e corresponde a especificação feita acima. O
 teste da razão de verossimilhanças para esses modelos testa a hipótese
 nula por meio da estatística diferença de deviances.
 
-```{r, message = FALSE}
+```{r}
+#| message: false
+
 # dados$day_orig <- dados$day
 # dados$day <- log(dados$day_orig)
 
@@ -352,7 +371,9 @@ tb_emm$median_day <-
 tb_emm
 ```
 
-```{r, include = FALSE}
+```{r}
+#| include: false
+
 p1 <- sprintf("%0.2f", tb_emm$mean_day[5])
 p2 <- sprintf("%0.2f", tb_emm$median_day[5])
 ```
@@ -375,14 +396,14 @@ mediana, no caso, é o tempo para que 50% dos frutos apresentem sintoma.
 
 ```{r}
 # Obtém as curvas estimadas da função de densidade e de distribuição.
-tb_curves <- tb_emm %>%
-    group_by(tamanho) %>%
+tb_curves <- tb_emm |>
+    group_by(tamanho) |>
     do({
         day <- seq(0, max(dados$day), length.out = 71)
         dens <- dweibull(day, shape = a, scale = exp(.$emmean))
         accu <- pweibull(day, shape = a, scale = exp(.$emmean))
         data.frame(day, dens, accu)
-    }) %>%
+    }) |>
     ungroup()
 
 # As curvas de densidade ajustadas.
@@ -447,15 +468,17 @@ tb_contr <- as.data.frame(tamanho_in_comp)
 # tb_contr
 
 # Puxa as demais estimativas para a mesma tabela.
-tb_contr <- tb_contr %>%
-    rename("let" = ".group") %>%
+tb_contr <- tb_contr |>
+    rename("let" = ".group") |>
     inner_join(tb_emm[, c("tamanho", "mean_day", "median_day")])
-tb_contr %>%
-    arrange(tamanho) %>%
+tb_contr |>
+    arrange(tamanho) |>
     mutate_if(is.numeric, round, digits = 2)
 ```
 
-```{r, fig.height = 3}
+```{r}
+#| fig-height: 3
+
 ggplot(data = tb_contr,
        mapping = aes(y = tamanho, x = emmean)) +
     geom_point() +
