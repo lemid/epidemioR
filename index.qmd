@@ -1,73 +1,7 @@
----
-title: "epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R"
-author:
-  - name: Walmes Marques Zeviani
-    affiliation: Departamento de Estatística · UFPR
-    email: walmes@ufpr.br
-    www: leg.ufpr.br/~walmes
-  - name: Louise Larissa May De Mio
-    affiliation: Departamento de Fitotecnia e Fitossanidade · UFPR
-    email: maydemio@ufpr.br
-    www: http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/
-date: "Última atualização em `r format(Sys.Date(), format = '%d de %B de %Y')`"
-csl: config/ABNT_UFPR_2011-Mendeley.csl
-# bibliography: [config/refs.bib, jhulia/refs.bib, camilla/refs.bib, tac/refs.bib, alexandre/refs.bib, marlon/refs.bib]
-bibliography: [config/refs.bib, 101-camilla/refs.bib, 102-thiago/refs.bib, jhulia/refs.bib]
-github-repo: lemid/epidemioR
-description: "epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R"
-site: bookdown::bookdown_site
-# output: bookdown::gitbook
-# --- LaTeX ------------------------------------------------------------
-documentclass: book
-# `graphics: yes` é necessário quando usa template para latex.
-graphics: yes
-papersize: a4
-# fontsize: 9pt
-# geometry: 'margin=1in'
-# geometry: [left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm]
-geometry: [inner = 4cm, outer = 3cm, top = 3cm, bottom = 3cm]
-#biblio-style: abbrvnat             # citation_package: natbib.
-biblio-style: config/TeseESALQ.bst # citation_package: natbib.
-#biblio-style: authoryear, backend=biber, bibencoding=utf8 # citation_package: biblatex.
-#biblio-style: abnt, backend=biber, bibencoding=utf8 # citation_package: biblatex.
-link-citations: yes
-colorlinks: true
-capa-pdf: config/frontcover.pdf
-complement: >
-  \begin{flushleft}
-  Laboratório de Estatística e Geoinformação (LEG)\\
-  \url{http://www.leg.ufpr.br}\\
-  Laboratório de Epidemiologia para Manejo Integrado de Doenças de Plantas (LEMID)\\
-  \url{http://www.lemid.ufpr.br/}\\
-  Universidade Federal do Paraná (UFPR)\newline\newline
-  \end{flushleft}
-  \vspace*{\fill}
-
-  \begin{center}
-  Curitiba, Paraná, Brasil\\
-  \the\year\\
-  \end{center}
----
-
-```{r, include = FALSE}
+```{r}
+#| include: false
 source("config/setup.R")
 ```
-
-<!-- Imagem de canto de menu. -->
-<!-- -------------------------------------------------------------------
-```{r, echo = FALSE, eval = isOutput("html")}
-# Truque para que essa imagem seja movida para `./_/book/config/`.
-knitr::include_graphics('./config/frontcover.png')
-```
--------------------------------------------------------------------- -->
-
-<!-- Imagem de capa. -->
-```{r, echo = FALSE, results = "asis", eval = isOutput("html")}
-img <- '# {-}\n\n<div><img src="./config/bookcover.png" width="350" alt="epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R"/></div>'
-cat(img, "\n")
-```
-
-\
 
 `r ifelse(isOutput("html"), "", "<!--")`
 <p style="text-indent: 0em;">
@@ -78,9 +12,14 @@ cat(img, "\n")
 </p>
 `r ifelse(isOutput("html"), "", "-->")`
 
-# Apresentação {-}
+# Apresentação {.unnumbered}
 
-```{r, include = FALSE, eval = isOutput("html")}
+```{r}
+#| include: false
+#| eval: false
+
+# include = FALSE, eval = isOutput("html")
+
 # Para habilitar Font Awesome no documento.
 # https://github.com/rstudio/rmarkdown/issues/813
 fa <- rmarkdown::html_dependency_font_awesome()

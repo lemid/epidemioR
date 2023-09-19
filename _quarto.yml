@@ -5,10 +5,13 @@ execute:
   freeze: auto
 book:
   title: "EpidemioR"
-  author: "Walmes Zeviani & Louise Larissa May De Mio"
+  author:
+    - "Walmes Zeviani"
+    - "Louise Larissa May De Mio"
   search: true
   repo-url: https://github.com/lemid/epidemioR
-  cover-image: ./config/fonrtcover.png
+  # cover-image: ./config/frontcover.png
+  cover-image: ./config/bookcover.png
   # repo-actions: [edit, issue]
   # google-analytics: "" # TODO
   page-footer:
@@ -21,14 +24,70 @@ book:
 
   chapters:
     - index.qmd
+    - 100_sobrevivencia.qmd
+    - 101_camilla.qmd
     - references.qmd
 
 format:
   html:
+    lang: pt-BR
+    mainfont: Cardo
+    monofont: IBM Plex Mono
     toc: true
     toc-depth: 2
     theme:
       - yeti
 
-bibliography: ./config/refs.bib
+bibliography:
+  - ./config/refs.bib
+  - ./101_camilla/refs.bib
 csl: ./config/ABNT_UFPR_2011-Mendeley.csl
+
+# title: "epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R"
+# author:
+#   - name: Walmes Marques Zeviani
+#     affiliation: Departamento de Estatística · UFPR
+#     email: walmes@ufpr.br
+#     www: leg.ufpr.br/~walmes
+#   - name: Louise Larissa May De Mio
+#     affiliation: Departamento de Fitotecnia e Fitossanidade · UFPR
+#     email: maydemio@ufpr.br
+#     www: http://www.agrarias.ufpr.br/portal/fitotecnia/louise-larissa-may-de-mio/
+# date: "Última atualização em `r format(Sys.Date(), format = '%d de %B de %Y')`"
+# csl: config/ABNT_UFPR_2011-Mendeley.csl
+# # bibliography: [config/refs.bib, jhulia/refs.bib, camilla/refs.bib, tac/refs.bib, alexandre/refs.bib, marlon/refs.bib]
+# bibliography: [config/refs.bib, 101-camilla/refs.bib, 102-thiago/refs.bib, jhulia/refs.bib]
+# github-repo: lemid/epidemioR
+# description: "epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R"
+# site: bookdown::bookdown_site
+# # output: bookdown::gitbook
+# # --- LaTeX ------------------------------------------------------------
+# documentclass: book
+# # `graphics: yes` é necessário quando usa template para latex.
+# graphics: yes
+# papersize: a4
+# # fontsize: 9pt
+# # geometry: 'margin=1in'
+# # geometry: [left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm]
+# geometry: [inner = 4cm, outer = 3cm, top = 3cm, bottom = 3cm]
+# #biblio-style: abbrvnat             # citation_package: natbib.
+# biblio-style: config/TeseESALQ.bst # citation_package: natbib.
+# #biblio-style: authoryear, backend=biber, bibencoding=utf8 # citation_package: biblatex.
+# #biblio-style: abnt, backend=biber, bibencoding=utf8 # citation_package: biblatex.
+# link-citations: yes
+# colorlinks: true
+# capa-pdf: config/frontcover.pdf
+# complement: >
+#   \begin{flushleft}
+#   Laboratório de Estatística e Geoinformação (LEG)\\
+#   \url{http://www.leg.ufpr.br}\\
+#   Laboratório de Epidemiologia para Manejo Integrado de Doenças de Plantas (LEMID)\\
+#   \url{http://www.lemid.ufpr.br/}\\
+#   Universidade Federal do Paraná (UFPR)\newline\newline
+#   \end{flushleft}
+#   \vspace*{\fill}
+#
+#   \begin{center}
+#   Curitiba, Paraná, Brasil\\
+#   \the\year\\
+#   \end{center}
