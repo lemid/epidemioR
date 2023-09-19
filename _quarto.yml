@@ -1,0 +1,34 @@
+project:
+  type: book
+execute:
+  cache: false
+  freeze: auto
+book:
+  title: "EpidemioR"
+  author: "Walmes Zeviani & Louise Larissa May De Mio"
+  search: true
+  repo-url: https://github.com/lemid/epidemioR
+  cover-image: ./config/fonrtcover.png
+  # repo-actions: [edit, issue]
+  # google-analytics: "" # TODO
+  page-footer:
+    border: false
+    background: light
+    left: |
+      epidemioR: Epidemiologia de Doenças de Plantas Aplicada com R
+    # right: |
+    #   This book was built with <a href="https://quarto.org/">Quarto</a>.
+
+  chapters:
+    - index.qmd
+    - references.qmd
+
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    theme:
+      - yeti
+
+bibliography: ./config/refs.bib
+csl: ./config/ABNT_UFPR_2011-Mendeley.csl
