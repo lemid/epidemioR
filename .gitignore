@@ -1,5 +1,6 @@
 _book/
 _bookdown_files/
+_freeze/
 renv/
 
 .Rproj.user
