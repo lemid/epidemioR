@@ -63,12 +63,11 @@ tb |>
 
 <!-- WALMES -->
 
-## Análise não paramétrica
+## Análise exploratória dos dados
 
-Na sequência, os passos para a abordagem não paramétrica serão
-demonstrados. A função de sobrevivência e o teste de log-rank serão
-executados. O período de incubação de frutos de diferentes tamanhos foi
-obtido e comparado por meio das curvas de Kaplan-Meier.
+Os dados deste experimento estão armazenados em um arquivo CSV contendo
+3 colunas: `tamanho`, `day` e `status` que indicam o tamanho do fruto, o
+dia de ocorrência do sintoma e o indicador de tipo de censura.
 
 ```{r}
 #| message: false
@@ -81,11 +80,6 @@ library(survival)
 library(survminer)
 ```
 
-Os dados estão armazenados em um arquivo CSV contendo 3 colunas. Após a
-leitura, fez-se o gráfico que exibe a data e o tipo de evento de cada
-fruto para cada tamanho. A análise exploratória sugere que quanto maior
-o fruto, menor o tempo para aparecimento dos sintomas.
-
 ```{r}
 #| message: false
 
@@ -94,14 +88,20 @@ dados  <-  readr::read_csv2("./101_camilla/sobrev.csv",
                             col_types = cols())
 attr(dados, "spec") <- NULL
 str(dados)
-```
 
-```{r}
 # Tabela com medidas resumo.
 dados |>
     group_by(tamanho) |>
     rstatix::get_summary_stats(day, type = "common")
+```
 
+Conforme indicam as medidas resumo, são 8 unidades experimentais por
+tratamento. No maior tamanho (`tam5`), o maior tempo para ocorrência dos
+sintomas foi de 5 dias. Nos demais tamanho sempre teve ao menos um fruto
+que levou 39 dias. Os frutos de maior tamanho apresentam sintomas, em
+média, mais cedo que os frutos menores.
+
+```{r}
 # Ordena pelo dia do desfecho para fazer o gráfico ECDF.
 dados0 <- dados |>
     group_by(tamanho) |>
@@ -109,6 +109,18 @@ dados0 <- dados |>
     mutate(ord = seq_along(day)/n()) |>
     ungroup()
 ```
+
+Para os tratamentos com tamanhos 1, 2 e 3 não se tem período de
+incubação amostral pois, menos de 50% das repetições apresentaram
+sintomas (Figura @fig-aed-frutos). No caso de poucos frutos virem
+apresentarem sintomas, recomenda-se aumentar o número de repetições do
+experimento. No entanto, isso não necessariamente impede de estimar a
+curva de sobrevivência e estimar o período de incubação por meio de
+modelos. A definição do período de incubação é o tempo necessário para
+que metade dos indivíduos expostos apresentem o evento. Dessa forma, o
+período de incubação é a mediana da variável aleatória tempo para a
+ocorrência do evento. Com o ajuste do modelo aos dados, teremos a
+estimativa para o período de incubação.
 
 ```{r}
 #| label: fig-aed-frutos
@@ -132,30 +144,26 @@ ggplot(data = dados0,
           legend.justification = c(1, 0))
 ```
 
-O número de frutos por tratamento é o mesmo. Os tamanhos 1, 2 e 3 não
-apresentaram período de incubação amostral pois, menos de 50% das
-repetições apresentaram sintomas. No caso de poucos frutos apresentarem
-sintomas, recomenda-se aumentar o número de repetições do experimento.
-No entanto, isso não necessariamente impede de estimar a curva de
-sobrevivência e estimar o período de incubação. A definição do período
-de incubação, neste caso, é o tempo necessário para que metade dos
-indivíduos expostos apresentem o evento. Portanto, o período de
-incubação é a mediana da variável aleatória tempo para a ocorrência do
-evento.
+## Análise não paramétrica
 
-Nos fragmentos a seguir, define-se o objetos com diferentes
-representações de censura. Definiou-se censura à diretira no `s1`, o que
-não é exatamente o que ocorre no experimento cuja a censura é
-intervalar, conforme definido em `s2`. É comum encontrar análises usando
-censura à direita no lugar de intervalar quando a duração dos intervalos
-é curta e uniforme.
+Pela abordagem não paramétrica de análise de sobreviência, o período de
+incubação de frutos como função dos tamanhos será obtido e comparado por
+meio das curvas de Kaplan-Meier. O teste de log-rank será aplicado para
+testar a hipótese de igualdade dos períodos de incubação..
+
+Para começar, nos fragmentos a seguir, define-se o objetos com
+diferentes representações de censura. No objeto `s1` definiu-se censura
+à direita, o que não é exatamente o que ocorre no experimento. No objeto
+`s2` a censura intervalar foi definida, que é o ocorre no experimento,
+já que as avaliações são feitas 1 vez ao dia. É comum encontrar análises
+usando censura à direita no lugar de intervalar quando a duração dos
+intervalos é curta e de mesmo tamanho.
 
 ```{r}
 # Resposta com avaliações sem censura e com censura à direita no final.
 s1 <- with(dados,
            Surv(time = day,
                 event = status))
-s1
 
 # Resposta com avaliações com censura intervalar de 1 dia e com censura
 # à direita no final.
@@ -164,14 +172,15 @@ s2 <- with(dados,
                 time2 = day + 1,
                 event = ifelse(status == 1, 3, 0),
                 type = "interval"))
-s2
+
+tibble("censura à direita (s1)" = s1, "censura intervalar (s2)" = s2)
 ```
 
-O modelo com a resposta do tipo censura intervalar é ajustado aos dados,
-usando o método de Kaplan-Meier. Na saída tem-se que a mediana não é
-estimada para 3 dos 5 tratamentos. O gráfico de sobrevida é apresentado
-na sequência, indicando a sobrevida dos frutos maiores é inferior aos
-demais.
+O modelo pelo método de Kaplan-Meier foi ajustado aos dados usando a
+resposta definida com a represetação de censura intervalar. Na saída
+tem-se que a mediana não é estimada para 3 dos 5 tratamentos. O gráfico
+com as curvas de Kaplan-Meier indicam que a sobrevida dos frutos maiores
+é inferior aos demais.
 
 ```{r}
 # Curvas sobreviência de Kaplan-Meier.
@@ -184,7 +193,10 @@ fit
 # Gráfico com melhor visual, legenda, etc.
 ggsurvplot(fit,
            data = dados,
-           surv.median.line = "h")
+           # conf.int = TRUE,
+           surv.median.line = "h",
+           legend = "right", 
+           ggtheme = theme_gray())
 
 # Aplica o teste de log-rank. Só aceita censura à direita.
 logrank <- survdiff(s1 ~ tamanho, data = dados)
@@ -197,15 +209,16 @@ chi <- sprintf("%0.1f", logrank$chisq)
 
 O teste do log-rank para testar a hipótese nula de igualdade entre as
 curvas apresentou uma estatística de teste igual a `r chi`, bastante
-desfavorável ($p < 0.001$) à hipótese nula, ou seja, em termos
-práticos existe efeito do tamanho do fruto no comportamento da variável
-período de incubação.
+desfavorável ($p < 0.001$) à hipótese nula, ou seja, em termos práticos
+existe efeito do tamanho do fruto no comportamento da variável período
+de incubação. Importante mencionar que o teste do log-rank não é feito
+com dados de censura intervalar e sim os a censura à direita.
 
-Apesar de ser possível testar a hipótese, essa abordagem não
-necessariamente irá estimar a mediana para todos os níveis, pois ocorreu
-alta proporção de censura em alguns tamanhos de fruto. Como pode ser
-visto na saída da `survfit()`, apenas os tamanhos 4 e 5 tiveram
-estimativa de mediana, porém sem o intervalo de confiança completo.
+Apesar de ser possível testar o efeito de tratamentos, essa abordagem
+não necessariamente irá estimar a mediana para todos os níveis, pois
+ocorreu alta proporção de censura em alguns tamanhos de fruto neste
+experimento. Como pode ser visto na saída da `survfit()`, apenas os
+tamanhos 4 e 5 tiveram estimativa de mediana calculada.
 
 A abordagem não paramétrica, conforme visto aqui, é mais recomendada
 quando o número de unidades experimentais por tratamento for
@@ -220,12 +233,12 @@ O último, pode ser feito a medida que o experimento é conduzido.
 
 ## Análise paramétrica
 
-Os passos para a abordagem paramétrica são relacionados a seguir. Neste
-caso, o período de incubação foi obtido e comparado entre os tratamentos
-por meio da estimativa do parâmetro de locação. A distribuição utilizada
-foi a de Weibull apenas com o intuito de ilustrar os passos para a
-técnica. Porém, esta pode não ser a distribuição mais adequada para
-estes dados.
+Na abordagem paramétrica vamos assumir uma distribuição de probabilidade
+para o tempo de ocorrência dos sintomas. Existem várias distribuições
+que podem ser consideradas, como Lognormal, Gama, Exponencial, Weibull,
+entre outras. A distribuição Weibull é muito utilizada em análise de
+sobrevivência e por isso será utilizada para exemplificar o uso da
+abordagem paramétrica.
 
 ```{r}
 #| eval: false
@@ -237,8 +250,9 @@ help(dweibull, help_type = "html")
 survreg.distributions$weibull
 ```
 
-A função de densidade da distribuição Weibull usada na `dweibull()` e
-relacionadas é
+A distribuição Weibull é uma distribuição de 2 parâmetros (existem
+versões com mais parâmetros). A função de densidade da distribuição
+usada na `dweibull()` e outras funções relacionadas é
 $$
 f(y) = \frac{a}{b} \left( \frac{y}{b} \right)^{a-1}
   \exp \left\{ -\left( \frac{y}{b} \right)^{a}\right\},
@@ -251,8 +265,8 @@ em que $a$ é o parâmetro de forma (shape) e $b$ é o parâmetro de escala
   * Variância: $\text{Var}(Y) = b^2 (\Gamma(1 + 2/a) - (\Gamma(1 + 1/a))^2)$.
   * Função de distribuição: $F(y) = 1 - \exp\{-(x/b)^a\}$.
 
-No entanto, a parametrização usada pela `survreg()` é diferente mas
-matematicamente relacionada a esta da seguinte forma
+A parametrização usada pela `survreg()` é diferente mas matematicamente
+relacionada a anterior por meio das expressões
 $$
 \begin{aligned}
   a &= 1/\lambda \quad &\Rightarrow \lambda &= 1/a \\
@@ -274,18 +288,20 @@ escala, $\lambda$ está vinculado ao parâmetro de forma. A não rejeição
 da hipótese nula $H_0: \alpha_i = 0$ para todo $i$ corresponde não haver
 efeito do tamanho dos frutos.
 
-Neste modelo, os parâmetros são estimados pelo método da máxima
-verossimilhança. A função `survreg()` é portanto usada para estimar o
-modelo com censura intervalar, realizar o teste de hipótese e demais
-desdobramentos usuais de análise de sobreviência.
+Nesta especificação de modelo, os parâmetros são estimados pelo método
+da máxima verossimilhança. A função `survreg()` é usada para estimar o
+modelo com distribuição Weibull para resposta com censura intervalar,
+realizar o teste de hipótese e demais desdobramentos usuais de análise
+de sobreviência.
 
-Para fins de teste de hipótese, dois modelos serão ajustados. O modelo
-inicial não contém o efeito de nunhuma fonte de variação e corresponde,
-portanto, o modelo nulo ou modelo obtido sob a não rejeição da hipótese
-nula $H_0: \alpha_i = 0$ para todo $i$. O modelo seguinte acomoda o
-efeito de tamanho de frutos e corresponde a especificação feita acima. O
-teste da razão de verossimilhanças para esses modelos testa a hipótese
-nula por meio da estatística diferença de deviances.
+Serão ajustados dois modelos para realizar o teste de hipótese para
+efeito do tamanho de fruto. O modelo inicial não contém o efeito de
+nunhuma fonte de variação e corresponde, portanto, o modelo nulo ou
+modelo obtido sob a não rejeição da hipótese nula $H_0: \alpha_i = 0$
+para todo $i$. O modelo seguinte acomoda o efeito de tamanho de frutos e
+corresponde a especificação feita acima. O teste da razão de
+verossimilhanças para esses modelos testa a hipótese nula por meio da
+estatística diferença de deviances.
 
 ```{r}
 #| message: false
@@ -310,7 +326,7 @@ Conforme indicado pelo teste da razão de verossimilhanças, existe
 considerável evidência à favor da rejeição da hipótese nula, ou seja, a
 favor do modelo que acomoda efeito de tamanho de fruto ($p < 0.001$). Em
 termos práticos, isso quer dizer que existe efeito do tamanho de fruto
-no tempo de incubação. Será feito um estudo mais detalhado a seguir.
+no tempo de incubação.
 
 O fragmento de código abaixo tem propósito didático, pois mostra como
 obter o valor de log-verossimilhança do modelo ajustado. Dessa forma,
@@ -347,7 +363,8 @@ obtidas com a função `emmean::emmeans()`. Tais estimativas não são
 imeditamente interpretáveis, de modo que é mais interessante obter as
 estimativas de média ou mediana a partir dos mesmos. Todavia, se houver
 igualdade quanto ao parâmetro de escala, haverá para os demais, pois são
-funções uns dos outros. No código abaixo obtem-se a estimativa de média.
+funções matemáticas uns dos outros. No código abaixo obtem-se a
+estimativa de média.
 
 ```{r}
 # Médias ajustadas (é na interpretação do parâmetro da Weibull).
@@ -382,9 +399,9 @@ Para os frutos de maior tamanho, o período de incubação médio é de `r
 p1` dias e o período de incubação mediano é `r p2` dias. O período de
 inbubação mediano corresponde à definição de período de inbubação
 amostral no sentido de ser aquele para o qual metade das unidades
-experimentais apresentam sintoma. Detalhe: como a distribuição Weibull é
-assimétrica à direita, com o atual parâmetro de forma, a mediana é por
-isso sempre menor que a média.
+experimentais apresentam sintoma. Detalhe: com o atual parâmetro de
+forma, a distribuição Weibull é assimétrica à direita e assim a mediana
+é menor que a média.
 
 Para fazer uma contemplação visual, serão obtidas as curvas de
 probabilidade acumuladas. Essas curvas descrevem a probabilidade de
@@ -445,7 +462,7 @@ frutos apresentaram sintomas mais cedo.
 Com o intuito de melhor detalhar e efeito do tamanho do fruto, serão
 testados os contrastes com o parâmetro de locação. Considerando todos os
 contrastes par a par (contrastes de Tukey), são 10 hipóteses sob
-investigação. A correção para a multiciplidade já é acomoda na
+investigação. A correção para a multiciplidade já é levada em conta na
 implementação disponível na função `cld()`, o que torna muito fácil a
 realização de procedimentos de comparação múltipla inclusive para
 modelos que não sejam gaussianos.
@@ -456,21 +473,18 @@ gráfica para mais rápida compreensão.
 
 ```{r}
 # Comparando os tratamentos.
-emm_tamanho_in <- emmeans(m1, specs = ~tamanho)
-# emm_tamanho_in
-
-# contrast(emm_trat_in, method = "pairwise")
-tamanho_in_comp <- multcomp::cld(emm_tamanho_in, Letters = letters)
-# tamanho_in_comp
-
 # Tabela com o resultado das comparações múltiplas.
-tb_contr <- as.data.frame(tamanho_in_comp)
+tb_contr <- 
+    emmeans(m1, specs = ~tamanho) |>
+    multcomp::cld(Letters = letters) |>
+    as.data.frame()
 # tb_contr
 
 # Puxa as demais estimativas para a mesma tabela.
 tb_contr <- tb_contr |>
     rename("let" = ".group") |>
-    inner_join(tb_emm[, c("tamanho", "mean_day", "median_day")])
+    inner_join(tb_emm[, c("tamanho", "mean_day", "median_day")]) |>
+    mutate(let = trimws(let))
 tb_contr |>
     arrange(tamanho) |>
     mutate_if(is.numeric, round, digits = 2)
@@ -504,7 +518,8 @@ todos exceto do tamanho 4.
   1. A abordagem não paramétrica:
      * A abordagem não paramétrica é interessante por não fazer muitas
        suposições sobre o fenômedo de interesse.
-     * Ela permite facilmente testar o efeito de uma fonte de variação.
+     * Ela permite facilmente testar o efeito global de uma fonte de
+       variação.
      * No entanto, isso pode ser restritivo quando o experimento tiver
        mais fatores experimentais ou estruturais (e.g. blocos).
      * A abordagem não paramétrica não necessariamente irá estimar a
@@ -519,7 +534,8 @@ todos exceto do tamanho 4.
      * No entanto, se o modelo não for apropriado para o caso em
        questão, as inferências estatão comprometidas.
 
-Nas análises aqui apresentadas, tem-se algumas considerações de itens que podem ser avaliados mais a fundo.
+Nas análises aqui apresentadas, tem-se algumas considerações de itens
+que podem ser avaliados mais a fundo.
 
 O intuito da análise paramétrica foi demonstrar os passos da abordagem e
 usou-se a distribuição Weibull. Todavia, outras distribuições poderiam
@@ -528,9 +544,9 @@ ajustar diferentes distribuições e comparar a bondade de ajuste. Em
 amostras pequenas, pode-se não se chegar a conclusões muito claras sobre
 a melhor distribuição.
 
-Uma forma de diagnósticas problemas em relação a distribuição assumida,
-no caso Weibull, ou especificação do modelo, como assumir parâmetro de
-forma comum aos tratamentos, é por meio da análise dos resíduos. Esse
-processo pode indicar mudar a distribuição, considerar uma transformação
-do tempo, como log, ou tranformação potência. Deve-se em situações como
-essa, procurar auxílio de um estatístico.
+Uma forma de diagnósticar problemas em relação a distribuição assumida o
+quanto a especificação do modelo é por meio da análise dos resíduos. A
+análise dos resíduos e outras ferramentas de diagnóstico podem orientar
+sobre mudar a distribuição ou aplicar uma transformação do tempo, como
+logaritmica ou potência. Está fora do escopo entrar dos detalhes da
+análise de diagnóstico para essa classe de modelo.
