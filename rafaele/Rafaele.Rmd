@@ -6,7 +6,7 @@ output:
 bibliography: Referências.bib
 ---
 
-# AJUSTE DE MODELOS PARA O PROGRESSO TEMPORAL DA MANCHA FOLIAR DE GLOMERELLA (MFG)
+# Aplicações de ajustes de modelo de progresso de doençaque causa desfolha: caso da MANCHA FOLIAR DE GLOMERELLA (MFG)
 
 ## Motivação
 
@@ -19,9 +19,9 @@ O estudo do progresso temporal de doenças é muito útil para os produtores, po
 knitr::include_graphics("mfg.jpg")
 ```
 
-## Delineamento experimental e curva do progresso da mancha foliar de Glomerella
+## Delineamento experimental e curva do progresso da MFG
 
-Os dados de progresso temporal da mancha foliar de Glomerella (MFG) foram obtidos em trinta amostras de plantas escolhidas ao acaso, e em cada planta foi avaliado um ramo localizado no terço médio da planta contendo 10 folhas. A incidência e severidade da MFG e o número de folhas foram avaliados semanalmente até que todas as folhas tivessem caído. Para a incidência, foi calculada a porcentagem de folhas com algum sintoma da doença em relação ao número total de folhas. Para as avaliações de severidade, a escala diagramática desenvolvida por @kowata2010glomerella (\@ref(fig:escala)) foi utilizada para determinar a porcentagem de área foliar lesionada de cada folha. As avaliações começaram em dezembro de 2012 e terminaram em março de 2013.
+Os dados de progresso temporal da mancha foliar de Glomerella (MFG) foram obtidos em trinta amostras de plantas escolhidas ao acaso, e em cada planta foi avaliado um ramo localizado no terço médio da planta contendo 10 folhas. A incidência e severidade da MFG e o número de folhas foram avaliados semanalmente até que todas as folhas tivessem caído. Para a incidência, foi calculada a porcentagem de folhas com algum sintoma da doença em relação ao número total de folhas. Para as avaliações de severidade, a escala diagramática desenvolvida por @kowata2010glomerella (\@ref(fig:escala)) foi utilizada para determinar a porcentagem de área foliar lesionada de cada folha. As avaliações começaram em dezembro de 2012 e terminaram em março de 2013. PAra este cso, que doença pode estar relacionada com queda das folhas ao longo do tempo é necessario avaliar e ter o dado individual de cada folha e do ramo contendo as 10 folhas.
 
 (ref:escala) Escala diagramática para avaliação da severidade da mancha foliar de Glomerella.
 
@@ -356,7 +356,7 @@ xyplot(sever ~ dia,
 
 
 
-## Resultados e conclusões
+## Conclusões
 
 Os diagramas que representam o progresso da severidade da MFG em cada folha mostram que houve muita variabilidade entre as folhas do mesmo ramo, assim como entre os ramos de uma mesma planta. O número de observações de cada folha também variou ao longo do tempo, uma vez que as folhas caíram em tempos diferentes, demonstrando que não só a severidade da MFG é dependente de vários fatores, mas a desfolha também. De acordo com o valor de log-likelihood, o modelo mais adequado para representar a curva de progresso da MFG foi o modelo logístico não linear com efeitos aleatórios quando comparado ao modelo logístico não linear com efeitos fixos.
 
