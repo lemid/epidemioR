@@ -1,4 +1,4 @@
-# Análise de sobrevivência
+# Aplicações da Análise de sobrevivência para estudos epidemiológicos de doenças de plantas
 
 Na epidemiologia de doenças de plantas, é comum realizar experimentos em
 que o foco principal é o tempo até a ocorrência de um evento específico.
