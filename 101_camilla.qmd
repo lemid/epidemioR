@@ -7,7 +7,7 @@ setup$chapter_authors(c("Camilla Castellar",
                         "Louise Larissa May De Mio"))
 ```
 
-## Descrição do experimento
+## Descrição do experimento novo
 
 As podridões em frutos resultam em redução de produtividade, uma vez que
 frutos doentes não podem ser comercializados. Para entender melhor o
