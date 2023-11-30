@@ -7,23 +7,23 @@ setup$chapter_authors(c("Camilla Castellar",
                         "Louise Larissa May De Mio"))
 ```
 
-## Descrição do experimento novo
+## Contextualização e descrição do experimento base para esta análise
 
 As podridões em frutos resultam em redução de produtividade, uma vez que
 frutos doentes não podem ser comercializados. Para entender melhor o
 ciclo da doença, este estudo se concentrou em investigar diferentes
 estágios de crescimento de frutos, visando orientar a aplicação de
-produtos durante o período de maior suscetibilidade. O objetivo
+produtos durante o período de maior suscetibilidade do fruto à infecçao do patógeno. O objetivo
 principal foi estimar e comparar o período de incubação de uma podridão
 que afeta macieiras em cinco estágios de crescimento dos frutos.
 
 O experimento foi conduzido em condições controladas, usando frutos
-colhidos no campo em cinco tamanhos diferentes. Após desinfecção, cada
-fruto foi ferido na região equatorial e inoculado sobre o ferimento com
-uma suspensão de conídios do patógeno. Os frutos foram então
+colhidos no campo em cinco tamanhos diferentes. Após desinfestação, cada
+fruto foi ferido na região equatorial e inoculado com
+uma suspensão de conídios do patógeno sob um ferimento feito com agulha histológica. Os frutos foram então
 distribuídos aleatoriamente em uma sala de incubação com condições
 controladas e uniformes, seguindo um delineamento inteiramente
-casualizado com cinco tratamentos (os tamanhos) e oito repetições
+casualizado com cinco tratamentos (os tamanhos) e oito repetições (frutos)
 (consulte a Figura @fig-esquema).
 
 ```{r}
@@ -35,10 +35,10 @@ knitr::include_graphics("101_camilla/tamanhos.png")
 
 Posteriormente à inoculação, cada fruto foi avaliado diariamente ao
 longo de 39 dias, período em que os frutos poderiam desenvolver sintomas
-de podridão. O dia em que os sintomas apareciam era registrado e
+da doença. O dia em que os sintomas apareciam era registrado e
 atribuído um status de 1 aos frutos sintomáticos na tabela de registro.
 Para os frutos que não apresentavam sintomas, era registrado o status 0
-e atribuído ao dia 39 (último dia de avaliação), indicando censura à
+e atribuído dia 39 (último dia de avaliação), indicando censura à
 direita. Portanto, a tabela de dados deste estudo (Tabela
 @tbl-conjuntodedados) continha apenas a data de ocorrência dos sintomas
 para frutos sintomáticos ou a última data de avaliação para frutos sem
@@ -98,8 +98,7 @@ dados |>
 Conforme indicam as medidas resumo, são 8 unidades experimentais por
 tratamento. No maior tamanho (`tam5`), o maior tempo para ocorrência dos
 sintomas foi de 5 dias. Nos demais tamanho sempre teve ao menos um fruto
-que levou 39 dias. Os frutos de maior tamanho apresentam sintomas, em
-média, mais cedo que os frutos menores.
+que levou 39 dias. Os frutos de maior tamanho apresentaram sintomas, no geral, antes que os frutos menores.
 
 ```{r}
 # Ordena pelo dia do desfecho para fazer o gráfico ECDF.
@@ -112,12 +111,12 @@ dados0 <- dados |>
 
 Para os tratamentos com tamanhos 1, 2 e 3 não se tem período de
 incubação amostral pois, menos de 50% das repetições apresentaram
-sintomas (Figura @fig-aed-frutos). No caso de poucos frutos virem
+sintomas (Figura @fig-aed-frutos) no período de avaliação. No caso de poucos frutos
 apresentarem sintomas, recomenda-se aumentar o número de repetições do
 experimento. No entanto, isso não necessariamente impede de estimar a
 curva de sobrevivência e estimar o período de incubação por meio de
 modelos. A definição do período de incubação é o tempo necessário para
-que metade dos indivíduos expostos apresentem o evento. Dessa forma, o
+mais que metade dos indivíduos expostos apresentem o evento, ou seja, sintomas. Dessa forma, o
 período de incubação é a mediana da variável aleatória tempo para a
 ocorrência do evento. Com o ajuste do modelo aos dados, teremos a
 estimativa para o período de incubação.
@@ -149,7 +148,7 @@ ggplot(data = dados0,
 Pela abordagem não paramétrica de análise de sobreviência, o período de
 incubação de frutos como função dos tamanhos será obtido e comparado por
 meio das curvas de Kaplan-Meier. O teste de log-rank será aplicado para
-testar a hipótese de igualdade dos períodos de incubação..
+testar a hipótese de igualdade dos períodos de incubação.
 
 Para começar, nos fragmentos a seguir, define-se o objetos com
 diferentes representações de censura. No objeto `s1` definiu-se censura
@@ -228,7 +227,7 @@ mitigada aumentando o tempo de avaliação do experimento para que se
 observe o evento em mais unidades experimentais. Já que há dificuldade
 de determinar a taxa de censura antes do experimento, as opções são:
 usar um tamanho de amostra grande ou aumentar o período de monitoramento
-do desfecho. O primeiro caso é uma decisão antes do experimento começar.
+do desfecho, sintoma no caso. O primeiro caso é uma decisão antes do experimento começar.
 O último, pode ser feito a medida que o experimento é conduzido.
 
 ## Análise paramétrica
