@@ -1,15 +1,16 @@
-# Comparação de modelos polinomial e não-linear para experimentos de germinação de conídios fúngicos e equações para o estudo de monociclo de doenças em frutos
+# Estudos de germinação de conídios e de monociclo: Comparação de modelos polinomial e não-linear 
 
 ```{r, include = FALSE}
 library(tidyverse)
 ```
 
-## Motivação
+## Contextualização e delineamentos experimentais
 
 Estudos de condições favoráveis para o desenvolvimento de patógenos,
 como experimentos de germinação de esporos sob diferentes temperaturas e
 períodos de incubação, são essenciais para a compreensão do
-comportamento da doença no campo. Outra forma interessante é estudar a
+comportamento da doença no campo, sendo fundamentais para epidemiologia. 
+Outra forma interessante é estudar a
 doença em condições controladas é inocular o patógeno em um momento
 conhecido e estudar condições diferentes para o monociclo das doenças,
 em $n$ variações de condições climáticas. Realizar a modelagem do
@@ -21,7 +22,7 @@ apresentar algumas limitações. O objetivo desse capítulo será a
 comparação de modelos para ajuste de dados de germinação de conídios e
 estudo de monociclo de doença de frutos. Exemplificaremos com dados de
 germinação de conídios fúngicos e monociclo de podridão de Neonectria em
-frutos, cujo agente causal é o patógeno *Neonectria ditissima*.
+frutos de macieira, cujo agente causal é o patógeno *Neonectria ditissima*.
 
 Várias doenças ocorrem em regiões produtoras de maçãs (*Malus domestica*
 Borkh.) do mundo todo, como Europa, América do Norte, Chile, Austrália,
@@ -56,7 +57,7 @@ knitr::include_graphics("./jhulia/prancha02.jpg")
 ```
 
 Dados sobre as taxas de germinação de conídios em diferentes
-temperaturas e períodos de incubação e de latência são relevantes para a
+temperaturas e períodos de incubação e de periodo latente são relevantes para a
 predição de riscos de acordo com as condições ambientais que ocorrem no
 pomar. O modelo beta-monomolecular tem sido amplamente utilizado na
 literatura para representar o comportamento da germinação de conídios
@@ -697,7 +698,9 @@ cor(fitted(n1), tb_con$ger)^2 # Modelo não linear aditivo.
 
   Onde $x$ é o ponto de temperatura ótima para a porcentagem de germinação.
 
-  A partir das análises realizadas nesse capítulo pode-se concluir que muitos modelos consolidados na literatura são bastante úteis do ponto de vista epidemiológico; porém com modelos polinomiais conseguimos um melhor ajuste atrelado à possibilidade de também obter variáveis biológicas importantes.
+  ## Conclusão sobre estudos com Germinação de conídios
+
+A partir das análises realizadas nesse capítulo pode-se concluir que muitos modelos consolidados na literatura são bastante úteis do ponto de vista epidemiológico; porém com modelos polinomiais conseguimos um melhor ajuste atrelado à possibilidade de também obter variáveis biológicas importantes.
 
 
 ## Estudo do monociclo em frutos de maçã
@@ -992,6 +995,7 @@ ggplot(data = grid,
              mapping = aes(x = dai, y = diam))
 #-----------------------------------------------------------------------
 ```
+##Conclusão sobre estudos com Monociclo e outras aplicações
 
 As equações apresentadas nesse tópico foram utilizadas para comparar a evolução do tamanho de lesões em diferentes temperaturas, mas esses ajustes não estão limitados somente a esse tipo de experimento.Ensaios de comparação de eficiência de tratamentos químicos ou biológicos, comparação de agressividade de diferentes isolados e espécies, e comparação da agressividade do mesmo isolado em diferentes hospedeiros, por exemplo, também podem usufruir desse método estatístico.
 
