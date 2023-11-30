@@ -6,7 +6,7 @@ output:
 bibliography: Referências.bib
 ---
 
-# Aplicações de ajustes de modelo de progresso de doençaque causa desfolha: caso da MANCHA FOLIAR DE GLOMERELLA (MFG)
+# Aplicações de ajustes de modelo de progresso de doença que causa desfolha: caso da MANCHA FOLIAR DE GLOMERELLA (MFG)
 
 ## Motivação
 
