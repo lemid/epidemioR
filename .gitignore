@@ -1,5 +1,6 @@
 _book/
 _bookdown_files/
+_freeze/
 renv/
 
 .Rproj.user
@@ -24,3 +25,4 @@ epidemioR.Rmd
 epidemioR.pdf
 epidemioR.tex
 DEPENDS
+/.quarto/

@@ -1,19 +1,19 @@
-library(knitr)
-opts_chunk$set(cache = FALSE,
-               tidy = FALSE,
-               warning = FALSE,
-               fig.width = 7,
-               fig.height = 4.32,
-               out.width = "100%",
-               fig.align = "center",
-               eval.after= "fig.cap",
-               # dpi = 96,
-               # dev = "png",
-               # dev.args = list(family = "Lato"),
-               dev.args = list(
-                   family = ifelse(
-                       knitr::opts_knit$get("rmarkdown.pandoc.to") == "html",
-                       "Roboto Condensed", "Palatino")))
+# library(knitr)
+# opts_chunk$set(cache = FALSE,
+#                tidy = FALSE,
+#                warning = FALSE,
+#                fig.width = 7,
+#                fig.height = 4.32,
+#                out.width = "100%",
+#                fig.align = "center",
+#                eval.after= "fig.cap",
+#                # dpi = 96,
+#                # dev = "png",
+#                # dev.args = list(family = "Lato"),
+#                dev.args = list(
+#                    family = ifelse(
+#                        knitr::opts_knit$get("rmarkdown.pandoc.to") == "html",
+#                        "Roboto Condensed", "Palatino")))
 options(width = 68)
 
 # Verifica se o output é html, pdf, etc.

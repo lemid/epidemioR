@@ -1,4 +1,4 @@
-# Análise de sobrevivência por abordagem paramétrica com experimento fatorial
+# Análise de sobrevivência por abordagem paramétrica com experimento fatorial: caso de experiemntospara resistência prática com fungicidas.
 
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Thiago de Aguiar Carraro",
@@ -23,10 +23,10 @@ que será usado para análise dos dados de uma situação real (experimento
 *ex vivo* com fungicidas) que será apresentado na sequência como caso 2
 de análise de sobrevivência.
 
-## Descrição do experimento
+## Contextualização e descrição do experimento
 
 O controle químico é uma das formas mais eficientes para o controle de
-doenças de plantas, porém alguns fungicidas de sítios específicos
+doenças de plantas, porém alguns fungicidas de sítio-específicos
 apresentam riscos de médio a alto, como os IDMs (Inibidores da
 DesMetilação) e IQes (Inibidores da Quinona externa), respectivamente,
 para selecionar isolados do patógeno com menor sensibilidade. Esta
@@ -41,7 +41,7 @@ são utilizados ensaios *in vitro*, como: i) dose discriminatória (única
 dose de fungicida capaz de separar os isolados em fenótipos sensiveís ou
 resistentes), ii) CE~50~ (concentração efetiva que inibe 50% do
 crescimento ou germinação do esporo do patógeno) e iii) CMI
-(concentração mínima inibitória). Com esses dados, será possível
+- concentração mínima inibitória. Com esses dados, é possível
 comparar o nível de sensibilidade dos isolados ao longo do tempo
 (anos/safras) e verificar se está ocorrendo mudanças da sensbilidade do
 patógeno aos fungicidas [@russell], para melhor adoção das estratégias
@@ -50,16 +50,17 @@ de controle das doenças.
 Baseado nos ensaios *in vitro*, isolados são classificados
 fenotipicamente em relação a sensibilidade aos fungicidas, e alguns
 isolados representativos são selecionados para realização de ensaios
-ensaios *ex vivo*. Estes testes são recomendados para validar uma
+ensaios *ex vivo*, contrastando fenótipos em relaçao a sensibilidade a fungicidas.
+Estes testes são recomendados para validar uma
 possível resistência prática de fungicidas no controle de uma doença.
 Resistência prática, portanto, está relacionada a uma possível falha do
 controle da doença em condições de campo [@ghinirekimatih2000]. Estes
-ensaios podem ser realizados com plantas (*in vivo*) ou partes vegetais
+ensaios podem ser realizados com plantas (*in vivo*) ou partes da planta
 destacadas (*ex vivo*), que serão submetidos a um tratamento com a
 concentração recomendada na bula do produto para aplicação na área de
 produção [@Schnabel2015].
 
-Além destas técnicas mais usuais nos trabalhos de monitoramento, a
+Além das técnicas mais usuais nos trabalhos de monitoramento, a
 observação do período de incubação (PI) em um ensaio de eficiência de
 fungicidas pode ser uma medida epidemiológica importante para se
 analisar o efeito de controle do produto ao longo do tempo, podendo
@@ -70,21 +71,21 @@ safras diferentes. Uma vez detectada a mudança de sensibilidade em
 populações de patógenos, novas recomendações e estratégias para o uso de
 fungicidas devem ser adotadas.
 
-Neste uso de análise de sobrevivência, o objetivo proposto foi avaliar
+A análise de sobrevivência proposta aqui, teve o o objetivo de avaliar
 diferentes tratamentos (fungicidas) para o controle de duas espécies de
 *Colletotrichum*, agentes causais da antracnose do caquizeiro no Brasil.
 O experimento foi conduzido em esquema fatorial duplo $6 \times 2$
-combinando por completo seis fungicidas (A, B, C, D, E e testemunha) com
+combinando por completo, sendo seis fungicidas (A, B, C, D, E e testemunha) com
 duas espécies patogênicas (X e Y). Cada combinação experimental contou
 com 25 repetições e o experimento foi realizado duas vezes.
-
+Adequaçoes a depender dos fenótipos a serem testados, espécies ou tipos de fungicidas podem ser feitas para ajustar o delineamento e a análise.
 Os frutos foram tratados com os produtos previamente, e após 24 horas
 foram inoculados com as espécies fúngicas. Durante um total de 10 dias,
 diariamente foi examinado se existia a presença ou não de lesão
 (sintomas) nos frutos. Em caso positivo, era anotado a status um (1),
 caso contrário era marcado como status zero (0). Sendo assim, o período
 de incubação (PI) foi estimado quando metade ou mais das unidades
-experimentais de uma combinação experimental (13 frutos) apresentaram o
+experimentais de uma combinação experimental (13 frutos, do total de 25 frutos) apresentaram o
 sintoma da doença (Figura \@ref(fig:prancha-1)).
 
 (ref:prancha-1) Esquema ilustrativo do ensaio de eficiência de fungicidas: os frutos foram previamente desinfestados com álcool (70%), hipoclorito (0,5%) e água destilada autoclavada, em seguida, os frutos foram tratados com fungicidas, e após 24 horas foram inoculados (com suspensão de 1x10^4^ conídios.mL^-1^). Na figura, as letras de A a E estão representando os tratamentos fungicidas (com 25 repetições) e a testemunha pela sigla 'test', enquanto as letras X e Y são os patógenos.
@@ -439,6 +440,6 @@ apresentadas no capítulo anterior.
 
 ## Conclusão
 
-A análise com a abordagem paramétrica é interessante pois, além de ser
+A análise com a abordagem paramétrica é interessante para este tipo de estudo, além de ser
 apropriada para o tipo de variável resposta em questão, é capaz de
-acomodar a estrutura experimental.
+acomodar a estrutura experimental descrita e outras combinações são possíveis.

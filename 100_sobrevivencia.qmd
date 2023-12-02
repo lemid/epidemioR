@@ -1,0 +1,97 @@
+# Aplicações da Análise de sobrevivência para estudos epidemiológicos de doenças de plantas
+
+Na epidemiologia de doenças de plantas, é comum realizar experimentos em
+que o foco principal é o tempo até a ocorrência de um evento específico.
+Este evento pode ser o período de incubação (tempo desde a inoculação
+até o aparecimento de sintomas) ou o período de latência (período entre
+a inoculação e o aparecimento de sinais), ambos componentes cruciais no
+estudo de epidemias. Do ponto de vista da análise de dados, essas
+variáveis são consideradas de duração ou tempo até o evento.
+
+O registro do tempo para a ocorrência do evento pode ser feito de quatro
+maneiras diferentes, com três delas envolvendo algum grau de censura
+(consulte a Figura @fig-censuras). No primeiro caso, não há censura,
+pois o momento exato da ocorrência do evento é registrado, como, por
+exemplo, o instante em que um e-mail chega a sua caixa de entrada. No
+segundo caso, temos a censura à direita, onde assumimos que o evento
+ocorreu após a última observação, como quando um fruto ainda não
+apresenta sintomas até o dia 20, quando o experimento foi encerrado, mas
+é certo que ele eventualmente apresentará os sintomas. O terceiro caso é
+a censura à esquerda, que ocorre quando, no momento da primeira
+observação, o evento já aconteceu, como quando um fruto já apresenta
+sintomas antes mesmo de começarmos a contagem do tempo para o evento. O
+último caso é a censura intervalar, onde o evento ocorre entre duas
+observações consecutivas, o que é comum em sistemas de avaliação em que
+observações são feitas a cada 24 ou 12 horas, por exemplo.
+
+```{r}
+#| label: fig-censuras
+#| echo: false
+#| fig-cap: "Tipo de censuras em estudos que consideram o tempo para a ocorrência de um evento. Fonte: os autores."
+#| out-width: 66%
+knitr::include_graphics("./101_camilla/censuras.png")
+```
+
+As avaliações do tempo até a ocorrência de um evento na epidemiologia
+geralmente envolvem censura à direita, refletindo a observação parcial
+dos resultados. No contexto da análise de experimentos com a variável de
+resposta sendo o tempo até o evento, a análise de variância pode não ser
+apropriada, uma vez que não leva em consideração a censura. Excluir os
+dados censurados pode levar a uma estimativa viciada do risco/tempo para
+a ocorrência do evento, além de reduzir o tamanho da amostra e
+comprometer o poder dos testes. Por outro lado, considerar os dados
+censurados como se fossem exatos pode levar a estimativas viciadas
+também. Por fim, mesmo quando não há censura, os dados de tempo até o
+evento geralmente não seguem uma distribuição normal, apresentando em
+muitos casos caldas longas à direita (assimetria à direita).
+
+Nesse contexto, a análise de sobrevivência foi desenvolvida para
+acomodar a censura e permitir inferências apropriadas para esse tipo de
+variável. O uso dessa análise tem crescido na epidemiologia e é
+empregado para comparar cultivares [@RogovskiCzaja2019], estimar e
+comparar períodos de incubação [@Copes2008; @Frare2019], e comparar o
+tempo para a desfolha induzida por patógenos em diferentes idades de
+folhas [@Ojiambo2005; @Castellar2021]. A análise pode ser realizada
+usando técnicas paramétricas, não paramétricas e semi-paramétricas,
+sendo a escolha dependente das características dos dados e dos objetivos
+de cada estudo.
+
+Entre as técnicas não paramétricas, o estimador Kaplan-Meier
+[@Kaplan1958] é o mais amplamente utilizado. Esse método estima a função
+de sobrevivência, ou seja, a probabilidade de um indivíduo não
+apresentar o evento até um tempo $t$ específico. Os gráficos resultantes
+dessa análise são representados por degraus que indicam quando ocorre o
+evento (consulte a Figura @fig-curvaskaplan). O Kaplan-Meier permite a
+realização de testes de significância, como o teste de Log-Rank, para
+comparar diferentes tratamentos.
+
+O teste de Log-Rank avalia a hipótese nula de que as curvas de
+sobrevivência são iguais [@Colosimo2006]. Essa técnica é limitada a
+testar o efeito de apenas uma fonte de variação. Em outras palavras, o
+método não permite analisar possíveis interações em experimentos
+fatoriais ou acomodar termos estruturais do delineamento, como o efeito
+de blocos ou covariáveis de controle estatístico.
+
+```{r}
+#| label: fig-curvaskaplan
+#| echo: false
+#| fig-cap: "Exemplo de curva de Kaplan-Meier estimando funções de sobrevivência para a queda de folhas de mirtilo com mancha foliar de Septoria. Fonte: [@Ojiambo2005]."
+#| out-width: 66%
+knitr::include_graphics("101_camilla/curvaskaplan.jpg")
+```
+
+Na abordagem paramétrica, uma distribuição de probabilidade específica é
+considerada. As distribuições Weibull, Log-normal e exponencial são as
+mais comuns nesse contexto. Essa abordagem pode ser aplicada tanto em
+estudos com apenas um fator quanto em experimentos de esquema fatorial,
+permitindo a determinação de parâmetros importantes para analisar
+interações entre fatores [@Zhang2016].
+
+A abordagem semi-paramétrica foi desenvolvida para casos em que o foco
+está nos efeitos das covariáveis, não nos parâmetros da distribuição do
+tempo [@Shimakura2011]. O modelo semi-paramétrico mais utilizado na
+análise de sobrevivência é o modelo de Cox de riscos proporcionais.
+
+Os capítulos subsequentes sobre análise de sobrevivência têm como
+objetivo ilustrar o uso coordenado dos recursos do R em experimentos
+epidemiológicos que justifiquem a utilização desse tipo de análise.
