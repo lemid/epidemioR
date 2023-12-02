@@ -1,4 +1,4 @@
-# Análises para validação de escalas diagramáticas usando o R
+# Análises para validação de escalas diagramáticas usando o R 
   
 ```{r, echo = FALSE, results = "asis"}
 chapter_authors(c("Henrique da Silva Silveira Duarte",
